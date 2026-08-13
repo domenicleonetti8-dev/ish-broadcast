@@ -54,7 +54,15 @@ jobs:
         run: deps/clone-linux.sh
       - name: Build
         if: matrix.kernel == 'ish'
-        run: xcodebuild -project iSH.xcodeproj -scheme iSH -arch arm64 -sdk iphoneos CODE_SIGNING_ALLOWED=NO
+        run: xcodebuild -project iSH.xcodeproj -scheme iSH -arch arm64 -sdk iphoneos -derivedDataPath build-ios CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload Broadcast iSH
+        if: matrix.kernel == 'ish'
+        uses: actions/upload-artifact@v7
+        with:
+          name: ish-broadcast-iphone
+          path: build-ios/Build/Products/Debug-iphoneos/iSH.app
+          if-no-files-found: error
       - name: Build
         if: matrix.kernel == 'linux'
         run: xcodebuild -project iSH.xcodeproj -scheme iSH+Linux -arch x86_64 -sdk iphonesimulator CODE_SIGNING_ALLOWED=NO
