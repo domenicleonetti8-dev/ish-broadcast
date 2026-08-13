@@ -18,6 +18,7 @@
 #import "SceneDelegate.h"
 #import "PasteboardDevice.h"
 #import "LocationDevice.h"
+#import "BroadcastDevice.h"
 #import "NSObject+SaneKVO.h"
 #import "Roots.h"
 #import "TerminalViewController.h"
@@ -105,6 +106,12 @@ static NSString *const kSkipStartupMessage = @"Skip Startup Message";
     if (err != 0)
         return err;
     generic_mknodat(AT_PWD, "/dev/location", S_IFCHR|0666, dev_make(DYN_DEV_MAJOR, DEV_LOCATION_MINOR));
+
+    // Register native Bluetooth Broadcast bridge
+    err = dyn_dev_register(&broadcast_dev, DEV_CHAR, DYN_DEV_MAJOR, DEV_BROADCAST_MINOR);
+    if (err != 0)
+        return err;
+    generic_mknodat(AT_PWD, "/dev/broadcast", S_IFCHR|0666, dev_make(DYN_DEV_MAJOR, DEV_BROADCAST_MINOR));
 
     do_mount(&procfs, "proc", "/proc", "", 0);
     do_mount(&devptsfs, "devpts", "/dev/pts", "", 0);
