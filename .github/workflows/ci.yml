@@ -62,7 +62,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ish-broadcast-iphone
-          path: build-ios/Build/Products/Debug-iphoneos/iSH.app
+          path: build-ios/Build/Products/*-iphoneos/iSH.app
           if-no-files-found: error
       - name: Build
         if: matrix.kernel == 'linux'
