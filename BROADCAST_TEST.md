@@ -31,7 +31,10 @@ dual-route mode.
 3. Select **Compatible**.
 4. Tap **Choose Audio** and select the speaker.
 5. Wait for the speaker row to show `bound • active route`.
-6. Tap **Test Sound** and confirm the 440 Hz tone is audible.
+6. Tap **Run Check**. The app checks Bluetooth permission/state, BLE service,
+   local-name advertisement, audio engine, bound route, and the PCM software
+   signal path.
+7. Tap **Test Sound** and confirm the 440 Hz tone is audible.
 
 ## iOS multidevice route
 
@@ -48,6 +51,12 @@ physical route maximum, mapped channels, and route errors. It does not claim
 that 10 ordinary Bluetooth speakers can be active when iOS exposes fewer
 routes. If **No sound** is selected after a test, the app switches to
 Compatible mode for a standard speaker retry.
+
+The share button exports a timestamped JSON diagnostic report containing the
+current route snapshot, health state, last software probe, app/build identity,
+and the last 64 lifecycle events. `health_ready` means the software path is
+ready for a listening test; `hardware_audio_confirmation` remains `required`
+until a person actually hears the test sound.
 
 ## BLE control-service check
 
@@ -72,6 +81,7 @@ are rejected until at least one checked output is actively mapped.
 Run `sh tests/run_broadcast_tests.sh`. The suite covers independent bind and
 reconnect states, the 10-finger limit, join/leave route rebuilds, exact
 stereo duplication, silent unchecked routes, per-sink failure isolation,
-signed PCM conversion (including unaligned input), 100,000 randomized finger
+signed PCM conversion (including unaligned input), readiness-state ordering,
+software-probe gating, 100,000 randomized finger
 operations, and 100,000 randomized route rebuilds. When available, it repeats
 the suite under AddressSanitizer and UndefinedBehaviorSanitizer.

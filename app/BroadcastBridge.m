@@ -1,6 +1,7 @@
 #import "BroadcastBridge.h"
 #import "BroadcastAudioRouter.h"
 #import "BroadcastFingerTable.h"
+#import "BroadcastHealth.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
@@ -15,6 +16,7 @@ static NSString * const BroadcastControlServiceUUID =
     @"B0ADC0DE-0000-4F1A-9000-000000000001";
 static NSString * const BroadcastStatusCharacteristicUUID =
     @"B0ADC0DE-0000-4F1A-9000-000000000002";
+static const NSUInteger BroadcastMaximumEvents = 64;
 
 @interface BroadcastBridge () <CBPeripheralManagerDelegate> {
     struct broadcast_finger_table _fingers;
@@ -29,6 +31,9 @@ static NSString * const BroadcastStatusCharacteristicUUID =
 @property (nonatomic, strong) CBMutableCharacteristic *statusCharacteristic;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, NSData *> *statusReads;
 @property (nonatomic) BOOL controlServiceReady;
+@property (nonatomic, strong) NSMutableArray<NSDictionary<NSString *, id> *> *events;
+@property (nonatomic, copy) NSString *lastProbeResult;
+@property (nonatomic, strong) NSNumber *lastProbeTimestampMs;
 @end
 
 @implementation BroadcastBridge
@@ -56,6 +61,8 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         broadcast_fingers_init(&_fingers);
         [self restoreSavedFingerRecords];
         _statusReads = [NSMutableDictionary dictionary];
+        _events = [NSMutableArray array];
+        _lastProbeResult = @"never";
         _peripheralManager = [[CBPeripheralManager alloc]
             initWithDelegate:self
             queue:dispatch_get_main_queue()
@@ -77,6 +84,7 @@ static NSString * const BroadcastStatusCharacteristicUUID =
                selector:@selector(audioMediaServicesReset:)
                    name:AVAudioSessionMediaServicesWereResetNotification
                  object:AVAudioSession.sharedInstance];
+        [self recordEvent:@"bridge_initialized" detail:nil];
     }
     return self;
 }
@@ -87,6 +95,30 @@ static NSString * const BroadcastStatusCharacteristicUUID =
 
 - (uint64_t)nowMilliseconds {
     return (uint64_t)(NSProcessInfo.processInfo.systemUptime * 1000.0);
+}
+
+- (NSNumber *)wallClockMilliseconds {
+    return @((uint64_t)(NSDate.date.timeIntervalSince1970 * 1000.0));
+}
+
+- (void)recordEvent:(NSString *)name detail:(NSString *)detail {
+    if (!NSThread.isMainThread) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self recordEvent:name detail:detail];
+        });
+        return;
+    }
+    if (!name.length)
+        return;
+    NSMutableDictionary<NSString *, id> *event = [@{
+        @"event": name,
+        @"timestamp_ms": [self wallClockMilliseconds],
+    } mutableCopy];
+    if (detail.length)
+        event[@"detail"] = detail;
+    while (self.events.count >= BroadcastMaximumEvents)
+        [self.events removeObjectAtIndex:0];
+    [self.events addObject:event];
 }
 
 - (NSString *)bluetoothStateName {
@@ -217,10 +249,18 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         [self persistWantedFingers];
     [self.audioRouter setEnabledOutputUIDs:enabled];
     NSError *routeError = nil;
-    if (![self.audioRouter rebuildRouteWithError:&routeError])
+    if (![self.audioRouter rebuildRouteWithError:&routeError]) {
         self.lastError = routeError.localizedDescription;
-    else
+        [self recordEvent:@"route_rebuild_failed"
+                   detail:self.lastError];
+    } else {
         self.lastError = nil;
+        [self recordEvent:@"route_synchronized"
+                   detail:[NSString stringWithFormat:
+            @"active=%lu mapped_channels=%lu",
+            (unsigned long)enabled.count,
+            (unsigned long)self.audioRouter.mappedChannels]];
+    }
 }
 
 - (void)refreshAdvertisement {
@@ -267,17 +307,27 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         self.requested = YES;
         self.routeMonitoring = YES;
         self.lastError = nil;
+        [self recordEvent:@"broadcast_start_requested" detail:nil];
         [self refreshAdvertisement];
 
         NSError *audioError = nil;
         if (![self.audioRouter startWithError:&audioError]) {
             self.lastError = audioError.localizedDescription;
+            [self recordEvent:@"audio_start_failed"
+                       detail:self.lastError];
             self.requested = NO;
             self.routeMonitoring = NO;
             [self.peripheralManager stopAdvertising];
             return;
         }
         [self synchronizeAudioRoute];
+        if (self.audioRouter.isRunning) {
+            [self recordEvent:@"broadcast_started"
+                       detail:self.audioRouter.sessionMode];
+        } else {
+            [self recordEvent:@"broadcast_start_incomplete"
+                       detail:self.lastError];
+        }
     };
     if (NSThread.isMainThread)
         start();
@@ -291,6 +341,7 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         self.routeMonitoring = NO;
         [self.peripheralManager stopAdvertising];
         [self.audioRouter stop];
+        [self recordEvent:@"broadcast_stopped" detail:nil];
     };
     if (NSThread.isMainThread)
         stop();
@@ -332,6 +383,7 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         }
         [self persistWantedFingers];
         [self synchronizeAudioRoute];
+        [self recordEvent:@"finger_bound" detail:identifier];
         accepted = YES;
     };
     if (NSThread.isMainThread)
@@ -353,6 +405,7 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         }
         [self persistWantedFingers];
         [self synchronizeAudioRoute];
+        [self recordEvent:@"finger_unbound" detail:identifier];
         accepted = YES;
     };
     if (NSThread.isMainThread)
@@ -389,14 +442,70 @@ static NSString * const BroadcastStatusCharacteristicUUID =
                                          length:tone.length
                                           error:&audioError]) {
             if (error) *error = audioError.localizedDescription;
+            [self recordEvent:@"test_tone_failed"
+                       detail:audioError.localizedDescription];
             return;
         }
+        [self recordEvent:@"test_tone_queued"
+                   detail:[NSString stringWithFormat:@"frames=%lu",
+            (unsigned long)frames]];
         accepted = YES;
     };
     if (NSThread.isMainThread)
         play();
     else
         dispatch_sync(dispatch_get_main_queue(), play);
+    return accepted;
+}
+
+- (BOOL)runSignalPathProbe:(NSString **)error {
+    __block BOOL accepted = NO;
+    void (^probe)(void) = ^{
+        self.lastProbeTimestampMs = [self wallClockMilliseconds];
+        if (!self.requested || !self.audioRouter.isRunning) {
+            self.lastProbeResult = @"broadcast_not_running";
+            if (error) *error = self.lastProbeResult;
+            [self recordEvent:@"signal_probe_failed"
+                       detail:self.lastProbeResult];
+            return;
+        }
+        if (self.audioRouter.mappedChannels == 0) {
+            self.lastProbeResult = @"no_bound_audio_outputs";
+            if (error) *error = self.lastProbeResult;
+            [self recordEvent:@"signal_probe_failed"
+                       detail:self.lastProbeResult];
+            return;
+        }
+
+        const NSUInteger frames = 480;
+        NSData *silence = [NSMutableData dataWithLength:frames * 4];
+        if (!silence) {
+            self.lastProbeResult = @"probe_buffer_allocation_failed";
+            if (error) *error = self.lastProbeResult;
+            [self recordEvent:@"signal_probe_failed"
+                       detail:self.lastProbeResult];
+            return;
+        }
+        NSError *audioError = nil;
+        if (![self.audioRouter writePCM16Stereo:silence.bytes
+                                         length:silence.length
+                                          error:&audioError]) {
+            self.lastProbeResult = audioError.localizedDescription ?: @"probe_failed";
+            if (error) *error = self.lastProbeResult;
+            [self recordEvent:@"signal_probe_failed"
+                       detail:self.lastProbeResult];
+            return;
+        }
+        self.lastProbeResult = @"passed";
+        [self recordEvent:@"signal_probe_passed"
+                   detail:[NSString stringWithFormat:@"frames=%lu",
+            (unsigned long)frames]];
+        accepted = YES;
+    };
+    if (NSThread.isMainThread)
+        probe();
+    else
+        dispatch_sync(dispatch_get_main_queue(), probe);
     return accepted;
 }
 
@@ -410,6 +519,8 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         [NSUserDefaults.standardUserDefaults
             setBool:enabled forKey:BroadcastPrefersMultidevice];
         if (!wasRunning) {
+            [self recordEvent:@"mode_changed"
+                       detail:enabled ? @"multi" : @"compatible"];
             configured = YES;
             return;
         }
@@ -417,9 +528,13 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         if (![self.audioRouter startWithError:&audioError]) {
             self.lastError = audioError.localizedDescription;
             if (error) *error = self.lastError;
+            [self recordEvent:@"mode_change_failed"
+                       detail:self.lastError];
             return;
         }
         [self synchronizeAudioRoute];
+        [self recordEvent:@"mode_changed"
+                   detail:enabled ? @"multi" : @"compatible"];
         configured = YES;
     };
     if (NSThread.isMainThread)
@@ -477,8 +592,10 @@ static NSString * const BroadcastStatusCharacteristicUUID =
     dispatch_async(dispatch_get_main_queue(), ^{
         if (type == AVAudioSessionInterruptionTypeBegan) {
             [self.audioRouter stop];
-            if (self.requested)
+            if (self.requested) {
                 self.lastError = @"audio_interrupted";
+                [self recordEvent:@"audio_interrupted" detail:nil];
+            }
             return;
         }
         if (!self.requested)
@@ -486,9 +603,12 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         NSError *audioError = nil;
         if (![self.audioRouter startWithError:&audioError]) {
             self.lastError = audioError.localizedDescription;
+            [self recordEvent:@"interruption_recovery_failed"
+                       detail:self.lastError];
             return;
         }
         [self synchronizeAudioRoute];
+        [self recordEvent:@"interruption_recovered" detail:nil];
     });
 }
 
@@ -501,15 +621,20 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         NSError *audioError = nil;
         if (![self.audioRouter startWithError:&audioError]) {
             self.lastError = audioError.localizedDescription;
+            [self recordEvent:@"media_reset_recovery_failed"
+                       detail:self.lastError];
             return;
         }
         [self synchronizeAudioRoute];
+        [self recordEvent:@"media_services_recovered" detail:nil];
     });
 }
 
 - (void)peripheralManagerDidUpdateState:
     (CBPeripheralManager *)peripheral
 {
+    [self recordEvent:@"bluetooth_state_changed"
+               detail:[self bluetoothStateName]];
     if (peripheral.state == CBManagerStatePoweredOn)
         [self configureControlService];
     else
@@ -523,11 +648,14 @@ static NSString * const BroadcastStatusCharacteristicUUID =
     (void)peripheral;
     if (error) {
         self.lastError = error.localizedDescription;
+        [self recordEvent:@"control_service_failed"
+                   detail:self.lastError];
         return;
     }
     if ([service.UUID isEqual:[CBUUID
         UUIDWithString:BroadcastControlServiceUUID]]) {
         self.controlServiceReady = YES;
+        [self recordEvent:@"control_service_ready" detail:nil];
         [self refreshAdvertisement];
     }
 }
@@ -572,12 +700,18 @@ static NSString * const BroadcastStatusCharacteristicUUID =
     error:(NSError *)error
 {
     (void)peripheral;
-    if (error)
+    if (error) {
         self.lastError = error.localizedDescription;
+        [self recordEvent:@"advertising_failed"
+                   detail:self.lastError];
+    } else {
+        [self recordEvent:@"advertising_started"
+                   detail:BroadcastLogicalName];
+    }
 }
 
-- (NSString *)statusLine {
-    __block NSString *line;
+- (NSDictionary<NSString *, id> *)statusSnapshot {
+    __block NSDictionary<NSString *, id> *snapshot;
     void (^read)(void) = ^{
         NSSet<NSString *> *active = [self activeOutputUIDs];
         NSMutableArray<NSDictionary<NSString *, id> *> *devices =
@@ -608,9 +742,44 @@ static NSString * const BroadcastStatusCharacteristicUUID =
         BOOL dualRoute = [self.audioRouter.sessionMode
             isEqualToString:@"dualRoute"];
         NSUInteger maximumActiveRoutes = dualRoute ? 2 : 1;
+        NSUInteger rememberedFingers = broadcast_fingers_wanted_count(
+            &self->_fingers
+        );
 
-        NSDictionary *status = @{
+        struct broadcast_health_input healthInput = {
+            .broadcast_requested = self.requested,
+            .bluetooth_ready = self.peripheralManager.state ==
+                CBManagerStatePoweredOn,
+            .control_service_ready = self.controlServiceReady,
+            .advertising = self.peripheralManager.isAdvertising,
+            .audio_engine_running = self.audioRouter.isRunning,
+            .remembered_fingers = rememberedFingers,
+            .active_fingers = activeFingers,
+            .mapped_channels = self.audioRouter.mappedChannels,
+        };
+        struct broadcast_health_result health = {
+            .state = BROADCAST_HEALTH_INVALID,
+        };
+        broadcast_health_evaluate(&healthInput, &health);
+        NSString *healthState = [NSString stringWithUTF8String:
+            broadcast_health_state_name(health.state)];
+        NSString *healthAction = [NSString stringWithUTF8String:
+            broadcast_health_action(health.state)];
+
+        NSDictionary<NSString *, id> *probe = @{
+            @"result": self.lastProbeResult ?: @"never",
+            @"timestamp_ms": self.lastProbeTimestampMs ?: [NSNull null],
+            @"scope": @"software signal path; physical sound requires listening",
+        };
+        NSBundle *bundle = NSBundle.mainBundle;
+
+        snapshot = @{
             @"name": BroadcastLogicalName,
+            @"captured_at_ms": [self wallClockMilliseconds],
+            @"app_version": [bundle objectForInfoDictionaryKey:
+                @"CFBundleShortVersionString"] ?: @"unknown",
+            @"build": [bundle objectForInfoDictionaryKey:
+                @"CFBundleVersion"] ?: @"unknown",
             @"running": @(self.requested && self.audioRouter.isRunning),
             @"broadcast_requested": @(self.requested),
             @"advertising": @(self.peripheralManager.isAdvertising),
@@ -625,8 +794,7 @@ static NSString * const BroadcastStatusCharacteristicUUID =
             @"route_limit": dualRoute
                 ? @"built-in plus one eligible bidirectional secondary device"
                 : @"one system-selected audio output",
-            @"fingers": @(broadcast_fingers_wanted_count(
-                &self->_fingers)),
+            @"fingers": @(rememberedFingers),
             @"active_fingers": @(activeFingers),
             @"devices": devices,
             @"audio_outputs": audioOutputs,
@@ -638,20 +806,39 @@ static NSString * const BroadcastStatusCharacteristicUUID =
             @"mapped_channels": @(self.audioRouter.mappedChannels),
             @"queued_frames": @(self.audioRouter.queuedFrames),
             @"source_frames": @(self.audioRouter.sourceFrames),
+            @"health_state": healthState,
+            @"health_action": healthAction,
+            @"health_ready": @(health.ready),
+            @"can_run_audio_probe": @(health.can_run_audio_probe),
+            @"signal_path_probe": probe,
+            @"hardware_audio_confirmation": @"required",
+            @"events": [self.events copy],
             @"error": self.lastError ?: [NSNull null],
         };
-        NSData *json = [NSJSONSerialization
-            dataWithJSONObject:status options:0 error:nil];
-        line = [[NSString alloc] initWithData:json
-                                     encoding:NSUTF8StringEncoding];
-        line = [line stringByAppendingString:@"\n"];
     };
 
     if (NSThread.isMainThread)
         read();
     else
         dispatch_sync(dispatch_get_main_queue(), read);
-    return line;
+    return snapshot ?: @{};
+}
+
+- (NSString *)statusLine {
+    NSData *json = [NSJSONSerialization
+        dataWithJSONObject:[self statusSnapshot] options:0 error:nil];
+    NSString *line = json ? [[NSString alloc]
+        initWithData:json encoding:NSUTF8StringEncoding] : @"{}";
+    return [line stringByAppendingString:@"\n"];
+}
+
+- (NSString *)diagnosticReport {
+    NSData *json = [NSJSONSerialization
+        dataWithJSONObject:[self statusSnapshot]
+                   options:NSJSONWritingPrettyPrinted
+                     error:nil];
+    return json ? [[NSString alloc]
+        initWithData:json encoding:NSUTF8StringEncoding] : @"{}";
 }
 
 @end

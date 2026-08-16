@@ -22,6 +22,9 @@ REQUIRED_BINARY_STRINGS = (
     "broadcast",
     "/dev/broadcast_audio",
     "singleRouteFallback",
+    "ready_for_listening_test",
+    "hardware_audio_confirmation",
+    "Run Check",
     "B0ADC0DE-0000-4F1A-9000-000000000001",
     "B0ADC0DE-0000-4F1A-9000-000000000002",
 )
@@ -75,8 +78,8 @@ def main() -> int:
         bundle_id == "com.domenicleonetti8.broadcast",
         f"CFBundleIdentifier={bundle_id!r}",
     )
-    check("Broadcast version", version == "1.4.1", f"version={version!r}")
-    check("Broadcast build", build == "814", f"build={build!r}")
+    check("Broadcast version", version == "1.5.0", f"version={version!r}")
+    check("Broadcast build", build == "815", f"build={build!r}")
     check(
         "Background audio mode",
         "audio" in background_modes,

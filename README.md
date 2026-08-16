@@ -9,7 +9,11 @@ many as 10 paired and trusted Bluetooth speakers. See
 
 This fork also contains the native iPhone app **broadcast**. The app provides a
 BLE control/status service, remembers 10 logical fingers, accepts 48 kHz stereo
-PCM through `/dev/broadcast_audio`, and tests iOS-selected routes. It is an
+PCM through `/dev/broadcast_audio`, and tests iOS-selected routes. Version
+1.5.0 adds an in-app readiness engine, silent software signal-path probe,
+64-event diagnostic timeline, and shareable JSON report. A green software
+check still requires the audible **Test Sound** step before hardware is called
+proven. It is an
 optional controller, not the same iPhone's Bluetooth audio accessory: an iPhone
 cannot discover its own app advertisement in its Bluetooth Settings screen.
 See [BROADCAST_TEST.md](BROADCAST_TEST.md) and

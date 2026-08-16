@@ -6,8 +6,8 @@ Date: 2026-08-15
 
 - App display name: `broadcast`
 - Bundle identifier: `com.domenicleonetti8.broadcast`
-- Version: `1.4.1`
-- Build: `814`
+- Version: `1.5.0`
+- Build: `815`
 - BLE local name: `broadcast`
 - BLE service: `B0ADC0DE-0000-4F1A-9000-000000000001`
 - BLE status characteristic: `B0ADC0DE-0000-4F1A-9000-000000000002`
@@ -25,6 +25,10 @@ The suite verifies:
   maximum selected-route bound;
 - raw PCM conversion for zero, signed extrema, half-scale samples, invalid
   frame sizes, insufficient capacity, and unaligned input;
+- deterministic live readiness evaluation across stopped, Bluetooth, BLE
+  service, advertising, engine, finger, route, and ready states;
+- a silent PCM software-path probe, an explicit audible-hardware proof gate,
+  shareable diagnostics, and a bounded 64-event runtime timeline;
 - 100,000 randomized finger/fanout operations and 100,000 randomized route
   rebuilds;
 - the app plist, storyboard XML, Xcode source phase, framework links, unique
@@ -51,7 +55,7 @@ IPA payload, and publishes it with the logs and JSON/Markdown proof reports.
 ## Evaluation of the supplied app archive
 
 The supplied `ish-broadcast-iphone.zip` contains a real arm64 Mach-O iPhone
-app, but it is the older iSH `1.3.3` build `812`, not this `1.4.1` source. It
+app, but it is the older iSH `1.3.3` build `812`, not this `1.5.0` source. It
 has no `_CodeSignature` directory or embedded provisioning profile, lacks the
 current audio-route UI and PCM implementation, and is not installable on a
 stock iPhone. Its archive SHA-256 is:

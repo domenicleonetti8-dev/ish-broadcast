@@ -10,9 +10,12 @@
 - (BOOL)bindFinger:(NSString *)identifier error:(NSString **)error;
 - (BOOL)unbindFinger:(NSString *)identifier error:(NSString **)error;
 - (BOOL)playConnectionTest:(NSString **)error;
+- (BOOL)runSignalPathProbe:(NSString **)error;
 - (BOOL)setMultideviceMode:(BOOL)enabled error:(NSString **)error;
 - (BOOL)writePCM16Stereo:(const void *)bytes
                   length:(NSUInteger)length
                    error:(NSString **)error;
 - (NSString *)statusLine;
+- (NSDictionary<NSString *, id> *)statusSnapshot;
+- (NSString *)diagnosticReport;
 @end

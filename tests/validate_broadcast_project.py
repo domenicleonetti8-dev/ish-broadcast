@@ -45,10 +45,16 @@ def validate_bridge() -> None:
         "configureControlService",
         "didReceiveReadRequest",
         "playConnectionTest",
+        "runSignalPathProbe",
+        "broadcast_health_evaluate",
+        "diagnosticReport",
         "maximum_fingers",
         "active_fingers",
         "bluetooth_state",
         "mapped_channels",
+        "health_state",
+        "hardware_audio_confirmation",
+        "signal_path_probe",
     )
     for token in required:
         require(token in bridge, f"missing bridge wiring: {token}")
@@ -74,6 +80,8 @@ def validate_bridge() -> None:
     for token in (
         "AVRoutePickerView",
         "Test Sound",
+        "Run Check",
+        "shareReport",
         "Remembered audio fingers",
     ):
         require(token in controller, f"missing visible connection UI: {token}")
@@ -94,6 +102,7 @@ def validate_xcode_project() -> None:
         "BroadcastFanout.c",
         "BroadcastRouteMap.c",
         "BroadcastPCM.c",
+        "BroadcastHealth.c",
         "BroadcastAudioRouter.m",
         "BroadcastViewController.m",
     ):
@@ -121,12 +130,12 @@ def validate_release_wiring() -> None:
     require("ROOT_BUNDLE_IDENTIFIER = com.domenicleonetti8.broadcast" in config,
             "broadcast bundle identifier is missing")
     project_config = read("app/Project.xcconfig")
-    require("MARKETING_VERSION = 1.4.1" in project_config,
-            "broadcast marketing version is not 1.4.1")
+    require("MARKETING_VERSION = 1.5.0" in project_config,
+            "broadcast marketing version is not 1.5.0")
 
     project = read("iSH.xcodeproj/project.pbxproj")
-    require(project.count("CURRENT_PROJECT_VERSION = 814;") == 4,
-            "broadcast build number is not consistently 814")
+    require(project.count("CURRENT_PROJECT_VERSION = 815;") == 4,
+            "broadcast build number is not consistently 815")
 
     workflow = read(".github/workflows/ghost-probe.yml")
     require("-scheme iSH" in workflow,

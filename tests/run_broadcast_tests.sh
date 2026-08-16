@@ -28,6 +28,9 @@ run_test pcm \
     app/BroadcastPCM.c \
     tests/broadcast_pcm_test.c \
     -lm
+run_test health \
+    app/BroadcastHealth.c \
+    tests/broadcast_health_test.c
 run_test state_stress \
     app/BroadcastFingerTable.c \
     app/BroadcastFanout.c \
@@ -66,6 +69,9 @@ then
         app/BroadcastPCM.c \
         tests/broadcast_pcm_test.c \
         -lm
+    run_test health_sanitized \
+        app/BroadcastHealth.c \
+        tests/broadcast_health_test.c
     run_test state_stress_sanitized \
         app/BroadcastFingerTable.c \
         app/BroadcastFanout.c \

@@ -6,8 +6,10 @@
 @interface BroadcastViewController ()
     <UITableViewDataSource, UITableViewDelegate>
 @property (nonatomic, strong) UILabel *summaryLabel;
+@property (nonatomic, strong) UILabel *healthLabel;
 @property (nonatomic, strong) UILabel *errorLabel;
 @property (nonatomic, strong) UIButton *startButton;
+@property (nonatomic, strong) UIButton *checkButton;
 @property (nonatomic, strong) UIButton *testButton;
 @property (nonatomic, strong) UISegmentedControl *modeControl;
 @property (nonatomic, strong) UITableView *tableView;
@@ -29,11 +31,21 @@
         initWithBarButtonSystemItem:UIBarButtonSystemItemDone
                          target:self
                          action:@selector(close:)];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+        initWithBarButtonSystemItem:UIBarButtonSystemItemAction
+                         target:self
+                         action:@selector(shareReport:)];
 
     self.summaryLabel = [UILabel new];
     self.summaryLabel.font = [UIFont preferredFontForTextStyle:
         UIFontTextStyleHeadline];
     self.summaryLabel.numberOfLines = 0;
+
+    self.healthLabel = [UILabel new];
+    self.healthLabel.font = [UIFont preferredFontForTextStyle:
+        UIFontTextStyleSubheadline];
+    self.healthLabel.numberOfLines = 0;
+    self.healthLabel.accessibilityLabel = @"Broadcast readiness";
 
     self.errorLabel = [UILabel new];
     self.errorLabel.font = [UIFont preferredFontForTextStyle:
@@ -47,6 +59,12 @@
     self.startButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.startButton addTarget:self
                          action:@selector(toggleBroadcast:)
+               forControlEvents:UIControlEventTouchUpInside];
+
+    self.checkButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    [self.checkButton setTitle:@"Run Check" forState:UIControlStateNormal];
+    [self.checkButton addTarget:self
+                         action:@selector(runCheck:)
                forControlEvents:UIControlEventTouchUpInside];
 
     self.testButton = [UIButton buttonWithType:UIButtonTypeSystem];
@@ -79,7 +97,11 @@
     routeControl.alignment = UIStackViewAlignmentCenter;
 
     UIStackView *buttons = [[UIStackView alloc]
-        initWithArrangedSubviews:@[self.startButton, self.testButton]];
+        initWithArrangedSubviews:@[
+            self.startButton,
+            self.checkButton,
+            self.testButton,
+        ]];
     buttons.axis = UILayoutConstraintAxisHorizontal;
     buttons.spacing = 12;
     buttons.alignment = UIStackViewAlignmentCenter;
@@ -95,6 +117,7 @@
     UIStackView *header = [[UIStackView alloc]
         initWithArrangedSubviews:@[
             self.summaryLabel,
+            self.healthLabel,
             self.modeControl,
             buttons,
             routeControl,
@@ -209,6 +232,76 @@
     [self presentViewController:alert animated:YES completion:nil];
 }
 
+- (NSString *)checkmark:(BOOL)passed label:(NSString *)label {
+    return [NSString stringWithFormat:@"%@ %@",
+        passed ? @"✓" : @"✗", label];
+}
+
+- (void)runCheck:(id)sender {
+    (void)sender;
+    NSString *probeError = nil;
+    BOOL probePassed = [[BroadcastBridge shared]
+        runSignalPathProbe:&probeError];
+    [self refreshStatus];
+
+    BOOL bluetooth = [self.snapshot[@"bluetooth_state"]
+        isEqualToString:@"powered_on"];
+    BOOL service = [self.snapshot[@"control_service_ready"] boolValue];
+    BOOL advertising = [self.snapshot[@"advertising"] boolValue];
+    BOOL engine = [self.snapshot[@"audio_engine_running"] boolValue];
+    BOOL route = [self.snapshot[@"active_fingers"] unsignedIntegerValue] > 0 &&
+        [self.snapshot[@"mapped_channels"] unsignedIntegerValue] > 0;
+    BOOL ready = [self.snapshot[@"health_ready"] boolValue] && probePassed;
+
+    NSArray<NSString *> *checks = @[
+        [self checkmark:bluetooth label:@"Bluetooth permission and radio"],
+        [self checkmark:service label:@"broadcast BLE control service"],
+        [self checkmark:advertising label:@"broadcast local-name advertisement"],
+        [self checkmark:engine label:@"audio engine"],
+        [self checkmark:route label:@"bound audio route"],
+        [self checkmark:probePassed label:@"PCM software signal path"],
+    ];
+    NSString *action = self.snapshot[@"health_action"] ?: @"Retry the check.";
+    NSString *message = [checks componentsJoinedByString:@"\n"];
+    message = [message stringByAppendingFormat:
+        @"\n\n%@\n\nPhysical audio is only confirmed after you hear Test Sound on the real device.",
+        ready ? @"Software path passed." :
+            (probeError.length ? probeError : action)];
+
+    UIAlertController *alert = [UIAlertController
+        alertControllerWithTitle:ready
+            ? @"Software check passed"
+            : @"Setup check"
+                         message:message
+                  preferredStyle:UIAlertControllerStyleAlert];
+    if ([self.snapshot[@"can_run_audio_probe"] boolValue]) {
+        __weak BroadcastViewController *weakSelf = self;
+        [alert addAction:[UIAlertAction actionWithTitle:@"Test Sound"
+                                                   style:UIAlertActionStyleDefault
+                                                 handler:^(UIAlertAction *action) {
+            (void)action;
+            [weakSelf testSound:nil];
+        }]];
+    }
+    [alert addAction:[UIAlertAction actionWithTitle:@"Close"
+                                              style:UIAlertActionStyleCancel
+                                            handler:nil]];
+    [self presentViewController:alert animated:YES completion:nil];
+}
+
+- (void)shareReport:(id)sender {
+    (void)sender;
+    NSString *report = [[BroadcastBridge shared] diagnosticReport];
+    UIActivityViewController *activity = [[UIActivityViewController alloc]
+        initWithActivityItems:@[report]
+        applicationActivities:nil];
+    UIPopoverPresentationController *popover =
+        activity.popoverPresentationController;
+    if (popover)
+        popover.barButtonItem = self.navigationItem.leftBarButtonItem;
+    [self presentViewController:activity animated:YES completion:nil];
+}
+
 - (void)changeMode:(UISegmentedControl *)sender {
     NSString *error = nil;
     BOOL multidevice = sender.selectedSegmentIndex == 0;
@@ -228,10 +321,7 @@
 }
 
 - (void)refreshStatus {
-    NSString *line = [[BroadcastBridge shared] statusLine];
-    NSData *data = [line dataUsingEncoding:NSUTF8StringEncoding];
-    NSDictionary *snapshot = data ? [NSJSONSerialization
-        JSONObjectWithData:data options:0 error:nil] : nil;
+    NSDictionary *snapshot = [[BroadcastBridge shared] statusSnapshot];
     if (![snapshot isKindOfClass:NSDictionary.class])
         return;
     self.snapshot = snapshot;
@@ -251,6 +341,9 @@
     NSString *bluetooth = snapshot[@"bluetooth_state"] ?: @"unknown";
     BOOL advertising = [snapshot[@"advertising"] boolValue];
     BOOL multidevice = [snapshot[@"multidevice_requested"] boolValue];
+    BOOL healthReady = [snapshot[@"health_ready"] boolValue];
+    NSString *healthState = snapshot[@"health_state"] ?: @"invalid";
+    NSString *healthAction = snapshot[@"health_action"] ?: @"Run Check.";
     self.modeControl.selectedSegmentIndex =
         multidevice ? 0 : 1;
     self.summaryLabel.text = [NSString stringWithFormat:
@@ -268,7 +361,23 @@
         (requested ? @"Retry" : @"Start");
     [self.startButton setTitle:startTitle
                       forState:UIControlStateNormal];
-    self.testButton.enabled = running && mapped > 0;
+    self.testButton.enabled = [snapshot[@"can_run_audio_probe"] boolValue];
+    self.healthLabel.text = healthReady
+        ? @"Software ready — run the listening test"
+        : healthAction;
+    if (@available(iOS 13, *)) {
+        self.healthLabel.textColor = healthReady
+            ? UIColor.systemGreenColor
+            : ([healthState isEqualToString:@"stopped"]
+                ? UIColor.secondaryLabelColor
+                : UIColor.systemOrangeColor);
+    } else {
+        self.healthLabel.textColor = healthReady
+            ? UIColor.greenColor
+            : ([healthState isEqualToString:@"stopped"]
+                ? UIColor.grayColor
+                : UIColor.orangeColor);
+    }
     id error = snapshot[@"error"];
     if ([error isKindOfClass:NSString.class]) {
         self.errorLabel.text = error;
