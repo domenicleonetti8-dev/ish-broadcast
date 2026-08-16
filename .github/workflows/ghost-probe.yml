@@ -1,0 +1,82 @@
+name: Ghost Probe
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - broadcast-native
+      - "agent/**"
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ghost-probe-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  probe:
+    name: Compile and inspect Broadcast
+    runs-on: macos-26
+    timeout-minutes: 90
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Run Broadcast logic and stress tests
+        shell: bash
+        run: |
+          set -o pipefail
+          sh tests/run_broadcast_tests.sh 2>&1 | tee ghost-probe-tests.log
+
+      - name: Install iPhone build dependencies
+        run: brew install llvm lld ninja libarchive meson
+
+      - name: Compile unsigned iPhone app
+        shell: bash
+        run: |
+          set -o pipefail
+          xcodebuild \
+            -project iSH.xcodeproj \
+            -scheme iSH \
+            -configuration Debug \
+            -arch arm64 \
+            -sdk iphoneos \
+            -derivedDataPath build-ghost-probe \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build 2>&1 | tee ghost-probe-xcode.log
+
+      - name: Inspect compiled app
+        shell: bash
+        run: |
+          app_path="$(find build-ghost-probe/Build/Products -type d -name iSH.app -print -quit)"
+          test -n "$app_path"
+          python3 tests/ghost_probe.py \
+            "$app_path" \
+            --report ghost-probe-report.md \
+            --json ghost-probe-report.json
+          ditto -c -k --sequesterRsrc --keepParent \
+            "$app_path" broadcast-unsigned-iphone.zip
+
+      - name: Upload probe evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: ghost-probe-evidence
+          path: |
+            ghost-probe-tests.log
+            ghost-probe-xcode.log
+            ghost-probe-report.md
+            ghost-probe-report.json
+          if-no-files-found: warn
+
+      - name: Upload compiled unsigned app
+        uses: actions/upload-artifact@v7
+        with:
+          name: broadcast-unsigned-iphone
+          path: broadcast-unsigned-iphone.zip
+          if-no-files-found: error

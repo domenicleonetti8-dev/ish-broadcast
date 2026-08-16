@@ -1,8 +1,10 @@
-app_identifier "app.ish.iSH" # The bundle identifier of your app
-apple_id "tblodt@icloud.com" # Your Apple email address
-
-team_id "CK5SXRTBR7" # Developer Portal Team ID
-itc_team_name "Theodore Dubois"
+app_identifier ENV.fetch(
+    "BROADCAST_BUNDLE_ID",
+    "com.domenicleonetti8.broadcast",
+)
+apple_id ENV["APPLE_ID"] if ENV["APPLE_ID"]
+team_id ENV["APPLE_TEAM_ID"] if ENV["APPLE_TEAM_ID"]
+itc_team_name ENV["APP_STORE_CONNECT_TEAM_NAME"] if ENV["APP_STORE_CONNECT_TEAM_NAME"]
 
 # you can even provide different app identifiers, Apple IDs and team names per lane:
 # More information: https://docs.fastlane.tools/advanced/#appfile

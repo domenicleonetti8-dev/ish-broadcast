@@ -1,17 +1,34 @@
 #import "BroadcastBridge.h"
-#import <CoreBluetooth/CoreBluetooth.h>
+#import "BroadcastAudioRouter.h"
+#import "BroadcastFingerTable.h"
+
 #import <AVFoundation/AVFoundation.h>
+#import <CoreBluetooth/CoreBluetooth.h>
+#import <math.h>
 
-static const NSUInteger BroadcastMaximumFingers = 5;
+static NSString * const BroadcastSavedFingerIdentifiers =
+    @"BroadcastSavedFingerIdentifiers";
+static NSString * const BroadcastPrefersMultidevice =
+    @"BroadcastPrefersMultidevice";
+static NSString * const BroadcastLogicalName = @"broadcast";
+static NSString * const BroadcastControlServiceUUID =
+    @"B0ADC0DE-0000-4F1A-9000-000000000001";
+static NSString * const BroadcastStatusCharacteristicUUID =
+    @"B0ADC0DE-0000-4F1A-9000-000000000002";
 
-@interface BroadcastBridge () <CBPeripheralManagerDelegate, CBCentralManagerDelegate>
-@property CBPeripheralManager *peripheralManager;
-@property CBCentralManager *centralManager;
-@property NSString *name;
-@property BOOL requested;
-@property NSString *lastError;
-@property NSMutableDictionary<NSUUID *, CBPeripheral *> *discovered;
-@property NSMutableOrderedSet<NSUUID *> *fingerIdentifiers;
+@interface BroadcastBridge () <CBPeripheralManagerDelegate> {
+    struct broadcast_finger_table _fingers;
+}
+@property (nonatomic, strong) CBPeripheralManager *peripheralManager;
+@property (nonatomic, strong) BroadcastAudioRouter *audioRouter;
+@property (nonatomic, copy) NSString *name;
+@property (nonatomic) BOOL requested;
+@property (nonatomic) BOOL routeMonitoring;
+@property (nonatomic, copy) NSString *lastError;
+@property (nonatomic, strong) CBMutableService *controlService;
+@property (nonatomic, strong) CBMutableCharacteristic *statusCharacteristic;
+@property (nonatomic, strong) NSMutableDictionary<NSUUID *, NSData *> *statusReads;
+@property (nonatomic) BOOL controlServiceReady;
 @end
 
 @implementation BroadcastBridge
@@ -20,194 +37,606 @@ static const NSUInteger BroadcastMaximumFingers = 5;
     static BroadcastBridge *bridge;
     static dispatch_once_t once;
     dispatch_once(&once, ^{
-        void (^make)(void) = ^{
-            bridge = [BroadcastBridge new];
-        };
-        if (NSThread.isMainThread) make();
-        else dispatch_sync(dispatch_get_main_queue(), make);
+        bridge = [BroadcastBridge new];
     });
     return bridge;
 }
 
 - (instancetype)init {
-    if (self = [super init]) {
-        _name = @"Broadcast";
-        _discovered = [NSMutableDictionary dictionary];
-        _fingerIdentifiers = [NSMutableOrderedSet orderedSet];
+    self = [super init];
+    if (self) {
+        _name = BroadcastLogicalName;
+        _audioRouter = [BroadcastAudioRouter new];
+        if ([NSUserDefaults.standardUserDefaults
+            objectForKey:BroadcastPrefersMultidevice] != nil) {
+            _audioRouter.prefersMultidevice =
+                [NSUserDefaults.standardUserDefaults
+                    boolForKey:BroadcastPrefersMultidevice];
+        }
+        broadcast_fingers_init(&_fingers);
+        [self restoreSavedFingerRecords];
+        _statusReads = [NSMutableDictionary dictionary];
         _peripheralManager = [[CBPeripheralManager alloc]
             initWithDelegate:self
-            queue:dispatch_get_main_queue()];
-        _centralManager = [[CBCentralManager alloc]
-            initWithDelegate:self
-            queue:dispatch_get_main_queue()];
+            queue:dispatch_get_main_queue()
+            options:@{
+                CBPeripheralManagerOptionShowPowerAlertKey: @YES,
+            }];
+        [NSNotificationCenter.defaultCenter
+            addObserver:self
+               selector:@selector(audioRouteDidChange:)
+                   name:AVAudioSessionRouteChangeNotification
+                 object:AVAudioSession.sharedInstance];
+        [NSNotificationCenter.defaultCenter
+            addObserver:self
+               selector:@selector(audioSessionInterrupted:)
+                   name:AVAudioSessionInterruptionNotification
+                 object:AVAudioSession.sharedInstance];
+        [NSNotificationCenter.defaultCenter
+            addObserver:self
+               selector:@selector(audioMediaServicesReset:)
+                   name:AVAudioSessionMediaServicesWereResetNotification
+                 object:AVAudioSession.sharedInstance];
     }
     return self;
 }
 
-- (void)refresh {
+- (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+}
+
+- (uint64_t)nowMilliseconds {
+    return (uint64_t)(NSProcessInfo.processInfo.systemUptime * 1000.0);
+}
+
+- (NSString *)bluetoothStateName {
+    switch (self.peripheralManager.state) {
+        case CBManagerStateUnknown: return @"unknown";
+        case CBManagerStateResetting: return @"resetting";
+        case CBManagerStateUnsupported: return @"unsupported";
+        case CBManagerStateUnauthorized: return @"unauthorized";
+        case CBManagerStatePoweredOff: return @"powered_off";
+        case CBManagerStatePoweredOn: return @"powered_on";
+    }
+    return @"unknown";
+}
+
+- (NSString *)messageForFingerResult:(int)result {
+    switch (result) {
+        case BROADCAST_FINGER_NOT_FOUND: return @"unknown_audio_output";
+        case BROADCAST_FINGER_LIMIT_REACHED: return @"finger_limit_reached";
+        case BROADCAST_FINGER_TABLE_FULL: return @"audio_output_table_full";
+        case BROADCAST_FINGER_INVALID: return @"invalid_finger_state";
+        default: return @"finger_operation_failed";
+    }
+}
+
+- (void)persistWantedFingers {
+    NSMutableArray<NSString *> *identifiers = [NSMutableArray array];
+    for (size_t i = 0; i < _fingers.count; i++) {
+        struct broadcast_finger *finger = &_fingers.devices[i];
+        if (finger->wanted)
+            [identifiers addObject:
+                [NSString stringWithUTF8String:finger->identifier]];
+    }
+    [NSUserDefaults.standardUserDefaults
+        setObject:identifiers
+        forKey:BroadcastSavedFingerIdentifiers];
+}
+
+- (void)restoreSavedFingerRecords {
+    NSArray<NSString *> *saved = [NSUserDefaults.standardUserDefaults
+        stringArrayForKey:BroadcastSavedFingerIdentifiers];
+    for (NSString *identifier in saved) {
+        if (!identifier.length)
+            continue;
+        broadcast_fingers_observe(
+            &_fingers, identifier.UTF8String, "saved audio output"
+        );
+        broadcast_fingers_bind(&_fingers, identifier.UTF8String);
+    }
+}
+
+- (BOOL)isExternalOutput:(AVAudioSessionPortDescription *)port {
+    return ![port.portType isEqualToString:AVAudioSessionPortBuiltInSpeaker] &&
+        ![port.portType isEqualToString:AVAudioSessionPortBuiltInReceiver];
+}
+
+- (NSSet<NSString *> *)activeOutputUIDs {
+    NSMutableSet<NSString *> *identifiers = [NSMutableSet set];
+    for (AVAudioSessionPortDescription *port in
+         AVAudioSession.sharedInstance.currentRoute.outputs) {
+        if (port.UID.length)
+            [identifiers addObject:port.UID];
+    }
+    return identifiers;
+}
+
+- (void)synchronizeAudioRoute {
+    if (!self.requested || !self.audioRouter.isRunning)
+        return;
+
+    NSArray<AVAudioSessionPortDescription *> *outputs =
+        AVAudioSession.sharedInstance.currentRoute.outputs;
+    NSMutableSet<NSString *> *active = [NSMutableSet set];
+    BOOL changedWanted = NO;
+
+    for (AVAudioSessionPortDescription *port in outputs) {
+        if (!port.UID.length)
+            continue;
+        [active addObject:port.UID];
+        BOOL known = broadcast_fingers_find(
+            &_fingers, port.UID.UTF8String
+        ) != NULL;
+        int observeResult = broadcast_fingers_observe(
+            &_fingers,
+            port.UID.UTF8String,
+            port.portName.UTF8String
+        );
+        if (observeResult != BROADCAST_FINGER_OK)
+            continue;
+
+        const struct broadcast_finger *finger = broadcast_fingers_find(
+            &_fingers, port.UID.UTF8String
+        );
+        if (!known && [self isExternalOutput:port] &&
+            finger && !finger->wanted &&
+            broadcast_fingers_wanted_count(&_fingers) <
+                BROADCAST_MAX_FINGERS) {
+            if (broadcast_fingers_bind(
+                &_fingers, port.UID.UTF8String
+            ) == BROADCAST_FINGER_OK)
+                changedWanted = YES;
+        }
+        finger = broadcast_fingers_find(&_fingers, port.UID.UTF8String);
+        if (finger && finger->wanted)
+            broadcast_fingers_connected(
+                &_fingers, port.UID.UTF8String
+            );
+    }
+
+    NSMutableSet<NSString *> *enabled = [NSMutableSet set];
+    uint64_t now = [self nowMilliseconds];
+    for (size_t i = 0; i < _fingers.count; i++) {
+        struct broadcast_finger *finger = &_fingers.devices[i];
+        if (!finger->wanted)
+            continue;
+        NSString *identifier = [NSString
+            stringWithUTF8String:finger->identifier];
+        if ([active containsObject:identifier]) {
+            [enabled addObject:identifier];
+        } else if (finger->state == BROADCAST_FINGER_BOUND ||
+                   finger->state == BROADCAST_FINGER_CONNECTING) {
+            broadcast_fingers_disconnected(
+                &_fingers, finger->identifier, now
+            );
+        }
+    }
+
+    if (changedWanted)
+        [self persistWantedFingers];
+    [self.audioRouter setEnabledOutputUIDs:enabled];
+    NSError *routeError = nil;
+    if (![self.audioRouter rebuildRouteWithError:&routeError])
+        self.lastError = routeError.localizedDescription;
+    else
+        self.lastError = nil;
+}
+
+- (void)refreshAdvertisement {
     if (!self.requested ||
-        self.peripheralManager.state != CBManagerStatePoweredOn)
+        self.peripheralManager.state != CBManagerStatePoweredOn ||
+        !self.controlServiceReady)
         return;
 
     [self.peripheralManager stopAdvertising];
     [self.peripheralManager startAdvertising:@{
-        CBAdvertisementDataLocalNameKey: self.name
+        CBAdvertisementDataLocalNameKey: BroadcastLogicalName,
+        CBAdvertisementDataServiceUUIDsKey: @[
+            [CBUUID UUIDWithString:BroadcastControlServiceUUID]
+        ],
     }];
 }
 
+- (void)configureControlService {
+    self.controlServiceReady = NO;
+    [self.statusReads removeAllObjects];
+    [self.peripheralManager removeAllServices];
+    CBUUID *statusUUID = [CBUUID
+        UUIDWithString:BroadcastStatusCharacteristicUUID];
+    self.statusCharacteristic = [[CBMutableCharacteristic alloc]
+        initWithType:statusUUID
+          properties:CBCharacteristicPropertyRead
+               value:nil
+         permissions:CBAttributePermissionsReadable];
+    self.controlService = [[CBMutableService alloc]
+        initWithType:[CBUUID UUIDWithString:BroadcastControlServiceUUID]
+             primary:YES];
+    self.controlService.characteristics = @[self.statusCharacteristic];
+    [self.peripheralManager addService:self.controlService];
+}
+
 - (void)advertiseName:(NSString *)name {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        self.name = name.length ? name : @"Broadcast";
+    (void)name;
+    [self startBroadcast];
+}
+
+- (void)startBroadcast {
+    void (^start)(void) = ^{
+        self.name = BroadcastLogicalName;
         self.requested = YES;
+        self.routeMonitoring = YES;
         self.lastError = nil;
-        [self refresh];
-    });
+        [self refreshAdvertisement];
+
+        NSError *audioError = nil;
+        if (![self.audioRouter startWithError:&audioError]) {
+            self.lastError = audioError.localizedDescription;
+            self.requested = NO;
+            self.routeMonitoring = NO;
+            [self.peripheralManager stopAdvertising];
+            return;
+        }
+        [self synchronizeAudioRoute];
+    };
+    if (NSThread.isMainThread)
+        start();
+    else
+        dispatch_sync(dispatch_get_main_queue(), start);
 }
 
 - (void)stopAdvertising {
-    dispatch_async(dispatch_get_main_queue(), ^{
+    void (^stop)(void) = ^{
         self.requested = NO;
+        self.routeMonitoring = NO;
         [self.peripheralManager stopAdvertising];
-    });
+        [self.audioRouter stop];
+    };
+    if (NSThread.isMainThread)
+        stop();
+    else
+        dispatch_sync(dispatch_get_main_queue(), stop);
 }
 
 - (void)startScan {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (self.centralManager.state != CBManagerStatePoweredOn) {
-            self.lastError = @"bluetooth_not_powered_on";
-            return;
-        }
-        self.lastError = nil;
-        [self.centralManager scanForPeripheralsWithServices:nil options:@{
-            CBCentralManagerScanOptionAllowDuplicatesKey: @NO
-        }];
-    });
+    void (^start)(void) = ^{
+        self.routeMonitoring = YES;
+        if (self.requested)
+            [self synchronizeAudioRoute];
+    };
+    if (NSThread.isMainThread)
+        start();
+    else
+        dispatch_sync(dispatch_get_main_queue(), start);
 }
 
 - (void)stopScan {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.centralManager stopScan];
-    });
+    void (^stop)(void) = ^{
+        self.routeMonitoring = NO;
+    };
+    if (NSThread.isMainThread)
+        stop();
+    else
+        dispatch_sync(dispatch_get_main_queue(), stop);
 }
 
 - (BOOL)bindFinger:(NSString *)identifier error:(NSString **)error {
     __block BOOL accepted = NO;
     void (^bind)(void) = ^{
-        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:identifier];
-        CBPeripheral *device = uuid ? self.discovered[uuid] : nil;
-        if (!device) {
-            if (error) *error = @"unknown_device";
+        int result = broadcast_fingers_bind(
+            &self->_fingers, identifier.UTF8String
+        );
+        if (result != BROADCAST_FINGER_OK) {
+            if (error) *error = [self messageForFingerResult:result];
             return;
         }
-        if (![self.fingerIdentifiers containsObject:uuid] &&
-            self.fingerIdentifiers.count >= BroadcastMaximumFingers) {
-            if (error) *error = @"finger_limit_reached";
-            return;
-        }
-        [self.fingerIdentifiers addObject:uuid];
-        [self.centralManager connectPeripheral:device options:nil];
+        [self persistWantedFingers];
+        [self synchronizeAudioRoute];
         accepted = YES;
     };
-    if (NSThread.isMainThread) bind();
-    else dispatch_sync(dispatch_get_main_queue(), bind);
+    if (NSThread.isMainThread)
+        bind();
+    else
+        dispatch_sync(dispatch_get_main_queue(), bind);
     return accepted;
 }
 
 - (BOOL)unbindFinger:(NSString *)identifier error:(NSString **)error {
     __block BOOL accepted = NO;
     void (^unbind)(void) = ^{
-        NSUUID *uuid = [[NSUUID alloc] initWithUUIDString:identifier];
-        CBPeripheral *device = uuid ? self.discovered[uuid] : nil;
-        if (!uuid || ![self.fingerIdentifiers containsObject:uuid]) {
-            if (error) *error = @"finger_not_bound";
+        int result = broadcast_fingers_unbind(
+            &self->_fingers, identifier.UTF8String
+        );
+        if (result != BROADCAST_FINGER_OK) {
+            if (error) *error = [self messageForFingerResult:result];
             return;
         }
-        [self.fingerIdentifiers removeObject:uuid];
-        if (device) [self.centralManager cancelPeripheralConnection:device];
+        [self persistWantedFingers];
+        [self synchronizeAudioRoute];
         accepted = YES;
     };
-    if (NSThread.isMainThread) unbind();
-    else dispatch_sync(dispatch_get_main_queue(), unbind);
+    if (NSThread.isMainThread)
+        unbind();
+    else
+        dispatch_sync(dispatch_get_main_queue(), unbind);
     return accepted;
+}
+
+- (BOOL)playConnectionTest:(NSString **)error {
+    __block BOOL accepted = NO;
+    void (^play)(void) = ^{
+        if (!self.requested || !self.audioRouter.isRunning) {
+            if (error) *error = @"broadcast_not_running";
+            return;
+        }
+        if (self.audioRouter.mappedChannels == 0) {
+            if (error) *error = @"no_bound_audio_outputs";
+            return;
+        }
+
+        const NSUInteger frames = 36000;
+        NSMutableData *tone = [NSMutableData dataWithLength:frames * 4];
+        int16_t *samples = tone.mutableBytes;
+        for (NSUInteger frame = 0; frame < frames; frame++) {
+            double phase = 2.0 * M_PI * 440.0 *
+                (double)frame / 48000.0;
+            int16_t sample = (int16_t)(sin(phase) * 9000.0);
+            samples[frame * 2] = sample;
+            samples[frame * 2 + 1] = sample;
+        }
+        NSError *audioError = nil;
+        if (![self.audioRouter writePCM16Stereo:tone.bytes
+                                         length:tone.length
+                                          error:&audioError]) {
+            if (error) *error = audioError.localizedDescription;
+            return;
+        }
+        accepted = YES;
+    };
+    if (NSThread.isMainThread)
+        play();
+    else
+        dispatch_sync(dispatch_get_main_queue(), play);
+    return accepted;
+}
+
+- (BOOL)setMultideviceMode:(BOOL)enabled error:(NSString **)error {
+    __block BOOL configured = NO;
+    void (^change)(void) = ^{
+        BOOL wasRunning = self.requested;
+        if (self.audioRouter.isRunning)
+            [self.audioRouter stop];
+        self.audioRouter.prefersMultidevice = enabled;
+        [NSUserDefaults.standardUserDefaults
+            setBool:enabled forKey:BroadcastPrefersMultidevice];
+        if (!wasRunning) {
+            configured = YES;
+            return;
+        }
+        NSError *audioError = nil;
+        if (![self.audioRouter startWithError:&audioError]) {
+            self.lastError = audioError.localizedDescription;
+            if (error) *error = self.lastError;
+            return;
+        }
+        [self synchronizeAudioRoute];
+        configured = YES;
+    };
+    if (NSThread.isMainThread)
+        change();
+    else
+        dispatch_sync(dispatch_get_main_queue(), change);
+    return configured;
+}
+
+- (BOOL)writePCM16Stereo:(const void *)bytes
+                  length:(NSUInteger)length
+                   error:(NSString **)error
+{
+    __block BOOL written = NO;
+    void (^write)(void) = ^{
+        if (self.audioRouter.mappedChannels == 0) {
+            if (error) *error = @"no_bound_audio_outputs";
+            return;
+        }
+        NSError *audioError = nil;
+        written = [self.audioRouter writePCM16Stereo:bytes
+                                              length:length
+                                               error:&audioError];
+        if (!written && error)
+            *error = audioError.localizedDescription;
+    };
+    if (NSThread.isMainThread)
+        write();
+    else
+        dispatch_sync(dispatch_get_main_queue(), write);
+    return written;
+}
+
+- (void)audioRouteDidChange:(NSNotification *)notification {
+    (void)notification;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (!self.requested || !self.routeMonitoring)
+            return;
+        if (!self.audioRouter.isRunning) {
+            NSError *audioError = nil;
+            if (![self.audioRouter startWithError:&audioError]) {
+                self.lastError = audioError.localizedDescription;
+                return;
+            }
+        }
+        [self synchronizeAudioRoute];
+    });
+}
+
+- (void)audioSessionInterrupted:(NSNotification *)notification {
+    NSNumber *typeValue = notification.userInfo[
+        AVAudioSessionInterruptionTypeKey
+    ];
+    AVAudioSessionInterruptionType type = typeValue.unsignedIntegerValue;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        if (type == AVAudioSessionInterruptionTypeBegan) {
+            [self.audioRouter stop];
+            if (self.requested)
+                self.lastError = @"audio_interrupted";
+            return;
+        }
+        if (!self.requested)
+            return;
+        NSError *audioError = nil;
+        if (![self.audioRouter startWithError:&audioError]) {
+            self.lastError = audioError.localizedDescription;
+            return;
+        }
+        [self synchronizeAudioRoute];
+    });
+}
+
+- (void)audioMediaServicesReset:(NSNotification *)notification {
+    (void)notification;
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.audioRouter stop];
+        if (!self.requested)
+            return;
+        NSError *audioError = nil;
+        if (![self.audioRouter startWithError:&audioError]) {
+            self.lastError = audioError.localizedDescription;
+            return;
+        }
+        [self synchronizeAudioRoute];
+    });
 }
 
 - (void)peripheralManagerDidUpdateState:
     (CBPeripheralManager *)peripheral
 {
-    [self refresh];
+    if (peripheral.state == CBManagerStatePoweredOn)
+        [self configureControlService];
+    else
+        self.controlServiceReady = NO;
 }
 
-- (void)centralManagerDidUpdateState:(CBCentralManager *)central {
-    if (central.state == CBManagerStatePoweredOn)
-        self.lastError = nil;
-}
-
-- (void)centralManager:(CBCentralManager *)central
- didDiscoverPeripheral:(CBPeripheral *)peripheral
-     advertisementData:(NSDictionary<NSString *, id> *)advertisementData
-                  RSSI:(NSNumber *)RSSI
-{
-    self.discovered[peripheral.identifier] = peripheral;
-}
-
-- (void)centralManager:(CBCentralManager *)central
-    didFailToConnectPeripheral:(CBPeripheral *)peripheral
-                         error:(NSError *)error
-{
-    self.lastError = error.localizedDescription ?: @"connect_failed";
-    if ([self.fingerIdentifiers containsObject:peripheral.identifier])
-        [central connectPeripheral:peripheral options:nil];
-}
-
-- (void)centralManager:(CBCentralManager *)central
- didDisconnectPeripheral:(CBPeripheral *)peripheral
+- (void)peripheralManager:(CBPeripheralManager *)peripheral
+            didAddService:(CBService *)service
                     error:(NSError *)error
 {
-    if (error) self.lastError = error.localizedDescription;
-    if ([self.fingerIdentifiers containsObject:peripheral.identifier])
-        [central connectPeripheral:peripheral options:nil];
+    (void)peripheral;
+    if (error) {
+        self.lastError = error.localizedDescription;
+        return;
+    }
+    if ([service.UUID isEqual:[CBUUID
+        UUIDWithString:BroadcastControlServiceUUID]]) {
+        self.controlServiceReady = YES;
+        [self refreshAdvertisement];
+    }
+}
+
+- (void)peripheralManager:(CBPeripheralManager *)peripheral
+    didReceiveReadRequest:(CBATTRequest *)request
+{
+    if (![request.characteristic.UUID isEqual:[CBUUID
+        UUIDWithString:BroadcastStatusCharacteristicUUID]]) {
+        [peripheral respondToRequest:request
+                         withResult:CBATTErrorAttributeNotFound];
+        return;
+    }
+    NSUUID *centralIdentifier = request.central.identifier;
+    NSData *status = self.statusReads[centralIdentifier];
+    if (request.offset == 0 || !status) {
+        if (self.statusReads.count >= 16)
+            [self.statusReads removeAllObjects];
+        status = [[self statusLine]
+            dataUsingEncoding:NSUTF8StringEncoding];
+        if (status)
+            self.statusReads[centralIdentifier] = status;
+    }
+    if (!status) {
+        [peripheral respondToRequest:request
+                         withResult:CBATTErrorUnlikelyError];
+        return;
+    }
+    if (request.offset > status.length) {
+        [peripheral respondToRequest:request
+                         withResult:CBATTErrorInvalidOffset];
+        return;
+    }
+    request.value = [status subdataWithRange:NSMakeRange(
+        request.offset, status.length - request.offset
+    )];
+    [peripheral respondToRequest:request withResult:CBATTErrorSuccess];
 }
 
 - (void)peripheralManagerDidStartAdvertising:
     (CBPeripheralManager *)peripheral
     error:(NSError *)error
 {
-    self.lastError = error.localizedDescription;
+    (void)peripheral;
+    if (error)
+        self.lastError = error.localizedDescription;
 }
 
 - (NSString *)statusLine {
     __block NSString *line;
-
     void (^read)(void) = ^{
-        NSMutableArray *devices = [NSMutableArray array];
-        for (NSUUID *uuid in self.discovered) {
-            CBPeripheral *device = self.discovered[uuid];
+        NSSet<NSString *> *active = [self activeOutputUIDs];
+        NSMutableArray<NSDictionary<NSString *, id> *> *devices =
+            [NSMutableArray array];
+        for (size_t i = 0; i < self->_fingers.count; i++) {
+            const struct broadcast_finger *finger =
+                &self->_fingers.devices[i];
+            NSString *identifier = [NSString
+                stringWithUTF8String:finger->identifier];
             [devices addObject:@{
-                @"id": uuid.UUIDString,
-                @"name": device.name ?: @"unknown",
-                @"state": @(device.state),
-                @"finger": @([self.fingerIdentifiers containsObject:uuid])
+                @"id": identifier,
+                @"name": [NSString stringWithUTF8String:finger->name],
+                @"active_route": @([active containsObject:identifier]),
+                @"finger": @(finger->wanted),
+                @"finger_state": [NSString stringWithUTF8String:
+                    broadcast_finger_state_name(finger->state)],
+                @"reconnect_attempts": @(finger->reconnect_attempts),
             }];
         }
-        AVAudioSessionRouteDescription *route = AVAudioSession.sharedInstance.currentRoute;
-        NSMutableArray *outputs = [NSMutableArray array];
-        for (AVAudioSessionPortDescription *port in route.outputs)
-            [outputs addObject:@{
-                @"name": port.portName ?: @"unknown",
-                @"type": port.portType ?: @"unknown"
-            }];
+
+        NSArray<NSDictionary<NSString *, id> *> *audioOutputs =
+            [self.audioRouter outputStatus];
+        NSUInteger activeFingers = 0;
+        for (NSDictionary<NSString *, id> *output in audioOutputs) {
+            if ([output[@"enabled"] boolValue])
+                activeFingers++;
+        }
+
         NSDictionary *status = @{
-            @"name": self.name,
+            @"name": BroadcastLogicalName,
+            @"running": @(self.requested && self.audioRouter.isRunning),
+            @"broadcast_requested": @(self.requested),
             @"advertising": @(self.peripheralManager.isAdvertising),
-            @"scanning": @(self.centralManager.isScanning),
-            @"maximum_fingers": @(BroadcastMaximumFingers),
-            @"fingers": @(self.fingerIdentifiers.count),
+            @"bluetooth_state": [self bluetoothStateName],
+            @"control_service_ready": @(self.controlServiceReady),
+            @"control_service_uuid": BroadcastControlServiceUUID,
+            @"status_characteristic_uuid":
+                BroadcastStatusCharacteristicUUID,
+            @"route_monitoring": @(self.routeMonitoring),
+            @"maximum_fingers": @(BROADCAST_MAX_FINGERS),
+            @"fingers": @(broadcast_fingers_wanted_count(
+                &self->_fingers)),
+            @"active_fingers": @(activeFingers),
             @"devices": devices,
-            @"audio_outputs": outputs,
-            @"error": self.lastError ?: [NSNull null]
+            @"audio_outputs": audioOutputs,
+            @"audio_session_mode": self.audioRouter.sessionMode,
+            @"multidevice_requested":
+                @(self.audioRouter.prefersMultidevice),
+            @"audio_engine_running": @(self.audioRouter.isRunning),
+            @"audio_format": @"s16le stereo 48000Hz",
+            @"mapped_channels": @(self.audioRouter.mappedChannels),
+            @"queued_frames": @(self.audioRouter.queuedFrames),
+            @"source_frames": @(self.audioRouter.sourceFrames),
+            @"error": self.lastError ?: [NSNull null],
         };
-        NSData *json = [NSJSONSerialization dataWithJSONObject:status options:0 error:nil];
-        line = [[NSString alloc] initWithData:json encoding:NSUTF8StringEncoding];
+        NSData *json = [NSJSONSerialization
+            dataWithJSONObject:status options:0 error:nil];
+        line = [[NSString alloc] initWithData:json
+                                     encoding:NSUTF8StringEncoding];
         line = [line stringByAppendingString:@"\n"];
     };
 
@@ -215,7 +644,6 @@ static const NSUInteger BroadcastMaximumFingers = 5;
         read();
     else
         dispatch_sync(dispatch_get_main_queue(), read);
-
     return line;
 }
 

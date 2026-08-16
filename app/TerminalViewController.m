@@ -12,6 +12,10 @@
 #import "ArrowBarButton.h"
 #import "UserPreferences.h"
 #import "AboutViewController.h"
+#if !ISH_LINUX
+#import "BroadcastBridge.h"
+#import "BroadcastViewController.h"
+#endif
 #import "CurrentRoot.h"
 #import "NSObject+SaneKVO.h"
 #import "LinuxInterop.h"
@@ -127,7 +131,41 @@
         });
     }];
     [self _updateBadge];
+
+#if !ISH_LINUX
+    [[BroadcastBridge shared] startBroadcast];
+    UIButton *broadcastButton = [UIButton buttonWithType:UIButtonTypeSystem];
+    broadcastButton.translatesAutoresizingMaskIntoConstraints = NO;
+    broadcastButton.accessibilityLabel = @"Open broadcast controls";
+    if (@available(iOS 13, *))
+        [broadcastButton setImage:[UIImage systemImageNamed:@"dot.radiowaves.left.and.right"]
+                         forState:UIControlStateNormal];
+    else
+        [broadcastButton setTitle:@"broadcast" forState:UIControlStateNormal];
+    [broadcastButton addTarget:self
+                        action:@selector(showBroadcast:)
+              forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:broadcastButton];
+    [NSLayoutConstraint activateConstraints:@[
+        [broadcastButton.topAnchor constraintEqualToAnchor:
+            self.view.safeAreaLayoutGuide.topAnchor constant:4],
+        [broadcastButton.trailingAnchor constraintEqualToAnchor:
+            self.view.safeAreaLayoutGuide.trailingAnchor constant:-8],
+        [broadcastButton.widthAnchor constraintGreaterThanOrEqualToConstant:44],
+        [broadcastButton.heightAnchor constraintEqualToConstant:44],
+    ]];
+#endif
 }
+
+#if !ISH_LINUX
+- (void)showBroadcast:(id)sender {
+    (void)sender;
+    BroadcastViewController *controller = [BroadcastViewController new];
+    UINavigationController *navigation = [[UINavigationController alloc]
+        initWithRootViewController:controller];
+    [self presentViewController:navigation animated:YES completion:nil];
+}
+#endif
 
 - (void)awakeFromNib {
     [super awakeFromNib];
