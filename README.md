@@ -1,12 +1,20 @@
-# broadcast for iPhone
+# broadcast: iPhone to many Bluetooth speakers
 
-This fork turns iSH into the native iPhone app **broadcast**. It advertises a
-BLE control service under the exact lowercase local name `broadcast`, exposes
-live route status, remembers up to 10 logical audio fingers, accepts 48 kHz
-stereo PCM through `/dev/broadcast_audio`, and includes an audible connection
-test. See [BROADCAST_TEST.md](BROADCAST_TEST.md) for use and
-[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md) for the exact evidence
-and platform limits.
+The real Bluetooth endpoint is now a portable Raspberry Pi/Linux hub. It is
+configured as a classic A2DP audio accessory named exactly **broadcast**, so it
+can appear in the iPhone's own **Settings > Bluetooth** list. The phone sends
+one audio stream to the hub; PipeWire fans it out through isolated routes to as
+many as 10 paired and trusted Bluetooth speakers. See
+[hub/README.md](hub/README.md) for installation and the physical proof gate.
+
+This fork also contains the native iPhone app **broadcast**. The app provides a
+BLE control/status service, remembers 10 logical fingers, accepts 48 kHz stereo
+PCM through `/dev/broadcast_audio`, and tests iOS-selected routes. It is an
+optional controller, not the same iPhone's Bluetooth audio accessory: an iPhone
+cannot discover its own app advertisement in its Bluetooth Settings screen.
+See [BROADCAST_TEST.md](BROADCAST_TEST.md) and
+[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md) for exact evidence and
+platform limits.
 
 The App Store and public TestFlight links in the upstream section below install
 the original iSH app. They do **not** install this Broadcast fork.

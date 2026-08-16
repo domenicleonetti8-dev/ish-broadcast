@@ -1,0 +1,15 @@
+[Unit]
+Description=Broadcast PipeWire multi-speaker fanout
+After=pipewire.service wireplumber.service
+Wants=pipewire.service wireplumber.service
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/lib/broadcast-hub/broadcast_hub.py --config /etc/broadcast-hub/config.json
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

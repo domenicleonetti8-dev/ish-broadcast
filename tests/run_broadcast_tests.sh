@@ -37,6 +37,13 @@ run_test route_stress \
     tests/broadcast_route_stress_test.c
 
 "$broadcast_python" tests/validate_broadcast_project.py
+"$broadcast_python" -m py_compile \
+    hub/broadcast_common.py \
+    hub/broadcast_bluez.py \
+    hub/broadcast_hub.py
+"$broadcast_python" -m unittest discover -s hub/tests -p 'test_*.py'
+sh -n hub/install.sh hub/bin/prepare-controller-class.sh hub/bin/pair-speaker.sh hub/bin/broadcast-status.sh
+sh hub/tests/test_install.sh
 
 if "$broadcast_cc" -fsanitize=address,undefined -x c -o \
     "$broadcast_tmp/sanitizer_probe" - >/dev/null 2>&1 <<'PROBE'

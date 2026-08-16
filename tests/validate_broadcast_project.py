@@ -2,6 +2,7 @@
 """Validate the iOS wiring that the portable C tests cannot compile."""
 
 from pathlib import Path
+import json
 import plistlib
 import re
 import xml.etree.ElementTree as ET
@@ -141,11 +142,65 @@ def validate_release_wiring() -> None:
             "release lane does not upload to TestFlight")
 
 
+def validate_hub_wiring() -> None:
+    config = json.loads(read("hub/config/broadcast-hub.json"))
+    require(config.get("device_name") == "broadcast",
+            "hub endpoint name must be exactly lowercase broadcast")
+    require(config.get("max_outputs") == 10,
+            "hub must retain the 10-output limit")
+    require(config.get("minimum_proof_outputs", 0) >= 2,
+            "hub physical proof gate must require two outputs")
+
+    common = read("hub/broadcast_common.py")
+    require('DEVICE_NAME = "broadcast"' in common,
+            "hub does not enforce the exact endpoint name")
+    require("MAX_OUTPUTS = 10" in common,
+            "hub does not enforce the hard output limit")
+
+    bluez = read("hub/broadcast_bluez.py")
+    for token in (
+        '"Alias", DEVICE_NAME',
+        '"Discoverable", self.dbus.Boolean(True)',
+        "A2DP_SINK_UUID",
+        "reconnect_cooldown_seconds",
+        "for speaker in speakers",
+    ):
+        require(token in bluez, f"missing BlueZ hub wiring: {token}")
+
+    fanout = read("hub/broadcast_hub.py")
+    for token in (
+        '"pw-loopback"',
+        '"--capture"',
+        '"--playback"',
+        "for address, sink in desired.items()",
+        '"physical_audio_proof": "not-recorded"',
+    ):
+        require(token in fanout, f"missing PipeWire hub wiring: {token}")
+
+    modern = read("hub/config/wireplumber-0.5.conf")
+    legacy = read("hub/config/wireplumber-0.4.lua")
+    for token in ("a2dp_sink", "a2dp_source"):
+        require(token in modern, f"WirePlumber 0.5 is missing {token}")
+        require(token in legacy, f"WirePlumber 0.4 is missing {token}")
+    require('bluez5.media-source-role = "input"' in modern,
+            "incoming phone audio is not exposed as a PipeWire input")
+    require('["bluez5.media-source-role"] = "input"' in legacy,
+            "legacy incoming phone audio is not exposed as a PipeWire input")
+
+    system_service = read("hub/systemd/broadcast-bluetooth.service")
+    user_service = read("hub/systemd/broadcast-hub.service")
+    require("broadcast_bluez.py" in system_service,
+            "BlueZ coordinator is not installed as a system service")
+    require("broadcast_hub.py" in user_service,
+            "PipeWire fanout is not installed as a user service")
+
+
 def main() -> None:
     validate_plist_and_storyboard()
     validate_bridge()
     validate_xcode_project()
     validate_release_wiring()
+    validate_hub_wiring()
     print("validate_broadcast_project: PASS")
 
 

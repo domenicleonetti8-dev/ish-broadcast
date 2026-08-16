@@ -16,8 +16,32 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  hub:
+    name: Verify Bluetooth hub and portable logic
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Run Broadcast tests
+        shell: bash
+        run: |
+          set -o pipefail
+          sh tests/run_broadcast_tests.sh 2>&1 | tee broadcast-hub-tests.log
+
+      - name: Upload hub evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: broadcast-hub-evidence
+          path: broadcast-hub-tests.log
+          if-no-files-found: error
+
   probe:
     name: Compile and inspect Broadcast
+    needs: hub
     runs-on: macos-26
     timeout-minutes: 90
 
@@ -26,12 +50,6 @@ jobs:
         uses: actions/checkout@v6
         with:
           submodules: true
-
-      - name: Run Broadcast logic and stress tests
-        shell: bash
-        run: |
-          set -o pipefail
-          sh tests/run_broadcast_tests.sh 2>&1 | tee ghost-probe-tests.log
 
       - name: Install iPhone build dependencies
         run: brew install llvm lld ninja libarchive meson
@@ -67,7 +85,6 @@ jobs:
         with:
           name: ghost-probe-evidence
           path: |
-            ghost-probe-tests.log
             ghost-probe-xcode.log
             ghost-probe-report.md
             ghost-probe-report.json

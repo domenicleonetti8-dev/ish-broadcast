@@ -1,5 +1,21 @@
 # broadcast device test
 
+## Settings-visible multi-speaker endpoint
+
+The Raspberry Pi/Linux hub is the component that must appear in the same
+iPhone's Bluetooth Settings as `broadcast`. Install and pair it using
+[hub/README.md](hub/README.md), select **broadcast** on the iPhone, and play
+phone audio. `broadcast-status` must show an incoming `bluez_input.*` node and
+at least two independent active output routes. Completion requires hearing the
+same audio from at least two physical speakers; a source or graph test alone is
+not accepted as physical proof.
+
+The tests below cover the optional native iPhone controller and its direct iOS
+routes. Its BLE local name is visible to other devices, not to its own iPhone
+as an audio accessory.
+
+## Native controller app
+
 The app exposes the exact logical name `broadcast`, a readable BLE control
 service, and a live audio-route screen. A finger is a remembered logical
 output. The table can remember up to 10 fingers and rebuilds whenever an

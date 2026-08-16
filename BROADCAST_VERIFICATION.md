@@ -30,6 +30,17 @@ The suite verifies:
 - the app plist, storyboard XML, Xcode source phase, framework links, unique
   Xcode object IDs, version/build numbers, bundle identifier, Ghost Probe
   workflow, and TestFlight lane wiring.
+- exact lowercase `broadcast` enforcement in the Linux endpoint configuration
+  and BlueZ adapter alias;
+- WirePlumber 0.4 and 0.5 registration of both A2DP sink (phone input) and
+  A2DP source (speaker output) roles, with headless seat monitoring disabled;
+- dynamic paired/trusted Audio Sink discovery, controller binding, reconnect
+  cooldowns, allowlists, priority order, and the 10-speaker hard limit;
+- a separate `pw-loopback` process per speaker, dynamic joins/leaves,
+  per-speaker delay calibration, and proof that one failed route does not stop
+  another;
+- idempotent staged installation of the system service, user service, scripts,
+  shared configuration, and both supported WirePlumber formats.
 
 The GitHub **Ghost Probe** workflow is the compile gate for the current native
 iOS source. It runs on a hosted macOS runner, compiles an unsigned arm64
@@ -64,11 +75,25 @@ the app is running. An iPhone does not list its own advertisement in its own
 Bluetooth Settings screen, and a BLE control advertisement does not turn the
 iPhone into a Bluetooth speaker.
 
+The corrected Settings-visible path uses a separate Raspberry Pi/Linux radio:
+
+`iPhone -> A2DP sink named broadcast -> PipeWire -> A2DP speaker sinks`
+
+The hub supports 10 eligible outputs in software. Five or more reliable
+independent Bluetooth streams should use a powered USB hub and separate
+Bluetooth controllers; actual radio bandwidth, codec support, and each
+speaker's internal buffering remain hardware limits. Per-speaker added delays
+can align faster speakers but cannot make unsupported radio concurrency real.
+
 ## What constitutes a complete device proof
 
-Portable code and project wiring are verified here. The remaining device proof
-cannot be fabricated by a source test: the current commit must pass Ghost
-Probe, a build must be signed for the target iPhone or TestFlight, and **Test
-Sound** must be heard on the selected physical route. Until those three events
-are recorded, the source must not be described as physically Bluetooth-tested
-or guaranteed installable.
+Portable code, project wiring, installer staging, and failure isolation are
+verified here. The remaining hub proof cannot be fabricated by a source test:
+the hub must be installed on the Pi, the same iPhone must list and connect to
+`broadcast`, `broadcast-status` must report at least two live routes, and the
+same phone audio must be heard on at least two independent speakers. Until
+those events are recorded, the source must not be described as physically
+Bluetooth-tested or guaranteed on the target radios.
+
+TestFlight signing is only relevant to the optional controller app. It is not
+required for the Raspberry Pi endpoint to appear in iPhone Bluetooth Settings.
