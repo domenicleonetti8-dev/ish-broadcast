@@ -75,15 +75,14 @@ static ssize_t broadcast_write(
             return ok ? (ssize_t)size : _EAGAIN;
         }
 
-        if ([cmd hasPrefix:@"bind "] || [cmd hasPrefix:@"unbind "]) {
-            BOOL unbind = [cmd hasPrefix:@"unbind "];
-            NSUInteger prefix = unbind ? 7 : 5;
-            NSString *identifier = [[cmd substringFromIndex:prefix]
+        if ([cmd hasPrefix:@"attach "] || [cmd hasPrefix:@"detach "]) {
+            BOOL detach = [cmd hasPrefix:@"detach "];
+            NSString *identifier = [[cmd substringFromIndex:7]
                 stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
             NSString *error = nil;
-            BOOL ok = unbind
-                ? [[BroadcastBridge shared] unbindFinger:identifier error:&error]
-                : [[BroadcastBridge shared] bindFinger:identifier error:&error];
+            BOOL ok = detach
+                ? [[BroadcastBridge shared] detachString:identifier error:&error]
+                : [[BroadcastBridge shared] attachString:identifier error:&error];
             return ok ? (ssize_t)size : _EINVAL;
         }
 

@@ -16,8 +16,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  hub:
-    name: Verify Bluetooth hub and portable logic
+  contract:
+    name: Verify probe and string contract
     runs-on: ubuntu-24.04
     timeout-minutes: 15
 
@@ -29,19 +29,19 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          sh tests/run_broadcast_tests.sh 2>&1 | tee broadcast-hub-tests.log
+          sh tests/run_broadcast_tests.sh 2>&1 | tee broadcast-contract-tests.log
 
-      - name: Upload hub evidence
+      - name: Upload contract evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: broadcast-hub-evidence
-          path: broadcast-hub-tests.log
+          name: broadcast-contract-evidence
+          path: broadcast-contract-tests.log
           if-no-files-found: error
 
   probe:
     name: Compile and inspect Broadcast
-    needs: hub
+    needs: contract
     runs-on: macos-26
     timeout-minutes: 90
 

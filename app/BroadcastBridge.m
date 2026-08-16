@@ -1,16 +1,16 @@
 #import "BroadcastBridge.h"
-#import "BroadcastAudioRouter.h"
+#import "BroadcastA2DPProbeTransport.h"
 #import "BroadcastFingerTable.h"
 #import "BroadcastHealth.h"
+#import "BroadcastProbeContract.h"
 
-#import <AVFoundation/AVFoundation.h>
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <math.h>
 
 static NSString * const BroadcastSavedFingerIdentifiers =
     @"BroadcastSavedFingerIdentifiers";
-static NSString * const BroadcastPrefersMultidevice =
-    @"BroadcastPrefersMultidevice";
+static NSString * const BroadcastSavedStringIdentifiers =
+    @"BroadcastSavedStringIdentifiers";
 static NSString * const BroadcastLogicalName = @"broadcast";
 static NSString * const BroadcastControlServiceUUID =
     @"B0ADC0DE-0000-4F1A-9000-000000000001";
@@ -18,15 +18,85 @@ static NSString * const BroadcastStatusCharacteristicUUID =
     @"B0ADC0DE-0000-4F1A-9000-000000000002";
 static const NSUInteger BroadcastMaximumEvents = 64;
 
+_Static_assert(BROADCAST_MAX_STRINGS == BROADCAST_MAX_FINGERS,
+    "probe string contract and internal route table must stay aligned");
+
+// This is the truthful stock-iOS boundary. A separately linked native provider
+// may conform to BroadcastA2DPProbeTransport, but CoreBluetooth advertising is
+// never counted as registration of the classic A2DP Sink profile.
+@interface BroadcastUnavailableA2DPProbeTransport : NSObject
+    <BroadcastA2DPProbeTransport>
+@end
+
+@implementation BroadcastUnavailableA2DPProbeTransport
+- (NSString *)providerName { return @"stock_ios_public_api"; }
+- (BOOL)available { return NO; }
+- (BOOL)registered { return NO; }
+- (BOOL)findable { return NO; }
+- (BOOL)connectable { return NO; }
+- (NSUInteger)inboundSourceConnections { return 0; }
+- (NSArray<NSDictionary<NSString *, id> *> *)speakerStrings { return @[]; }
+- (BOOL)audioEngineRunning { return NO; }
+- (NSUInteger)activeSpeakerStrings { return 0; }
+- (NSUInteger)mappedChannels { return 0; }
+- (uint64_t)sourceFrames { return 0; }
+- (NSUInteger)queuedFrames { return 0; }
+- (BOOL)startWithName:(NSString *)name error:(NSError **)error {
+    (void)name;
+    if (error) {
+        *error = [NSError errorWithDomain:@"BroadcastA2DPProbeTransport"
+                                     code:1
+                                 userInfo:@{
+            NSLocalizedDescriptionKey:
+                @"a2dp_sink_provider_unavailable_on_stock_ios",
+        }];
+    }
+    return NO;
+}
+- (void)stop {}
+- (void)startSpeakerDiscovery {}
+- (void)stopSpeakerDiscovery {}
+- (BOOL)attachSpeakerString:(NSString *)identifier error:(NSError **)error {
+    (void)identifier;
+    return [self startWithName:BroadcastLogicalName error:error];
+}
+- (BOOL)detachSpeakerString:(NSString *)identifier error:(NSError **)error {
+    (void)identifier;
+    return [self startWithName:BroadcastLogicalName error:error];
+}
+- (BOOL)writePCM16Stereo:(const void *)bytes
+                  length:(NSUInteger)length
+                   error:(NSError **)error
+{
+    (void)bytes;
+    (void)length;
+    return [self startWithName:BroadcastLogicalName error:error];
+}
+@end
+
+static id<BroadcastA2DPProbeTransport> BroadcastCreateProbeTransport(void) {
+    Class providerClass = NSClassFromString(
+        @"BroadcastNativeA2DPProbeTransport"
+    );
+    if (providerClass) {
+        id candidate = [[providerClass alloc] init];
+        if ([candidate conformsToProtocol:
+            @protocol(BroadcastA2DPProbeTransport)])
+            return candidate;
+    }
+    return [BroadcastUnavailableA2DPProbeTransport new];
+}
+
 @interface BroadcastBridge () <CBPeripheralManagerDelegate> {
     struct broadcast_finger_table _fingers;
 }
 @property (nonatomic, strong) CBPeripheralManager *peripheralManager;
-@property (nonatomic, strong) BroadcastAudioRouter *audioRouter;
+@property (nonatomic, strong) id<BroadcastA2DPProbeTransport> probeTransport;
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic) BOOL requested;
 @property (nonatomic) BOOL routeMonitoring;
 @property (nonatomic, copy) NSString *lastError;
+@property (nonatomic, copy) NSString *probeTransportError;
 @property (nonatomic, strong) CBMutableService *controlService;
 @property (nonatomic, strong) CBMutableCharacteristic *statusCharacteristic;
 @property (nonatomic, strong) NSMutableDictionary<NSUUID *, NSData *> *statusReads;
@@ -51,13 +121,7 @@ static const NSUInteger BroadcastMaximumEvents = 64;
     self = [super init];
     if (self) {
         _name = BroadcastLogicalName;
-        _audioRouter = [BroadcastAudioRouter new];
-        if ([NSUserDefaults.standardUserDefaults
-            objectForKey:BroadcastPrefersMultidevice] != nil) {
-            _audioRouter.prefersMultidevice =
-                [NSUserDefaults.standardUserDefaults
-                    boolForKey:BroadcastPrefersMultidevice];
-        }
+        _probeTransport = BroadcastCreateProbeTransport();
         broadcast_fingers_init(&_fingers);
         [self restoreSavedFingerRecords];
         _statusReads = [NSMutableDictionary dictionary];
@@ -69,21 +133,6 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             options:@{
                 CBPeripheralManagerOptionShowPowerAlertKey: @YES,
             }];
-        [NSNotificationCenter.defaultCenter
-            addObserver:self
-               selector:@selector(audioRouteDidChange:)
-                   name:AVAudioSessionRouteChangeNotification
-                 object:AVAudioSession.sharedInstance];
-        [NSNotificationCenter.defaultCenter
-            addObserver:self
-               selector:@selector(audioSessionInterrupted:)
-                   name:AVAudioSessionInterruptionNotification
-                 object:AVAudioSession.sharedInstance];
-        [NSNotificationCenter.defaultCenter
-            addObserver:self
-               selector:@selector(audioMediaServicesReset:)
-                   name:AVAudioSessionMediaServicesWereResetNotification
-                 object:AVAudioSession.sharedInstance];
         [self recordEvent:@"bridge_initialized" detail:nil];
     }
     return self;
@@ -135,11 +184,11 @@ static const NSUInteger BroadcastMaximumEvents = 64;
 
 - (NSString *)messageForFingerResult:(int)result {
     switch (result) {
-        case BROADCAST_FINGER_NOT_FOUND: return @"unknown_audio_output";
-        case BROADCAST_FINGER_LIMIT_REACHED: return @"finger_limit_reached";
-        case BROADCAST_FINGER_TABLE_FULL: return @"audio_output_table_full";
-        case BROADCAST_FINGER_INVALID: return @"invalid_finger_state";
-        default: return @"finger_operation_failed";
+        case BROADCAST_FINGER_NOT_FOUND: return @"unknown_speaker_string";
+        case BROADCAST_FINGER_LIMIT_REACHED: return @"string_limit_reached";
+        case BROADCAST_FINGER_TABLE_FULL: return @"speaker_table_full";
+        case BROADCAST_FINGER_INVALID: return @"invalid_string_state";
+        default: return @"string_operation_failed";
     }
 }
 
@@ -153,12 +202,16 @@ static const NSUInteger BroadcastMaximumEvents = 64;
     }
     [NSUserDefaults.standardUserDefaults
         setObject:identifiers
-        forKey:BroadcastSavedFingerIdentifiers];
+        forKey:BroadcastSavedStringIdentifiers];
 }
 
 - (void)restoreSavedFingerRecords {
     NSArray<NSString *> *saved = [NSUserDefaults.standardUserDefaults
-        stringArrayForKey:BroadcastSavedFingerIdentifiers];
+        stringArrayForKey:BroadcastSavedStringIdentifiers];
+    if (!saved) {
+        saved = [NSUserDefaults.standardUserDefaults
+            stringArrayForKey:BroadcastSavedFingerIdentifiers];
+    }
     for (NSString *identifier in saved) {
         if (!identifier.length)
             continue;
@@ -166,100 +219,6 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             &_fingers, identifier.UTF8String, "saved audio output"
         );
         broadcast_fingers_bind(&_fingers, identifier.UTF8String);
-    }
-}
-
-- (BOOL)isExternalOutput:(AVAudioSessionPortDescription *)port {
-    return ![port.portType isEqualToString:AVAudioSessionPortBuiltInSpeaker] &&
-        ![port.portType isEqualToString:AVAudioSessionPortBuiltInReceiver];
-}
-
-- (NSSet<NSString *> *)activeOutputUIDs {
-    NSMutableSet<NSString *> *identifiers = [NSMutableSet set];
-    for (AVAudioSessionPortDescription *port in
-         AVAudioSession.sharedInstance.currentRoute.outputs) {
-        if (port.UID.length)
-            [identifiers addObject:port.UID];
-    }
-    return identifiers;
-}
-
-- (void)synchronizeAudioRoute {
-    if (!self.requested || !self.audioRouter.isRunning)
-        return;
-
-    NSArray<AVAudioSessionPortDescription *> *outputs =
-        AVAudioSession.sharedInstance.currentRoute.outputs;
-    NSMutableSet<NSString *> *active = [NSMutableSet set];
-    BOOL changedWanted = NO;
-
-    for (AVAudioSessionPortDescription *port in outputs) {
-        if (!port.UID.length)
-            continue;
-        [active addObject:port.UID];
-        BOOL known = broadcast_fingers_find(
-            &_fingers, port.UID.UTF8String
-        ) != NULL;
-        int observeResult = broadcast_fingers_observe(
-            &_fingers,
-            port.UID.UTF8String,
-            port.portName.UTF8String
-        );
-        if (observeResult != BROADCAST_FINGER_OK)
-            continue;
-
-        const struct broadcast_finger *finger = broadcast_fingers_find(
-            &_fingers, port.UID.UTF8String
-        );
-        if (!known && [self isExternalOutput:port] &&
-            finger && !finger->wanted &&
-            broadcast_fingers_wanted_count(&_fingers) <
-                BROADCAST_MAX_FINGERS) {
-            if (broadcast_fingers_bind(
-                &_fingers, port.UID.UTF8String
-            ) == BROADCAST_FINGER_OK)
-                changedWanted = YES;
-        }
-        finger = broadcast_fingers_find(&_fingers, port.UID.UTF8String);
-        if (finger && finger->wanted)
-            broadcast_fingers_connected(
-                &_fingers, port.UID.UTF8String
-            );
-    }
-
-    NSMutableSet<NSString *> *enabled = [NSMutableSet set];
-    uint64_t now = [self nowMilliseconds];
-    for (size_t i = 0; i < _fingers.count; i++) {
-        struct broadcast_finger *finger = &_fingers.devices[i];
-        if (!finger->wanted)
-            continue;
-        NSString *identifier = [NSString
-            stringWithUTF8String:finger->identifier];
-        if ([active containsObject:identifier]) {
-            [enabled addObject:identifier];
-        } else if (finger->state == BROADCAST_FINGER_BOUND ||
-                   finger->state == BROADCAST_FINGER_CONNECTING) {
-            broadcast_fingers_disconnected(
-                &_fingers, finger->identifier, now
-            );
-        }
-    }
-
-    if (changedWanted)
-        [self persistWantedFingers];
-    [self.audioRouter setEnabledOutputUIDs:enabled];
-    NSError *routeError = nil;
-    if (![self.audioRouter rebuildRouteWithError:&routeError]) {
-        self.lastError = routeError.localizedDescription;
-        [self recordEvent:@"route_rebuild_failed"
-                   detail:self.lastError];
-    } else {
-        self.lastError = nil;
-        [self recordEvent:@"route_synchronized"
-                   detail:[NSString stringWithFormat:
-            @"active=%lu mapped_channels=%lu",
-            (unsigned long)enabled.count,
-            (unsigned long)self.audioRouter.mappedChannels]];
     }
 }
 
@@ -271,7 +230,6 @@ static const NSUInteger BroadcastMaximumEvents = 64;
 
     [self.peripheralManager stopAdvertising];
     [self.peripheralManager startAdvertising:@{
-        CBAdvertisementDataLocalNameKey: BroadcastLogicalName,
         CBAdvertisementDataServiceUUIDsKey: @[
             [CBUUID UUIDWithString:BroadcastControlServiceUUID]
         ],
@@ -307,26 +265,27 @@ static const NSUInteger BroadcastMaximumEvents = 64;
         self.requested = YES;
         self.routeMonitoring = YES;
         self.lastError = nil;
+        self.probeTransportError = nil;
         [self recordEvent:@"broadcast_start_requested" detail:nil];
+        NSError *probeError = nil;
+        if (![self.probeTransport startWithName:BroadcastLogicalName
+                                          error:&probeError]) {
+            self.probeTransportError = probeError.localizedDescription;
+            [self recordEvent:@"a2dp_sink_registration_blocked"
+                       detail:self.probeTransportError];
+        } else {
+            [self recordEvent:@"a2dp_sink_registered"
+                       detail:self.probeTransport.providerName];
+            [self.probeTransport startSpeakerDiscovery];
+        }
         [self refreshAdvertisement];
 
-        NSError *audioError = nil;
-        if (![self.audioRouter startWithError:&audioError]) {
-            self.lastError = audioError.localizedDescription;
-            [self recordEvent:@"audio_start_failed"
-                       detail:self.lastError];
-            self.requested = NO;
-            self.routeMonitoring = NO;
-            [self.peripheralManager stopAdvertising];
-            return;
-        }
-        [self synchronizeAudioRoute];
-        if (self.audioRouter.isRunning) {
+        if (self.probeTransport.registered) {
             [self recordEvent:@"broadcast_started"
-                       detail:self.audioRouter.sessionMode];
+                       detail:self.probeTransport.providerName];
         } else {
             [self recordEvent:@"broadcast_start_incomplete"
-                       detail:self.lastError];
+                       detail:self.probeTransportError];
         }
     };
     if (NSThread.isMainThread)
@@ -340,7 +299,9 @@ static const NSUInteger BroadcastMaximumEvents = 64;
         self.requested = NO;
         self.routeMonitoring = NO;
         [self.peripheralManager stopAdvertising];
-        [self.audioRouter stop];
+        [self.probeTransport stopSpeakerDiscovery];
+        [self.probeTransport stop];
+        self.probeTransportError = nil;
         [self recordEvent:@"broadcast_stopped" detail:nil];
     };
     if (NSThread.isMainThread)
@@ -352,8 +313,7 @@ static const NSUInteger BroadcastMaximumEvents = 64;
 - (void)startScan {
     void (^start)(void) = ^{
         self.routeMonitoring = YES;
-        if (self.requested)
-            [self synchronizeAudioRoute];
+        [self.probeTransport startSpeakerDiscovery];
     };
     if (NSThread.isMainThread)
         start();
@@ -364,6 +324,7 @@ static const NSUInteger BroadcastMaximumEvents = 64;
 - (void)stopScan {
     void (^stop)(void) = ^{
         self.routeMonitoring = NO;
+        [self.probeTransport stopSpeakerDiscovery];
     };
     if (NSThread.isMainThread)
         stop();
@@ -371,9 +332,37 @@ static const NSUInteger BroadcastMaximumEvents = 64;
         dispatch_sync(dispatch_get_main_queue(), stop);
 }
 
-- (BOOL)bindFinger:(NSString *)identifier error:(NSString **)error {
+- (BOOL)attachString:(NSString *)identifier error:(NSString **)error {
     __block BOOL accepted = NO;
     void (^bind)(void) = ^{
+        NSDictionary<NSString *, id> *observed = nil;
+        for (NSDictionary<NSString *, id> *node in
+             self.probeTransport.speakerStrings) {
+            if ([node[@"id"] isEqualToString:identifier]) {
+                observed = node;
+                break;
+            }
+        }
+        if (!observed) {
+            NSError *transportError = nil;
+            [self.probeTransport attachSpeakerString:identifier
+                                               error:&transportError];
+            if (error) {
+                *error = transportError.localizedDescription ?:
+                    @"speaker_string_not_discovered";
+            }
+            return;
+        }
+        NSString *name = observed[@"name"];
+        int observeResult = broadcast_fingers_observe(
+            &self->_fingers,
+            identifier.UTF8String,
+            name.length ? name.UTF8String : "generic Bluetooth speaker"
+        );
+        if (observeResult != BROADCAST_FINGER_OK) {
+            if (error) *error = [self messageForFingerResult:observeResult];
+            return;
+        }
         int result = broadcast_fingers_bind(
             &self->_fingers, identifier.UTF8String
         );
@@ -381,9 +370,20 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             if (error) *error = [self messageForFingerResult:result];
             return;
         }
+        NSError *transportError = nil;
+        if (![self.probeTransport attachSpeakerString:identifier
+                                                error:&transportError]) {
+            broadcast_fingers_unbind(
+                &self->_fingers, identifier.UTF8String
+            );
+            if (error) {
+                *error = transportError.localizedDescription ?:
+                    @"speaker_string_attach_failed";
+            }
+            return;
+        }
         [self persistWantedFingers];
-        [self synchronizeAudioRoute];
-        [self recordEvent:@"finger_bound" detail:identifier];
+        [self recordEvent:@"string_attached" detail:identifier];
         accepted = YES;
     };
     if (NSThread.isMainThread)
@@ -393,9 +393,18 @@ static const NSUInteger BroadcastMaximumEvents = 64;
     return accepted;
 }
 
-- (BOOL)unbindFinger:(NSString *)identifier error:(NSString **)error {
+- (BOOL)detachString:(NSString *)identifier error:(NSString **)error {
     __block BOOL accepted = NO;
     void (^unbind)(void) = ^{
+        NSError *transportError = nil;
+        if (![self.probeTransport detachSpeakerString:identifier
+                                                error:&transportError]) {
+            if (error) {
+                *error = transportError.localizedDescription ?:
+                    @"speaker_string_detach_failed";
+            }
+            return;
+        }
         int result = broadcast_fingers_unbind(
             &self->_fingers, identifier.UTF8String
         );
@@ -404,8 +413,7 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             return;
         }
         [self persistWantedFingers];
-        [self synchronizeAudioRoute];
-        [self recordEvent:@"finger_unbound" detail:identifier];
+        [self recordEvent:@"string_detached" detail:identifier];
         accepted = YES;
     };
     if (NSThread.isMainThread)
@@ -418,12 +426,13 @@ static const NSUInteger BroadcastMaximumEvents = 64;
 - (BOOL)playConnectionTest:(NSString **)error {
     __block BOOL accepted = NO;
     void (^play)(void) = ^{
-        if (!self.requested || !self.audioRouter.isRunning) {
+        if (!self.requested || !self.probeTransport.registered) {
             if (error) *error = @"broadcast_not_running";
             return;
         }
-        if (self.audioRouter.mappedChannels == 0) {
-            if (error) *error = @"no_bound_audio_outputs";
+        if (self.probeTransport.activeSpeakerStrings == 0 ||
+            self.probeTransport.mappedChannels == 0) {
+            if (error) *error = @"no_active_speaker_strings";
             return;
         }
 
@@ -438,9 +447,9 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             samples[frame * 2 + 1] = sample;
         }
         NSError *audioError = nil;
-        if (![self.audioRouter writePCM16Stereo:tone.bytes
-                                         length:tone.length
-                                          error:&audioError]) {
+        if (![self.probeTransport writePCM16Stereo:tone.bytes
+                                             length:tone.length
+                                              error:&audioError]) {
             if (error) *error = audioError.localizedDescription;
             [self recordEvent:@"test_tone_failed"
                        detail:audioError.localizedDescription];
@@ -462,15 +471,16 @@ static const NSUInteger BroadcastMaximumEvents = 64;
     __block BOOL accepted = NO;
     void (^probe)(void) = ^{
         self.lastProbeTimestampMs = [self wallClockMilliseconds];
-        if (!self.requested || !self.audioRouter.isRunning) {
+        if (!self.requested || !self.probeTransport.registered) {
             self.lastProbeResult = @"broadcast_not_running";
             if (error) *error = self.lastProbeResult;
             [self recordEvent:@"signal_probe_failed"
                        detail:self.lastProbeResult];
             return;
         }
-        if (self.audioRouter.mappedChannels == 0) {
-            self.lastProbeResult = @"no_bound_audio_outputs";
+        if (self.probeTransport.activeSpeakerStrings == 0 ||
+            self.probeTransport.mappedChannels == 0) {
+            self.lastProbeResult = @"no_active_speaker_strings";
             if (error) *error = self.lastProbeResult;
             [self recordEvent:@"signal_probe_failed"
                        detail:self.lastProbeResult];
@@ -487,9 +497,9 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             return;
         }
         NSError *audioError = nil;
-        if (![self.audioRouter writePCM16Stereo:silence.bytes
-                                         length:silence.length
-                                          error:&audioError]) {
+        if (![self.probeTransport writePCM16Stereo:silence.bytes
+                                             length:silence.length
+                                              error:&audioError]) {
             self.lastProbeResult = audioError.localizedDescription ?: @"probe_failed";
             if (error) *error = self.lastProbeResult;
             [self recordEvent:@"signal_probe_failed"
@@ -509,55 +519,22 @@ static const NSUInteger BroadcastMaximumEvents = 64;
     return accepted;
 }
 
-- (BOOL)setMultideviceMode:(BOOL)enabled error:(NSString **)error {
-    __block BOOL configured = NO;
-    void (^change)(void) = ^{
-        BOOL wasRunning = self.requested;
-        if (self.audioRouter.isRunning)
-            [self.audioRouter stop];
-        self.audioRouter.prefersMultidevice = enabled;
-        [NSUserDefaults.standardUserDefaults
-            setBool:enabled forKey:BroadcastPrefersMultidevice];
-        if (!wasRunning) {
-            [self recordEvent:@"mode_changed"
-                       detail:enabled ? @"multi" : @"compatible"];
-            configured = YES;
-            return;
-        }
-        NSError *audioError = nil;
-        if (![self.audioRouter startWithError:&audioError]) {
-            self.lastError = audioError.localizedDescription;
-            if (error) *error = self.lastError;
-            [self recordEvent:@"mode_change_failed"
-                       detail:self.lastError];
-            return;
-        }
-        [self synchronizeAudioRoute];
-        [self recordEvent:@"mode_changed"
-                   detail:enabled ? @"multi" : @"compatible"];
-        configured = YES;
-    };
-    if (NSThread.isMainThread)
-        change();
-    else
-        dispatch_sync(dispatch_get_main_queue(), change);
-    return configured;
-}
-
 - (BOOL)writePCM16Stereo:(const void *)bytes
                   length:(NSUInteger)length
                    error:(NSString **)error
 {
     __block BOOL written = NO;
     void (^write)(void) = ^{
-        if (self.audioRouter.mappedChannels == 0) {
-            if (error) *error = @"no_bound_audio_outputs";
+        if (!self.probeTransport.registered ||
+            self.probeTransport.activeSpeakerStrings == 0 ||
+            self.probeTransport.mappedChannels == 0) {
+            if (error) *error = @"no_active_speaker_strings";
             return;
         }
         NSError *audioError = nil;
-        written = [self.audioRouter writePCM16Stereo:bytes
-                                              length:length
-                                               error:&audioError];
+        written = [self.probeTransport writePCM16Stereo:bytes
+                                                  length:length
+                                                   error:&audioError];
         if (!written && error)
             *error = audioError.localizedDescription;
     };
@@ -566,68 +543,6 @@ static const NSUInteger BroadcastMaximumEvents = 64;
     else
         dispatch_sync(dispatch_get_main_queue(), write);
     return written;
-}
-
-- (void)audioRouteDidChange:(NSNotification *)notification {
-    (void)notification;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (!self.requested || !self.routeMonitoring)
-            return;
-        if (!self.audioRouter.isRunning) {
-            NSError *audioError = nil;
-            if (![self.audioRouter startWithError:&audioError]) {
-                self.lastError = audioError.localizedDescription;
-                return;
-            }
-        }
-        [self synchronizeAudioRoute];
-    });
-}
-
-- (void)audioSessionInterrupted:(NSNotification *)notification {
-    NSNumber *typeValue = notification.userInfo[
-        AVAudioSessionInterruptionTypeKey
-    ];
-    AVAudioSessionInterruptionType type = typeValue.unsignedIntegerValue;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if (type == AVAudioSessionInterruptionTypeBegan) {
-            [self.audioRouter stop];
-            if (self.requested) {
-                self.lastError = @"audio_interrupted";
-                [self recordEvent:@"audio_interrupted" detail:nil];
-            }
-            return;
-        }
-        if (!self.requested)
-            return;
-        NSError *audioError = nil;
-        if (![self.audioRouter startWithError:&audioError]) {
-            self.lastError = audioError.localizedDescription;
-            [self recordEvent:@"interruption_recovery_failed"
-                       detail:self.lastError];
-            return;
-        }
-        [self synchronizeAudioRoute];
-        [self recordEvent:@"interruption_recovered" detail:nil];
-    });
-}
-
-- (void)audioMediaServicesReset:(NSNotification *)notification {
-    (void)notification;
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self.audioRouter stop];
-        if (!self.requested)
-            return;
-        NSError *audioError = nil;
-        if (![self.audioRouter startWithError:&audioError]) {
-            self.lastError = audioError.localizedDescription;
-            [self recordEvent:@"media_reset_recovery_failed"
-                       detail:self.lastError];
-            return;
-        }
-        [self synchronizeAudioRoute];
-        [self recordEvent:@"media_services_recovered" detail:nil];
-    });
 }
 
 - (void)peripheralManagerDidUpdateState:
@@ -706,56 +621,89 @@ static const NSUInteger BroadcastMaximumEvents = 64;
                    detail:self.lastError];
     } else {
         [self recordEvent:@"advertising_started"
-                   detail:BroadcastLogicalName];
+                   detail:@"ble_status_service_only"];
     }
 }
 
 - (NSDictionary<NSString *, id> *)statusSnapshot {
     __block NSDictionary<NSString *, id> *snapshot;
     void (^read)(void) = ^{
-        NSSet<NSString *> *active = [self activeOutputUIDs];
         NSMutableArray<NSDictionary<NSString *, id> *> *devices =
             [NSMutableArray array];
-        for (size_t i = 0; i < self->_fingers.count; i++) {
-            const struct broadcast_finger *finger =
-                &self->_fingers.devices[i];
-            NSString *identifier = [NSString
-                stringWithUTF8String:finger->identifier];
+        NSArray<NSDictionary<NSString *, id> *> *transportStrings =
+            self.probeTransport.speakerStrings ?: @[];
+        NSUInteger rememberedStrings = 0;
+        NSUInteger activeStrings = 0;
+        NSUInteger stringCount = MIN(
+            transportStrings.count, (NSUInteger)BROADCAST_MAX_STRINGS
+        );
+        for (NSUInteger index = 0; index < stringCount; index++) {
+            NSDictionary<NSString *, id> *transportNode =
+                transportStrings[index];
+            NSString *identifier = transportNode[@"id"];
+            if (![identifier isKindOfClass:NSString.class] ||
+                !identifier.length)
+                continue;
+            NSString *name = transportNode[@"name"];
+            if (![name isKindOfClass:NSString.class] || !name.length)
+                name = @"generic Bluetooth speaker";
+            NSString *state = transportNode[@"state"];
+            if (![state isKindOfClass:NSString.class] || !state.length)
+                state = @"discovered";
+            NSString *evidence = transportNode[@"evidence"];
+            if (![evidence isKindOfClass:NSString.class] || !evidence.length)
+                evidence = @"none";
+            BOOL attached = [transportNode[@"attached"] boolValue];
+            BOOL active = [transportNode[@"active"] boolValue] &&
+                [evidence isEqualToString:@"native_a2dp_stream"];
+            if (attached)
+                rememberedStrings++;
+            if (attached && active)
+                activeStrings++;
             [devices addObject:@{
                 @"id": identifier,
-                @"name": [NSString stringWithUTF8String:finger->name],
-                @"active_route": @([active containsObject:identifier]),
-                @"finger": @(finger->wanted),
-                @"finger_state": [NSString stringWithUTF8String:
-                    broadcast_finger_state_name(finger->state)],
-                @"reconnect_attempts": @(finger->reconnect_attempts),
+                @"name": name,
+                @"active_route": @(active),
+                @"string_attached": @(attached),
+                @"string_state": state,
+                @"reconnect_attempts":
+                    transportNode[@"reconnect_attempts"] ?: @0,
+                @"role": @"a2dp_source",
+                @"evidence": evidence,
             }];
         }
 
-        NSArray<NSDictionary<NSString *, id> *> *audioOutputs =
-            [self.audioRouter outputStatus];
-        NSUInteger activeFingers = 0;
-        for (NSDictionary<NSString *, id> *output in audioOutputs) {
-            if ([output[@"enabled"] boolValue])
-                activeFingers++;
-        }
-        BOOL dualRoute = [self.audioRouter.sessionMode
-            isEqualToString:@"dualRoute"];
-        NSUInteger maximumActiveRoutes = dualRoute ? 2 : 1;
-        NSUInteger rememberedFingers = broadcast_fingers_wanted_count(
-            &self->_fingers
+        struct broadcast_probe_evidence probeEvidence = {
+            .native_a2dp_provider_available =
+                self.probeTransport.available,
+            .a2dp_sink_registered = self.probeTransport.registered,
+            .classic_findable = self.probeTransport.findable,
+            .classic_connectable = self.probeTransport.connectable,
+            .inbound_source_connections =
+                self.probeTransport.inboundSourceConnections,
+            .ble_gatt_advertising =
+                self.peripheralManager.isAdvertising,
+        };
+        struct broadcast_probe_result probeResult = {
+            .state = BROADCAST_PROBE_INVALID,
+        };
+        broadcast_probe_evaluate(
+            self.requested, &probeEvidence, &probeResult
         );
 
         struct broadcast_health_input healthInput = {
             .broadcast_requested = self.requested,
-            .bluetooth_ready = self.peripheralManager.state ==
-                CBManagerStatePoweredOn,
-            .control_service_ready = self.controlServiceReady,
-            .advertising = self.peripheralManager.isAdvertising,
-            .audio_engine_running = self.audioRouter.isRunning,
-            .remembered_fingers = rememberedFingers,
-            .active_fingers = activeFingers,
-            .mapped_channels = self.audioRouter.mappedChannels,
+            .a2dp_sink_provider_available =
+                self.probeTransport.available,
+            .a2dp_sink_registered = probeResult.registered,
+            .probe_findable = probeResult.findable,
+            .probe_connectable = probeResult.connectable,
+            .inbound_source_connected = probeResult.connected,
+            .audio_engine_running =
+                self.probeTransport.audioEngineRunning,
+            .remembered_strings = rememberedStrings,
+            .active_strings = activeStrings,
+            .mapped_channels = self.probeTransport.mappedChannels,
         };
         struct broadcast_health_result health = {
             .state = BROADCAST_HEALTH_INVALID,
@@ -767,50 +715,80 @@ static const NSUInteger BroadcastMaximumEvents = 64;
             broadcast_health_action(health.state)];
 
         NSDictionary<NSString *, id> *probe = @{
+            @"name": BroadcastLogicalName,
+            @"profile": @"classic_bluetooth_a2dp_sink",
+            @"state": [NSString stringWithUTF8String:
+                broadcast_probe_state_name(probeResult.state)],
+            @"provider": self.probeTransport.providerName,
+            @"provider_available": @(self.probeTransport.available),
+            @"registered": @(probeResult.registered),
+            @"findable": @(probeResult.findable),
+            @"connectable": @(probeResult.connectable),
+            @"inbound_source_connections":
+                @(self.probeTransport.inboundSourceConnections),
+            @"registration_evidence": probeResult.registered
+                ? @"native_a2dp_provider"
+                : @"none",
+            @"error": self.probeTransportError ?: [NSNull null],
+        };
+        NSDictionary<NSString *, id> *signalPathProbe = @{
             @"result": self.lastProbeResult ?: @"never",
             @"timestamp_ms": self.lastProbeTimestampMs ?: [NSNull null],
             @"scope": @"software signal path; physical sound requires listening",
+        };
+        NSDictionary<NSString *, id> *controlPlane = @{
+            @"transport": @"ble_gatt",
+            @"bluetooth_state": [self bluetoothStateName],
+            @"service_ready": @(self.controlServiceReady),
+            @"advertising": @(self.peripheralManager.isAdvertising),
+            @"service_uuid": BroadcastControlServiceUUID,
+            @"status_characteristic_uuid":
+                BroadcastStatusCharacteristicUUID,
+            @"counts_as_classic_speaker_registration": @NO,
         };
         NSBundle *bundle = NSBundle.mainBundle;
 
         snapshot = @{
             @"name": BroadcastLogicalName,
+            @"contract_version": @2,
+            @"topology": @"audio source -> broadcast[A2DP sink] -> string[1..10][A2DP source] -> generic speakers",
             @"captured_at_ms": [self wallClockMilliseconds],
             @"app_version": [bundle objectForInfoDictionaryKey:
                 @"CFBundleShortVersionString"] ?: @"unknown",
             @"build": [bundle objectForInfoDictionaryKey:
                 @"CFBundleVersion"] ?: @"unknown",
-            @"running": @(self.requested && self.audioRouter.isRunning),
+            @"running": @(self.requested &&
+                probeResult.registered &&
+                probeResult.findable &&
+                probeResult.connectable),
             @"broadcast_requested": @(self.requested),
-            @"advertising": @(self.peripheralManager.isAdvertising),
-            @"bluetooth_state": [self bluetoothStateName],
-            @"control_service_ready": @(self.controlServiceReady),
-            @"control_service_uuid": BroadcastControlServiceUUID,
-            @"status_characteristic_uuid":
-                BroadcastStatusCharacteristicUUID,
+            @"probe": probe,
+            @"control_plane": controlPlane,
+            @"probe_provider_available":
+                @(self.probeTransport.available),
+            @"probe_registered": @(probeResult.registered),
+            @"probe_findable": @(probeResult.findable),
+            @"probe_connectable": @(probeResult.connectable),
+            @"probe_connected": @(probeResult.connected),
             @"route_monitoring": @(self.routeMonitoring),
-            @"maximum_fingers": @(BROADCAST_MAX_FINGERS),
-            @"maximum_active_routes": @(maximumActiveRoutes),
-            @"route_limit": dualRoute
-                ? @"built-in plus one eligible bidirectional secondary device"
-                : @"one system-selected audio output",
-            @"fingers": @(rememberedFingers),
-            @"active_fingers": @(activeFingers),
-            @"devices": devices,
-            @"audio_outputs": audioOutputs,
-            @"audio_session_mode": self.audioRouter.sessionMode,
-            @"multidevice_requested":
-                @(self.audioRouter.prefersMultidevice),
-            @"audio_engine_running": @(self.audioRouter.isRunning),
+            @"maximum_strings": @(BROADCAST_MAX_STRINGS),
+            @"maximum_active_strings": @(BROADCAST_MAX_STRINGS),
+            @"route_limit": @"ten independent outbound A2DP source strings",
+            @"strings": @(rememberedStrings),
+            @"active_strings": @(activeStrings),
+            @"string_nodes": devices,
+            @"fanout_transport": @"native_a2dp_source_provider",
+            @"audio_engine_running":
+                @(self.probeTransport.audioEngineRunning),
             @"audio_format": @"s16le stereo 48000Hz",
-            @"mapped_channels": @(self.audioRouter.mappedChannels),
-            @"queued_frames": @(self.audioRouter.queuedFrames),
-            @"source_frames": @(self.audioRouter.sourceFrames),
+            @"mapped_channels": @(self.probeTransport.mappedChannels),
+            @"queued_frames": @(self.probeTransport.queuedFrames),
+            @"source_frames": @(self.probeTransport.sourceFrames),
             @"health_state": healthState,
             @"health_action": healthAction,
             @"health_ready": @(health.ready),
             @"can_run_audio_probe": @(health.can_run_audio_probe),
-            @"signal_path_probe": probe,
+            @"signal_path_probe": signalPathProbe,
             @"hardware_audio_confirmation": @"required",
             @"events": [self.events copy],
             @"error": self.lastError ?: [NSNull null],

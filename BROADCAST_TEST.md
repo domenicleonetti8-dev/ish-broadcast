@@ -1,89 +1,98 @@
-# broadcast device test
+# broadcast probe test
 
-## Settings-visible multi-speaker endpoint
+## Exact topology under test
 
-The dedicated portable Raspberry Pi/Linux hub is the component that must stay
-near the phone and appear in that same iPhone's Bluetooth Settings as
-`broadcast`. Eira's remote home Pi is not the radio endpoint. Install and pair
-the portable unit using
-[hub/README.md](hub/README.md), select **broadcast** on the iPhone, and play
-phone audio. `broadcast-status` must show an incoming `bluez_input.*` node and
-at least two independent active output routes. Completion requires hearing the
-same audio from at least two physical speakers; a source or graph test alone is
-not accepted as physical proof.
+`audio source -> broadcast [classic A2DP Sink] -> strings 1..10 [classic A2DP Source] -> generic speakers`
 
-The tests below cover the optional native iPhone controller and its direct iOS
-routes. Its BLE local name is visible to other devices, not to its own iPhone
-as an audio accessory.
+`broadcast` is the one discoverable and connectable speaker probe. A string is
+an independent outbound connection from that probe to one generic Bluetooth
+speaker. The phone-local product must not replace this topology with an iOS
+audio-route picker, a BLE-only name, a remote machine, or a pretend connection.
 
-## Native controller app
+## iSH control surface
 
-The app exposes the exact logical name `broadcast`, a readable BLE control
-service, and a live audio-route screen. A finger is a remembered logical
-output. The table can remember up to 10 fingers and rebuilds whenever an
-output joins, leaves, or changes position. Physical playback is limited to
-the routes iOS exposes: one system-selected output in Compatible mode, or the
-built-in route plus one eligible bidirectional secondary device in iOS 26.2
-dual-route mode.
+Inside this fork of iSH:
 
-## Ordinary Bluetooth speaker
+```sh
+printf 'start\n' > /dev/broadcast
+cat /dev/broadcast
+printf 'scan\n' > /dev/broadcast
+printf 'attach SPEAKER_ID\n' > /dev/broadcast
+printf 'detach SPEAKER_ID\n' > /dev/broadcast
+printf 'test\n' > /dev/broadcast
+printf 'stop\n' > /dev/broadcast
+```
 
-1. Pair the speaker in iPhone Settings.
-2. Open **broadcast** and tap the radio-wave control.
-3. Select **Compatible**.
-4. Tap **Choose Audio** and select the speaker.
-5. Wait for the speaker row to show `bound • active route`.
-6. Tap **Run Check**. The app checks Bluetooth permission/state, BLE service,
-   local-name advertisement, audio engine, bound route, and the PCM software
-   signal path.
-7. Tap **Test Sound** and confirm the 440 Hz tone is audible.
+`cat /dev/broadcast` returns one JSON record. The important fields are:
 
-## iOS multidevice route
+- `probe.profile`: `classic_bluetooth_a2dp_sink`
+- `probe.registered`, `findable`, `connectable`, and
+  `inbound_source_connections`: native transport evidence for the large bubble
+- `maximum_strings`: always `10`
+- `string_nodes`: smaller A2DP Source bubbles with independent state and
+  evidence
+- `control_plane.counts_as_classic_speaker_registration`: always `false`
+- `hardware_audio_confirmation`: `required` until a human hears the test tone
 
-1. On iOS 26.2 or newer, select **Multi**.
-2. Use **Choose Audio** to activate an eligible bidirectional Bluetooth
-   HFP/LE route. The built-in route remains available as the primary route.
-3. Check the wanted routes shown by iOS in the finger list.
-4. Tap **Test Sound**. The same stereo test buffer is mapped to every active
-   checked route; unchecked channels remain silent.
+`/dev/broadcast_audio` accepts whole frames of signed 16-bit little-endian,
+interleaved stereo PCM at 48 kHz. A write is rejected until the classic probe
+is registered and at least one speaker string is physically active.
 
-The screen reports requested mode, actual audio-session mode, Bluetooth
-state, advertising state, logical and active route counts, the current
-physical route maximum, mapped channels, and route errors. It does not claim
-that 10 ordinary Bluetooth speakers can be active when iOS exposes fewer
-routes. If **No sound** is selected after a test, the app switches to
-Compatible mode for a standard speaker retry.
+## Expected stock-iOS result
 
-The share button exports a timestamped JSON diagnostic report containing the
-current route snapshot, health state, last software probe, app/build identity,
-and the last 64 lifecycle events. `health_ready` means the software path is
-ready for a listening test; `hardware_audio_confirmation` remains `required`
-until a person actually hears the test sound.
+Tap **Register Probe** or write `start`. With only public stock-iOS APIs, the
+large bubble remains unregistered and the status is:
 
-## BLE control-service check
+```json
+{
+  "probe": {
+    "name": "broadcast",
+    "profile": "classic_bluetooth_a2dp_sink",
+    "state": "native_a2dp_provider_unavailable",
+    "registered": false,
+    "findable": false,
+    "connectable": false,
+    "registration_evidence": "none"
+  }
+}
+```
 
-From a second BLE-central device, scan while the app is in the foreground:
+That is a passing honesty check, not a physical Bluetooth pass. A BLE GATT scan
+from another device may see the separate status service UUID, but that service
+does not advertise the `broadcast` local name and must not change the classic
+probe state.
 
-- Local name: `broadcast`
-- Primary service: `B0ADC0DE-0000-4F1A-9000-000000000001`
-- Readable status characteristic:
-  `B0ADC0DE-0000-4F1A-9000-000000000002`
+## Native-provider integration proof
 
-Reading the status characteristic returns the same live JSON shown by
-`cat /dev/broadcast`.
+A linked class named `BroadcastNativeA2DPProbeTransport` must conform to
+`BroadcastA2DPProbeTransport`. Physical completion requires all of these:
 
-## Raw PCM input
+1. A separate Bluetooth source discovers exactly lowercase `broadcast` as a
+   classic audio speaker and connects to it.
+2. The report shows `probe.registered`, `findable`, and `connectable` from the
+   native provider, with at least one inbound source connection.
+3. Up to ten generic speakers appear as distinct `string_nodes`; each active
+   node has the exact transport evidence `native_a2dp_stream`.
+4. Attaching, detaching, or failing one string does not mutate another string's
+   connection or frame counter.
+5. The same PCM frames reach every active string; inactive strings remain
+   silent.
+6. **Test Sound** is heard on every active physical speaker.
 
-`/dev/broadcast_audio` accepts signed 16-bit little-endian, interleaved
-stereo PCM at 48 kHz. Writes must contain whole four-byte stereo frames and
-are rejected until at least one checked output is actively mapped.
+No software report alone may claim steps 1 or 6.
 
-## Repeatable core verification
+## Repeatable source verification
 
-Run `sh tests/run_broadcast_tests.sh`. The suite covers independent bind and
-reconnect states, the 10-finger limit, join/leave route rebuilds, exact
-stereo duplication, silent unchecked routes, per-sink failure isolation,
-signed PCM conversion (including unaligned input), readiness-state ordering,
-software-probe gating, 100,000 randomized finger
-operations, and 100,000 randomized route rebuilds. When available, it repeats
-the suite under AddressSanitizer and UndefinedBehaviorSanitizer.
+Run:
+
+```sh
+sh tests/run_broadcast_tests.sh
+```
+
+The suite checks the exact name and roles, native-evidence invariants, the
+ten-string ceiling, independent bind/reconnect state, per-string failure
+isolation, exact fan-out, PCM conversion and alignment, readiness ordering,
+100,000 randomized string operations, project wiring, the bubble UI markers,
+the `/dev` commands, and removal of the obsolete hardware detour. When the
+compiler supports them, the C tests repeat under AddressSanitizer and
+UndefinedBehaviorSanitizer.

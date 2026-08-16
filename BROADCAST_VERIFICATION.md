@@ -1,109 +1,76 @@
-# Broadcast verification record
+# broadcast verification record
 
-Date: 2026-08-15
+Date: 2026-08-16
 
 ## Deliverable identity
 
-- App display name: `broadcast`
+- Display and probe name: `broadcast`
 - Bundle identifier: `com.domenicleonetti8.broadcast`
-- Version: `1.5.0`
-- Build: `815`
-- BLE local name: `broadcast`
-- BLE service: `B0ADC0DE-0000-4F1A-9000-000000000001`
-- BLE status characteristic: `B0ADC0DE-0000-4F1A-9000-000000000002`
+- Version/build: `1.6.0 (816)`
+- Large-bubble role: classic Bluetooth `A2DP Sink`
+- Small-string role: classic Bluetooth `A2DP Source`
+- Maximum independent strings: `10`
+- iSH control device: `/dev/broadcast`
 - PCM device: `/dev/broadcast_audio`, signed 16-bit little-endian stereo,
   48 kHz
+- Separate BLE status service: `B0ADC0DE-0000-4F1A-9000-000000000001`
+- BLE status characteristic: `B0ADC0DE-0000-4F1A-9000-000000000002`
 
-## Evidence completed in this source tree
+## Completed and source-verifiable
 
-`sh tests/run_broadcast_tests.sh` passes both its normal and sanitizer runs.
-The suite verifies:
+- The single `broadcast` probe and ten-string topology is encoded as a hard
+  contract, including exact role and name constants.
+- Invalid evidence is rejected: a probe cannot become registered without a
+  native A2DP provider, and cannot become findable/connectable without A2DP
+  Sink registration.
+- BLE GATT advertising is carried as separate control-plane evidence and never
+  promotes classic-speaker state.
+- `BroadcastA2DPProbeTransport` defines the complete native seam: Sink
+  registration, source connection count, speaker discovery, string attach and
+  detach, PCM writes, active-string counts, and frame counters.
+- The stock provider returns a stable explicit unsupported result instead of
+  fabricating discovery or connection.
+- The UI renders one large `broadcast` A2DP Sink bubble with ten smaller linked
+  string slots. Colors are driven only by registered, attached, and exact
+  `native_a2dp_stream` evidence.
+- `/dev/broadcast` exposes start, stop, scan, attach, detach, test, and JSON
+  status. `/dev/broadcast_audio` rejects partial stereo frames and unavailable
+  routes.
+- The string registry enforces a ten-string ceiling, exponential reconnect
+  timing, independent joins/leaves, and bounded discovery storage.
+- The fan-out core duplicates complete frames to every active sink and records
+  failures per sink, so one failed write does not stop other strings.
+- The PCM core verifies signed extrema, half-scale samples, invalid sizes,
+  insufficient capacity, and unaligned input.
+- Stress tests execute 100,000 randomized registry/fan-out operations; normal
+  and supported sanitizer runs pass locally.
+- GitHub Ghost Probe compiles the unsigned arm64 iPhone app, checks compiled
+  identity and boundary markers, packages a standard unsigned IPA payload, and
+  publishes logs plus JSON/Markdown evidence.
 
-- bind, unbind, reconnect, discovery-table replacement, and the 10-finger
-  logical limit;
-- exact stereo route mapping, unchecked-route silence, route changes, and the
-  maximum selected-route bound;
-- raw PCM conversion for zero, signed extrema, half-scale samples, invalid
-  frame sizes, insufficient capacity, and unaligned input;
-- deterministic live readiness evaluation across stopped, Bluetooth, BLE
-  service, advertising, engine, finger, route, and ready states;
-- a silent PCM software-path probe, an explicit audible-hardware proof gate,
-  shareable diagnostics, and a bounded 64-event runtime timeline;
-- 100,000 randomized finger/fanout operations and 100,000 randomized route
-  rebuilds;
-- the app plist, storyboard XML, Xcode source phase, framework links, unique
-  Xcode object IDs, version/build numbers, bundle identifier, Ghost Probe
-  workflow, and TestFlight lane wiring.
-- exact lowercase `broadcast` enforcement in the Linux endpoint configuration
-  and BlueZ adapter alias;
-- WirePlumber 0.4 and 0.5 registration of both A2DP sink (phone input) and
-  A2DP source (speaker output) roles, with headless seat monitoring disabled;
-- dynamic paired/trusted Audio Sink discovery, controller binding, reconnect
-  cooldowns, allowlists, priority order, and the 10-speaker hard limit;
-- a separate `pw-loopback` process per speaker, dynamic joins/leaves,
-  per-speaker delay calibration, and proof that one failed route does not stop
-  another;
-- idempotent staged installation of the system service, user service, scripts,
-  shared configuration, and both supported WirePlumber formats.
+## Deliberately removed
 
-The GitHub **Ghost Probe** workflow is the compile gate for the current native
-iOS source. It runs on a hosted macOS runner, compiles an unsigned arm64
-iPhone app, inspects the compiled bundle and linked frameworks, searches the
-executable for the Broadcast device/UUID markers, packages a standard unsigned
-IPA payload, and publishes it with the logs and JSON/Markdown proof reports.
+- The remote/home-radio idea and portable Linux hardware direction.
+- Treating an iOS `AVRoutePickerView` or multiroute audio session as the
+  one-probe/ten-string product.
+- Giving the BLE control plane the `broadcast` local name or calling it an
+  old-school Bluetooth speaker.
+- Any unverified `connected` or physical-audio claim.
 
-## Evaluation of the supplied app archive
+## Remaining non-software boundary
 
-The supplied `ish-broadcast-iphone.zip` contains a real arm64 Mach-O iPhone
-app, but it is the older iSH `1.3.3` build `812`, not this `1.5.0` source. It
-has no `_CodeSignature` directory or embedded provisioning profile, lacks the
-current audio-route UI and PCM implementation, and is not installable on a
-stock iPhone. Its archive SHA-256 is:
+Public stock-iOS app APIs do not expose registration of classic A2DP Sink or
+A2DP Source profiles. Therefore the bundled stock provider correctly reports:
 
-`654aeea9ca81a50aa90b5e01b872283f9603900d4c17e45c452beb3a8abab096`
+- `provider_available: false`
+- `registered: false`
+- `findable: false`
+- `connectable: false`
+- `registration_evidence: none`
 
-That old app is deliberately excluded from the final source bundle so it
-cannot be mistaken for the current deliverable.
-
-## Physical behavior and hard limit
-
-The app can remember 10 logical fingers. Public iPhone audio routing still
-controls the number of simultaneous physical outputs:
-
-- Compatible mode: one system-selected audio output.
-- iOS 26.2 dual-route mode: the built-in route plus one eligible
-  bidirectional secondary device.
-
-The BLE name `broadcast` is advertised to **other BLE-central devices** while
-the app is running. An iPhone does not list its own advertisement in its own
-Bluetooth Settings screen, and a BLE control advertisement does not turn the
-iPhone into a Bluetooth speaker.
-
-The corrected Settings-visible path uses a separate dedicated portable
-Raspberry Pi/Linux radio kept within Bluetooth range of the phone and speakers:
-
-`iPhone -> A2DP sink named broadcast -> PipeWire -> A2DP speaker sinks`
-
-Eira's always-on home Pi may control the portable unit over Tailscale, but it
-is explicitly forbidden as the physical radio endpoint. The live installer
-requires `--portable`, and both services refuse hostname `eira`.
-
-The hub supports 10 eligible outputs in software. Five or more reliable
-independent Bluetooth streams should use a powered USB hub and separate
-Bluetooth controllers; actual radio bandwidth, codec support, and each
-speaker's internal buffering remain hardware limits. Per-speaker added delays
-can align faster speakers but cannot make unsupported radio concurrency real.
-
-## What constitutes a complete device proof
-
-Portable code, project wiring, installer staging, and failure isolation are
-verified here. The remaining hub proof cannot be fabricated by a source test:
-the hub must be installed on the dedicated portable unit, that unit must be
-physically near the phone and speakers, the same iPhone must list and connect
-to `broadcast`, `broadcast-status` must report at least two live routes, and
-the same phone audio must be heard on at least two independent speakers. Until
-those events are recorded, the source must not be described as physically
-Bluetooth-tested or guaranteed on the target radios.
-
-TestFlight signing is only relevant to the optional controller app. It is not
-required for the Raspberry Pi endpoint to appear in iPhone Bluetooth Settings.
+The software architecture is complete up to that native transport boundary.
+Physical completion requires a permitted native environment that implements
+`BroadcastNativeA2DPProbeTransport`, then real radio evidence that another
+source discovers/connects to `broadcast` and that independent generic speakers
+receive the test audio through their string nodes. Until both events occur,
+this source is not described as physically Bluetooth-proven.

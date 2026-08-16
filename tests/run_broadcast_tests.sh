@@ -15,15 +15,12 @@ run_test() {
     "$broadcast_tmp/$output"
 }
 
-run_test finger \
+run_test string_registry \
     app/BroadcastFingerTable.c \
     tests/broadcast_finger_table_test.c
 run_test fanout \
     app/BroadcastFanout.c \
     tests/broadcast_fanout_test.c
-run_test route_map \
-    app/BroadcastRouteMap.c \
-    tests/broadcast_route_map_test.c
 run_test pcm \
     app/BroadcastPCM.c \
     tests/broadcast_pcm_test.c \
@@ -31,27 +28,14 @@ run_test pcm \
 run_test health \
     app/BroadcastHealth.c \
     tests/broadcast_health_test.c
-run_test state_stress \
+run_test probe_contract \
+    app/BroadcastProbeContract.c \
+    tests/broadcast_probe_contract_test.c
+run_test string_stress \
     app/BroadcastFingerTable.c \
     app/BroadcastFanout.c \
     tests/broadcast_stress_test.c
-run_test route_stress \
-    app/BroadcastRouteMap.c \
-    tests/broadcast_route_stress_test.c
-
 "$broadcast_python" tests/validate_broadcast_project.py
-"$broadcast_python" -m py_compile \
-    hub/broadcast_common.py \
-    hub/broadcast_bluez.py \
-    hub/broadcast_hub.py
-"$broadcast_python" -m unittest discover -s hub/tests -p 'test_*.py'
-sh -n \
-    hub/install.sh \
-    hub/bin/assert-portable-host.sh \
-    hub/bin/prepare-controller-class.sh \
-    hub/bin/pair-speaker.sh \
-    hub/bin/broadcast-status.sh
-sh hub/tests/test_install.sh
 
 if "$broadcast_cc" -fsanitize=address,undefined -x c -o \
     "$broadcast_tmp/sanitizer_probe" - >/dev/null 2>&1 <<'PROBE'
@@ -61,15 +45,12 @@ then
     broadcast_flags="$broadcast_flags -fsanitize=address,undefined -fno-omit-frame-pointer"
     ASAN_OPTIONS=detect_leaks=0
     export ASAN_OPTIONS
-    run_test finger_sanitized \
+    run_test string_registry_sanitized \
         app/BroadcastFingerTable.c \
         tests/broadcast_finger_table_test.c
     run_test fanout_sanitized \
         app/BroadcastFanout.c \
         tests/broadcast_fanout_test.c
-    run_test route_map_sanitized \
-        app/BroadcastRouteMap.c \
-        tests/broadcast_route_map_test.c
     run_test pcm_sanitized \
         app/BroadcastPCM.c \
         tests/broadcast_pcm_test.c \
@@ -77,11 +58,11 @@ then
     run_test health_sanitized \
         app/BroadcastHealth.c \
         tests/broadcast_health_test.c
-    run_test state_stress_sanitized \
+    run_test probe_contract_sanitized \
+        app/BroadcastProbeContract.c \
+        tests/broadcast_probe_contract_test.c
+    run_test string_stress_sanitized \
         app/BroadcastFingerTable.c \
         app/BroadcastFanout.c \
         tests/broadcast_stress_test.c
-    run_test route_stress_sanitized \
-        app/BroadcastRouteMap.c \
-        tests/broadcast_route_stress_test.c
 fi

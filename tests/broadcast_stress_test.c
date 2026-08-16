@@ -107,6 +107,6 @@ int main(void) {
         assert_invariants(&fingers, &fanout);
     }
 
-    puts("broadcast_stress_test: PASS (100000 operations)");
+    puts("broadcast_string_stress_test: PASS (100000 operations)");
     return 0;
 }

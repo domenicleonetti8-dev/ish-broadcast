@@ -1,30 +1,37 @@
-# broadcast: iPhone to many Bluetooth speakers
+# broadcast: one speaker probe, ten strings
 
-The real Bluetooth endpoint is a **dedicated portable** Raspberry Pi/Linux hub
-that stays physically near the iPhone and speakers. It is configured as a
-classic A2DP audio accessory named exactly **broadcast**, so it can appear in
-the iPhone's own **Settings > Bluetooth** list wherever the portable hub goes.
-The phone sends one audio stream to the hub; PipeWire fans it out through
-isolated routes to as many as 10 paired and trusted Bluetooth speakers. See
-[hub/README.md](hub/README.md) for installation and the physical proof gate.
+The product contract is one large classic-Bluetooth speaker probe named exactly
+**broadcast**, with up to ten smaller independent speaker strings attached:
 
-Eira's always-on home Pi is control-plane only and is explicitly forbidden as
-the physical Bluetooth endpoint. Tailscale can control a distant broadcaster,
-but it cannot extend Bluetooth radio range. The live installer and both
-services refuse to run when the host is named `eira`.
+`audio source -> broadcast [A2DP Sink] -> strings 1..10 [A2DP Source] -> generic Bluetooth speakers`
 
-This fork also contains the native iPhone app **broadcast**. The app provides a
-BLE control/status service, remembers 10 logical fingers, accepts 48 kHz stereo
-PCM through `/dev/broadcast_audio`, and tests iOS-selected routes. Version
-1.5.0 adds an in-app readiness engine, silent software signal-path probe,
-64-event diagnostic timeline, and shareable JSON report. A green software
-check still requires the audible **Test Sound** step before hardware is called
-proven. It is an
-optional controller, not the same iPhone's Bluetooth audio accessory: an iPhone
-cannot discover its own app advertisement in its Bluetooth Settings screen.
-See [BROADCAST_TEST.md](BROADCAST_TEST.md) and
-[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md) for exact evidence and
-platform limits.
+The large probe must be registered as an old-school A2DP speaker, findable and
+connectable as `broadcast`. Each small string discovers, attaches, streams,
+disconnects, and reconnects independently. One string failure must never stop
+another. The topology screen renders the large `broadcast` bubble and ten
+smaller connected string bubbles; a bubble becomes active only when its native
+transport supplies physical-route evidence.
+
+This is a phone-local iSH fork. There is no remote radio, Linux appliance, or
+second box in the architecture. iSH controls the native side through
+`/dev/broadcast`, and signed 16-bit stereo PCM enters through
+`/dev/broadcast_audio` at 48 kHz.
+
+Version 1.6.0 completes the probe contract, ten-string state/failure model,
+native transport plug-in seam, bubble topology UI, BLE status control plane,
+PCM input, diagnostics, stress tests, and unsigned iPhone build gate. The BLE
+service is deliberately separate and advertises only its service UUID; it does
+not take the `broadcast` device name or count as classic-speaker registration.
+
+The remaining execution boundary is explicit. Stock iOS public APIs do not let
+an app register the classic A2DP Sink/Source profiles. The built-in provider
+therefore reports `native_a2dp_provider_unavailable`; it never invents a
+findable or connected state. A native environment that can supply those
+profiles plugs in as `BroadcastNativeA2DPProbeTransport` without changing the
+probe, string, `/dev`, UI, or evidence contract. See
+[BROADCAST_TEST.md](BROADCAST_TEST.md) and
+[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md). The provider ABI and
+evidence schema are defined in [NATIVE_TRANSPORT.md](NATIVE_TRANSPORT.md).
 
 The App Store and public TestFlight links in the upstream section below install
 the original iSH app. They do **not** install this Broadcast fork.

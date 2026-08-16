@@ -13,16 +13,17 @@ from typing import Any
 
 
 REQUIRED_FRAMEWORKS = (
-    "AVFoundation",
-    "AudioToolbox",
-    "AVKit",
     "CoreBluetooth",
 )
 REQUIRED_BINARY_STRINGS = (
     "broadcast",
     "/dev/broadcast_audio",
-    "singleRouteFallback",
-    "ready_for_listening_test",
+    "classic_bluetooth_a2dp_sink",
+    "native_a2dp_provider_unavailable",
+    "a2dp_sink_provider_unavailable_on_stock_ios",
+    "BroadcastNativeA2DPProbeTransport",
+    "findable_and_connectable",
+    "Attached Bluetooth speaker strings",
     "hardware_audio_confirmation",
     "Run Check",
     "B0ADC0DE-0000-4F1A-9000-000000000001",
@@ -78,8 +79,8 @@ def main() -> int:
         bundle_id == "com.domenicleonetti8.broadcast",
         f"CFBundleIdentifier={bundle_id!r}",
     )
-    check("Broadcast version", version == "1.5.0", f"version={version!r}")
-    check("Broadcast build", build == "815", f"build={build!r}")
+    check("Broadcast version", version == "1.6.0", f"version={version!r}")
+    check("Broadcast build", build == "816", f"build={build!r}")
     check(
         "Background audio mode",
         "audio" in background_modes,
@@ -145,6 +146,7 @@ def main() -> int:
         "app": str(app),
         "signed": signed,
         "installable_on_stock_iphone": False,
+        "classic_a2dp_provider_included": False,
         "physical_bluetooth_tested": False,
         "checks": checks,
     }
@@ -162,6 +164,7 @@ def main() -> int:
         f"- Ref: `{result['ref']}`",
         f"- Signing payload detected: {'yes' if signed else 'no'}",
         "- Stock-iPhone installability: no; this probe verifies the unsigned build",
+        "- Classic A2DP provider: interface compiled; stock-iOS provider intentionally reports unavailable",
         "- Physical Bluetooth radio test: not available on a hosted runner",
         "",
         "| Check | Result | Detail |",

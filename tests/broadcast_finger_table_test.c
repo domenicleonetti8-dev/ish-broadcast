@@ -145,6 +145,6 @@ int main(void) {
     test_discovery_table_boundary();
     test_invalid_operations();
     test_long_audio_route_uid();
-    puts("broadcast_finger_table_test: PASS");
+    puts("broadcast_string_registry_test: PASS");
     return 0;
 }

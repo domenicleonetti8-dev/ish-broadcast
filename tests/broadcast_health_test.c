@@ -24,35 +24,42 @@ int main(void) {
     expect_state(input, BROADCAST_HEALTH_STOPPED, false, false);
 
     input.broadcast_requested = true;
-    expect_state(input, BROADCAST_HEALTH_BLUETOOTH_UNAVAILABLE,
+    expect_state(input, BROADCAST_HEALTH_A2DP_SINK_UNAVAILABLE,
                  false, false);
 
-    input.bluetooth_ready = true;
-    expect_state(input, BROADCAST_HEALTH_CONTROL_SERVICE_PENDING,
+    input.a2dp_sink_provider_available = true;
+    expect_state(input, BROADCAST_HEALTH_A2DP_SINK_REGISTRATION_PENDING,
                  false, false);
 
-    input.control_service_ready = true;
-    expect_state(input, BROADCAST_HEALTH_ADVERTISING_PENDING,
+    input.a2dp_sink_registered = true;
+    expect_state(input, BROADCAST_HEALTH_A2DP_SINK_DISCOVERABILITY_PENDING,
                  false, false);
 
-    input.advertising = true;
-    expect_state(input, BROADCAST_HEALTH_AUDIO_ENGINE_OFFLINE,
+    input.probe_findable = true;
+    expect_state(input, BROADCAST_HEALTH_A2DP_SINK_DISCOVERABILITY_PENDING,
+                 false, false);
+
+    input.probe_connectable = true;
+    expect_state(input, BROADCAST_HEALTH_INBOUND_CONNECTION_PENDING,
+                 false, false);
+
+    input.inbound_source_connected = true;
+    expect_state(input, BROADCAST_HEALTH_NO_STRINGS, false, false);
+
+    input.remembered_strings = 2;
+    expect_state(input, BROADCAST_HEALTH_STRING_ROUTE_PENDING,
                  false, false);
 
     input.audio_engine_running = true;
-    expect_state(input, BROADCAST_HEALTH_NO_FINGERS, false, false);
-
-    input.remembered_fingers = 2;
-    expect_state(input, BROADCAST_HEALTH_ROUTE_PENDING, false, false);
-
-    input.active_fingers = 1;
-    expect_state(input, BROADCAST_HEALTH_ROUTE_PENDING, false, false);
+    input.active_strings = 1;
+    expect_state(input, BROADCAST_HEALTH_STRING_ROUTE_PENDING,
+                 false, false);
 
     input.mapped_channels = 2;
     expect_state(input, BROADCAST_HEALTH_READY, true, true);
 
-    input.bluetooth_ready = false;
-    expect_state(input, BROADCAST_HEALTH_BLUETOOTH_UNAVAILABLE,
+    input.a2dp_sink_provider_available = false;
+    expect_state(input, BROADCAST_HEALTH_A2DP_SINK_UNAVAILABLE,
                  false, true);
 
     struct broadcast_health_result result;
