@@ -79,8 +79,8 @@ def main() -> int:
         bundle_id == "com.domenicleonetti8.broadcast",
         f"CFBundleIdentifier={bundle_id!r}",
     )
-    check("Broadcast version", version == "1.6.0", f"version={version!r}")
-    check("Broadcast build", build == "816", f"build={build!r}")
+    check("Broadcast version", version == "1.7.0", f"version={version!r}")
+    check("Broadcast build", build == "817", f"build={build!r}")
     check(
         "Background audio mode",
         "audio" in background_modes,

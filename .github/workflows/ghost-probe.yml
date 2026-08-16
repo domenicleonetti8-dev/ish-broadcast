@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   contract:
-    name: Verify probe and string contract
+    name: Verify real probe and string bridge
     runs-on: ubuntu-24.04
     timeout-minutes: 15
 
@@ -31,12 +31,29 @@ jobs:
           set -o pipefail
           sh tests/run_broadcast_tests.sh 2>&1 | tee broadcast-contract-tests.log
 
+      - name: Package portable Bluetooth probe
+        shell: bash
+        run: |
+          tar -czf broadcast-portable-probe.tar.gz \
+            probe \
+            README.md \
+            BROADCAST_TEST.md \
+            BROADCAST_VERIFICATION.md \
+            NATIVE_TRANSPORT.md
+
       - name: Upload contract evidence
         if: always()
         uses: actions/upload-artifact@v7
         with:
           name: broadcast-contract-evidence
           path: broadcast-contract-tests.log
+          if-no-files-found: error
+
+      - name: Upload portable Bluetooth probe
+        uses: actions/upload-artifact@v7
+        with:
+          name: broadcast-portable-probe
+          path: broadcast-portable-probe.tar.gz
           if-no-files-found: error
 
   probe:

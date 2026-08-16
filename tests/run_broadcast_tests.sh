@@ -3,6 +3,8 @@ set -eu
 
 broadcast_cc=${CC:-cc}
 broadcast_python=${PYTHON:-python3}
+PYTHONDONTWRITEBYTECODE=1
+export PYTHONDONTWRITEBYTECODE
 broadcast_tmp=$(mktemp -d)
 trap 'rm -rf "$broadcast_tmp"' EXIT HUP INT TERM
 
@@ -36,6 +38,8 @@ run_test string_stress \
     app/BroadcastFanout.c \
     tests/broadcast_stress_test.c
 "$broadcast_python" tests/validate_broadcast_project.py
+"$broadcast_python" -m unittest discover -s probe/tests -p 'test_*.py' -v
+sh probe/tests/test_install.sh
 
 if "$broadcast_cc" -fsanitize=address,undefined -x c -o \
     "$broadcast_tmp/sanitizer_probe" - >/dev/null 2>&1 <<'PROBE'

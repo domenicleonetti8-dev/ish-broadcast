@@ -1,98 +1,87 @@
-# broadcast probe test
+# broadcast bridge test
 
-## Exact topology under test
+## Exact topology
 
 `audio source -> broadcast [classic A2DP Sink] -> strings 1..10 [classic A2DP Source] -> generic speakers`
 
-`broadcast` is the one discoverable and connectable speaker probe. A string is
-an independent outbound connection from that probe to one generic Bluetooth
-speaker. The phone-local product must not replace this topology with an iOS
-audio-route picker, a BLE-only name, a remote machine, or a pretend connection.
+`broadcast` is a separate portable Bluetooth probe. It is the discoverable
+speaker. The iPhone is an ordinary source: open Bluetooth settings, find
+`broadcast`, and tap it. Each smaller string is a real independent outbound
+connection from the probe to a generic Bluetooth speaker.
 
-## iSH control surface
+## Automated source verification
 
-Inside this fork of iSH:
-
-```sh
-printf 'start\n' > /dev/broadcast
-cat /dev/broadcast
-printf 'scan\n' > /dev/broadcast
-printf 'attach SPEAKER_ID\n' > /dev/broadcast
-printf 'detach SPEAKER_ID\n' > /dev/broadcast
-printf 'test\n' > /dev/broadcast
-printf 'stop\n' > /dev/broadcast
-```
-
-`cat /dev/broadcast` returns one JSON record. The important fields are:
-
-- `probe.profile`: `classic_bluetooth_a2dp_sink`
-- `probe.registered`, `findable`, `connectable`, and
-  `inbound_source_connections`: native transport evidence for the large bubble
-- `maximum_strings`: always `10`
-- `string_nodes`: smaller A2DP Source bubbles with independent state and
-  evidence
-- `control_plane.counts_as_classic_speaker_registration`: always `false`
-- `hardware_audio_confirmation`: `required` until a human hears the test tone
-
-`/dev/broadcast_audio` accepts whole frames of signed 16-bit little-endian,
-interleaved stereo PCM at 48 kHz. A write is rejected until the classic probe
-is registered and at least one speaker string is physically active.
-
-## Expected stock-iOS result
-
-Tap **Register Probe** or write `start`. With only public stock-iOS APIs, the
-large bubble remains unregistered and the status is:
-
-```json
-{
-  "probe": {
-    "name": "broadcast",
-    "profile": "classic_bluetooth_a2dp_sink",
-    "state": "native_a2dp_provider_unavailable",
-    "registered": false,
-    "findable": false,
-    "connectable": false,
-    "registration_evidence": "none"
-  }
-}
-```
-
-That is a passing honesty check, not a physical Bluetooth pass. A BLE GATT scan
-from another device may see the separate status service UUID, but that service
-does not advertise the `broadcast` local name and must not change the classic
-probe state.
-
-## Native-provider integration proof
-
-A linked class named `BroadcastNativeA2DPProbeTransport` must conform to
-`BroadcastA2DPProbeTransport`. Physical completion requires all of these:
-
-1. A separate Bluetooth source discovers exactly lowercase `broadcast` as a
-   classic audio speaker and connects to it.
-2. The report shows `probe.registered`, `findable`, and `connectable` from the
-   native provider, with at least one inbound source connection.
-3. Up to ten generic speakers appear as distinct `string_nodes`; each active
-   node has the exact transport evidence `native_a2dp_stream`.
-4. Attaching, detaching, or failing one string does not mutate another string's
-   connection or frame counter.
-5. The same PCM frames reach every active string; inactive strings remain
-   silent.
-6. **Test Sound** is heard on every active physical speaker.
-
-No software report alone may claim steps 1 or 6.
-
-## Repeatable source verification
-
-Run:
+Run from the repository:
 
 ```sh
 sh tests/run_broadcast_tests.sh
 ```
 
-The suite checks the exact name and roles, native-evidence invariants, the
-ten-string ceiling, independent bind/reconnect state, per-string failure
-isolation, exact fan-out, PCM conversion and alignment, readiness ordering,
-100,000 randomized string operations, project wiring, the bubble UI markers,
-the `/dev` commands, and removal of the obsolete hardware detour. When the
-compiler supports them, the C tests repeat under AddressSanitizer and
-UndefinedBehaviorSanitizer.
+The suite verifies:
+
+- exact lowercase name and A2DP role UUIDs;
+- BlueZ adapter readback after configuration;
+- rejection of setter-only and stale evidence;
+- generic inbound pairing and resolved A2DP Source evidence;
+- paired/trusted/resolved outbound A2DP Sink evidence;
+- matching PipeWire `bluez_input.*` and `bluez_output.*` nodes;
+- a separate live `pw-loopback` for every speaker string;
+- ten-string limit, reconnect cooldown, per-speaker delay, and failure
+  isolation;
+- staged portable installer, service files, WirePlumber role configuration,
+  idempotence, and Eira-host refusal;
+- C registry, fan-out, PCM, health, stress, sanitizer, and iOS-controller
+  regression checks.
+
+The Python tests use controlled BlueZ and PipeWire snapshots to prove the logic.
+They never count those snapshots as real radio or audible evidence.
+
+## Install on the portable probe
+
+On a supported Debian/Raspberry Pi OS host that travels with the phone and
+speakers:
+
+```sh
+bluetoothctl list
+sudo sh probe/install.sh \
+  --portable \
+  --user PROBE_USER \
+  --input-controller INPUT_CONTROLLER_MAC
+```
+
+Pair each output speaker to its assigned output controller:
+
+```sh
+sudo broadcast-pair-speaker CONTROLLER_MAC SPEAKER_MAC
+```
+
+## Real connection test
+
+1. Run `broadcast-status`; registration must be false until BlueZ readback
+   contains the exact alias and local Audio Sink UUID.
+2. On the iPhone, open Bluetooth settings and tap `broadcast`.
+3. Confirm the status contains a paired, connected, service-resolved inbound
+   Audio Source and a matching `bluez_input.*` node.
+4. Power on a paired generic speaker.
+5. Confirm its string contains a connected, service-resolved Audio Sink,
+   matching `bluez_output.*` node, and live loopback process.
+6. Start audio on the iPhone. `end_to_end_streaming` becomes true only while
+   the matched PipeWire nodes report `running`.
+7. Hear the audio from the real speaker.
+
+Disconnecting one speaker must remove only that string. Other connected strings
+must continue.
+
+## Honesty gate
+
+The following never count as connection proof:
+
+- an app or BLE advertisement named `broadcast`;
+- a successful setter or process launch without readback;
+- an iOS route-picker selection;
+- a generated test fixture;
+- a stale status file;
+- a compiled IPA.
+
+Software status permanently says `physical_audio_proof: not-recorded` until
+the real room test is separately documented.

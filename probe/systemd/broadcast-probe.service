@@ -1,0 +1,16 @@
+[Unit]
+Description=Broadcast PipeWire multi-speaker fanout
+After=pipewire.service wireplumber.service
+Wants=pipewire.service wireplumber.service
+
+[Service]
+Type=simple
+ExecStartPre=/usr/local/lib/broadcast-probe/assert-portable-host.sh
+ExecStart=/usr/bin/python3 /usr/local/lib/broadcast-probe/broadcast_probe.py --config /etc/broadcast-probe/config.json
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=default.target

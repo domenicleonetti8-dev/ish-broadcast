@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the phone-local probe contract and iOS project wiring."""
+"""Validate the real portable probe contract and iOS project wiring."""
 
 from pathlib import Path
 import plistlib
@@ -183,14 +183,14 @@ def validate_release_wiring() -> None:
     )
     project_config = read("app/Project.xcconfig")
     require(
-        "MARKETING_VERSION = 1.6.0" in project_config,
-        "broadcast marketing version is not 1.6.0",
+        "MARKETING_VERSION = 1.7.0" in project_config,
+        "broadcast marketing version is not 1.7.0",
     )
 
     project = read("iSH.xcodeproj/project.pbxproj")
     require(
-        project.count("CURRENT_PROJECT_VERSION = 816;") == 4,
-        "broadcast build number is not consistently 816",
+        project.count("CURRENT_PROJECT_VERSION = 817;") == 4,
+        "broadcast build number is not consistently 817",
     )
 
     workflow = read(".github/workflows/ghost-probe.yml")
@@ -202,6 +202,10 @@ def validate_release_wiring() -> None:
     require(
         "broadcast-unsigned-iphone.ipa" in workflow,
         "Ghost Probe does not publish the unsigned build",
+    )
+    require(
+        "broadcast-portable-probe.tar.gz" in workflow,
+        "Ghost Probe does not package the real portable probe",
     )
     require("hub/" not in workflow, "obsolete hardware hub remains in CI")
 
@@ -216,27 +220,53 @@ def validate_release_wiring() -> None:
     )
 
 
-def validate_no_hardware_detour() -> None:
+def validate_real_probe_target() -> None:
     hub = ROOT / "hub"
     remaining = [] if not hub.exists() else [
         path for path in hub.rglob("*")
         if path.is_file() and "__pycache__" not in path.parts
     ]
     require(not remaining, f"obsolete portable hub files remain: {remaining}")
-    checked = (
-        "README.md",
-        "BROADCAST_TEST.md",
-        "BROADCAST_VERIFICATION.md",
-        "NATIVE_TRANSPORT.md",
+    required_files = (
+        "probe/broadcast_bluez.py",
+        "probe/broadcast_probe.py",
+        "probe/config/wireplumber-0.5.conf",
+        "probe/install.sh",
+        "probe/systemd/broadcast-bluetooth.service",
+        "probe/systemd/broadcast-probe.service",
     )
-    forbidden = ("Raspberry Pi", "dedicated portable", "Eira's", "[hub/")
-    for relative in checked:
-        contents = read(relative)
-        for phrase in forbidden:
-            require(
-                phrase not in contents,
-                f"{relative} still contains hardware-detour phrase: {phrase}",
-            )
+    for relative in required_files:
+        require((ROOT / relative).is_file(), f"missing real probe file: {relative}")
+
+    bluez = read("probe/broadcast_bluez.py")
+    for token in (
+        "A2DP_SINK_UUID",
+        "A2DP_SOURCE_UUID",
+        'verified_input.alias == DEVICE_NAME',
+        'speaker.services_resolved',
+        '"profile_connected"',
+        'self.backend.adapters()',
+    ):
+        require(token in bluez, f"missing real BlueZ evidence gate: {token}")
+
+    probe = read("probe/broadcast_probe.py")
+    for token in (
+        '"pw-loopback"',
+        '"bluez_device_connected"',
+        '"pipewire_bluez_output"',
+        '"route_process_alive"',
+        '"physical_audio_proof": "not-recorded"',
+        '"end_to_end_streaming"',
+    ):
+        require(token in probe, f"missing real route evidence gate: {token}")
+    require(
+        'DEVICE_NAME = "broadcast"' in read("probe/broadcast_common.py"),
+        "portable probe name must be exactly broadcast",
+    )
+    require(
+        'MAX_OUTPUTS = 10' in read("probe/broadcast_common.py"),
+        "portable probe must expose ten independent strings",
+    )
 
 
 def main() -> None:
@@ -245,7 +275,7 @@ def main() -> None:
     validate_bridge()
     validate_xcode_project()
     validate_release_wiring()
-    validate_no_hardware_detour()
+    validate_real_probe_target()
     print("validate_broadcast_project: PASS")
 
 

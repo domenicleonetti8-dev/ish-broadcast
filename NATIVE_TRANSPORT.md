@@ -1,68 +1,67 @@
-# Native transport contract
+# Portable probe transport contract
 
-`BroadcastNativeA2DPProbeTransport` is the only missing radio-facing component.
-It is loaded by class name and must conform to
-`BroadcastA2DPProbeTransport`. The rest of the product does not change when a
-provider is linked.
+The real Bluetooth endpoint is the portable probe. The iPhone discovers
+`broadcast` as a normal Classic Bluetooth speaker and completes the standard
+pairing handshake. The iPhone app does not register the endpoint.
 
-## Large probe
+## Radio roles
 
-`startWithName:error:` receives exactly `broadcast`. Success means the provider
-has registered a virtual classic-Bluetooth audio endpoint with the A2DP Sink
-role. The provider then exposes independent evidence through these properties:
+The probe owns these simultaneous roles:
 
-- `registered`: the classic A2DP Sink service/profile registration exists;
-- `findable`: the virtual endpoint is visible to the intended Bluetooth source;
-- `connectable`: that source can select and connect to it;
-- `inboundSourceConnections`: the count of established inbound A2DP source
-  sessions.
+- one inbound Classic Bluetooth A2DP Sink named exactly `broadcast`;
+- up to ten independent outbound Classic Bluetooth A2DP Source strings;
+- one PipeWire loopback per connected speaker, so a failed output cannot stop
+  another output.
 
-On the phone-local target, “findable” means the source-side system Bluetooth UI
-can resolve the virtual endpoint as `broadcast`; a BLE advertisement, app name,
-or GATT service is not evidence. An impossible combination is rejected by
-`BroadcastProbeContract`.
+BlueZ supplies pairing, trust, profile connection, and controller evidence.
+WirePlumber registers both A2DP roles. PipeWire supplies the live audio nodes
+and fans the inbound stream out to the speaker sinks.
 
-## Speaker strings
+## Registration proof
 
-`startSpeakerDiscovery` begins discovery of generic classic Bluetooth Audio
-Sink devices. `speakerStrings` returns at most ten dictionaries with this
-schema:
+The probe is not registered merely because a command succeeded. The BlueZ
+service rereads the adapter and requires all of the following:
 
-| Key | Type | Meaning |
-|---|---|---|
-| `id` | string | Stable native device identifier |
-| `name` | string | Speaker name |
-| `state` | string | `discovered`, `attaching`, `attached`, `streaming`, `reconnecting`, or `error` |
-| `attached` | boolean | User selected this string |
-| `active` | boolean | A2DP media stream is currently established |
-| `evidence` | string | Exactly `native_a2dp_stream` when active; otherwise `none` |
-| `reconnect_attempts` | integer | Per-string retry count |
+- controller powered;
+- alias exactly `broadcast`;
+- pairable and discoverable;
+- the local Audio Sink UUID `0000110b-0000-1000-8000-00805f9b34fb`.
 
-`attachSpeakerString:error:` and `detachSpeakerString:error:` affect only the
-named string. Discovery, retry timers, queues, codec state, frame counters, and
-errors must be isolated per identifier.
+Only that readback can set `probe_registered`, `probe_findable`, or
+`probe_connectable`.
 
-## PCM and fan-out
+## Inbound connection proof
 
-`writePCM16Stereo:length:error:` accepts signed 16-bit little-endian,
-interleaved stereo PCM at 48 kHz. It must queue the same complete frames to each
-active string. A failed or full queue increments only that string's failure
-state and cannot stop writes to other active strings. The provider exposes
-aggregate `sourceFrames`, `queuedFrames`, `mappedChannels`,
-`activeSpeakerStrings`, and `audioEngineRunning` for health evidence.
+The large probe is connected only when BlueZ observes a paired, unblocked,
+connected device on the input controller whose services are resolved and
+include the Audio Source UUID, and PipeWire exposes the matching
+`bluez_input.*` node. Streaming requires that input node to report
+`running`.
 
-The in-tree `BroadcastFanout`, `BroadcastPCM`, and string registry cores are the
-reference semantics and are covered by deterministic, randomized, sanitizer,
-and failure-isolation tests.
+## Speaker-string proof
 
-## Stop and proof
+A smaller string is connected only when all four facts exist for the same
+Bluetooth address:
 
-`stopSpeakerDiscovery` stops discovery without fabricating disconnects.
-`stop` closes inbound and outbound profile sessions and removes the virtual
-classic endpoint. The provider must never preserve `registered`, `findable`,
-`connectable`, `active`, or `native_a2dp_stream` after the underlying native
-evidence is gone.
+1. BlueZ reports the speaker paired, trusted, connected, unblocked, and
+   service-resolved with the Audio Sink UUID.
+2. PipeWire exposes the matching `bluez_output.*` node.
+3. That string's independent `pw-loopback` process is alive.
+4. The route has not been invalidated by a newer BlueZ snapshot.
 
-A successful compile is not physical proof. Completion requires another source
-to find/connect to `broadcast` and a person to hear the same test tone on the
-active generic speakers.
+A string is streaming only when both its input and output PipeWire nodes report
+`running`. Stale status is rejected after the configured freshness window.
+
+## Failure isolation
+
+Each output owns its own reconnect cooldown, PipeWire process, delay, error,
+and retry state. Disconnecting or killing one speaker removes only its string.
+The ten-output cap is enforced before connection and routing.
+
+## Physical proof
+
+Source tests and CI can prove parsing, evidence gating, service installation,
+failure isolation, and command construction. They cannot hear a room. The
+runtime therefore retains `physical_audio_proof: not-recorded` until a person
+connects a real source to `broadcast` and hears the same stream from the real
+speaker outputs.

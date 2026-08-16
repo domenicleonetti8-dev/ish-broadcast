@@ -12,26 +12,34 @@ another. The topology screen renders the large `broadcast` bubble and ten
 smaller connected string bubbles; a bubble becomes active only when its native
 transport supplies physical-route evidence.
 
-This is a phone-local iSH fork. There is no remote radio, Linux appliance, or
-second box in the architecture. iSH controls the native side through
-`/dev/broadcast`, and signed 16-bit stereo PCM enters through
-`/dev/broadcast_audio` at 48 kHz.
+The radio endpoint is the portable probe itself—not the iPhone app and not
+Eira. An iPhone or any ordinary Bluetooth audio source discovers `broadcast`
+in its normal Bluetooth settings and completes the same pairing handshake it
+would use with a small speaker. The probe receives that real A2DP stream, then
+BlueZ, WirePlumber, and PipeWire bridge it into as many as ten independently
+connected generic Bluetooth speakers.
 
-Version 1.6.0 completes the probe contract, ten-string state/failure model,
-native transport plug-in seam, bubble topology UI, BLE status control plane,
-PCM input, diagnostics, stress tests, and unsigned iPhone build gate. The BLE
-service is deliberately separate and advertises only its service UUID; it does
-not take the `broadcast` device name or count as classic-speaker registration.
+The production runtime is under [`probe/`](probe/README.md). It requires a
+portable Linux Bluetooth host because the endpoint must own controllable
+Classic Bluetooth radios. The installer refuses Eira's hostname. For larger
+fan-out, the input endpoint uses one controller and the output strings can be
+bound to separate USB Bluetooth controllers so one failed or saturated radio
+cannot stop the others.
 
-The remaining execution boundary is explicit. Stock iOS public APIs do not let
-an app register the classic A2DP Sink/Source profiles. The built-in provider
-therefore reports `native_a2dp_provider_unavailable`; it never invents a
-findable or connected state. A native environment that can supply those
-profiles plugs in as `BroadcastNativeA2DPProbeTransport` without changing the
-probe, string, `/dev`, UI, or evidence contract. See
-[BROADCAST_TEST.md](BROADCAST_TEST.md) and
-[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md). The provider ABI and
-evidence schema are defined in [NATIVE_TRANSPORT.md](NATIVE_TRANSPORT.md).
+No setter, process launch, BLE advertisement, app label, or generated status
+counts as a connection. Registration is published only after BlueZ reads back
+the exact alias, powered/pairable/discoverable state, and local A2DP Sink UUID.
+The big bubble becomes connected only after a paired inbound A2DP Source plus a
+real `bluez_input.*` PipeWire node exist. Each string requires a connected and
+service-resolved speaker, a `bluez_output.*` node, and a live isolated
+`pw-loopback`; streaming additionally requires both PipeWire nodes to report
+`running`. Audible room proof remains separate and is never fabricated.
+
+The iSH/iPhone target is not part of the production radio path. Its BLE service
+does not use the `broadcast` device name and cannot satisfy any Classic
+Bluetooth evidence gate. See [BROADCAST_TEST.md](BROADCAST_TEST.md),
+[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md), and
+[NATIVE_TRANSPORT.md](NATIVE_TRANSPORT.md).
 
 The App Store and public TestFlight links in the upstream section below install
 the original iSH app. They do **not** install this Broadcast fork.
