@@ -76,8 +76,11 @@ jobs:
             "$app_path" \
             --report ghost-probe-report.md \
             --json ghost-probe-report.json
+          rm -rf Payload
+          mkdir Payload
+          ditto "$app_path" Payload/iSH.app
           ditto -c -k --sequesterRsrc --keepParent \
-            "$app_path" broadcast-unsigned-iphone.zip
+            Payload broadcast-unsigned-iphone.ipa
 
       - name: Upload probe evidence
         if: always()
@@ -94,5 +97,5 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: broadcast-unsigned-iphone
-          path: broadcast-unsigned-iphone.zip
+          path: broadcast-unsigned-iphone.ipa
           if-no-files-found: error

@@ -45,8 +45,8 @@ The suite verifies:
 The GitHub **Ghost Probe** workflow is the compile gate for the current native
 iOS source. It runs on a hosted macOS runner, compiles an unsigned arm64
 iPhone app, inspects the compiled bundle and linked frameworks, searches the
-executable for the Broadcast device/UUID markers, and publishes the app plus
-its logs and JSON/Markdown proof reports.
+executable for the Broadcast device/UUID markers, packages a standard unsigned
+IPA payload, and publishes it with the logs and JSON/Markdown proof reports.
 
 ## Evaluation of the supplied app archive
 

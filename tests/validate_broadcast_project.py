@@ -133,6 +133,10 @@ def validate_release_wiring() -> None:
             "Ghost Probe does not compile the iSH scheme")
     require("-configuration Debug" not in workflow,
             "Ghost Probe forces a nonexistent Xcode configuration")
+    require("Payload/iSH.app" in workflow,
+            "Ghost Probe does not create a standard IPA payload")
+    require("broadcast-unsigned-iphone.ipa" in workflow,
+            "Ghost Probe does not publish an unsigned IPA")
 
     fastfile = read("fastlane/Fastfile")
     lane_start = fastfile.index("lane :broadcast_beta do")
