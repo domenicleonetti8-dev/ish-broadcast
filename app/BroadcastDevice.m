@@ -53,6 +53,28 @@ static ssize_t broadcast_write(
             return size;
         }
 
+        if ([cmd isEqualToString:@"scan"]) {
+            [[BroadcastBridge shared] startScan];
+            return size;
+        }
+
+        if ([cmd isEqualToString:@"scan stop"]) {
+            [[BroadcastBridge shared] stopScan];
+            return size;
+        }
+
+        if ([cmd hasPrefix:@"bind "] || [cmd hasPrefix:@"unbind "]) {
+            BOOL unbind = [cmd hasPrefix:@"unbind "];
+            NSUInteger prefix = unbind ? 7 : 5;
+            NSString *identifier = [[cmd substringFromIndex:prefix]
+                stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+            NSString *error = nil;
+            BOOL ok = unbind
+                ? [[BroadcastBridge shared] unbindFinger:identifier error:&error]
+                : [[BroadcastBridge shared] bindFinger:identifier error:&error];
+            return ok ? (ssize_t)size : _EINVAL;
+        }
+
         if ([cmd hasPrefix:@"advertise"]) {
             NSString *name = [[cmd substringFromIndex:9]
                 stringByTrimmingCharactersInSet:

@@ -57,6 +57,8 @@
 	</dict>
 	<key>UIBackgroundModes</key>
 	<array>
+		<string>bluetooth-central</string>
+		<string>bluetooth-peripheral</string>
 		<string>location</string>
 	</array>
 	<key>UIFileSharingEnabled</key>
