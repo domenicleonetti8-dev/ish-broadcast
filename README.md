@@ -1,11 +1,17 @@
 # broadcast: iPhone to many Bluetooth speakers
 
-The real Bluetooth endpoint is now a portable Raspberry Pi/Linux hub. It is
-configured as a classic A2DP audio accessory named exactly **broadcast**, so it
-can appear in the iPhone's own **Settings > Bluetooth** list. The phone sends
-one audio stream to the hub; PipeWire fans it out through isolated routes to as
-many as 10 paired and trusted Bluetooth speakers. See
+The real Bluetooth endpoint is a **dedicated portable** Raspberry Pi/Linux hub
+that stays physically near the iPhone and speakers. It is configured as a
+classic A2DP audio accessory named exactly **broadcast**, so it can appear in
+the iPhone's own **Settings > Bluetooth** list wherever the portable hub goes.
+The phone sends one audio stream to the hub; PipeWire fans it out through
+isolated routes to as many as 10 paired and trusted Bluetooth speakers. See
 [hub/README.md](hub/README.md) for installation and the physical proof gate.
+
+Eira's always-on home Pi is control-plane only and is explicitly forbidden as
+the physical Bluetooth endpoint. Tailscale can control a distant broadcaster,
+but it cannot extend Bluetooth radio range. The live installer and both
+services refuse to run when the host is named `eira`.
 
 This fork also contains the native iPhone app **broadcast**. The app provides a
 BLE control/status service, remembers 10 logical fingers, accepts 48 kHz stereo

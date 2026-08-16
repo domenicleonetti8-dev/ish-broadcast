@@ -8,9 +8,10 @@ broadcast_input_controller=
 broadcast_install_packages=yes
 broadcast_enable_services=yes
 broadcast_dry_run=no
+broadcast_portable_confirmed=no
 
 usage() {
-    echo "usage: $0 [--user USER] [--input-controller MAC] [--destdir PATH] [--no-packages] [--no-enable] [--dry-run]"
+    echo "usage: $0 [--portable] [--user USER] [--input-controller MAC] [--destdir PATH] [--no-packages] [--no-enable] [--dry-run]"
 }
 
 while [ "$#" -gt 0 ]; do
@@ -42,6 +43,10 @@ while [ "$#" -gt 0 ]; do
             ;;
         --dry-run)
             broadcast_dry_run=yes
+            shift
+            ;;
+        --portable)
+            broadcast_portable_confirmed=yes
             shift
             ;;
         -h|--help)
@@ -82,6 +87,14 @@ fi
 if [ -z "$broadcast_destdir" ] && [ "$(id -u)" -ne 0 ]; then
     echo "run this installer as root (sudo)" >&2
     exit 1
+fi
+
+if [ -z "$broadcast_destdir" ]; then
+    if [ "$broadcast_portable_confirmed" != yes ]; then
+        echo "refusing live install: pass --portable on the dedicated broadcaster that travels with the phone and speakers" >&2
+        exit 2
+    fi
+    "$broadcast_script_dir/bin/assert-portable-host.sh"
 fi
 
 if [ -n "$broadcast_destdir" ]; then
@@ -149,6 +162,7 @@ install -d -m 0755 \
 install -m 0644 "$broadcast_script_dir/broadcast_common.py" "$broadcast_lib/broadcast_common.py"
 install -m 0755 "$broadcast_script_dir/broadcast_bluez.py" "$broadcast_lib/broadcast_bluez.py"
 install -m 0755 "$broadcast_script_dir/broadcast_hub.py" "$broadcast_lib/broadcast_hub.py"
+install -m 0755 "$broadcast_script_dir/bin/assert-portable-host.sh" "$broadcast_lib/assert-portable-host.sh"
 install -m 0755 "$broadcast_script_dir/bin/prepare-controller-class.sh" "$broadcast_lib/prepare-controller-class.sh"
 install -m 0755 "$broadcast_script_dir/bin/pair-speaker.sh" "$broadcast_bin/broadcast-pair-speaker"
 install -m 0755 "$broadcast_script_dir/bin/broadcast-status.sh" "$broadcast_bin/broadcast-status"

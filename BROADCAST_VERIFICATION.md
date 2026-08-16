@@ -79,9 +79,14 @@ the app is running. An iPhone does not list its own advertisement in its own
 Bluetooth Settings screen, and a BLE control advertisement does not turn the
 iPhone into a Bluetooth speaker.
 
-The corrected Settings-visible path uses a separate Raspberry Pi/Linux radio:
+The corrected Settings-visible path uses a separate dedicated portable
+Raspberry Pi/Linux radio kept within Bluetooth range of the phone and speakers:
 
 `iPhone -> A2DP sink named broadcast -> PipeWire -> A2DP speaker sinks`
+
+Eira's always-on home Pi may control the portable unit over Tailscale, but it
+is explicitly forbidden as the physical radio endpoint. The live installer
+requires `--portable`, and both services refuse hostname `eira`.
 
 The hub supports 10 eligible outputs in software. Five or more reliable
 independent Bluetooth streams should use a powered USB hub and separate
@@ -93,9 +98,10 @@ can align faster speakers but cannot make unsupported radio concurrency real.
 
 Portable code, project wiring, installer staging, and failure isolation are
 verified here. The remaining hub proof cannot be fabricated by a source test:
-the hub must be installed on the Pi, the same iPhone must list and connect to
-`broadcast`, `broadcast-status` must report at least two live routes, and the
-same phone audio must be heard on at least two independent speakers. Until
+the hub must be installed on the dedicated portable unit, that unit must be
+physically near the phone and speakers, the same iPhone must list and connect
+to `broadcast`, `broadcast-status` must report at least two live routes, and
+the same phone audio must be heard on at least two independent speakers. Until
 those events are recorded, the source must not be described as physically
 Bluetooth-tested or guaranteed on the target radios.
 

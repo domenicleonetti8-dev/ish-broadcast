@@ -12,11 +12,25 @@ BROADCAST_HUB_HOME=/home/tester sh "$broadcast_root/hub/install.sh" \
 
 test -x "$broadcast_stage/usr/local/lib/broadcast-hub/broadcast_hub.py"
 test -x "$broadcast_stage/usr/local/lib/broadcast-hub/broadcast_bluez.py"
+test -x "$broadcast_stage/usr/local/lib/broadcast-hub/assert-portable-host.sh"
 test -x "$broadcast_stage/usr/local/bin/broadcast-pair-speaker"
 test -f "$broadcast_stage/etc/systemd/system/broadcast-bluetooth.service"
 test -f "$broadcast_stage/etc/systemd/user/broadcast-hub.service"
 test -f "$broadcast_stage/home/tester/.config/wireplumber/wireplumber.conf.d/90-broadcast.conf"
 test -f "$broadcast_stage/home/tester/.config/wireplumber/bluetooth.lua.d/90-broadcast.lua"
+grep -q 'assert-portable-host.sh' "$broadcast_stage/etc/systemd/system/broadcast-bluetooth.service"
+grep -q 'assert-portable-host.sh' "$broadcast_stage/etc/systemd/user/broadcast-hub.service"
+
+BROADCAST_HOSTNAME=broadcast-pocket sh "$broadcast_root/hub/bin/assert-portable-host.sh"
+if BROADCAST_HOSTNAME=eira sh "$broadcast_root/hub/bin/assert-portable-host.sh" >/dev/null 2>&1; then
+    echo "portable-host guard accepted Eira" >&2
+    exit 1
+fi
+if BROADCAST_HOSTNAME=EIRA.local sh "$broadcast_root/hub/bin/assert-portable-host.sh" >/dev/null 2>&1; then
+    echo "portable-host guard accepted Eira's qualified hostname" >&2
+    exit 1
+fi
+sh "$broadcast_root/hub/install.sh" --help | grep -q -- '--portable'
 
 python3 - "$broadcast_stage/etc/broadcast-hub/config.json" <<'PY'
 import json

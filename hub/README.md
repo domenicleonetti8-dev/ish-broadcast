@@ -1,8 +1,9 @@
 # Broadcast Bluetooth hub
 
 The hub is the component that makes **broadcast** appear in the iPhone's own
-**Settings > Bluetooth** list as an audio device. It runs on a Raspberry Pi or
-another Debian Linux computer with Bluetooth Classic support:
+**Settings > Bluetooth** list as an audio device. It must be a dedicated
+portable Raspberry Pi or Debian Linux computer that travels with the phone and
+speakers and has Bluetooth Classic support:
 
 `iPhone -> A2DP sink named broadcast -> PipeWire -> A2DP speaker sinks`
 
@@ -11,9 +12,16 @@ for the phone and an A2DP source for the speakers. The supervisor creates one
 independent `pw-loopback` process per connected speaker. A route that fails or
 disconnects is stopped and retried without stopping the other routes.
 
+Eira's always-on home Pi is not this endpoint. It may control or inspect the
+portable unit over Tailscale, but Bluetooth discovery and audio remain local to
+the portable unit. The installer and services refuse to run on hostname
+`eira`, preventing the remote home host from being mistaken for the radio that
+must stay near Dom.
+
 ## Hardware
 
-- Raspberry Pi 5 with current 64-bit Raspberry Pi OS Bookworm or newer.
+- Dedicated portable Raspberry Pi 5 with current 64-bit Raspberry Pi OS
+  Bookworm or newer. Do not use Eira's home Pi.
 - The Pi's built-in Bluetooth controller for the iPhone-facing endpoint.
 - A powered USB hub and one reliable Bluetooth USB controller per speaker are
   recommended for five or more independent outputs. One controller may work
@@ -33,6 +41,7 @@ On the Pi, from this repository:
 ```sh
 bluetoothctl list
 sudo sh hub/install.sh \
+  --portable \
   --user YOUR_PI_USER \
   --input-controller BUILT_IN_CONTROLLER_MAC
 ```
@@ -41,6 +50,9 @@ The installer is idempotent. It installs BlueZ, PipeWire, WirePlumber, the
 headless pairing/reconnect service, the per-speaker fanout service, and both
 WirePlumber 0.4 and 0.5 configuration formats. It preserves an existing
 `/etc/broadcast-hub/config.json` on later runs.
+
+`--portable` is a required live-install acknowledgement. A host named `eira`
+is rejected even when that flag is supplied.
 
 After installation, the input controller is continuously held in this state:
 

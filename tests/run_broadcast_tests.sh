@@ -45,7 +45,12 @@ run_test route_stress \
     hub/broadcast_bluez.py \
     hub/broadcast_hub.py
 "$broadcast_python" -m unittest discover -s hub/tests -p 'test_*.py'
-sh -n hub/install.sh hub/bin/prepare-controller-class.sh hub/bin/pair-speaker.sh hub/bin/broadcast-status.sh
+sh -n \
+    hub/install.sh \
+    hub/bin/assert-portable-host.sh \
+    hub/bin/prepare-controller-class.sh \
+    hub/bin/pair-speaker.sh \
+    hub/bin/broadcast-status.sh
 sh hub/tests/test_install.sh
 
 if "$broadcast_cc" -fsanitize=address,undefined -x c -o \

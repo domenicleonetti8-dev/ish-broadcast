@@ -2,8 +2,10 @@
 
 ## Settings-visible multi-speaker endpoint
 
-The Raspberry Pi/Linux hub is the component that must appear in the same
-iPhone's Bluetooth Settings as `broadcast`. Install and pair it using
+The dedicated portable Raspberry Pi/Linux hub is the component that must stay
+near the phone and appear in that same iPhone's Bluetooth Settings as
+`broadcast`. Eira's remote home Pi is not the radio endpoint. Install and pair
+the portable unit using
 [hub/README.md](hub/README.md), select **broadcast** on the iPhone, and play
 phone audio. `broadcast-status` must show an incoming `bluez_input.*` node and
 at least two independent active output routes. Completion requires hearing the
