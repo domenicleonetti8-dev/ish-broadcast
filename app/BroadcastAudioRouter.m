@@ -158,7 +158,7 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
     self.mappedChannels = 0;
     self.sessionMode = @"inactive";
     [AVAudioSession.sharedInstance setActive:NO
-                                     options:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation
+                                 withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation
                                        error:nil];
 }
 

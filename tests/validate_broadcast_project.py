@@ -66,6 +66,7 @@ def validate_bridge() -> None:
         "useChannelMap",
         "broadcast_pcm_s16le_stereo_to_float",
         "_enabledOutputUIDs = [identifiers copy]",
+        "withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation",
     ):
         require(token in router, f"missing audio router wiring: {token}")
 
