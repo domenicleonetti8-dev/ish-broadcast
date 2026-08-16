@@ -43,7 +43,6 @@ jobs:
           xcodebuild \
             -project iSH.xcodeproj \
             -scheme iSH \
-            -configuration Debug \
             -arch arm64 \
             -sdk iphoneos \
             -derivedDataPath build-ghost-probe \

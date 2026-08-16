@@ -152,6 +152,7 @@ F0BADC0D0000000000000015 /* BroadcastFanout.c in Sources */ = {isa = PBXBuildFil
 F0BADC0D0000000000000018 /* BroadcastRouteMap.c in Sources */ = {isa = PBXBuildFile; fileRef = F0BADC0D000000000000001A /* BroadcastRouteMap.c */; };
 F0BADC0D0000000000000019 /* BroadcastAudioRouter.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BADC0D000000000000001B /* BroadcastAudioRouter.m */; };
 F0BADC0D0000000000000020 /* BroadcastViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F0BADC0D0000000000000021 /* BroadcastViewController.m */; };
+F0BADC0D0000000000000025 /* BroadcastPCM.c in Sources */ = {isa = PBXBuildFile; fileRef = F0BADC0D0000000000000027 /* BroadcastPCM.c */; };
 		BB28C7BF2689799800BDC834 /* Roots.m in Sources */ = {isa = PBXBuildFile; fileRef = BB10E5CD248DBE66009C7A74 /* Roots.m */; };
 		BB2B4DAC231D94C300CB578B /* hterm_all.js in Resources */ = {isa = PBXBuildFile; fileRef = BB2B4DAB231D94C300CB578B /* hterm_all.js */; };
 		BB2B4DAD231D998300CB578B /* term.js in Resources */ = {isa = PBXBuildFile; fileRef = BB4A539C1FAA490C00A72ACE /* term.js */; };
@@ -615,6 +616,8 @@ F0BADC0D000000000000001B /* BroadcastAudioRouter.m */ = {isa = PBXFileReference;
 F0BADC0D000000000000001F /* BroadcastAudioRouter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastAudioRouter.h; sourceTree = "<group>"; };
 F0BADC0D0000000000000021 /* BroadcastViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BroadcastViewController.m; sourceTree = "<group>"; };
 F0BADC0D0000000000000022 /* BroadcastViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastViewController.h; sourceTree = "<group>"; };
+F0BADC0D0000000000000026 /* BroadcastPCM.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BroadcastPCM.h; sourceTree = "<group>"; };
+F0BADC0D0000000000000027 /* BroadcastPCM.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = BroadcastPCM.c; sourceTree = "<group>"; };
 		8632A7BD219A59FB00F02325 /* UserPreferences.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UserPreferences.h; sourceTree = "<group>"; };
 		8632A7BE219A59FB00F02325 /* UserPreferences.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UserPreferences.m; sourceTree = "<group>"; };
 		9A28E4E8219A8B670073D200 /* AboutAppearanceViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AboutAppearanceViewController.h; sourceTree = "<group>"; };
@@ -999,6 +1002,8 @@ F0BADC0D000000000000001F /* BroadcastAudioRouter.h */,
 F0BADC0D000000000000001B /* BroadcastAudioRouter.m */,
 F0BADC0D0000000000000022 /* BroadcastViewController.h */,
 F0BADC0D0000000000000021 /* BroadcastViewController.m */,
+F0BADC0D0000000000000026 /* BroadcastPCM.h */,
+F0BADC0D0000000000000027 /* BroadcastPCM.c */,
 				BBBF9CBB27C217A6002A30F7 /* PasteboardDeviceLinux.c */,
 				BB235535235D489400139E00 /* LocationDevice.h */,
 				BB235533235D488400139E00 /* LocationDevice.m */,
@@ -2188,6 +2193,7 @@ F0BADC0D0000000000000015 /* BroadcastFanout.c in Sources */,
 F0BADC0D0000000000000018 /* BroadcastRouteMap.c in Sources */,
 F0BADC0D0000000000000019 /* BroadcastAudioRouter.m in Sources */,
 F0BADC0D0000000000000020 /* BroadcastViewController.m in Sources */,
+F0BADC0D0000000000000025 /* BroadcastPCM.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2543,7 +2549,7 @@ F0BADC0D0000000000000020 /* BroadcastViewController.m in Sources */,
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B85A42586F1CB00208600 /* ProjectDebug.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 813;
+				CURRENT_PROJECT_VERSION = 814;
 			};
 			name = "Debug-ApplePleaseFixFB19282108";
 		};
@@ -2551,7 +2557,7 @@ F0BADC0D0000000000000020 /* BroadcastViewController.m in Sources */,
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB0B85A52586F1E100208600 /* ProjectRelease.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 813;
+				CURRENT_PROJECT_VERSION = 814;
 			};
 			name = Release;
 		};
@@ -2573,7 +2579,7 @@ F0BADC0D0000000000000020 /* BroadcastViewController.m in Sources */,
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB28C7532689522C00BDC834 /* ProjectDebugLinux.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 813;
+				CURRENT_PROJECT_VERSION = 814;
 			};
 			name = DebugLinux;
 		};
@@ -2819,7 +2825,7 @@ F0BADC0D0000000000000020 /* BroadcastViewController.m in Sources */,
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = BB28C7522689522700BDC834 /* ProjectReleaseLinux.xcconfig */;
 			buildSettings = {
-				CURRENT_PROJECT_VERSION = 813;
+				CURRENT_PROJECT_VERSION = 814;
 			};
 			name = ReleaseLinux;
 		};

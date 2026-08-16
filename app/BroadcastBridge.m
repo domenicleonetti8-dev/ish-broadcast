@@ -605,6 +605,9 @@ static NSString * const BroadcastStatusCharacteristicUUID =
             if ([output[@"enabled"] boolValue])
                 activeFingers++;
         }
+        BOOL dualRoute = [self.audioRouter.sessionMode
+            isEqualToString:@"dualRoute"];
+        NSUInteger maximumActiveRoutes = dualRoute ? 2 : 1;
 
         NSDictionary *status = @{
             @"name": BroadcastLogicalName,
@@ -618,6 +621,10 @@ static NSString * const BroadcastStatusCharacteristicUUID =
                 BroadcastStatusCharacteristicUUID,
             @"route_monitoring": @(self.routeMonitoring),
             @"maximum_fingers": @(BROADCAST_MAX_FINGERS),
+            @"maximum_active_routes": @(maximumActiveRoutes),
+            @"route_limit": dualRoute
+                ? @"built-in plus one eligible bidirectional secondary device"
+                : @"one system-selected audio output",
             @"fingers": @(broadcast_fingers_wanted_count(
                 &self->_fingers)),
             @"active_fingers": @(activeFingers),

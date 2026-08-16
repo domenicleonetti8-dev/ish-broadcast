@@ -20,6 +20,8 @@ REQUIRED_FRAMEWORKS = (
 )
 REQUIRED_BINARY_STRINGS = (
     "broadcast",
+    "/dev/broadcast_audio",
+    "singleRouteFallback",
     "B0ADC0DE-0000-4F1A-9000-000000000001",
     "B0ADC0DE-0000-4F1A-9000-000000000002",
 )
@@ -60,6 +62,8 @@ def main() -> int:
 
     display_name = info.get("CFBundleDisplayName")
     bundle_id = info.get("CFBundleIdentifier")
+    version = info.get("CFBundleShortVersionString")
+    build = info.get("CFBundleVersion")
     background_modes = set(info.get("UIBackgroundModes", []))
     check(
         "Visible app name",
@@ -71,6 +75,8 @@ def main() -> int:
         bundle_id == "com.domenicleonetti8.broadcast",
         f"CFBundleIdentifier={bundle_id!r}",
     )
+    check("Broadcast version", version == "1.4.1", f"version={version!r}")
+    check("Broadcast build", build == "814", f"build={build!r}")
     check(
         "Background audio mode",
         "audio" in background_modes,
@@ -126,12 +132,16 @@ def main() -> int:
                 check(f"Compiled marker: {required_string}", False, str(error))
 
     failed = [item for item in checks if not item["passed"]]
+    signed = (app / "_CodeSignature").is_dir() or (
+        app / "embedded.mobileprovision"
+    ).is_file()
     result = {
         "result": "PASS" if not failed else "FAIL",
         "commit": os.environ.get("GITHUB_SHA", "local"),
         "ref": os.environ.get("GITHUB_REF_NAME", "local"),
         "app": str(app),
-        "signed": False,
+        "signed": signed,
+        "installable_on_stock_iphone": False,
         "physical_bluetooth_tested": False,
         "checks": checks,
     }
@@ -147,7 +157,8 @@ def main() -> int:
         "",
         f"- Commit: `{result['commit']}`",
         f"- Ref: `{result['ref']}`",
-        "- Signing: unsigned on purpose",
+        f"- Signing payload detected: {'yes' if signed else 'no'}",
+        "- Stock-iPhone installability: no; this probe verifies the unsigned build",
         "- Physical Bluetooth radio test: not available on a hosted runner",
         "",
         "| Check | Result | Detail |",

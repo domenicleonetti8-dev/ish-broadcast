@@ -1,9 +1,12 @@
 # broadcast device test
 
 The app exposes the exact logical name `broadcast`, a readable BLE control
-service, and a live audio-route screen. A finger is a selected output route.
-The routing table accepts up to 10 fingers and rebuilds whenever an output
-joins, leaves, or changes position.
+service, and a live audio-route screen. A finger is a remembered logical
+output. The table can remember up to 10 fingers and rebuilds whenever an
+output joins, leaves, or changes position. Physical playback is limited to
+the routes iOS exposes: one system-selected output in Compatible mode, or the
+built-in route plus one eligible bidirectional secondary device in iOS 26.2
+dual-route mode.
 
 ## Ordinary Bluetooth speaker
 
@@ -19,13 +22,15 @@ joins, leaves, or changes position.
 1. On iOS 26.2 or newer, select **Multi**.
 2. Use **Choose Audio** to activate an eligible bidirectional Bluetooth
    HFP/LE route. The built-in route remains available as the primary route.
-3. Check each wanted route in the finger list.
+3. Check the wanted routes shown by iOS in the finger list.
 4. Tap **Test Sound**. The same stereo test buffer is mapped to every active
    checked route; unchecked channels remain silent.
 
 The screen reports requested mode, actual audio-session mode, Bluetooth
-state, advertising state, active/bound finger counts, mapped channels, and
-route errors. If **No sound** is selected after a test, the app switches to
+state, advertising state, logical and active route counts, the current
+physical route maximum, mapped channels, and route errors. It does not claim
+that 10 ordinary Bluetooth speakers can be active when iOS exposes fewer
+routes. If **No sound** is selected after a test, the app switches to
 Compatible mode for a standard speaker retry.
 
 ## BLE control-service check
@@ -51,6 +56,6 @@ are rejected until at least one checked output is actively mapped.
 Run `sh tests/run_broadcast_tests.sh`. The suite covers independent bind and
 reconnect states, the 10-finger limit, join/leave route rebuilds, exact
 stereo duplication, silent unchecked routes, per-sink failure isolation,
-100,000 randomized finger operations, and 100,000 randomized route rebuilds.
-When available, it repeats the suite under AddressSanitizer and
-UndefinedBehaviorSanitizer.
+signed PCM conversion (including unaligned input), 100,000 randomized finger
+operations, and 100,000 randomized route rebuilds. When available, it repeats
+the suite under AddressSanitizer and UndefinedBehaviorSanitizer.

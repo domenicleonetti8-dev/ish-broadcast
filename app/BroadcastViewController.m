@@ -56,8 +56,13 @@
               forControlEvents:UIControlEventTouchUpInside];
 
     AVRoutePickerView *routePicker = [AVRoutePickerView new];
-    routePicker.activeTintColor = UIColor.systemGreenColor;
-    routePicker.tintColor = UIColor.systemBlueColor;
+    if (@available(iOS 13, *)) {
+        routePicker.activeTintColor = UIColor.systemGreenColor;
+        routePicker.tintColor = UIColor.systemBlueColor;
+    } else {
+        routePicker.activeTintColor = UIColor.greenColor;
+        routePicker.tintColor = UIColor.blueColor;
+    }
     routePicker.accessibilityLabel = @"Choose Bluetooth audio output";
     [routePicker.widthAnchor constraintEqualToConstant:44].active = YES;
     [routePicker.heightAnchor constraintEqualToConstant:44].active = YES;
@@ -239,6 +244,8 @@
     NSUInteger activeFingers = [snapshot[@"active_fingers"]
         unsignedIntegerValue];
     NSUInteger maximum = [snapshot[@"maximum_fingers"] unsignedIntegerValue];
+    NSUInteger maximumActiveRoutes = [snapshot[@"maximum_active_routes"]
+        unsignedIntegerValue];
     NSUInteger mapped = [snapshot[@"mapped_channels"] unsignedIntegerValue];
     NSString *mode = snapshot[@"audio_session_mode"] ?: @"inactive";
     NSString *bluetooth = snapshot[@"bluetooth_state"] ?: @"unknown";
@@ -247,11 +254,12 @@
     self.modeControl.selectedSegmentIndex =
         multidevice ? 0 : 1;
     self.summaryLabel.text = [NSString stringWithFormat:
-        @"%@  •  %lu active / %lu bound / %lu max\n%lu mapped channels  •  Audio: %@\nBluetooth: %@%@",
+        @"%@  •  %lu active / %lu remembered / %lu logical max\nSystem route max: %lu  •  %lu mapped channels\nAudio: %@  •  Bluetooth: %@%@",
         running ? @"Running" : @"Stopped",
         (unsigned long)activeFingers,
         (unsigned long)fingers,
         (unsigned long)maximum,
+        (unsigned long)maximumActiveRoutes,
         (unsigned long)mapped,
         mode,
         bluetooth,
@@ -295,7 +303,7 @@
 {
     (void)tableView;
     (void)section;
-    return @"Audio fingers";
+    return @"Remembered audio fingers";
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView

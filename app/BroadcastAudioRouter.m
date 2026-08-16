@@ -1,9 +1,10 @@
 #import "BroadcastAudioRouter.h"
+#import "BroadcastPCM.h"
 #import "BroadcastRouteMap.h"
 
 #import <AVFoundation/AVFoundation.h>
 #import <AudioToolbox/AudioToolbox.h>
-#include <string.h>
+#include <stdint.h>
 
 static NSString * const BroadcastAudioRouterErrorDomain =
     @"BroadcastAudioRouter";
@@ -106,9 +107,11 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
             : @"singleRoute";
     }
 
-    if (![session setPreferredSampleRate:BroadcastAudioSampleRate
-                                   error:&localError] ||
-        ![session setActive:YES error:&localError]) {
+    // This is a preference, not a hardware requirement. AVAudioEngine can
+    // convert the 48 kHz source if the selected route runs at another rate.
+    [session setPreferredSampleRate:BroadcastAudioSampleRate
+                              error:nil];
+    if (![session setActive:YES error:&localError]) {
         if (error) *error = localError;
         return NO;
     }
@@ -122,10 +125,8 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
         return NO;
 
     self.sourceFormat = [[AVAudioFormat alloc]
-        initWithCommonFormat:AVAudioPCMFormatInt16
-                  sampleRate:BroadcastAudioSampleRate
-                    channels:BroadcastAudioChannelCount
-                 interleaved:YES];
+        initStandardFormatWithSampleRate:BroadcastAudioSampleRate
+                                channels:BroadcastAudioChannelCount];
     if (!self.sourceFormat) {
         return [self failRouteWithError:[self errorWithCode:1
             description:@"pcm_format_unavailable"] output:error];
@@ -162,7 +163,7 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
 }
 
 - (void)setEnabledOutputUIDs:(NSSet<NSString *> *)identifiers {
-    self.enabledOutputUIDs = [identifiers copy] ?: [NSSet set];
+    _enabledOutputUIDs = [identifiers copy] ?: [NSSet set];
 }
 
 - (BOOL)rebuildRouteWithError:(NSError **)error {
@@ -230,23 +231,27 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
         self.queuedFrames = 0;
     }
 
-    AudioUnit outputAudioUnit = self.engine.outputNode.audioUnit;
-    if (!outputAudioUnit) {
-        return [self failRouteWithError:[self errorWithCode:5
-            description:@"output_audio_unit_unavailable"] output:error];
-    }
-    OSStatus status = AudioUnitSetProperty(
-        outputAudioUnit,
-        kAudioOutputUnitProperty_ChannelMap,
-        kAudioUnitScope_Output,
-        0,
-        channelMap,
-        (UInt32)(channelMapCount * sizeof(channelMap[0]))
-    );
-    if (status != noErr) {
-        return [self failRouteWithError:[self errorWithCode:status
-            description:[NSString stringWithFormat:
-                @"channel_map_failed_%d", (int)status]] output:error];
+    BOOL useChannelMap = [self.sessionMode isEqualToString:@"dualRoute"] &&
+        ports.count > 1;
+    if (useChannelMap) {
+        AudioUnit outputAudioUnit = self.engine.outputNode.audioUnit;
+        if (!outputAudioUnit) {
+            return [self failRouteWithError:[self errorWithCode:5
+                description:@"output_audio_unit_unavailable"] output:error];
+        }
+        OSStatus status = AudioUnitSetProperty(
+            outputAudioUnit,
+            kAudioOutputUnitProperty_ChannelMap,
+            kAudioUnitScope_Output,
+            0,
+            channelMap,
+            (UInt32)(channelMapCount * sizeof(channelMap[0]))
+        );
+        if (status != noErr) {
+            return [self failRouteWithError:[self errorWithCode:status
+                description:[NSString stringWithFormat:
+                    @"channel_map_failed_%d", (int)status]] output:error];
+        }
     }
 
     NSError *startError = nil;
@@ -282,8 +287,9 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
         return NO;
     }
     @synchronized (self) {
-        if (self.queuedFrames + frameCount >
-            BroadcastAudioMaximumQueuedFrames) {
+        if (self.queuedFrames > BroadcastAudioMaximumQueuedFrames ||
+            frameCount > BroadcastAudioMaximumQueuedFrames -
+                self.queuedFrames) {
             if (error) *error = [self errorWithCode:9
                 description:@"audio_queue_full"];
             return NO;
@@ -295,7 +301,9 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
     AVAudioPCMBuffer *buffer = [[AVAudioPCMBuffer alloc]
         initWithPCMFormat:self.sourceFormat
             frameCapacity:(AVAudioFrameCount)frameCount];
-    if (!buffer || !buffer.audioBufferList->mBuffers[0].mData) {
+    float **outputChannels = buffer ? buffer.floatChannelData : NULL;
+    if (!buffer || !outputChannels ||
+        !outputChannels[0] || !outputChannels[1]) {
         @synchronized (self) {
             self.queuedFrames -= frameCount;
             self.sourceFrames -= frameCount;
@@ -305,7 +313,24 @@ static const NSUInteger BroadcastAudioMaximumQueuedFrames = 96000;
         return NO;
     }
     buffer.frameLength = (AVAudioFrameCount)frameCount;
-    memcpy(buffer.audioBufferList->mBuffers[0].mData, bytes, length);
+    size_t framesWritten = 0;
+    int conversion = broadcast_pcm_s16le_stereo_to_float(
+        bytes,
+        length,
+        outputChannels[0],
+        outputChannels[1],
+        frameCount,
+        &framesWritten
+    );
+    if (conversion != BROADCAST_PCM_OK || framesWritten != frameCount) {
+        @synchronized (self) {
+            self.queuedFrames -= frameCount;
+            self.sourceFrames -= frameCount;
+        }
+        if (error) *error = [self errorWithCode:11
+            description:@"pcm_conversion_failed"];
+        return NO;
+    }
 
     __weak BroadcastAudioRouter *weakSelf = self;
     [self.player scheduleBuffer:buffer completionHandler:^{

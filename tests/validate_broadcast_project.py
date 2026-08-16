@@ -59,11 +59,21 @@ def validate_bridge() -> None:
         "kAudioOutputUnitProperty_ChannelMap",
         "maximumOutputNumberOfChannels",
         "BroadcastAudioMaximumQueuedFrames",
+        "BroadcastAudioMaximumQueuedFrames -",
+        "initStandardFormatWithSampleRate",
+        "floatChannelData",
+        "useChannelMap",
+        "broadcast_pcm_s16le_stereo_to_float",
+        "_enabledOutputUIDs = [identifiers copy]",
     ):
         require(token in router, f"missing audio router wiring: {token}")
 
     controller = read("app/BroadcastViewController.m")
-    for token in ("AVRoutePickerView", "Test Sound", "Audio fingers"):
+    for token in (
+        "AVRoutePickerView",
+        "Test Sound",
+        "Remembered audio fingers",
+    ):
         require(token in controller, f"missing visible connection UI: {token}")
 
     device = read("app/BroadcastDevice.m")
@@ -81,6 +91,7 @@ def validate_xcode_project() -> None:
         "BroadcastFingerTable.c",
         "BroadcastFanout.c",
         "BroadcastRouteMap.c",
+        "BroadcastPCM.c",
         "BroadcastAudioRouter.m",
         "BroadcastViewController.m",
     ):
@@ -107,6 +118,19 @@ def validate_release_wiring() -> None:
     config = read("app/iSH.xcconfig")
     require("ROOT_BUNDLE_IDENTIFIER = com.domenicleonetti8.broadcast" in config,
             "broadcast bundle identifier is missing")
+    project_config = read("app/Project.xcconfig")
+    require("MARKETING_VERSION = 1.4.1" in project_config,
+            "broadcast marketing version is not 1.4.1")
+
+    project = read("iSH.xcodeproj/project.pbxproj")
+    require(project.count("CURRENT_PROJECT_VERSION = 814;") == 4,
+            "broadcast build number is not consistently 814")
+
+    workflow = read(".github/workflows/ghost-probe.yml")
+    require("-scheme iSH" in workflow,
+            "Ghost Probe does not compile the iSH scheme")
+    require("-configuration Debug" not in workflow,
+            "Ghost Probe forces a nonexistent Xcode configuration")
 
     fastfile = read("fastlane/Fastfile")
     lane_start = fastfile.index("lane :broadcast_beta do")

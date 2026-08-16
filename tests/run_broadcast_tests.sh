@@ -24,6 +24,10 @@ run_test fanout \
 run_test route_map \
     app/BroadcastRouteMap.c \
     tests/broadcast_route_map_test.c
+run_test pcm \
+    app/BroadcastPCM.c \
+    tests/broadcast_pcm_test.c \
+    -lm
 run_test state_stress \
     app/BroadcastFingerTable.c \
     app/BroadcastFanout.c \
@@ -51,6 +55,10 @@ then
     run_test route_map_sanitized \
         app/BroadcastRouteMap.c \
         tests/broadcast_route_map_test.c
+    run_test pcm_sanitized \
+        app/BroadcastPCM.c \
+        tests/broadcast_pcm_test.c \
+        -lm
     run_test state_stress_sanitized \
         app/BroadcastFingerTable.c \
         app/BroadcastFanout.c \
