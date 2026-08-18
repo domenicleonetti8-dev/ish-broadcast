@@ -1,0 +1,1 @@
+Eira v4.3.5 active runtime transport is reconstructed from the v4.3.4 content-addressed runtime blobs plus the sealed v4.3.5 delta. The v4.3.3 delta files in this directory are recovery artifacts only and are not used by the final installer.
