@@ -105,12 +105,18 @@ with tarfile.open(archive, "r:xz") as tf:
             or path.parts[0] != required_root
         ):
             raise SystemExit(f"EIRA INSTALL: unsafe archive path rejected: {member.name!r}")
-        if not (member.isdir() or member.isfile()):
-            raise SystemExit(f"EIRA INSTALL: unsafe archive member rejected: {member.name!r}")
-        if member.mode & 0o6000:
-            raise SystemExit(f"EIRA INSTALL: privileged archive mode rejected: {member.name!r}")
-        if member.isfile():
+        if member.isdir():
+            # Directory permission metadata is untrusted. Normalize it instead
+            # of inheriting setgid/sticky bits from the build filesystem.
+            member.mode = 0o755
+        elif member.isfile():
+            # Never permit setuid/setgid/sticky bits on executable content.
+            if member.mode & 0o7000:
+                raise SystemExit(f"EIRA INSTALL: privileged file mode rejected: {member.name!r}")
+            member.mode = 0o755 if (member.mode & 0o111) else 0o644
             total += member.size
+        else:
+            raise SystemExit(f"EIRA INSTALL: unsafe archive member rejected: {member.name!r}")
     if total > 50 * 1024 * 1024:
         raise SystemExit("EIRA INSTALL: runtime archive expansion limit exceeded")
     tf.extractall(extract, members=members)
