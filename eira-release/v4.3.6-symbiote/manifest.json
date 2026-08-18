@@ -1,0 +1,14 @@
+{
+  "name": "eira_full_symbiote_ai",
+  "version": "4.3.6",
+  "kind": "complete_symbiotic_venom_fabric",
+  "status": "enabled",
+  "entrypoint": "extensions.eira_full_symbiote_ai.plugin",
+  "capabilities": ["symbiote_status", "symbiote_refresh", "symbiote_connected_context"],
+  "identity_owner": "host_eira",
+  "claim_scope": "all_ordinary_non_control_turns",
+  "history_authority": "current_turn_filtered_unified_context",
+  "legacy_capability_merge": "static_contract_discovery_on_demand_execution",
+  "neural_fabric": "enriches_existing_unified_neural_store",
+  "direct_core_rewrite": false
+}
