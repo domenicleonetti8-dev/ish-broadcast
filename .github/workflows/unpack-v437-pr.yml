@@ -1,0 +1,64 @@
+name: Unpack Eira v4.3.7 Runtime PR
+
+on:
+  pull_request:
+    branches:
+      - eira-release
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    if: ${{ github.event.pull_request.head.ref == 'eira-v4.3.7-unpacked-source-final' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ github.repository }}
+          ref: ${{ github.event.pull_request.head.ref }}
+          fetch-depth: 0
+
+      - name: Reconstruct sealed v4.3.7 runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPORT_ROOT="$RUNNER_TEMP/eira-v437-export/eira_unified_brain_v4_3_7"
+          FAKE_LIVE="$RUNNER_TEMP/eira-v437-fake-live"
+          mkdir -p "$FAKE_LIVE/extensions/local_brain" "$(dirname "$EXPORT_ROOT")"
+          printf '%s\n' '# fake protected host for export only' > "$FAKE_LIVE/main.py"
+          cat > "$FAKE_LIVE/extensions/local_brain/router.py" <<'PY'
+          def chat(user_input):
+              return 'host'
+          PY
+          export EXPORT_ROOT FAKE_LIVE
+          python3 - <<'PY'
+          import os, pathlib, urllib.request, subprocess
+          url='https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/daab7ae76b82c2857194bd4c664c51137991292e/eira-install-v4.3.7-symbiosis-complete.py'
+          src=urllib.request.urlopen(url, timeout=60).read().decode('utf-8')
+          needle="    before=sha((LIVE/'main.py').read_bytes()); print('EIRA v4.3.7: transactional whole-Eira symbiosis install...')"
+          if needle not in src:
+              raise SystemExit('export boundary not found')
+          repl="""    export_root=pathlib.Path(os.environ['EXPORT_ROOT'])\n    if export_root.exists(): shutil.rmtree(export_root)\n    shutil.copytree(root, export_root)\n    print('EIRA v4.3.7: exported sealed runtime')\n    sys.exit(0)"""
+          patched=src.replace(needle, repl, 1)
+          p=pathlib.Path(os.environ['RUNNER_TEMP'])/'eira-v437-exporter.py'
+          p.write_text(patched)
+          subprocess.run(['python3', str(p), os.environ['FAKE_LIVE']], check=True)
+          PY
+          cd "$EXPORT_ROOT"
+          test "$(wc -l < SHA256SUMS.txt | tr -d ' ')" = "149"
+          sha256sum -c SHA256SUMS.txt
+
+      - name: Commit unpacked runtime to head branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXPORT_ROOT="$RUNNER_TEMP/eira-v437-export/eira_unified_brain_v4_3_7"
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a "$EXPORT_ROOT"/. .
+          printf '%s\n' 'Eira v4.3.7 deployable runtime unpacked from sealed installer commit daab7ae76b82c2857194bd4c664c51137991292e' > GIT_UNPACKED_PROVENANCE.txt
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'release: unpack verified Eira v4.3.7 runtime [unpacked-v437]'
+          git push origin HEAD:${{ github.event.pull_request.head.ref }}
