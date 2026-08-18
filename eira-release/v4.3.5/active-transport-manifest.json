@@ -1,0 +1,39 @@
+{
+  "base_runtime": {
+    "parts": [
+      {"git_blob_sha":"d5e81f4bdaf2e8f3c96f2ca8e8719885ed319724","name":"runtime.b64.part00","sha256":"b12c3eba84cba14dfe7eae768351994487412b3ae65e57e5ffe4c8dd4d6ffda3","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"fa87092a15ff4e04e15562a8f4615044f98b9b70","name":"runtime.b64.part01","sha256":"daa897fa6e0931b9b84b581699cc4d612ad1206dc959fcb04f6c7bc8194fce5e","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"7212a27fa78245631f5aebb18db8bfcde619bf92","name":"runtime.b64.part02","sha256":"d18df2efa3fa0de13e78d946335a1bd2cebbeeac79e453c507bd5cbda8cb38e8","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"3c2ebee2477d705623564687071cb2876d86f318","name":"runtime.b64.part03","sha256":"4ed10ce834d8a8ec0fb55b91629ea0fa02996bfd122c02adec37e0e5c5abe2ba","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"61471ec47fdedec8249d6bdb93578f710c3427ef","name":"runtime.b64.part04","sha256":"f44648764fe4870eb7d8d3f3767957ce2d22df851fd12bacd1a3e158c62928f1","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"9506f469f1429200af85efc56eb3952c34aa059a","name":"runtime.b64.part05","sha256":"cede3849e848da83f58cb4374b8d4c12332433d42efe6a3ea4c2573e5dcd8a89","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"be18922ddb76eef2274d217ed96973e397b08b0f","name":"runtime.b64.part06","sha256":"3b48773ad4ad119e5d198f9362a0a49a06dab8ff09c73dcf84074e1a1d1bc7f0","size":16000,"transport":"git_blob"},
+      {"git_blob_sha":"13b8091191ac15582867196d3bc5bd576f1b4e4e","name":"runtime.b64.part07","sha256":"9be4b45886a7e60d1d1c6cf5d416f2cbecb613473817e0f26a23fd215b098897","size":16000,"transport":"git_blob"},
+      {"name":"runtime.b64.part08","sha256":"fe70a2675d6153f41ac94c9fe138cc8d97c3d0a0314cb8958bb3561c75ccebc6","size":16000,"transport":"raw"},
+      {"name":"runtime.b64.part09","sha256":"b6f49ad308c2447fb245b1a62104783723015887467ef0fbeb366dec305cf430","size":16000,"transport":"raw"},
+      {"name":"runtime.b64.part10","sha256":"33ce18ab0c426e8d4c84887b53d09c8f8707d37ea30ee4b3830c2cef00eda4af","size":800,"transport":"raw"}
+    ],
+    "sha256":"35bbba92ba788058cb563aa2955eb3b687e10919159e972863d62b701dbc48a1",
+    "size":120600,
+    "version":"4.3.4"
+  },
+  "canonical_source":{"internal_hashes":255,"sha256":"a93cdc906c856357eda5a72f4b7295356dcda35bdb747e2f7569c0917578c8b1"},
+  "continuity_vault":{"entries":39,"sha256":"36400c6bc2c0e92f1e0e4738b1227ba2d0463bfecaa37f835af35e4b01f5fc88"},
+  "delta": {
+    "deleted_paths":[],
+    "parts":[
+      {"name":"delta.b64.part00","sha256":"d487fc5043d1a66fa67bd5e4ccbabc3eb36a3cef7ddf6a9b9ff053e9b0b48fb3","size":12000},
+      {"name":"delta.b64.part01","sha256":"ee591ce84e24d34b9658fe52ee31691182056d4c5500b4d4f0ed2fde7305b154","size":12000},
+      {"name":"delta.b64.part02","sha256":"ac1d83532bb08efd47e5f2b9749d2841826dda3f60052ed6aa0dbf2578ddfaf9","size":12000},
+      {"name":"delta.b64.part03","sha256":"399bbe3e8086b3acc165762f815d1404b0c1f5f014d297e5fd29e7d3ee2fe35c","size":12000},
+      {"name":"delta.b64.part04","sha256":"ce3c01709d13f60a7552e2fab0d9d163b63f50f8fb9745afd0e236d564cbbbbe","size":7248}
+    ],
+    "sha256":"2cf019f86780ed9ef3592b218097b760aeddd7c1268a247ed02d31c265760fd8",
+    "size":41436
+  },
+  "final_runtime":{"archive_sha256":"447553a3846a6e5fb30c839c07a5f85b5ed3075cea79ee396975dd748199d575","internal_hashes":145,"root":"eira_unified_brain_v4_3_5","size":127392},
+  "release":"Eira Unified Brain v4.3.5 Full Symbiote",
+  "symbiote_invariants":["claims every ordinary non-control user turn","Unified Brain owns relevance and history selection","legacy compact_history cannot co-author a symbiotic turn","LIVE identity and outward host voice are preserved","eligible LIVE capabilities merge lazily into Unified Gateway","neural web envelops LIVE anchors and preserves morph/reconnect lineage","router bind is reversible and exact-backup protected","main.py remains protected"],
+  "transport":"verified v4.3.4 base runtime plus verified v4.3.5 delta",
+  "version":"4.3.5"
+}
