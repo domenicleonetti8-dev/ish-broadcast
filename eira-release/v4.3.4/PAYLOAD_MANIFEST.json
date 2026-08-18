@@ -1,0 +1,25 @@
+{
+  "version": "4.3.4",
+  "scope": "deployable_pi_runtime",
+  "runtime_size": 120108,
+  "runtime_sha256": "01bd1ae05d1ecd57d77467016b3bc75372c1e5aec3bdc00714e9c42c30ea84a8",
+  "internal_files": 141,
+  "canonical_source_sha256": "97f2e1666edff814a645af132b9c962d4851f5e13e7e31d399f31076f56647b4",
+  "canonical_source_files": 249,
+  "continuity_vault_sha256": "f21a8472af1fef2fb080271219cad71955073ca21bc90c9c515d0f4ff77b3283",
+  "continuity_vault_top_level_entries": 6,
+  "parts": [
+    {"name":"runtime.b64.part00","size":16000,"sha256":"abadd43f9a0c4a6d0ad713d8ec5029bc7407a04482882e9b293012f0b5efae2a"},
+    {"name":"runtime.b64.part01","size":16000,"sha256":"fe6b2e1dfa75c83356dbd99c4e292ea052b0904304220d1e3f8009f3dc251072"},
+    {"name":"runtime.b64.part02","size":16000,"sha256":"6915493b54144eb6fd8fcdc5d6df6d4afd0cae73eff43ae435f409e0e96b1f8d"},
+    {"name":"runtime.b64.part03","size":16000,"sha256":"574ec631c8caaff74a88fc11adf6b1984a77a13ba987dda2ebae180e3be0c3dc"},
+    {"name":"runtime.b64.part04","size":16000,"sha256":"345c7e87c8eeed888e6552045e3eabcc15ee90a611c104a272862a75cf85eb5a"},
+    {"name":"runtime.b64.part05","size":16000,"sha256":"cce68abefcd2e171aebed487ed332382e82b91fbfb5b3b29c9a960a3bc65e850"},
+    {"name":"runtime.b64.part06","size":16000,"sha256":"7691347cf0537927039afefb3671cb50959d2c7771c78e670278659b6e701bb2"},
+    {"name":"runtime.b64.part07","size":16000,"sha256":"2500518326301d218166cb6a32779c15ab34d0fc9e4fd36faccc06a69d0d35a0"},
+    {"name":"runtime.b64.part08","size":16000,"sha256":"8331eaa42254ce8cdee962a1385b2cb83109c6bec43877d87a95c5ece659ef11"},
+    {"name":"runtime.b64.part09","size":16000,"sha256":"14195638ae49715202f30a1ba3426eba9b8305402e0035d7d94fefeee6de58d1"},
+    {"name":"runtime.b64.part10","size":144,"sha256":"660b97266d1875c6e3a2a541750a1b7cc791741a6fac30087a50580af5aa4839"}
+  ],
+  "note": "This GitHub transport deploys the runtime only. The full canonical source and continuity vault remain separate sealed release artifacts and are not deployed into LIVE."
+}
