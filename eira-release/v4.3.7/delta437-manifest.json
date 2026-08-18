@@ -1,0 +1,35 @@
+{
+  "release": "4.3.7",
+  "name": "Eira Symbiosis Complete",
+  "base_release": "4.3.6",
+  "transport": "verified_v4.3.6_runtime_plus_v4.3.7_overlay_delta",
+  "delta_base64_sha256": "c16582589d063f3d917b43cec9f736ab6cefe7ed66e83e56b338ed4451fefdfb",
+  "delta_base64_size": 45200,
+  "delta_archive_sha256": "8446e667fc35c6d80470af37b365b935b4d0c16bb519d53fd48f6a56d72dbb8a",
+  "delta_archive_size": 33900,
+  "sealed_runtime_sha256": "595959dd81ce77156dcc8b8dbf9d195acd99433a1a0294f1fbcd97607b5bb7c8",
+  "sealed_runtime_size": 131756,
+  "expected_internal_files": 149,
+  "deletes": [],
+  "pieces": [
+    {"name":"delta437.b64.part00","size":8000,"sha256":"977f8aab72aa83931981f331feaacab8beeb19be90ed6536da6f2fec48bb7ad6"},
+    {"name":"delta437.b64.part01","size":8000,"sha256":"d29c4bc4a9440ddbfbad70c66813124fd269104ac9aec72f8eaf06c8fc9088f0"},
+    {"name":"delta437.b64.part02","size":8000,"sha256":"f2ca2f12823f7b58462154585fa246d352021478e9f12b1d410fdd6986bd34f9"},
+    {"name":"delta437.b64.part03","size":8000,"sha256":"2d3fc607fde61531936287e93c69919da4b49ea942cee38321328bc6ec47a2eb"},
+    {"name":"delta437.b64.part04","size":8000,"sha256":"e37231b6ae07ba922db0d3257f7c2ba27abffa7ea8005935046119e6999809d9"},
+    {"name":"delta437.b64.part05","size":5200,"sha256":"1c09e1725f3412a5025fd35498e4b64dd79533299a59566e9bce187495287445"}
+  ],
+  "invariants": [
+    "one Eira outward identity",
+    "Unified Brain owns relevance and reasoning for every ordinary turn",
+    "legacy LIVE history is candidate-only and exact-exchange filtered",
+    "whole eligible LIVE extension fabric is structurally engulfed",
+    "legacy capability execution requires a static or manifest contract and is on-demand only",
+    "host local_brain is renderer and isolated fallback rather than a competing authority",
+    "generic response drift is a system-wide response-integrity failure",
+    "all fail-safe paths suppress raw legacy history",
+    "main.py remains unchanged",
+    "router bind is marker-delimited, backed up, hash-receipted and reversible",
+    "Bluetooth broadcast remains external"
+  ]
+}
