@@ -1,0 +1,35 @@
+{
+  "release": "4.3.6",
+  "name": "Eira Complete Symbiotic Venom",
+  "base_release": "4.3.5",
+  "transport": "verified_v4.3.5_runtime_plus_v4.3.6_overlay_delta",
+  "delta_base64_sha256": "40489b9e79fab787cd0abb4b1dc7bd6834d359729c31f8d678999980b4433660",
+  "delta_base64_size": 50412,
+  "delta_archive_sha256": "dae0e290ed3a9039e0405ad97e755efd16e99ce1df4768677e23b24f2beaabd6",
+  "delta_archive_size": 37808,
+  "sealed_runtime_sha256": "21c1fccc0997e83f8a467c513daf30694a093893baae197fade27c6bbd6944cd",
+  "sealed_runtime_size": 130692,
+  "expected_internal_files": 148,
+  "deletes": [],
+  "pieces": [
+    {"name":"delta435.b64.part00","size":12000,"sha256":"2f1759b7f065f6cebe6a1383a7b55aaa0ca135989063aa04735f4ee7133f09d2"},
+    {"name":"delta435.b64.part01a","size":6000,"sha256":"bd5355228221c2fc6986cfd50a92c3671aa5c595d8046f7c47df3604cadddd9f"},
+    {"name":"delta435.b64.part01b0","size":3000,"sha256":"aba9f31171139de67118e1c2c840bab5b3105f9324b5afbec9466e8187fee23e"},
+    {"name":"delta435.b64.part01b1","size":3000,"sha256":"4d915f03fdb3355aa7ea46e3552ba97fa2e02cfb2dd34416e0ab2660f5239fcd"},
+    {"name":"delta435.b64.part02","size":12000,"sha256":"13df54668288623996f32674938f97f2346d785d4c07f915da2fdc85a0df976e"},
+    {"name":"delta435.b64.part03","size":12000,"sha256":"a6d7368ae80b626337e060f04d11276e6de4aa85d950233d3e70aef1e2c81b01"},
+    {"name":"delta435.b64.part04","size":2412,"sha256":"f66e30a7199c6e6b2bcf0013285cc046116e1577a82bdeffdea6c9b576ec2b33"}
+  ],
+  "invariants": [
+    "one Eira outward identity",
+    "Unified Brain owns relevance and reasoning for every ordinary turn",
+    "legacy LIVE history is candidate-only and current-turn filtered",
+    "whole eligible LIVE extension fabric is structurally engulfed",
+    "legacy capability execution requires a static/manifest contract and is on-demand only",
+    "host local_brain is renderer/fallback rather than a competing authority",
+    "generic-response drift is checked system-wide rather than by trigger phrase",
+    "main.py remains unchanged",
+    "router bind is marker-delimited, backed up, hash-receipted and reversible",
+    "Bluetooth broadcast remains external"
+  ]
+}
