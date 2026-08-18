@@ -1,0 +1,69 @@
+{
+  "base_runtime": {
+    "sha256": "35bbba92ba788058cb563aa2955eb3b687e10919159e972863d62b701dbc48a1",
+    "size": 120600,
+    "version": "4.3.4"
+  },
+  "canonical_source": {
+    "file": "eira_unified_brain_v4_3_5_full_symbiote_verified.zip",
+    "internal_hashes": 255,
+    "sha256": "a93cdc906c856357eda5a72f4b7295356dcda35bdb747e2f7569c0917578c8b1"
+  },
+  "continuity_vault": {
+    "entries": 39,
+    "file": "eira_v4_3_5_continuity_vault.tar.xz",
+    "sha256": "36400c6bc2c0e92f1e0e4738b1227ba2d0463bfecaa37f835af35e4b01f5fc88"
+  },
+  "delta": {
+    "deleted_paths": [],
+    "file": "eira_v4_3_5_from_v4_3_4_delta.tar.xz",
+    "parts": [
+      {
+        "name": "delta.b64.part00",
+        "sha256": "d487fc5043d1a66fa67bd5e4ccbabc3eb36a3cef7ddf6a9b9ff053e9b0b48fb3",
+        "size": 12000
+      },
+      {
+        "name": "delta.b64.part01",
+        "sha256": "ee591ce84e24d34b9658fe52ee31691182056d4c5500b4d4f0ed2fde7305b154",
+        "size": 12000
+      },
+      {
+        "name": "delta.b64.part02",
+        "sha256": "ac1d83532bb08efd47e5f2b9749d2841826dda3f60052ed6aa0dbf2578ddfaf9",
+        "size": 12000
+      },
+      {
+        "name": "delta.b64.part03",
+        "sha256": "399bbe3e8086b3acc165762f815d1404b0c1f5f014d297e5fd29e7d3ee2fe35c",
+        "size": 12000
+      },
+      {
+        "name": "delta.b64.part04",
+        "sha256": "ce3c01709d13f60a7552e2fab0d9d163b63f50f8fb9745afd0e236d564cbbbbe",
+        "size": 7248
+      }
+    ],
+    "sha256": "2cf019f86780ed9ef3592b218097b760aeddd7c1268a247ed02d31c265760fd8",
+    "size": 41436
+  },
+  "final_runtime": {
+    "file": "eira_v4_3_5_pi_runtime_full_symbiote.tar.xz",
+    "internal_hashes": 145,
+    "sha256": "447553a3846a6e5fb30c839c07a5f85b5ed3075cea79ee396975dd748199d575",
+    "size": 127392
+  },
+  "release": "Eira Unified Brain v4.3.5 Full Symbiote",
+  "symbiote_invariants": [
+    "claims every ordinary non-control user turn",
+    "Unified Brain owns relevance and historical context selection",
+    "legacy local_brain compact_history cannot co-author a symbiotic turn",
+    "LIVE identity and outward host voice are preserved",
+    "eligible LIVE extension capabilities merge lazily into Unified Gateway",
+    "neural web envelops LIVE anchors and preserves morph/reconnect lineage",
+    "host router bind is reversible and exact-backup protected",
+    "main.py remains protected and is not replaced"
+  ],
+  "transport": "immutable v4.3.4 base runtime + verified v4.3.5 delta",
+  "version": "4.3.5"
+}
