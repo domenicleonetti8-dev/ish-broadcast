@@ -1,0 +1,39 @@
+name: Unpack Eira v4.4.0 Omnivenom
+
+on:
+  push:
+    branches:
+      - eira-v4.4.0-omnivenom-300-unpacked
+
+permissions:
+  contents: write
+
+jobs:
+  unpack:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: eira-v4.4.0-omnivenom-300-unpacked
+          fetch-depth: 0
+      - name: Rebuild verify and unpack Eira v4.4.0
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat _eira_v440_payload/source.chunk00 \
+              _eira_v440_payload/source.chunk01 \
+              _eira_v440_payload/source.chunk02 \
+              _eira_v440_payload/source.chunk03 \
+              _eira_v440_payload/source.chunk04 | base64 -d > /tmp/EIRA-v4.4.0.tar.xz
+          printf '%s  %s\n' '0d1dc66798b55f38dc762cb6224eaeb03fc186e31e4ad7b2da4453a0cdcb09d0' /tmp/EIRA-v4.4.0.tar.xz | sha256sum -c -
+          rm -rf eira_unified_brain_v4_4_0
+          tar -xJf /tmp/EIRA-v4.4.0.tar.xz
+          python3 eira_unified_brain_v4_4_0/scripts/verify_internal_hashes.py
+          test "$(wc -l < eira_unified_brain_v4_4_0/SHA256SUMS.txt | tr -d ' ')" = "300"
+          rm -rf _eira_v440_payload
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -A
+          git commit -m 'release: unpack Eira v4.4.0 Omnivenom 300-file source'
+          git push
