@@ -17,6 +17,10 @@ jobs:
         with:
           submodules: true
 
+      - name: Install iSH build dependencies
+        run: |
+          brew install llvm lld ninja libarchive meson
+
       - name: Verify and apply native Eira voice bridge
         run: |
           python3 -m py_compile tools/eira_voice_patch.py
