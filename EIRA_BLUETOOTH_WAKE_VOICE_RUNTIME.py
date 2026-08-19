@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Optional
 
 ROLE = "eira_bluetooth_voice_ai"
-VERSION = "1.0.0"
+VERSION = "1.0.1"
 
 AUDIO_UUID_MARKERS = (
     "audio sink",
@@ -127,14 +127,24 @@ class BluetoothVoiceRuntime:
         if not shutil.which("bluetoothctl"):
             raise RuntimeError("bluetoothctl is not installed")
         self._bluetoothctl("power", "on", timeout=8)
-        self._bluetoothctl("--timeout", str(int(seconds)), "scan", "on",
-                           timeout=int(seconds) + 5)
+        self._bluetoothctl(
+            "--timeout",
+            str(int(seconds)),
+            "scan",
+            "on",
+            timeout=int(seconds) + 5,
+        )
 
     def _pair_best_audio_if_needed(self) -> None:
         paired = self._devices(paired_only=True)
         if any(self._info(mac).get("audio") for mac, _ in paired):
             return
-        if os.environ.get("EIRA_BT_AUTO_PAIR", "1").strip().lower() not in ("1", "true", "yes", "on"):
+        if os.environ.get("EIRA_BT_AUTO_PAIR", "1").strip().lower() not in (
+            "1",
+            "true",
+            "yes",
+            "on",
+        ):
             return
 
         candidates = []
@@ -167,7 +177,10 @@ class BluetoothVoiceRuntime:
 
         eligible.sort(reverse=True)
         connected: dict[str, str] = {}
-        max_outputs = max(1, min(10, int(os.environ.get("EIRA_BT_MAX_OUTPUTS", "10"))))
+        max_outputs = max(
+            1,
+            min(10, int(os.environ.get("EIRA_BT_MAX_OUTPUTS", "10"))),
+        )
         for _, mac, name, info in eligible[:max_outputs]:
             if not info["trusted"]:
                 self._bluetoothctl("trust", mac, timeout=10)
@@ -185,7 +198,9 @@ class BluetoothVoiceRuntime:
     def _pactl_sinks() -> list[str]:
         if not shutil.which("pactl"):
             return []
-        result = BluetoothVoiceRuntime._run(("pactl", "list", "short", "sinks"), timeout=10)
+        result = BluetoothVoiceRuntime._run(
+            ("pactl", "list", "short", "sinks"), timeout=10
+        )
         if result.returncode != 0:
             return []
         sinks = []
@@ -209,7 +224,9 @@ class BluetoothVoiceRuntime:
             if "sinks:" in low:
                 in_sinks = True
                 continue
-            if in_sinks and ("sources:" in low or "filters:" in low or "streams:" in low):
+            if in_sinks and (
+                "sources:" in low or "filters:" in low or "streams:" in low
+            ):
                 break
             if in_sinks and "bluez" in low:
                 match = re.search(r"(\d+)\.\s+(.+?)(?:\s+\[|$)", line)
@@ -222,15 +239,24 @@ class BluetoothVoiceRuntime:
         if sinks:
             target = sinks[0]
             if len(sinks) > 1:
-                modules = self._run(("pactl", "list", "short", "modules"), timeout=10)
+                modules = self._run(
+                    ("pactl", "list", "short", "modules"), timeout=10
+                )
                 if modules.returncode == 0:
                     for line in modules.stdout.splitlines():
-                        if "module-combine-sink" in line and "sink_name=eira_broadcast" in line:
+                        if (
+                            "module-combine-sink" in line
+                            and "sink_name=eira_broadcast" in line
+                        ):
                             module_id = line.split()[0]
-                            self._run(("pactl", "unload-module", module_id), timeout=8)
+                            self._run(
+                                ("pactl", "unload-module", module_id), timeout=8
+                            )
                 combined = self._run(
                     (
-                        "pactl", "load-module", "module-combine-sink",
+                        "pactl",
+                        "load-module",
+                        "module-combine-sink",
                         "sink_name=eira_broadcast",
                         "sink_properties=device.description=Eira_Broadcast",
                         "slaves=" + ",".join(sinks),
@@ -258,9 +284,20 @@ class BluetoothVoiceRuntime:
             self._last_acquire = time.time()
             self._last_error = None
             try:
-                self._scan_once(seconds=int(os.environ.get("EIRA_BT_SCAN_SECONDS", "8")))
-                self._pair_best_audio_if_needed()
+                # Fast path: hold/reconnect known audio first. Do not scan while
+                # Eira already owns a usable Bluetooth output.
                 self._connected = self._connect_audio_devices()
+
+                # Discovery is only needed when no known paired audio device
+                # can be connected. Then Eira scans, pairs the best candidate,
+                # trusts it, and immediately attempts the connection again.
+                if not self._connected:
+                    self._scan_once(
+                        seconds=int(os.environ.get("EIRA_BT_SCAN_SECONDS", "8"))
+                    )
+                    self._pair_best_audio_if_needed()
+                    self._connected = self._connect_audio_devices()
+
                 deadline = time.time() + 8
                 sinks = []
                 while time.time() < deadline:
@@ -288,10 +325,13 @@ class BluetoothVoiceRuntime:
         if self._voice is not None:
             return self._voice
         if not self.voice_model.is_file():
-            raise RuntimeError("Piper female voice model is missing: " + str(self.voice_model))
+            raise RuntimeError(
+                "Piper female voice model is missing: " + str(self.voice_model)
+            )
         if str(self.vendor) not in sys.path:
             sys.path.insert(0, str(self.vendor))
         from piper import PiperVoice
+
         self._voice = PiperVoice.load(str(self.voice_model))
         return self._voice
 
@@ -319,7 +359,9 @@ class BluetoothVoiceRuntime:
         result = self._run(args, timeout=120)
         if result.returncode != 0:
             raise RuntimeError(
-                player + " failed: " + (result.stderr.strip() or result.stdout.strip())
+                player
+                + " failed: "
+                + (result.stderr.strip() or result.stdout.strip())
             )
 
     def speak_now(self, text: str) -> None:
@@ -367,7 +409,9 @@ class BluetoothVoiceRuntime:
     def _connection_loop(self) -> None:
         while not self._stop.is_set():
             self.acquire()
-            self._stop.wait(max(3, int(os.environ.get("EIRA_BT_RECONNECT_SECONDS", "5"))))
+            self._stop.wait(
+                max(3, int(os.environ.get("EIRA_BT_RECONNECT_SECONDS", "5")))
+            )
 
     def _speech_loop(self) -> None:
         while not self._stop.is_set():
