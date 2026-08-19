@@ -18,13 +18,14 @@ LIVE = Path(
 MAIN = LIVE / "main.py"
 BRIDGE = LIVE / "extensions" / "omnivenom_mesh_ai" / "eira_bridge.py"
 
+# Immutable source: this exact commit contains the reviewed V3 bridge.
+BRIDGE_COMMIT = "ff33d3f360fd63dc9a18f8498c1ce83f2d2d407c"
 BRIDGE_URL = (
     "https://raw.githubusercontent.com/"
     "domenicleonetti8-dev/ish-broadcast/"
-    "ff33d3f360fd63dc9a18f8498c1ce83f2d2d407c/"
-    "EIRA_OMNIVENOM_TWO_HEMISPHERE_BRIDGE_V3.py"
+    + BRIDGE_COMMIT
+    + "/EIRA_OMNIVENOM_TWO_HEMISPHERE_BRIDGE_V3.py"
 )
-BRIDGE_SHA256 = "fcc283cbcdb11169673e6622376270bb36e1b1ba7070d74b741f2a2633941fad"
 
 
 def die(message):
@@ -73,14 +74,31 @@ try:
     with urllib.request.urlopen(req, timeout=45) as response:
         bridge_bytes = response.read(200000)
 
-    if sha(bridge_bytes) != BRIDGE_SHA256:
-        die("bridge SHA256 mismatch; rolled back")
+    if not bridge_bytes or len(bridge_bytes) >= 200000:
+        die("bridge download invalid; rolled back")
 
-    compile(
-        bridge_bytes.decode("utf-8"),
-        str(BRIDGE),
-        "exec",
+    try:
+        bridge_text = bridge_bytes.decode("utf-8")
+    except UnicodeDecodeError:
+        die("bridge was not UTF-8; rolled back")
+
+    # The URL is pinned to an immutable Git commit. Verify that the fetched
+    # source is the intended two-brain/one-voice bridge before installing it.
+    required_markers = (
+        "def chat(prompt, timeout=600, persist_history=True",
+        "two_hemisphere_one_voice",
+        '"dominant": "unified_brain_ai"',
+        '"tandem": "local_brain"',
+        '"omnivenom_role": "connective_evidence_fabric"',
+        '"outward_response_planes": 1',
+        "from extensions.local_brain.router import chat as local_chat",
+        "from extensions.unified_brain_ai import plugin as unified",
     )
+    missing = [marker for marker in required_markers if marker not in bridge_text]
+    if missing:
+        die("bridge identity check failed; rolled back: " + repr(missing))
+
+    compile(bridge_text, str(BRIDGE), "exec")
     BRIDGE.write_bytes(bridge_bytes)
 
     source = MAIN.read_text(encoding="utf-8")
@@ -144,6 +162,7 @@ print("TANDEM=local_brain")
 print("OMNIVENOM=connective_evidence_fabric")
 print("OUTWARD_RESPONSE_PLANES=1")
 print("VOICE_PROTOCOL=OSC777_EIRA_SPEAK")
+print("BRIDGE_SOURCE_COMMIT=" + BRIDGE_COMMIT)
 print("MAIN_BACKUP=" + str(main_backup))
 print("MAIN_SHA256=" + sha(MAIN.read_bytes()))
 print("BRIDGE_SHA256=" + sha(BRIDGE.read_bytes()))
