@@ -1,0 +1,38 @@
+name: Eira Two-Hemisphere Voice iPhone
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - eira-two-hemisphere-voice
+
+jobs:
+  build-iphone:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Apply native Eira voice bridge
+        run: |
+          python3 tools/eira_voice_patch.py
+          grep -q 'EIRA-SPEAK' app/terminal/term.js
+          grep -q 'speakEiraText' app/TerminalView.m
+
+      - name: Build iPhone app
+        run: |
+          xcodebuild \
+            -project iSH.xcodeproj \
+            -scheme iSH \
+            -arch arm64 \
+            -sdk iphoneos \
+            -derivedDataPath build-eira-voice \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Upload Eira voice iSH
+        uses: actions/upload-artifact@v7
+        with:
+          name: ish-eira-two-hemisphere-voice
+          path: build-eira-voice/Build/Products/*-iphoneos/iSH.app
+          if-no-files-found: error
