@@ -2,12 +2,17 @@ from __future__ import annotations
 
 import json
 import threading
+import time
 from pathlib import Path
 from typing import Any
 
 
 class OmniVenomBridge:
-    """Read-only bridge into the already-installed OmniVenom mesh."""
+    """Read-only bridge into the already-installed OmniVenom mesh.
+
+    The dominant brain does not become a filesystem crawler itself. OmniVenom
+    remains the connective web and supplies bounded, findable context on demand.
+    """
 
     def __init__(self, live_root: str | Path):
         self.live = Path(live_root).expanduser().resolve()
@@ -42,6 +47,7 @@ class OmniVenomBridge:
             if self._refresh_started:
                 return
             self._refresh_started = True
+
         def worker():
             try:
                 mesh = self._build()
@@ -50,6 +56,7 @@ class OmniVenomBridge:
                     mesh.refresh()
             except Exception as exc:
                 self._last_error = f"{type(exc).__name__}:{str(exc)[:240]}"
+
         threading.Thread(target=worker, name="omnivenom-index", daemon=True).start()
 
     def context(self, query: str, *, depth: int = 1, limit: int = 80) -> dict[str, Any]:
@@ -58,8 +65,22 @@ class OmniVenomBridge:
             return {"ok": True, "roots": [], "nodes": [], "edges": []}
         try:
             raw = self._build().context(query, depth=max(0, min(int(depth), 2)), limit=max(1, min(int(limit), 160)))
-            nodes = [{"node_id": n.get("node_id"), "kind": n.get("kind"), "name": n.get("name"), "path": n.get("path"), "state": n.get("state"), "capabilities": n.get("capabilities", [])} for n in list(raw.get("nodes") or [])[:48]]
-            edges = [{"source": e.get("source"), "target": e.get("target"), "relation": e.get("relation"), "confidence": e.get("confidence")} for e in list(raw.get("edges") or [])[:80]]
+            nodes = []
+            for n in list(raw.get("nodes") or [])[:48]:
+                nodes.append({
+                    "node_id": n.get("node_id"),
+                    "kind": n.get("kind"),
+                    "name": n.get("name"),
+                    "path": n.get("path"),
+                    "state": n.get("state"),
+                    "capabilities": n.get("capabilities", []),
+                })
+            edges = []
+            for e in list(raw.get("edges") or [])[:80]:
+                edges.append({
+                    "source": e.get("source"), "target": e.get("target"),
+                    "relation": e.get("relation"), "confidence": e.get("confidence"),
+                })
             return {"ok": True, "roots": list(raw.get("roots") or [])[:12], "nodes": nodes, "edges": edges}
         except Exception as exc:
             self._last_error = f"{type(exc).__name__}:{str(exc)[:240]}"
@@ -69,4 +90,5 @@ class OmniVenomBridge:
         obj = self.context(query)
         if not obj.get("ok"):
             return "OmniVenom context unavailable for this turn."
-        return json.dumps(obj, ensure_ascii=False, separators=(",", ":"), default=str)[: max(1000, int(max_chars))]
+        text = json.dumps(obj, ensure_ascii=False, separators=(",", ":"), default=str)
+        return text[: max(1000, int(max_chars))]
