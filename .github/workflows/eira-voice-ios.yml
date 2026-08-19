@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - eira-two-hemisphere-voice
+  pull_request:
+    branches:
+      - master
 
 jobs:
   build-iphone:
