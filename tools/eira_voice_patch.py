@@ -15,6 +15,13 @@ def replace_once(text, old, new, label):
     return text.replace(old, new, 1)
 
 
+def replace_last(text, old, new, label):
+    pos = text.rfind(old)
+    if pos < 0:
+        raise SystemExit(f"EIRA_VOICE_PATCH: missing anchor: {label}")
+    return text[:pos] + new + text[pos + len(old):]
+
+
 js = TERM_JS.read_text(encoding="utf-8")
 if "EIRA-SPEAK" not in js:
     old = """let decoder = new TextDecoder();
@@ -114,17 +121,17 @@ if "eiraSpeechSynthesizer" not in m:
         m,
         '@property (nonatomic) BOOL terminalFocused;\n',
         '''@property (nonatomic) BOOL terminalFocused;
-@property (nonatomic) AVSpeechSynthesizer *eiraSpeechSynthesizer;
-@property (nonatomic) SFSpeechRecognizer *eiraSpeechRecognizer;
-@property (nonatomic) SFSpeechAudioBufferRecognitionRequest *eiraRecognitionRequest;
-@property (nonatomic) SFSpeechRecognitionTask *eiraRecognitionTask;
-@property (nonatomic) AVAudioEngine *eiraAudioEngine;
+@property (nonatomic, strong) AVSpeechSynthesizer *eiraSpeechSynthesizer;
+@property (nonatomic, strong) SFSpeechRecognizer *eiraSpeechRecognizer;
+@property (nonatomic, strong) SFSpeechAudioBufferRecognitionRequest *eiraRecognitionRequest;
+@property (nonatomic, strong) SFSpeechRecognitionTask *eiraRecognitionTask;
+@property (nonatomic, strong) AVAudioEngine *eiraAudioEngine;
 @property (nonatomic) BOOL eiraVoiceAuthorized;
 @property (nonatomic) BOOL eiraReadyForInput;
 @property (nonatomic) BOOL eiraSpeaking;
 @property (nonatomic) BOOL eiraInputTapInstalled;
 @property (nonatomic) NSInteger eiraEndpointGeneration;
-@property (nonatomic) NSString *eiraPendingTranscript;
+@property (nonatomic, copy) NSString *eiraPendingTranscript;
 ''',
         "Eira voice properties",
     )
@@ -198,7 +205,6 @@ if "- (void)prepareEiraVoiceInput" not in m:
 
     self.eiraReadyForInput = NO;
     [self stopEiraListening];
-
     [self insertText:[text stringByAppendingString:@"\n"]];
 }
 
@@ -249,6 +255,11 @@ if "- (void)prepareEiraVoiceInput" not in m:
 
     AVAudioInputNode *inputNode = self.eiraAudioEngine.inputNode;
     AVAudioFormat *format = [inputNode outputFormatForBus:0];
+    if (format.sampleRate <= 0 || format.channelCount == 0) {
+        NSLog(@"Eira microphone format unavailable");
+        return;
+    }
+
     __weak typeof(self) weakSelf = self;
     [inputNode installTapOnBus:0
                    bufferSize:1024
@@ -325,14 +336,13 @@ if "- (void)prepareEiraVoiceInput" not in m:
         NSError *audioError = nil;
         AVAudioSession *session = AVAudioSession.sharedInstance;
         [session setCategory:AVAudioSessionCategoryPlayAndRecord
-                        mode:AVAudioSessionModeSpokenAudio
+                        mode:AVAudioSessionModeDefault
                      options:AVAudioSessionCategoryOptionDefaultToSpeaker
                        error:&audioError];
         [session setActive:YES error:&audioError];
         [session overrideOutputAudioPort:AVAudioSessionPortOverrideSpeaker error:&audioError];
 
         [self.eiraSpeechSynthesizer stopSpeakingAtBoundary:AVSpeechBoundaryImmediate];
-
         AVSpeechUtterance *utterance = [AVSpeechUtterance speechUtteranceWithString:text];
         utterance.voice = [self bestEiraVoice];
         utterance.rate = AVSpeechUtteranceDefaultSpeechRate * 0.92;
@@ -352,12 +362,12 @@ if "- (void)prepareEiraVoiceInput" not in m:
 - (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer
  didCancelSpeechUtterance:(AVSpeechUtterance *)utterance {
     self.eiraSpeaking = NO;
-    if (self.eiraReadyForInput)
+    if (self.eiraReadyForInput && !self.eiraSpeechSynthesizer.isSpeaking)
         [self startEiraListening];
 }
 
 '''
-    m = replace_once(m, anchor, methods + anchor, "Eira voice methods")
+    m = replace_last(m, anchor, methods + anchor, "Eira voice methods")
 
 if '[self speakEiraText:message.body];' not in m:
     old = '''    } else if ([message.name isEqualToString:@"openLink"]) {
