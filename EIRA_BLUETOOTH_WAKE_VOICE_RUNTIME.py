@@ -15,7 +15,7 @@ from pathlib import Path
 from typing import Optional
 
 ROLE = "eira_bluetooth_voice_ai"
-VERSION = "1.0.1"
+VERSION = "1.0.2"
 
 AUDIO_UUID_MARKERS = (
     "audio sink",
@@ -136,9 +136,6 @@ class BluetoothVoiceRuntime:
         )
 
     def _pair_best_audio_if_needed(self) -> None:
-        paired = self._devices(paired_only=True)
-        if any(self._info(mac).get("audio") for mac, _ in paired):
-            return
         if os.environ.get("EIRA_BT_AUTO_PAIR", "1").strip().lower() not in (
             "1",
             "true",
@@ -284,13 +281,13 @@ class BluetoothVoiceRuntime:
             self._last_acquire = time.time()
             self._last_error = None
             try:
-                # Fast path: hold/reconnect known audio first. Do not scan while
-                # Eira already owns a usable Bluetooth output.
+                # First hold/reconnect known audio. Scanning is unnecessary
+                # while Eira already owns a usable Bluetooth output.
                 self._connected = self._connect_audio_devices()
 
-                # Discovery is only needed when no known paired audio device
-                # can be connected. Then Eira scans, pairs the best candidate,
-                # trusts it, and immediately attempts the connection again.
+                # If known audio is unavailable, discover the room now. A
+                # nearby unpaired audio device is eligible even if stale/offline
+                # paired speakers exist in BlueZ history.
                 if not self._connected:
                     self._scan_once(
                         seconds=int(os.environ.get("EIRA_BT_SCAN_SECONDS", "8"))
