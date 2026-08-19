@@ -6,7 +6,7 @@ import urllib.request
 
 BASE_INSTALLER_COMMIT = "697bb1df2c835731b09e3f61c6a31b3f6e4569c0"
 OLD_RUNTIME_COMMIT = "0aa3a347a693cf4b84c3243f2c3b27bd732c8d60"
-FINAL_RUNTIME_COMMIT = "902fef785472a8dcd0a37d90f1c399e24d5bf17d"
+FINAL_RUNTIME_COMMIT = "3c43864b0f64af449278d7cc5d45a1f073bdebe7"
 BASE_INSTALLER_URL = (
     "https://raw.githubusercontent.com/"
     "domenicleonetti8-dev/ish-broadcast/"
