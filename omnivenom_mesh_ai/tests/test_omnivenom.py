@@ -21,6 +21,7 @@ class OmnivenomTests(unittest.TestCase):
             self.assertTrue(m.find('special_findable'))
             self.assertTrue(m.find('missing_piece'))
             self.assertIn('unified_brain_ai',out['brains']);self.assertIn('local_brain',out['brains'])
+            # recovered module later appears and is connected
             (r/'extensions/missing_piece.py').write_text('def helper(): return 1\n')
             out2=m.refresh();self.assertGreaterEqual(out2['morph']['resolved_unknowns'],1)
 
