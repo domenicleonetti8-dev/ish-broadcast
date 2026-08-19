@@ -1,0 +1,22 @@
+{
+  "name": "omnivenom_mesh_ai",
+  "version": "1.0.0",
+  "entrypoint": "extensions.omnivenom_mesh_ai.plugin",
+  "description": "Standalone smart crawling neural/spiderweb connective fabric. It is not a brain or model.",
+  "capabilities": [
+    "omnivenom_refresh",
+    "omnivenom_find",
+    "omnivenom_context",
+    "omnivenom_status",
+    "omnivenom_register_nodes",
+    "omnivenom_resolve_unknowns",
+    "omnivenom_tandem_bridge"
+  ],
+  "authority": {
+    "brain": false,
+    "reasoning": false,
+    "identity": false,
+    "outward_voice": false,
+    "mutation_by_discovery": false
+  }
+}
