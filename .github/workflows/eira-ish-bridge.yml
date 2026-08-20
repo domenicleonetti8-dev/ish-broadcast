@@ -7,6 +7,10 @@ on:
     paths:
       - 'eira-ish-bridge/**'
       - '.github/workflows/eira-ish-bridge.yml'
+  pull_request:
+    paths:
+      - 'eira-ish-bridge/**'
+      - '.github/workflows/eira-ish-bridge.yml'
   workflow_dispatch:
 
 jobs:
