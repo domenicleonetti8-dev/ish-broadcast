@@ -16,16 +16,16 @@ fi
 
 mkdir -p "$HOME/bin"
 
-cat > "$HOME/bin/eira" <<EOF
+cat > "$HOME/bin/eira-connect" <<EOF
 #!/bin/sh
 set -eu
 exec ssh -tt \
   -o ServerAliveInterval=20 \
   -o ServerAliveCountMax=3 \
   ${EIRA_USER}@${EIRA_HOST} \
-  "cd '${EIRA_DIR}' && exec python3 main.py"
+  "cd '${EIRA_DIR}' && exec \${SHELL:-/bin/sh} -l"
 EOF
-chmod +x "$HOME/bin/eira"
+chmod +x "$HOME/bin/eira-connect"
 
 cat > "$HOME/bin/eira-check" <<EOF
 #!/bin/sh
@@ -34,7 +34,7 @@ exec ssh \
   -o ConnectTimeout=8 \
   -o ServerAliveInterval=20 \
   ${EIRA_USER}@${EIRA_HOST} \
-  "cd '${EIRA_DIR}' && printf 'EIRA_ISH_MESSAGE_BRIDGE=READY\\n'"
+  "cd '${EIRA_DIR}' && test -f main.py && printf 'EIRA_ISH_MESSAGE_BRIDGE=READY\\n'"
 EOF
 chmod +x "$HOME/bin/eira-check"
 
@@ -46,6 +46,6 @@ fi
 
 printf '\nEIRA_ISH_MESSAGE_BRIDGE=INSTALLED\n'
 printf 'Connection: %s@%s\n' "$EIRA_USER" "$EIRA_HOST"
-printf 'Remote Eira: %s/main.py\n' "$EIRA_DIR"
-printf '\nRun:  . ~/.profile\nThen: eira-check\nThen: eira\n'
-printf '\nInside Eira, use the normal iPhone keyboard Dictation button. iOS owns the microphone; dictated text is delivered as ordinary terminal input to python3 main.py.\n'
+printf 'Remote Eira directory: %s\n' "$EIRA_DIR"
+printf '\nRun:  . ~/.profile\nThen: eira-check\nThen: eira-connect\nThen, on the Pi shell: python3 main.py\n'
+printf '\nNo separate Eira launcher or listener is created. python3 main.py remains the sole Eira runtime. At Dom >, use the normal iPhone keyboard Dictation control; iOS turns speech into text before it reaches main.py.\n'
