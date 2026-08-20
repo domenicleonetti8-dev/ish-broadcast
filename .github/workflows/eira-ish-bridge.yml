@@ -1,0 +1,18 @@
+name: Eira iSH Dictation Bridge
+
+on:
+  push:
+    branches:
+      - eira-ish-dictation-bridge-final
+    paths:
+      - 'eira-ish-bridge/**'
+      - '.github/workflows/eira-ish-bridge.yml'
+  workflow_dispatch:
+
+jobs:
+  mock-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Syntax and isolated transport tests
+        run: sh eira-ish-bridge/tests/mock_test.sh
