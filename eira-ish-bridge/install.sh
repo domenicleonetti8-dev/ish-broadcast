@@ -17,7 +17,8 @@ if ! command -v ssh >/dev/null 2>&1; then
 fi
 
 mkdir -p "$BINDIR" "$CONFIG_DIR"
-install -m 0755 "$SCRIPT_DIR/eira" "$BINDIR/eira"
+cp "$SCRIPT_DIR/eira" "$BINDIR/eira"
+chmod 0755 "$BINDIR/eira"
 
 if [ ! -f "$CONFIG" ]; then
     umask 077
