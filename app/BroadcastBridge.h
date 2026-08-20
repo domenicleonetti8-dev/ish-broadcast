@@ -4,5 +4,7 @@
 + (instancetype)shared;
 - (void)advertiseName:(NSString *)name;
 - (void)stopAdvertising;
+- (void)startMicrophoneToEndpoint:(NSString *)endpoint;
+- (void)stopMicrophone;
 - (NSString *)statusLine;
 @end
