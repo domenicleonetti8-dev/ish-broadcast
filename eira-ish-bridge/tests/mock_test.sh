@@ -23,6 +23,7 @@ export EIRA_MOCK_ARGS="$TMP/args"
 
 sh -n "$ROOT/eira"
 sh -n "$ROOT/install.sh"
+sh -n "$ROOT/bootstrap.sh"
 
 "$ROOT/eira" --check
 grep -qx -- '-T' "$TMP/args"
@@ -39,5 +40,11 @@ if "$ROOT/eira" --check >/dev/null 2>&1; then
     echo 'missing-config test unexpectedly passed' >&2
     exit 1
 fi
+
+mkdir -p "$TMP/install-home"
+HOME="$TMP/install-home" PREFIX="$TMP/prefix" "$ROOT/install.sh" >/dev/null
+test -x "$TMP/prefix/bin/eira"
+test -f "$TMP/install-home/.config/eira/ish-bridge.conf"
+grep -q 'EIRA_SSH_TARGET=""' "$TMP/install-home/.config/eira/ish-bridge.conf"
 
 printf '%s\n' 'EIRA_ISH_BRIDGE_MOCK_TESTS=PASS'
