@@ -2,7 +2,7 @@
 set -eu
 
 EIRA_HOST="${EIRA_HOST:-100.107.25.56}"
-EIRA_USER="${EIRA_USER:-root}"
+EIRA_USER="${EIRA_USER:-domenicleonetti}"
 EIRA_DIR="${EIRA_DIR:-/media/domenicleonetti/easystore/EIRA/LIVE}"
 
 if ! command -v ssh >/dev/null 2>&1; then
@@ -47,5 +47,6 @@ fi
 printf '\nEIRA_ISH_MESSAGE_BRIDGE=INSTALLED\n'
 printf 'Connection: %s@%s\n' "$EIRA_USER" "$EIRA_HOST"
 printf 'Remote Eira directory: %s\n' "$EIRA_DIR"
-printf '\nRun:  . ~/.profile\nThen: eira-check\nThen: eira-connect\nThen, on the Pi shell: python3 main.py\n'
+printf '\nRun this installer from the local iSH shell, not from inside an existing SSH session to Eira.\n'
+printf 'Then run:  . ~/.profile\nThen: eira-check\nThen: eira-connect\nThen, on Eira: python3 main.py\n'
 printf '\nNo separate Eira launcher or listener is created. python3 main.py remains the sole Eira runtime. At Dom >, use the normal iPhone keyboard Dictation control; iOS turns speech into text before it reaches main.py.\n'
