@@ -1,0 +1,47 @@
+#!/bin/sh
+set -eu
+
+CONFIG="${EIRA_ISH_CONFIG:-$HOME/.config/eira/ish-bridge.conf}"
+REMOTE_DIR="/media/domenicleonetti/easystore/EIRA/LIVE"
+
+if [ -f "$CONFIG" ]; then
+    # shellcheck disable=SC1090
+    . "$CONFIG"
+fi
+
+: "${EIRA_SSH_TARGET:=}"
+: "${EIRA_SSH_PORT:=22}"
+
+if [ -z "$EIRA_SSH_TARGET" ]; then
+    printf '%s\n' "EIRA bridge is not configured." >&2
+    printf '%s\n' "Set EIRA_SSH_TARGET in $CONFIG (example: user@host)." >&2
+    exit 2
+fi
+
+case "$EIRA_SSH_PORT" in
+    ''|*[!0-9]*) printf '%s\n' "Invalid EIRA_SSH_PORT" >&2; exit 2 ;;
+esac
+
+remote_check="cd '$REMOTE_DIR' && test -f main.py && python3 -m py_compile main.py && printf 'EIRA_REMOTE_READY=PASS\\n'"
+remote_run="cd '$REMOTE_DIR' && exec python3 main.py"
+
+case "${1:-}" in
+    --check)
+        exec ssh -T \
+            -o ServerAliveInterval=20 \
+            -o ServerAliveCountMax=3 \
+            -p "$EIRA_SSH_PORT" \
+            "$EIRA_SSH_TARGET" "$remote_check"
+        ;;
+    ''|--connect)
+        exec ssh -tt \
+            -o ServerAliveInterval=20 \
+            -o ServerAliveCountMax=3 \
+            -p "$EIRA_SSH_PORT" \
+            "$EIRA_SSH_TARGET" "$remote_run"
+        ;;
+    *)
+        printf '%s\n' "usage: eira [--connect|--check]" >&2
+        exit 2
+        ;;
+esac
