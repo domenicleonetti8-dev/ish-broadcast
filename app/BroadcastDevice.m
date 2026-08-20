@@ -53,6 +53,22 @@ static ssize_t broadcast_write(
             return size;
         }
 
+        if ([cmd isEqualToString:@"mic stop"]) {
+            [[BroadcastBridge shared] stopMicrophone];
+            return size;
+        }
+
+        if ([cmd hasPrefix:@"mic "]) {
+            NSString *endpoint = [[cmd substringFromIndex:4]
+                stringByTrimmingCharactersInSet:
+                    NSCharacterSet.whitespaceCharacterSet];
+            if (!endpoint.length)
+                return _EINVAL;
+
+            [[BroadcastBridge shared] startMicrophoneToEndpoint:endpoint];
+            return size;
+        }
+
         if ([cmd hasPrefix:@"advertise"]) {
             NSString *name = [[cmd substringFromIndex:9]
                 stringByTrimmingCharactersInSet:
