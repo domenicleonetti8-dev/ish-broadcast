@@ -42,5 +42,7 @@
 #define DEV_LOCATION_MINOR 1
 // /dev/broadcast
 #define DEV_BROADCAST_MINOR 2
+// /dev/broadcast_audio (signed 16-bit little-endian, stereo, 48 kHz)
+#define DEV_BROADCAST_AUDIO_MINOR 3
 
 #endif
