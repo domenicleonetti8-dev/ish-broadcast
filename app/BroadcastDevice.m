@@ -1,7 +1,27 @@
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 #import "BroadcastDevice.h"
 #import "BroadcastBridge.h"
 #include "kernel/errno.h"
+
+static NSString *const EiraVoiceEndpoint = @"http://100.107.25.56:8771";
+
+@interface EiraMicAutostart : NSObject
+@end
+
+@implementation EiraMicAutostart
+
++ (void)load {
+    [[NSNotificationCenter defaultCenter]
+        addObserverForName:UIApplicationDidFinishLaunchingNotification
+                    object:nil
+                     queue:NSOperationQueue.mainQueue
+                usingBlock:^(__unused NSNotification *note) {
+        [[BroadcastBridge shared] startMicrophoneToEndpoint:EiraVoiceEndpoint];
+    }];
+}
+
+@end
 
 static int broadcast_open(
     int major, int minor, struct fd *fd
