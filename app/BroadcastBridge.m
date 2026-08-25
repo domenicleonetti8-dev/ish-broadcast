@@ -2,6 +2,8 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <AVFoundation/AVFoundation.h>
 
+static NSString *const EiraMicEndpointDefaultsKey = @"EiraMicEndpoint";
+
 @interface BroadcastBridge () <CBPeripheralManagerDelegate>
 @property CBPeripheralManager *manager;
 @property NSString *name;
@@ -17,6 +19,8 @@
 @property NSString *micEndpoint;
 @property NSString *lastMicError;
 @property BOOL micRunning;
+@property BOOL micUploadInFlight;
+@property NSUInteger micDroppedChunks;
 @end
 
 @implementation BroadcastBridge
@@ -42,7 +46,17 @@
             queue:dispatch_get_main_queue()];
         _micQueue = dispatch_queue_create("app.ish.broadcast.mic", DISPATCH_QUEUE_SERIAL);
         _micPCM = [NSMutableData data];
-        _micSession = [NSURLSession sessionWithConfiguration:NSURLSessionConfiguration.defaultSessionConfiguration];
+        _micEndpoint = [NSUserDefaults.standardUserDefaults stringForKey:EiraMicEndpointDefaultsKey];
+
+        NSURLSessionConfiguration *config = NSURLSessionConfiguration.ephemeralSessionConfiguration;
+        config.requestCachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
+        config.URLCache = nil;
+        config.HTTPCookieStorage = nil;
+        config.timeoutIntervalForRequest = 15.0;
+        config.timeoutIntervalForResource = 20.0;
+        if (@available(iOS 11.0, *))
+            config.waitsForConnectivity = YES;
+        _micSession = [NSURLSession sessionWithConfiguration:config];
     }
     return self;
 }
@@ -87,15 +101,44 @@
     return [NSURL URLWithString:value];
 }
 
+- (NSString *)normalizedEndpoint:(NSString *)endpoint {
+    NSURL *url = [self listenURLForEndpoint:endpoint];
+    if (!url)
+        return nil;
+
+    NSString *value = [endpoint stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceAndNewlineCharacterSet];
+    if (!value.length)
+        return nil;
+    while ([value hasSuffix:@"/"])
+        value = [value substringToIndex:value.length - 1];
+    if ([value hasSuffix:@"/v1/listen"])
+        value = [value substringToIndex:value.length - @"/v1/listen".length];
+    if (![value containsString:@"://"])
+        value = [@"http://" stringByAppendingString:value];
+    return value;
+}
+
+- (void)setMicError:(NSString *)error {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.lastMicError = error;
+    });
+}
+
 - (void)sendMicPCM:(NSData *)pcm {
     if (!pcm.length || !self.micEndpoint.length)
         return;
 
     NSURL *url = [self listenURLForEndpoint:self.micEndpoint];
     if (!url) {
-        self.lastMicError = @"invalid microphone endpoint";
+        [self setMicError:@"invalid microphone endpoint"];
         return;
     }
+
+    if (self.micUploadInFlight) {
+        self.micDroppedChunks += 1;
+        return;
+    }
+    self.micUploadInFlight = YES;
 
     NSTimeInterval ended = NSDate.date.timeIntervalSince1970;
     NSTimeInterval duration = (NSTimeInterval)pcm.length / (16000.0 * 2.0);
@@ -111,13 +154,15 @@
     NSError *jsonError = nil;
     NSData *json = [NSJSONSerialization dataWithJSONObject:body options:0 error:&jsonError];
     if (!json) {
-        self.lastMicError = jsonError.localizedDescription ?: @"microphone JSON failed";
+        self.micUploadInFlight = NO;
+        [self setMicError:jsonError.localizedDescription ?: @"microphone JSON failed"];
         return;
     }
 
     NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:url];
     request.HTTPMethod = @"POST";
     request.HTTPBody = json;
+    request.cachePolicy = NSURLRequestReloadIgnoringLocalCacheData;
     [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
     request.timeoutInterval = 15.0;
 
@@ -127,22 +172,29 @@
             typeof(self) strongSelf = weakSelf;
             if (!strongSelf)
                 return;
+
+            dispatch_async(strongSelf.micQueue, ^{
+                strongSelf.micUploadInFlight = NO;
+            });
+
             if (error) {
-                strongSelf.lastMicError = error.localizedDescription;
+                [strongSelf setMicError:error.localizedDescription];
                 return;
             }
+
             NSInteger status = [(NSHTTPURLResponse *)response statusCode];
             if (status < 200 || status >= 300) {
-                strongSelf.lastMicError = [NSString stringWithFormat:@"microphone endpoint HTTP %ld", (long)status];
+                [strongSelf setMicError:[NSString stringWithFormat:@"microphone endpoint HTTP %ld", (long)status]];
                 return;
             }
-            strongSelf.lastMicError = nil;
+            [strongSelf setMicError:nil];
         }] resume];
 }
 
 - (void)appendMicPCM:(NSData *)data {
     if (!data.length)
         return;
+
     dispatch_async(self.micQueue, ^{
         if (!self.micRunning)
             return;
@@ -158,14 +210,45 @@
     });
 }
 
+- (void)stopMicrophoneNow {
+    self.micRunning = NO;
+
+    if (self.audioEngine) {
+        AVAudioInputNode *input = self.audioEngine.inputNode;
+        @try {
+            [input removeTapOnBus:0];
+        } @catch (__unused NSException *exception) {
+        }
+        [self.audioEngine stop];
+    }
+
+    self.audioEngine = nil;
+    self.audioConverter = nil;
+
+    dispatch_async(self.micQueue, ^{
+        // Privacy-first stop: discard any partial raw-audio tail.
+        [self.micPCM setLength:0];
+    });
+
+    [AVAudioSession.sharedInstance
+        setActive:NO
+        withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation
+        error:nil];
+}
+
 - (void)beginMicrophoneCapture {
     NSError *error = nil;
     AVAudioSession *session = AVAudioSession.sharedInstance;
+    AVAudioSessionCategoryOptions options =
+        AVAudioSessionCategoryOptionDefaultToSpeaker |
+        AVAudioSessionCategoryOptionMixWithOthers;
+
     if (![session setCategory:AVAudioSessionCategoryPlayAndRecord
                          mode:AVAudioSessionModeMeasurement
-                      options:AVAudioSessionCategoryOptionDefaultToSpeaker
+                      options:options
                         error:&error]) {
         self.lastMicError = error.localizedDescription;
+        self.micRunning = NO;
         return;
     }
 
@@ -178,6 +261,7 @@
 
     if (![session setActive:YES error:&error]) {
         self.lastMicError = error.localizedDescription;
+        self.micRunning = NO;
         return;
     }
 
@@ -195,6 +279,8 @@
 
     if (!self.audioConverter) {
         self.lastMicError = @"unable to create microphone audio converter";
+        self.micRunning = NO;
+        [session setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
         return;
     }
 
@@ -230,7 +316,7 @@
             }];
 
         if (status == AVAudioConverterOutputStatus_Error) {
-            strongSelf.lastMicError = convertError.localizedDescription ?: @"microphone conversion failed";
+            [strongSelf setMicError:convertError.localizedDescription ?: @"microphone conversion failed"];
             return;
         }
         if (!converted.frameLength)
@@ -250,6 +336,7 @@
         self.audioConverter = nil;
         self.lastMicError = error.localizedDescription;
         self.micRunning = NO;
+        [session setActive:NO withOptions:AVAudioSessionSetActiveOptionNotifyOthersOnDeactivation error:nil];
         return;
     }
     self.lastMicError = nil;
@@ -257,16 +344,19 @@
 
 - (void)startMicrophoneToEndpoint:(NSString *)endpoint {
     dispatch_async(dispatch_get_main_queue(), ^{
-        NSURL *url = [self listenURLForEndpoint:endpoint];
-        if (!url) {
+        NSString *normalized = [self normalizedEndpoint:endpoint];
+        if (!normalized.length) {
             self.lastMicError = @"invalid microphone endpoint";
             return;
         }
-        self.micEndpoint = endpoint;
-        self.lastMicError = nil;
 
-        if (self.micRunning)
-            [self stopMicrophone];
+        if (self.micRunning || self.audioEngine)
+            [self stopMicrophoneNow];
+
+        self.micEndpoint = normalized;
+        [NSUserDefaults.standardUserDefaults setObject:normalized forKey:EiraMicEndpointDefaultsKey];
+        self.lastMicError = nil;
+        self.micDroppedChunks = 0;
 
         AVAudioSession *session = AVAudioSession.sharedInstance;
         [session requestRecordPermission:^(BOOL granted) {
@@ -286,28 +376,27 @@
     });
 }
 
+- (void)resumeConfiguredMicrophone {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        NSString *endpoint = self.micEndpoint;
+        if (!endpoint.length || self.micRunning)
+            return;
+        [self startMicrophoneToEndpoint:endpoint];
+    });
+}
+
 - (void)stopMicrophone {
     dispatch_async(dispatch_get_main_queue(), ^{
-        if (!self.micRunning && !self.audioEngine)
-            return;
+        [self stopMicrophoneNow];
+    });
+}
 
-        self.micRunning = NO;
-        AVAudioInputNode *input = self.audioEngine.inputNode;
-        @try {
-            [input removeTapOnBus:0];
-        } @catch (__unused NSException *exception) {
-        }
-        [self.audioEngine stop];
-        self.audioEngine = nil;
-        self.audioConverter = nil;
-
-        dispatch_async(self.micQueue, ^{
-            if (self.micPCM.length) {
-                NSData *tail = [self.micPCM copy];
-                [self.micPCM setLength:0];
-                [self sendMicPCM:tail];
-            }
-        });
+- (void)forgetMicrophoneEndpoint {
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self stopMicrophoneNow];
+        self.micEndpoint = nil;
+        [NSUserDefaults.standardUserDefaults removeObjectForKey:EiraMicEndpointDefaultsKey];
+        self.lastMicError = nil;
     });
 }
 
@@ -329,14 +418,16 @@
 
     void (^read)(void) = ^{
         line = [NSString stringWithFormat:
-            @"state=%ld advertising=%d name=%@ error=%@ mic=%d mic_endpoint=%@ mic_error=%@\n",
+            @"state=%ld advertising=%d name=%@ error=%@ mic=%d mic_configured=%d mic_endpoint=%@ mic_error=%@ mic_dropped_chunks=%lu\n",
             (long)self.manager.state,
             self.manager.isAdvertising,
             self.name,
             self.lastError ?: @"none",
             self.micRunning,
+            self.micEndpoint.length > 0,
             self.micEndpoint ?: @"none",
-            self.lastMicError ?: @"none"];
+            self.lastMicError ?: @"none",
+            (unsigned long)self.micDroppedChunks];
     };
 
     if (NSThread.isMainThread)

@@ -4,12 +4,10 @@
 #import "BroadcastBridge.h"
 #include "kernel/errno.h"
 
-static NSString *const EiraVoiceEndpoint = @"http://100.107.25.56:8771";
-
-@interface EiraMicAutostart : NSObject
+@interface EiraMicBridgeAutostart : NSObject
 @end
 
-@implementation EiraMicAutostart
+@implementation EiraMicBridgeAutostart
 
 + (void)load {
     [[NSNotificationCenter defaultCenter]
@@ -17,7 +15,8 @@ static NSString *const EiraVoiceEndpoint = @"http://100.107.25.56:8771";
                     object:nil
                      queue:NSOperationQueue.mainQueue
                 usingBlock:^(__unused NSNotification *note) {
-        [[BroadcastBridge shared] startMicrophoneToEndpoint:EiraVoiceEndpoint];
+        // Resume only a previously configured endpoint. Never guess an address.
+        [[BroadcastBridge shared] resumeConfiguredMicrophone];
     }];
 }
 
@@ -75,6 +74,16 @@ static ssize_t broadcast_write(
 
         if ([cmd isEqualToString:@"mic stop"]) {
             [[BroadcastBridge shared] stopMicrophone];
+            return size;
+        }
+
+        if ([cmd isEqualToString:@"mic auto"]) {
+            [[BroadcastBridge shared] resumeConfiguredMicrophone];
+            return size;
+        }
+
+        if ([cmd isEqualToString:@"mic forget"]) {
+            [[BroadcastBridge shared] forgetMicrophoneEndpoint];
             return size;
         }
 
