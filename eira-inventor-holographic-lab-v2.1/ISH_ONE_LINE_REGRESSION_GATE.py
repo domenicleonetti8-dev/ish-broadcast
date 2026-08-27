@@ -11,7 +11,7 @@ import tempfile
 import urllib.request
 from pathlib import Path
 
-SOURCE_COMMIT = "e0f900702cea39f462c1c22b47ff8cb908d3c434"
+SOURCE_COMMIT = "8f0fdef51661b82c2900dd49f1b39bed9e030d18"
 BASE = f"https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/{SOURCE_COMMIT}/eira-inventor-holographic-lab-v2.1/extensions/eira_inventor_holographic_lab/"
 FILES = (
     "engineering3d_bridge.py",
