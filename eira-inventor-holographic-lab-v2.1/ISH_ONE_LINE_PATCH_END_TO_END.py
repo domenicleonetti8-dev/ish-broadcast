@@ -11,7 +11,7 @@ import tempfile
 import urllib.request
 from pathlib import Path
 
-SOURCE_COMMIT = "3ceeca9ee2e655263da1df9e5491ef3f838a898b"
+SOURCE_COMMIT = "861a7c3294d7b8f5ea6bdb1daec43e4d5b3e29c3"
 BASE = f"https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/{SOURCE_COMMIT}/eira-inventor-holographic-lab-v2.1/extensions/eira_inventor_holographic_lab/"
 FILES = (
     "engineering3d_bridge.py",
@@ -19,6 +19,8 @@ FILES = (
     "plugin.py",
     "server.py",
     "static/index.html",
+    "omnivenom_node.json",
+    "manifest.json",
 )
 LIVE = Path("/media/domenicleonetti/easystore/EIRA/LIVE").resolve()
 TARGET = LIVE / "extensions" / "eira_inventor_holographic_lab"
