@@ -1,12 +1,14 @@
 {
   "name": "eira_inventor_holographic_lab",
-  "version": "2.1.0",
+  "version": "2.2.0",
   "node": "omnivenom_node.json",
-  "description": "Persistent inventor archive, Safari holographic design lab, and verified Unified Brain engineering3d render bridge.",
-  "privacy": "local-first; invention content stays local unless an explicitly invoked upstream provider transmits it",
+  "description": "Persistent inventor archive and Safari holographic design lab with drawing-media ingestion, verified Engineering3D analysis, direct Blender export, and automatic GLB loading.",
+  "render_pipeline": "drawing_media -> Engineering3D -> Blender -> GLB -> Safari",
+  "privacy": "local-first archive; invention media may be transmitted only if the configured Engineering3D provider itself uses an upstream service",
   "requires": [
     "extensions.omnivenom_mesh_ai.runtime",
     "extensions.unified_brain_ai.providers.engineering3d",
-    "extensions.unified_brain_ai.engineering3d"
+    "extensions.unified_brain_ai.engineering3d",
+    "blender executable"
   ]
 }
