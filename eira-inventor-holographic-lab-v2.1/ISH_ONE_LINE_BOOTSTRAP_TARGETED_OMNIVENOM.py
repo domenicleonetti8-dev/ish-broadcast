@@ -48,6 +48,8 @@ for p in required:
 target=live/'extensions'/'eira_inventor_holographic_lab'; source=STAGE/'extensions'/'eira_inventor_holographic_lab'; stamp=time.strftime('%Y%m%d_%H%M%S'); backup=None
 main=live/'main.py'; before_main=hashlib.sha256(main.read_bytes()).hexdigest() if main.is_file() else None
 if target.exists(): backup=target.with_name(target.name+'.bak_'+stamp); shutil.copytree(target,backup)
+mesh=None
+installed=False
 
 try:
     temp=Path(tempfile.mkdtemp(prefix='eira_lab_install_'))/target.name; shutil.copytree(source,temp)
@@ -55,7 +57,7 @@ try:
     node=json.loads((temp/'omnivenom_node.json').read_text(encoding='utf-8'))
     if node.get('node_id')!=NODE_ID: die('node identity mismatch')
     if target.exists(): shutil.rmtree(target)
-    shutil.copytree(temp,target)
+    shutil.copytree(temp,target); installed=True
     if before_main and hashlib.sha256(main.read_bytes()).hexdigest()!=before_main: die('protected main.py changed')
 
     sys.path.insert(0,str(live))
@@ -71,24 +73,23 @@ try:
 
     from extensions.omnivenom_mesh_ai.runtime import Omnivenom
     mesh=Omnivenom(live)
-    before_registered=mesh.registered_systems()
     print('OMNIVENOM_REGISTER_START')
     descriptor=dict(node)
-    descriptor.update({
-        'path':str(target),
-        'entrypoint':'extensions.eira_inventor_holographic_lab.plugin',
-        'engineering3d_capability':contract.get('capability'),
-        'registration_mode':'targeted_system',
-    })
+    descriptor.update({'path':str(target),'entrypoint':'extensions.eira_inventor_holographic_lab.plugin','engineering3d_capability':contract.get('capability'),'registration_mode':'targeted_system'})
     reg_result=mesh.register_system(NODE_ID,descriptor)
     print('OMNIVENOM_REGISTER_PASS')
     registered=mesh.registered_systems()
     blob=json.dumps(registered,default=str,sort_keys=True)
     if NODE_ID not in blob: die('OmniVenom targeted registration did not persist node')
     print('OMNIVENOM_REGISTERED_SYSTEMS_VERIFY=PASS')
+except BaseException:
+    if installed and target.exists(): shutil.rmtree(target,ignore_errors=True)
+    if backup and backup.exists(): shutil.copytree(backup,target)
+    raise
 finally:
-    try: mesh.close()
-    except Exception: pass
+    if mesh is not None:
+        try: mesh.close()
+        except Exception: pass
 
 print('LIVE_INSTALL=PASS')
 print('NODE_ID='+NODE_ID)
