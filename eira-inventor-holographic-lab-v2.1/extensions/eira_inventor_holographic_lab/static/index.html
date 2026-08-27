@@ -1,250 +1,28 @@
 <!doctype html>
 <html><head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>EIRA Holographic Lab</title>
 <style>
-:root{color-scheme:dark}
-*{box-sizing:border-box}
-html,body{margin:0;min-height:100%;background:#071014;color:#e8f5f7;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overscroll-behavior:none}
-body{padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
-main{display:grid;grid-template-columns:260px minmax(0,1fr) 300px;gap:10px;padding:10px;max-width:1600px;margin:auto}
-.p{background:#0d1a20;border:1px solid #29434d;border-radius:16px;padding:12px;min-width:0}
-h2{margin:4px 0 10px}
-button,input,textarea,select{background:#0c1b20;color:#e8f5f7;border:1px solid #36545f;border-radius:10px;padding:10px;margin:3px;font:inherit}
-button{touch-action:manipulation}
-textarea{width:100%;min-height:72px;resize:vertical}
-.row{display:flex;flex-wrap:wrap;align-items:center;gap:4px}
-.part{display:block;width:100%;text-align:left}
-#viewport{position:relative;height:min(58vh,640px);min-height:320px;border-radius:14px;overflow:hidden;background:#020709}
-#view{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
-#hud{position:absolute;left:10px;top:10px;right:10px;pointer-events:none;display:flex;justify-content:space-between;gap:8px}
-.badge{background:#071014cc;border:1px solid #36545f;border-radius:999px;padding:7px 10px;max-width:75%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-#busy{display:none}
-#status{margin:8px 0;padding:9px;border-radius:10px;background:#071014;word-break:break-word}
-#parts{max-height:220px;overflow:auto}
-#log{height:230px;overflow:auto}
-.msg{padding:7px;border-bottom:1px solid #173039;white-space:pre-wrap}
-.small{font-size:12px;opacity:.82}
-input[type=file]{max-width:100%}
-@media(max-width:900px){
-  html,body{overflow-x:hidden}
-  main{display:flex;flex-direction:column;padding:8px}
-  #viewport{height:46vh;min-height:300px;max-height:480px}
-  .p{width:100%}
-  #archivePanel{order:2}
-  #viewerPanel{order:1}
-  #eiraPanel{order:3}
-  #log{height:170px}
-}
-@media(max-width:430px){
-  #viewport{height:42vh;min-height:285px}
-  button,input,select{max-width:100%}
-}
-</style></head>
-<body><main>
-<section class="p" id="archivePanel">
-  <h2>Inventor's Archive</h2>
-  <input id="title" placeholder="Invention title">
-  <textarea id="desc" placeholder="Intent, known dimensions, materials, loads, constraints"></textarea>
-  <button id="create">Create invention</button>
-  <label>Drawing / reference files <input id="files" type="file" multiple accept="image/*,.pdf,.glb,.gltf"></label>
-  <div class="small">Your drawing is passed into Engineering3D as media evidence. Missing facts must remain labeled as inferred/estimated/speculative.</div>
-  <div id="archive"></div>
-</section>
-
-<section class="p" id="viewerPanel">
-  <div id="viewport">
-    <canvas id="view"></canvas>
-    <div id="hud"><span class="badge" id="viewLabel">No model loaded</span><span class="badge" id="busy">Rendering…</span></div>
-  </div>
-  <div class="row">
-    <button id="reset">Reset view</button>
-    <button id="play">▶ Play</button>
-    <button id="explode">Explode</button>
-    <button id="assemble">Reassemble</button>
-    <button id="isolate">Isolate</button>
-    <button id="show">Show all</button>
-  </div>
-  <div class="row">
-    <select id="mode">
-      <option value="engineering_completion">Engineering completion</option>
-      <option value="scientific_plausibility">Scientific plausibility</option>
-      <option value="faithful_concept">Faithful concept</option>
-      <option value="presentation">Presentation</option>
-    </select>
-    <button id="render">Build 3D in Blender</button>
-  </div>
-  <input id="range" type="range" min="0" max="3" step=".05" value="0" style="width:100%">
-  <div id="status">Ready.</div>
-</section>
-
-<section class="p" id="eiraPanel">
-  <h2>EIRA</h2>
-  <div class="row"><button id="voice">🎙 Voice</button><button id="mute">🔊 Speech</button></div>
-  <div id="selected">Selected: none</div>
-  <div id="parts"></div>
-  <div id="log"></div>
-  <textarea id="message" placeholder="Talk to EIRA about this design or selected part"></textarea>
-  <button id="send">Send</button>
-</section>
-</main>
-
-<script type="module">
-const $=id=>document.getElementById(id);
-const api=async(path,method='GET',body)=>{
-  const r=await fetch(path,{method,headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):null,cache:'no-store'});
-  let x; try{x=await r.json()}catch{x={error:'invalid_server_response'}}
-  if(!r.ok) throw new Error(x.error||('HTTP '+r.status));
-  return x;
-};
-let current=null, muted=false, world=null, selected=null, mixer=null, playing=false, parts=[], base=new Map();
-let T,scene,camera,renderer,controls,clock,loader;
-
-function log(a,b){const d=document.createElement('div');d.className='msg';d.textContent=a+': '+b;$('log').append(d);$('log').scrollTop=$('log').scrollHeight}
-function status(t,busy=false){$('status').textContent=t;$('busy').style.display=busy?'inline-block':'none'}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
-
-async function refresh(){
-  const rows=await api('/api/inventions');
-  $('archive').innerHTML='';
-  rows.forEach(x=>{
-    const b=document.createElement('button'); b.className='part';
-    b.textContent=(current===x.id?'● ':'')+x.title;
-    b.onclick=()=>{current=x.id;refresh();status('Selected '+x.title)};
-    $('archive').append(b);
-  });
-}
-
-$('create').onclick=async()=>{
-  try{
-    const x=await api('/api/inventions','POST',{title:$('title').value,description:$('desc').value});
-    current=x.id; await refresh(); status('Created. Add your drawing, then build it in Blender.');
-  }catch(e){status(e.message)}
-};
-
-$('files').onchange=async e=>{
-  if(!current){status('Create or select an invention first.');return}
-  for(const f of e.target.files){
-    status('Uploading '+f.name+'…',true);
-    const data=await new Promise((ok,bad)=>{const r=new FileReader();r.onerror=bad;r.onload=()=>ok(String(r.result).split(',')[1]);r.readAsDataURL(f)});
-    try{
-      const a=await api('/api/upload','POST',{invention_id:current,name:f.name,mime:f.type||'application/octet-stream',data_base64:data});
-      log('Archive','Stored '+a.name);
-      if(/\.(glb|gltf)$/i.test(f.name)) await load3d(a.url);
-    }catch(err){status(err.message);return}
-  }
-  status('Drawing stored. Ready for Engineering3D + Blender.');
-};
-
-async function pollJob(id){
-  for(let i=0;i<900;i++){
-    const j=await api('/api/jobs/'+encodeURIComponent(id));
-    const s=j.status||'unknown';
-    status('Render: '+s,true);
-    if(s==='completed') return j;
-    if(s==='failed') throw new Error(j.error||'render_failed');
-    await sleep(1000);
-  }
-  throw new Error('render_timeout');
-}
-
-$('render').onclick=async()=>{
-  if(!current){status('Select an invention first.');return}
-  $('render').disabled=true;
-  try{
-    status('Sending drawing to Engineering3D…',true);
-    const job=await api('/api/render','POST',{invention_id:current,mode:$('mode').value});
-    const done=await pollJob(job.job_id);
-    if(!done.model_url) throw new Error('render_completed_without_model_url');
-    status('Loading Blender GLB…',true);
-    await load3d(done.model_url);
-    status('Completed: drawing → Engineering3D → Blender → interactive GLB.');
-    log('Render','Model ready. '+(done.blend_url?'BLEND saved; ':'')+'GLB loaded.');
-  }catch(e){
-    status('Render failed: '+e.message);
-    log('Render failure',e.message);
-  }finally{$('render').disabled=false;$('busy').style.display='none'}
-};
-
-async function send(){
-  const text=$('message').value.trim(); if(!text)return;
-  $('message').value=''; log('You',text);
-  try{
-    const r=await api('/api/chat','POST',{message:text}),out=r.response||'No response';
-    log('EIRA',out);
-    if(!muted&&window.speechSynthesis){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(out))}
-  }catch(e){log('EIRA',e.message)}
-}
-$('send').onclick=send;
-$('mute').onclick=()=>{muted=!muted;if(muted)window.speechSynthesis?.cancel();$('mute').textContent=muted?'🔇 Muted':'🔊 Speech'};
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
-if(SR){const r=new SR();r.onresult=e=>{$('message').value=e.results[0][0].transcript;send()};$('voice').onclick=()=>r.start()}else $('voice').disabled=true;
-
-function fitView(){
-  if(!world||!T)return;
-  const box=new T.Box3().setFromObject(world), size=box.getSize(new T.Vector3()), center=box.getCenter(new T.Vector3());
-  const radius=Math.max(size.x,size.y,size.z,0.01);
-  const dist=radius/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*1.8;
-  camera.near=Math.max(dist/1000,0.001); camera.far=Math.max(dist*100,100);
-  camera.position.copy(center).add(new T.Vector3(dist*.65,dist*.45,dist));
-  controls.target.copy(center); camera.updateProjectionMatrix(); controls.update();
-}
-$('reset').onclick=fitView;
-
-async function load3d(url){
-  if(!loader) throw new Error('3D engine unavailable');
-  const g=await loader.loadAsync(url+'?t='+Date.now());
-  if(world) scene.remove(world);
-  world=g.scene; scene.add(world); parts=[];base.clear();selected=null;$('parts').innerHTML='';$('selected').textContent='Selected: none';
-  world.traverse(o=>{
-    if(o.isMesh){
-      parts.push(o);base.set(o.uuid,o.position.clone());
-      const b=document.createElement('button');b.className='part';b.textContent=o.name||('Part '+parts.length);
-      b.onclick=()=>{selected=o;$('selected').textContent='Selected: '+b.textContent};$('parts').append(b);
-    }
-  });
-  mixer=g.animations.length?new T.AnimationMixer(world):null;
-  if(mixer)g.animations.forEach(a=>mixer.clipAction(a));
-  $('viewLabel').textContent=(parts.length||0)+' parts';
-  fitView();
-}
-
-function explode(v){
-  if(!world)return;
-  const center=new T.Box3().setFromObject(world).getCenter(new T.Vector3());
-  parts.forEach(o=>{
-    const q=base.get(o.uuid),w=new T.Vector3();o.getWorldPosition(w);
-    o.position.copy(q).add(w.sub(center).normalize().multiplyScalar(v));
-  });
-}
-$('explode').onclick=()=>explode(1.2);$('assemble').onclick=()=>explode(0);$('range').oninput=e=>explode(+e.target.value);
-$('isolate').onclick=()=>selected&&parts.forEach(o=>o.visible=o===selected);
-$('show').onclick=()=>parts.forEach(o=>o.visible=true);
-$('play').onclick=()=>{if(!mixer)return;playing=!playing;mixer._actions.forEach(a=>playing?a.reset().play():a.stop())};
-
-try{
-  T=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/+esm');
-  const {OrbitControls}=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js/+esm');
-  const {GLTFLoader}=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js/+esm');
-  const c=$('view');
-  renderer=new T.WebGLRenderer({canvas:c,antialias:true,powerPreference:'high-performance'});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.5));
-  scene=new T.Scene(); camera=new T.PerspectiveCamera(45,1,.01,10000);
-  controls=new OrbitControls(camera,c); controls.enableDamping=false;controls.screenSpacePanning=true;controls.minDistance=.001;controls.maxDistance=1e7;
-  clock=new T.Clock();loader=new GLTFLoader();
-  scene.add(new T.HemisphereLight(0xffffff,0x223344,3));
-  const sun=new T.DirectionalLight(0xffffff,2);sun.position.set(4,8,6);scene.add(sun);
-  camera.position.set(3,2,5);
-  (function loop(){
-    requestAnimationFrame(loop);
-    const w=c.clientWidth,h=c.clientHeight;
-    if(c.width!==Math.floor(w*renderer.getPixelRatio())||c.height!==Math.floor(h*renderer.getPixelRatio()))renderer.setSize(w,h,false);
-    camera.aspect=w/Math.max(h,1);camera.updateProjectionMatrix();controls.update();
-    if(mixer&&playing)mixer.update(clock.getDelta());else clock.getDelta();
-    renderer.render(scene,camera);
-  })();
-  status('Ready. Create/select an invention and add a drawing.');
-}catch(e){status('3D engine failed: '+e.message);log('3D',e.message)}
-refresh().catch(e=>status(e.message));
+:root{color-scheme:dark}*{box-sizing:border-box}html,body{margin:0;background:#071014;color:#e8f5f7;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}body{min-height:100vh;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}main{display:grid;grid-template-columns:260px minmax(0,1fr) 300px;gap:10px;padding:10px;max-width:1600px;margin:auto}.p{min-width:0;background:#0d1a20;border:1px solid #29434d;border-radius:16px;padding:12px}h2{margin:4px 0 10px}button,input,textarea,select{font:inherit;background:#0c1b20;color:#e8f5f7;border:1px solid #36545f;border-radius:10px;padding:10px;margin:3px;max-width:100%}button{touch-action:manipulation}textarea{width:100%;min-height:72px}.row{display:flex;flex-wrap:wrap;gap:5px;align-items:center}.part{display:block;width:100%;text-align:left}#viewport{position:relative;height:min(54vh,620px);min-height:280px;border-radius:14px;overflow:hidden;background:#020709}#view{position:absolute;inset:0;width:100%;height:100%;display:block;pointer-events:none;touch-action:auto}#view.interacting{pointer-events:auto;touch-action:none}#preview{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#020709;display:none;pointer-events:none}#empty{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:28px;color:#9db1b9;pointer-events:none}#hud{position:absolute;left:8px;right:8px;top:8px;display:flex;justify-content:space-between;gap:8px;pointer-events:none}.badge{background:#071014dd;border:1px solid #36545f;border-radius:999px;padding:7px 10px;max-width:78%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}#busy{display:none}#status{margin:8px 0;padding:9px;border-radius:10px;background:#071014;word-break:break-word}#parts{max-height:200px;overflow:auto}#log{height:190px;overflow:auto}.msg{padding:7px;border-bottom:1px solid #173039;white-space:pre-wrap}.small{font-size:12px;opacity:.82}.viewerControls button{flex:1 1 120px}.viewerControls select{flex:1 1 180px}
+@media(max-width:900px){main{display:flex;flex-direction:column;padding:8px}.p{width:100%}#viewerPanel{order:1}#archivePanel{order:2}#eiraPanel{order:3}#viewport{height:38vh;min-height:250px;max-height:360px}.viewerControls{width:100%}.viewerControls button,.viewerControls select{flex:1 1 calc(50% - 10px)}#log{height:150px}}
+@media(max-width:430px){#viewport{height:34vh;min-height:230px;max-height:310px}.viewerControls button,.viewerControls select{flex:1 1 46%}}
+</style></head><body><main>
+<section class="p" id="archivePanel"><h2>Inventor's Archive</h2><input id="title" placeholder="Invention title"><textarea id="desc" placeholder="Intent, known dimensions, materials, loads, constraints"></textarea><button id="create">Create invention</button><label>Drawing / reference files <input id="files" type="file" multiple accept="image/*,.pdf,.glb,.gltf"></label><div class="small">Drawing pixels are sent to Engineering3D as media evidence. Unknown dimensions remain assumptions until supplied or validated.</div><div id="archive"></div></section>
+<section class="p" id="viewerPanel"><div id="viewport"><canvas id="view"></canvas><img id="preview" alt="drawing preview"><div id="empty">Upload a drawing, then tap <b>&nbsp;Build 3D in Blender&nbsp;</b>.<br>The drawing stays visible here until the Blender model is ready.</div><div id="hud"><span class="badge" id="viewLabel">No model loaded</span><span class="badge" id="busy">Rendering…</span></div></div><div class="row viewerControls"><button id="interact">Interact with 3D</button><button id="reset">Reset view</button><button id="play">▶ Play</button><button id="explode">Explode</button><button id="assemble">Reassemble</button><button id="isolate">Isolate</button><button id="show">Show all</button><select id="mode"><option value="engineering_completion">Engineering completion</option><option value="scientific_plausibility">Scientific plausibility</option><option value="faithful_concept">Faithful concept</option><option value="presentation">Presentation</option></select><button id="render">Build 3D in Blender</button></div><input id="range" type="range" min="0" max="3" step=".05" value="0" style="width:100%"><div id="status">Ready. Page scrolling is enabled. Tap “Interact with 3D” only when manipulating a model.</div></section>
+<section class="p" id="eiraPanel"><h2>EIRA</h2><div class="row"><button id="voice">🎙 Voice</button><button id="mute">🔊 Speech</button></div><div id="selected">Selected: none</div><div id="parts"></div><div id="log"></div><textarea id="message" placeholder="Talk to EIRA about this design or selected part"></textarea><button id="send">Send</button></section>
+</main><script type="module">
+const $=id=>document.getElementById(id);const api=async(path,method='GET',body)=>{const r=await fetch(path,{method,headers:body?{'Content-Type':'application/json'}:{},body:body?JSON.stringify(body):null,cache:'no-store'});let x;try{x=await r.json()}catch{x={error:'invalid_server_response'}}if(!r.ok)throw new Error(x.error||('HTTP '+r.status));return x};let current=null,muted=false,world=null,selected=null,mixer=null,playing=false,parts=[],base=new Map(),interacting=false;let T,scene,camera,renderer,controls,clock,loader;
+function log(a,b){const d=document.createElement('div');d.className='msg';d.textContent=a+': '+b;$('log').append(d);$('log').scrollTop=$('log').scrollHeight}function status(t,b=false){$('status').textContent=t;$('busy').style.display=b?'inline-block':'none'}function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+async function refresh(){const rows=await api('/api/inventions');$('archive').innerHTML='';rows.forEach(x=>{const b=document.createElement('button');b.className='part';b.textContent=(current===x.id?'● ':'')+x.title;b.onclick=()=>{current=x.id;refresh();status('Selected '+x.title)};$('archive').append(b)})}
+$('create').onclick=async()=>{try{const x=await api('/api/inventions','POST',{title:$('title').value,description:$('desc').value});current=x.id;await refresh();status('Created. Add your drawing, then build it in Blender.')}catch(e){status(e.message)}};
+$('files').onchange=async e=>{if(!current){status('Create or select an invention first.');return}for(const f of e.target.files){if(f.type&&f.type.startsWith('image/')){const u=URL.createObjectURL(f);$('preview').src=u;$('preview').style.display='block';$('empty').style.display='none';$('viewLabel').textContent='Drawing loaded'}status('Uploading '+f.name+'…',true);const data=await new Promise((ok,bad)=>{const r=new FileReader();r.onerror=bad;r.onload=()=>ok(String(r.result).split(',')[1]);r.readAsDataURL(f)});try{const a=await api('/api/upload','POST',{invention_id:current,name:f.name,mime:f.type||'application/octet-stream',data_base64:data});log('Archive','Stored '+a.name);if(/\.(glb|gltf)$/i.test(f.name))await load3d(a.url)}catch(err){status(err.message);return}}status('Drawing stored. Ready for Engineering3D + Blender.')};
+async function pollJob(id){for(let i=0;i<900;i++){const j=await api('/api/jobs/'+encodeURIComponent(id));const s=j.status||'unknown';status('Render: '+s,true);if(s==='completed')return j;if(s==='failed')throw new Error(j.error||'render_failed');await sleep(1000)}throw new Error('render_timeout')}
+$('render').onclick=async()=>{if(!current){status('Select an invention first.');return}$('render').disabled=true;try{status('Sending drawing to Engineering3D…',true);const job=await api('/api/render','POST',{invention_id:current,mode:$('mode').value});const done=await pollJob(job.job_id);if(!done.model_url)throw new Error('render_completed_without_model_url');status('Loading Blender GLB…',true);await load3d(done.model_url);status('Completed: drawing → Engineering3D → Blender → interactive GLB.');log('Render','Blender model loaded.')}catch(e){status('Render failed: '+e.message);log('Render failure',e.message)}finally{$('render').disabled=false;$('busy').style.display='none'}};
+$('interact').onclick=()=>{interacting=!interacting;$('view').classList.toggle('interacting',interacting);$('interact').textContent=interacting?'Exit 3D interaction':'Interact with 3D';status(interacting?'3D interaction ON. Drag/pinch manipulates the model. Tap Exit when you want to scroll the page.':'Page scrolling ON.')};
+async function send(){const text=$('message').value.trim();if(!text)return;$('message').value='';log('You',text);try{const r=await api('/api/chat','POST',{message:text}),out=r.response||'No response';log('EIRA',out);if(!muted&&window.speechSynthesis){speechSynthesis.cancel();speechSynthesis.speak(new SpeechSynthesisUtterance(out))}}catch(e){log('EIRA',e.message)}}$('send').onclick=send;$('mute').onclick=()=>{muted=!muted;if(muted)window.speechSynthesis?.cancel();$('mute').textContent=muted?'🔇 Muted':'🔊 Speech'};const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(SR){const r=new SR();r.onresult=e=>{$('message').value=e.results[0][0].transcript;send()};$('voice').onclick=()=>r.start()}else $('voice').disabled=true;
+function fitView(){if(!world||!T)return;const box=new T.Box3().setFromObject(world),size=box.getSize(new T.Vector3()),center=box.getCenter(new T.Vector3()),radius=Math.max(size.x,size.y,size.z,.01),dist=radius/(2*Math.tan(T.MathUtils.degToRad(camera.fov/2)))*1.8;camera.near=Math.max(dist/1000,.001);camera.far=Math.max(dist*100,100);camera.position.copy(center).add(new T.Vector3(dist*.65,dist*.45,dist));controls.target.copy(center);camera.updateProjectionMatrix();controls.update()}$('reset').onclick=fitView;
+async function load3d(url){if(!loader)throw new Error('3D engine unavailable');const g=await loader.loadAsync(url+'?t='+Date.now());if(world)scene.remove(world);world=g.scene;scene.add(world);$('preview').style.display='none';$('empty').style.display='none';parts=[];base.clear();selected=null;$('parts').innerHTML='';$('selected').textContent='Selected: none';world.traverse(o=>{if(o.isMesh){parts.push(o);base.set(o.uuid,o.position.clone());const b=document.createElement('button');b.className='part';b.textContent=o.name||('Part '+parts.length);b.onclick=()=>{selected=o;$('selected').textContent='Selected: '+b.textContent};$('parts').append(b)}});mixer=g.animations.length?new T.AnimationMixer(world):null;if(mixer)g.animations.forEach(a=>mixer.clipAction(a));$('viewLabel').textContent=(parts.length||0)+' parts';fitView()}
+function explode(v){if(!world)return;const center=new T.Box3().setFromObject(world).getCenter(new T.Vector3());parts.forEach(o=>{const q=base.get(o.uuid),w=new T.Vector3();o.getWorldPosition(w);o.position.copy(q).add(w.sub(center).normalize().multiplyScalar(v))})}$('explode').onclick=()=>explode(1.2);$('assemble').onclick=()=>explode(0);$('range').oninput=e=>explode(+e.target.value);$('isolate').onclick=()=>selected&&parts.forEach(o=>o.visible=o===selected);$('show').onclick=()=>parts.forEach(o=>o.visible=true);$('play').onclick=()=>{if(!mixer)return;playing=!playing;mixer._actions.forEach(a=>playing?a.reset().play():a.stop())};
+try{T=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/+esm');const {OrbitControls}=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/controls/OrbitControls.js/+esm');const {GLTFLoader}=await import('https://cdn.jsdelivr.net/npm/three@0.180.0/examples/jsm/loaders/GLTFLoader.js/+esm');const c=$('view');renderer=new T.WebGLRenderer({canvas:c,antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,1.25));scene=new T.Scene();camera=new T.PerspectiveCamera(45,1,.01,10000);controls=new OrbitControls(camera,c);controls.enableDamping=false;controls.screenSpacePanning=true;clock=new T.Clock();loader=new GLTFLoader();scene.add(new T.HemisphereLight(0xffffff,0x223344,3));const sun=new T.DirectionalLight(0xffffff,2);sun.position.set(4,8,6);scene.add(sun);camera.position.set(3,2,5);(function loop(){requestAnimationFrame(loop);const w=c.clientWidth,h=c.clientHeight;if(c.width!==Math.floor(w*renderer.getPixelRatio())||c.height!==Math.floor(h*renderer.getPixelRatio()))renderer.setSize(w,h,false);camera.aspect=w/Math.max(h,1);camera.updateProjectionMatrix();controls.update();if(mixer&&playing)mixer.update(clock.getDelta());else clock.getDelta();renderer.render(scene,camera)})()}catch(e){status('3D engine failed: '+e.message);log('3D',e.message)}refresh().catch(e=>status(e.message));
 </script></body></html>
