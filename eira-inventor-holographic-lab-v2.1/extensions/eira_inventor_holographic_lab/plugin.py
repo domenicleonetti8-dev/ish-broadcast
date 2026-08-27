@@ -48,6 +48,7 @@ def status() -> dict[str, Any]:
       "core_modified": False,
       "engineering3d_provider": "extensions.unified_brain_ai.providers.engineering3d",
       "render_pipeline": "drawing_media -> Engineering3D -> Blender -> GLB -> Safari",
+      "spatial_chat_context": True,
     }
 
 def create_invention(title: str, description: str = "") -> dict[str, Any]:
@@ -125,12 +126,27 @@ def get_job(job_id: str) -> dict[str, Any]:
         raise KeyError("job_not_found")
     return json.loads(path.read_text(encoding="utf-8"))
 
-def chat(text: str) -> dict[str, Any]:
+def chat(text: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
     text=(text or "").strip()
     if not text: return {"status":"unresolved","response":"","errors":["empty_prompt"]}
+    context = context if isinstance(context, dict) else {}
+    selected = context.get("selected_part")
+    invention_id = context.get("invention_id")
+    spatial = []
+    if invention_id:
+        spatial.append(f"active invention id={invention_id}")
+    if isinstance(selected, dict) and selected.get("name"):
+        spatial.append(
+            "selected 3D part=" + str(selected.get("name"))
+            + (f"; object_id={selected.get('id')}" if selected.get("id") else "")
+            + (f"; metadata={json.dumps(selected.get('metadata'), default=str)}" if selected.get("metadata") else "")
+        )
+    routed = text
+    if spatial:
+        routed = "[Inventor Lab spatial context: " + " | ".join(spatial) + "]\n" + text
     try:
         from extensions.omnivenom_mesh_ai.eira_bridge import chat as eira_chat
-        return eira_chat(text, persist_history=True)
+        return eira_chat(routed, persist_history=True)
     except Exception as exc:
         return {"status":"unresolved","response":"EIRA conversation bridge is not available in this process.",
                 "errors":[f"{type(exc).__name__}:{str(exc)[:200]}"]}
