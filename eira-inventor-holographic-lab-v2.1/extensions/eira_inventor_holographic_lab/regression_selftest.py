@@ -2,10 +2,10 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import importlib
+import inspect
 import json
-import os
-import shutil
 import tempfile
 import time
 from pathlib import Path
@@ -27,6 +27,8 @@ VISIBLE_CONTROLS = {
     "assemble": "$('assemble').onclick",
     "isolate": "$('isolate').onclick",
     "show": "$('show').onclick",
+    "transparent": "$('transparent').onclick",
+    "section": "$('section').onclick",
     "render": "$('render').onclick",
     "send": "$('send').onclick",
     "mute": "$('mute').onclick",
@@ -51,7 +53,16 @@ def check_ui_contract(results: list[dict]):
     for cid, handler in VISIBLE_CONTROLS.items():
         if f'id="{cid}"' not in html or handler not in html:
             missing.append(cid)
-    for required in ("function requireWorld", "function userAction", "load3d", "pollJob", "Interact with 3D"):
+    for required in (
+        "function requireWorld",
+        "function userAction",
+        "function setModelControls",
+        "function applyTransparency",
+        "function toggleSection",
+        "load3d",
+        "pollJob",
+        "Interact with 3D",
+    ):
         if required not in html:
             missing.append(required)
     if missing:
@@ -90,12 +101,30 @@ def check_media_construction(results: list[dict]):
             "mime": "image/png",
             "absolute_path": str(p),
             "url": "/archive/regression/drawing.png",
-            "sha256": __import__("hashlib").sha256(PNG_1X1).hexdigest(),
+            "sha256": hashlib.sha256(PNG_1X1).hexdigest(),
         }
         media = bridge._construct_media(media_cls, asset)
         if getattr(media, "path", None) != str(p):
             fail("media_path_not_preserved", repr(media))
+        if getattr(media, "mime_type", "image/png") != "image/png":
+            fail("media_mime_not_preserved", repr(media))
     results.append({"test": "media_construction", "ok": True})
+
+
+def _construct(cls, mapping: dict):
+    sig = inspect.signature(cls)
+    kwargs = {}
+    missing = []
+    for p in sig.parameters.values():
+        if p.name in ("self", "cls") or p.kind in (p.VAR_POSITIONAL, p.VAR_KEYWORD):
+            continue
+        if p.name in mapping:
+            kwargs[p.name] = mapping[p.name]
+        elif p.default is inspect._empty:
+            missing.append(p.name)
+    if missing:
+        fail("fixture_constructor", f"{cls.__name__} unresolved required fields {missing}; signature={sig}")
+    return cls(**kwargs)
 
 
 def check_blender_smoke(results: list[dict], contract: dict):
@@ -108,19 +137,28 @@ def check_blender_smoke(results: list[dict], contract: dict):
     with tempfile.TemporaryDirectory(prefix="eira_lab_blender_") as td:
         out = Path(td) / "model"
         out.mkdir()
-        part = Part(
-            "regression_box",
-            "Regression Box",
-            shape="box",
-            size=V(1.0, 0.6, 0.4),
-            position=V(0, 0, 0),
-            material="aluminum",
-            metadata={"provenance": "regression_fixture"},
-        )
-        try:
-            assembly = Assembly("regression_assembly", "Regression Assembly", parts=[part])
-        except TypeError:
-            assembly = Assembly(assembly_id="regression_assembly", name="Regression Assembly", parts=[part])
+        part = _construct(Part, {
+            "part_id": "regression_box",
+            "id": "regression_box",
+            "name": "Regression Box",
+            "shape": "box",
+            "size": V(1.0, 0.6, 0.4),
+            "position": V(0, 0, 0),
+            "rotation_deg": V(0, 0, 0),
+            "material": "aluminum",
+            "metadata": {"provenance": "regression_fixture"},
+            "color": "#88aacc",
+        })
+        assembly = _construct(Assembly, {
+            "assembly_id": "regression_assembly",
+            "id": "regression_assembly",
+            "name": "Regression Assembly",
+            "parts": [part],
+            "connectors": [],
+            "fasteners": [],
+            "wires": [],
+            "metadata": {"provenance": "regression_fixture"},
+        })
         produced = write_blueprint_package(
             assembly,
             str(out),
@@ -129,6 +167,7 @@ def check_blender_smoke(results: list[dict], contract: dict):
         )
         files = [p for p in out.rglob("*") if p.is_file()]
         glbs = [p for p in files if p.suffix.lower() == ".glb" and p.stat().st_size > 0]
+        blends = [p for p in files if p.suffix.lower() == ".blend" and p.stat().st_size > 0]
         if not glbs:
             fail("blender_glb_smoke", "no nonempty GLB produced; return=" + repr(produced))
         results.append({
@@ -136,7 +175,33 @@ def check_blender_smoke(results: list[dict], contract: dict):
             "ok": True,
             "glb_bytes": glbs[0].stat().st_size,
             "glb_name": glbs[0].name,
+            "blend_present": bool(blends),
         })
+
+
+def _latest_real_drawing():
+    try:
+        inventions = plugin.list_inventions()
+    except Exception:
+        return None
+    for inv_row in inventions:
+        try:
+            inv = plugin.get_invention(inv_row["id"])
+        except Exception:
+            continue
+        for asset in reversed(inv.get("assets", [])):
+            mime = str(asset.get("mime") or "")
+            suffix = Path(str(asset.get("name") or "")).suffix.lower()
+            if mime.startswith("image/") or suffix in {".png", ".jpg", ".jpeg", ".webp", ".heic"}:
+                p = (plugin.DATA_ROOT / asset["relpath"]).resolve()
+                if p.is_file() and p.stat().st_size > 0:
+                    return {
+                        "bytes": p.read_bytes(),
+                        "name": asset.get("name") or p.name,
+                        "mime": mime or "image/jpeg",
+                        "source_invention": inv.get("title"),
+                    }
+    return None
 
 
 def _swap_archive(tmp: Path):
@@ -162,14 +227,17 @@ def _restore_archive(original: dict):
 
 
 def check_full_worker(results: list[dict], timeout: int):
+    source = _latest_real_drawing()
+    if source is None:
+        source = {"bytes": PNG_1X1, "name": "regression.png", "mime": "image/png", "source_invention": "fixture"}
     with tempfile.TemporaryDirectory(prefix="eira_lab_full_") as td:
         original = _swap_archive(Path(td))
         try:
             inv = plugin.create_invention(
                 "Regression Greenhouse",
-                "A sealed three-dimensional greenhouse module. Interpret the attached image as geometric evidence; use explicit assumptions where evidence is absent.",
+                "A sealed three-dimensional off-world greenhouse module. Interpret the attached drawing as primary geometric evidence. Produce a coherent 3D engineering assembly; label every inferred dimension, material, load, tolerance, and hidden component as an assumption unless it is present in the drawing or description.",
             )
-            plugin.add_asset(inv["id"], "regression.png", "image/png", PNG_1X1)
+            plugin.add_asset(inv["id"], source["name"], source["mime"], source["bytes"])
             job = plugin.queue_render(inv["id"], "scientific_plausibility")
             started = time.time()
             result = plugin.process_next_render()
@@ -184,11 +252,13 @@ def check_full_worker(results: list[dict], timeout: int):
             media_count = ((final.get("engineering3d") or {}).get("media_count"))
             if not media_count or int(media_count) < 1:
                 fail("full_worker_media_count", repr(media_count))
-            blender = final.get("blender") or {}
             model_rel = str(final["model_url"]).removeprefix("/archive/")
             model_path = plugin.DATA_ROOT / model_rel
             if not model_path.is_file() or model_path.stat().st_size <= 0:
                 fail("full_worker_glb_missing", str(model_path))
+            parts = []
+            for candidate in (final.get("blender") or {}).get("files", []):
+                parts.append(str(candidate))
             results.append({
                 "test": "full_worker",
                 "ok": True,
@@ -197,7 +267,8 @@ def check_full_worker(results: list[dict], timeout: int):
                 "model_bytes": model_path.stat().st_size,
                 "model_url": final.get("model_url"),
                 "blend_url": final.get("blend_url"),
-                "blender": blender.get("blender"),
+                "source_drawing": source.get("source_invention"),
+                "artifacts": parts,
             })
         finally:
             _restore_archive(original)
