@@ -4,7 +4,7 @@ import hashlib, json, os, shutil, sys, tempfile, time, urllib.request
 from pathlib import Path
 
 BASE = 'https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/eira-inventor-holographic-lab-v2-1/eira-inventor-holographic-lab-v2.1/'
-FILES = {'extensions/eira_inventor_holographic_lab/__init__.py': '6f92093a1d6c5dedf7be1f463e0afc571a1490f7a1cf113cc6dee5e45b53a346', 'extensions/eira_inventor_holographic_lab/blender_bridge.py': 'ef034ee1f47a94e40a35b6a60b1b340ba527f5df6f41ac68015dd4abf8edcd32', 'extensions/eira_inventor_holographic_lab/engineering3d_bridge.py': 'f8d3b93a55ba3700dcfc4b9d2e9b57a857fbddc9ed699b8f6779fd0f6fd59ea5', 'extensions/eira_inventor_holographic_lab/manifest.json': '930e091732365763222bdfa3f9e6227acf2d08a85f1c1906f497d15859b76fc1', 'extensions/eira_inventor_holographic_lab/omnivenom_node.json': '7652e8ae79da58042262353ed2db06949810c4b5389df1f45b7e365cd15364b7', 'extensions/eira_inventor_holographic_lab/plugin.py': 'e420990112f4767d1ea0943c85290fcb86238f1a515e85a732710bce5038872e', 'extensions/eira_inventor_holographic_lab/server.py': 'bb9fc1dfb59ff3ebcf4b14396a9c3de7ee5175ef58ee12a760341deb1ee96f76', 'extensions/eira_inventor_holographic_lab/static/index.html': '53ccaa2673f590d91ff62cb409f0d22d4fd1c6ca3c5699a3390dc98f796e0245'}
+FILES = {'extensions/eira_inventor_holographic_lab/__init__.py': '6f92093a1d6c5dedf7be1f463e0afc571a1490f7a1cf113cc6dee5e45b53a346', 'extensions/eira_inventor_holographic_lab/blender_bridge.py': 'ef034ee1f47a94e40a35b6a60b1b340ba527f5df6f41ac68015dd4abf8edcd32', 'extensions/eira_inventor_holographic_lab/engineering3d_bridge.py': '1bb411c69b92021d79b7a300bd4eedbcf120523dc8aacb257660a1af2fc8ae5c', 'extensions/eira_inventor_holographic_lab/manifest.json': '930e091732365763222bdfa3f9e6227acf2d08a85f1c1906f497d15859b76fc1', 'extensions/eira_inventor_holographic_lab/omnivenom_node.json': '7652e8ae79da58042262353ed2db06949810c4b5389df1f45b7e365cd15364b7', 'extensions/eira_inventor_holographic_lab/plugin.py': 'e420990112f4767d1ea0943c85290fcb86238f1a515e85a732710bce5038872e', 'extensions/eira_inventor_holographic_lab/server.py': 'bb9fc1dfb59ff3ebcf4b14396a9c3de7ee5175ef58ee12a760341deb1ee96f76', 'extensions/eira_inventor_holographic_lab/static/index.html': '53ccaa2673f590d91ff62cb409f0d22d4fd1c6ca3c5699a3390dc98f796e0245'}
 STAGE = Path(os.environ.get("EIRA_LAB_STAGE", str(Path.home()/"EIRA_INVENTOR_HOLOGRAPHIC_LAB_V2_1"))).expanduser().resolve()
 NODE_ID = "eira.inventor.holographic_lab"
 
@@ -69,7 +69,9 @@ try:
     sys.path.insert(0,str(live))
     from extensions.eira_inventor_holographic_lab.engineering3d_bridge import provider_contract
     contract=provider_contract()
-    if not contract.get("ok"): die("engineering3d contract unresolved")
+    if not contract.get("ok"):
+        print("ENGINEERING3D_DIAGNOSTIC="+json.dumps(contract,default=str,sort_keys=True))
+        die("engineering3d contract unresolved")
     from extensions.omnivenom_mesh_ai.runtime import Omnivenom
     mesh=Omnivenom(live); mesh.refresh(); evidence=mesh.context(NODE_ID,depth=1,limit=80)
     if NODE_ID not in json.dumps(evidence,default=str): die("OmniVenom did not discover node")
