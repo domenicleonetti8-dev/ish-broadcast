@@ -1,5 +1,5 @@
 from __future__ import annotations
-import base64, json, os, sqlite3, time, uuid, hashlib
+import json, os, sqlite3, time, uuid, hashlib
 from pathlib import Path
 from typing import Any
 
@@ -43,10 +43,11 @@ def status() -> dict[str, Any]:
       "node_id": "eira.inventor.holographic_lab",
       "archive": str(DATA_ROOT),
       "database": str(DB_PATH),
-      "omnivenom_discovery": "whole-LIVE filesystem mesh",
+      "omnivenom_registration": "targeted_system",
       "voice_owner": "existing EIRA bridge / browser speech surface",
       "core_modified": False,
       "engineering3d_provider": "extensions.unified_brain_ai.providers.engineering3d",
+      "render_pipeline": "drawing_media -> Engineering3D -> Blender -> GLB -> Safari",
     }
 
 def create_invention(title: str, description: str = "") -> dict[str, Any]:
@@ -102,10 +103,27 @@ def queue_render(iid: str, mode: str="engineering_completion") -> dict[str, Any]
     _init(); inv=get_invention(iid)
     allowed={"faithful_concept","engineering_completion","scientific_plausibility","presentation"}
     if mode not in allowed: raise ValueError("invalid_render_mode")
+    visual = [
+        a for a in inv.get("assets", [])
+        if str(a.get("mime") or "").startswith("image/")
+        or Path(str(a.get("name") or "")).suffix.lower() in {".png",".jpg",".jpeg",".webp",".heic"}
+    ]
+    if not visual:
+        raise ValueError("drawing_image_required")
     job={"job_id":"render_"+uuid.uuid4().hex,"invention_id":iid,"mode":mode,
          "created":time.time(),"status":"queued","invention":inv}
     path=JOBS_ROOT/(job["job_id"]+".json"); path.write_text(json.dumps(job,indent=2),encoding="utf-8")
     return job
+
+def get_job(job_id: str) -> dict[str, Any]:
+    _init()
+    safe = Path(str(job_id)).name
+    if safe != job_id or not safe.startswith("render_"):
+        raise ValueError("invalid_job_id")
+    path = JOBS_ROOT / (safe + ".json")
+    if not path.is_file():
+        raise KeyError("job_not_found")
+    return json.loads(path.read_text(encoding="utf-8"))
 
 def chat(text: str) -> dict[str, Any]:
     text=(text or "").strip()
@@ -118,7 +136,6 @@ def chat(text: str) -> dict[str, Any]:
                 "errors":[f"{type(exc).__name__}:{str(exc)[:200]}"]}
 
 _init()
-
 
 def engineering3d_status() -> dict[str, Any]:
     try:
