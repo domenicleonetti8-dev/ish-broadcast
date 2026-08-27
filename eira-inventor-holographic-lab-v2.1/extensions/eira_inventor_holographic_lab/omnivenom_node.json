@@ -1,0 +1,40 @@
+{
+  "node_id": "eira.inventor.holographic_lab",
+  "name": "EIRA Inventor's Archive + Holographic Design Lab",
+  "version": "2.1.0",
+  "kind": "extension_node",
+  "extension": "eira_inventor_holographic_lab",
+  "discoverable_by": [
+    "omnivenom_whole_live_mesh",
+    "unified_brain"
+  ],
+  "capabilities": [
+    "text_chat",
+    "speech_input",
+    "speech_output",
+    "mute_output",
+    "image_ingest",
+    "inventor_archive",
+    "interactive_3d",
+    "orbit_pan_zoom",
+    "part_selection",
+    "explode_reassemble",
+    "animation_playback",
+    "transparent_shell",
+    "part_isolation",
+    "blender_render_queue",
+    "assumption_ledger",
+    "scientific_plausibility_mode",
+    "engineering3d_verified_bridge",
+    "physics_validation",
+    "materials_analysis",
+    "exploded_scene_generation",
+    "engineering3d_receipts"
+  ],
+  "entrypoints": {
+    "plugin": "extensions.eira_inventor_holographic_lab.plugin",
+    "server": "extensions.eira_inventor_holographic_lab.server"
+  },
+  "core_mutation": false,
+  "voice_takeover": false
+}
