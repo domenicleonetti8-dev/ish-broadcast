@@ -14,7 +14,13 @@ PROVIDER_MODULE = "extensions.unified_brain_ai.providers.engineering3d"
 ENGINEERING_PACKAGE = "extensions.unified_brain_ai.engineering3d"
 PROVIDER_BASE = "extensions.unified_brain_ai.provider_base"
 REQUIRED_SUBMODULES = ("schema", "validate", "exploded", "export", "materials", "physics")
-CAPABILITY_CANDIDATES = ("engineering3d", "engineering_3d", "3d_engineering", "3d")
+FALLBACK_CAPABILITIES = (
+    "scientific_3d_render",
+    "engineering3d",
+    "engineering_3d",
+    "3d_engineering",
+    "3d",
+)
 
 class Engineering3DContractError(RuntimeError):
     pass
@@ -32,14 +38,33 @@ def _request_type(provider_mod):
     cls = getattr(provider_mod, "CapabilityRequest", None)
     if inspect.isclass(cls):
         return cls
-    try:
-        base = importlib.import_module(PROVIDER_BASE)
-    except Exception:
-        return None
-    cls = getattr(base, "CapabilityRequest", None)
-    return cls if inspect.isclass(cls) else None
+    for module_name in ("extensions.unified_brain_ai.schema", PROVIDER_BASE):
+        try:
+            mod = importlib.import_module(module_name)
+        except Exception:
+            continue
+        cls = getattr(mod, "CapabilityRequest", None)
+        if inspect.isclass(cls):
+            return cls
+    return None
 
-def _choose_capability(instance) -> tuple[str | None, dict]:
+def _strings(obj):
+    out = []
+    def walk(v):
+        if isinstance(v, str):
+            out.append(v)
+        elif isinstance(v, dict):
+            for k, val in v.items():
+                if isinstance(k, str):
+                    out.append(k)
+                walk(val)
+        elif isinstance(v, (list, tuple, set)):
+            for x in v:
+                walk(x)
+    walk(obj)
+    return out
+
+def _choose_capability(instance) -> tuple[str | None, dict, list[str]]:
     description = {}
     try:
         raw = instance.describe()
@@ -47,13 +72,37 @@ def _choose_capability(instance) -> tuple[str | None, dict]:
             description = raw
     except Exception as exc:
         description = {"describe_error": repr(exc)}
-    for name in CAPABILITY_CANDIDATES:
+
+    advertised = []
+    seen = set()
+    for name in _strings(description):
+        s = name.strip()
+        if not s or s in seen:
+            continue
+        seen.add(s)
+        low = s.lower()
+        if any(token in low for token in ("3d", "render", "engineering", "physics", "cad", "blueprint")):
+            advertised.append(s)
+
+    ranked = sorted(
+        advertised,
+        key=lambda s: (
+            0 if "scientific_3d_render" in s.lower() else
+            1 if ("3d" in s.lower() and "render" in s.lower()) else
+            2 if "3d" in s.lower() else
+            3,
+            len(s),
+            s,
+        ),
+    )
+
+    for name in list(ranked) + list(FALLBACK_CAPABILITIES):
         try:
             if bool(instance.supports(name)):
-                return name, description
+                return name, description, advertised
         except Exception:
             continue
-    return None, description
+    return None, description, advertised
 
 def provider_contract() -> dict[str, Any]:
     provider_mod = importlib.import_module(PROVIDER_MODULE)
@@ -69,7 +118,7 @@ def provider_contract() -> dict[str, Any]:
 
     execute = getattr(instance, "execute", None)
     request_cls = _request_type(provider_mod)
-    capability, description = _choose_capability(instance)
+    capability, description, advertised = _choose_capability(instance)
 
     submodules = {}
     for name in REQUIRED_SUBMODULES:
@@ -92,6 +141,7 @@ def provider_contract() -> dict[str, Any]:
         "request_type": None if request_cls is None else f"{request_cls.__module__}.{request_cls.__name__}",
         "request_signature": None if request_cls is None else _sig(request_cls),
         "capability": capability,
+        "advertised_capabilities": advertised,
         "provider_description": description,
         "configured": bool(instance.configured()) if callable(getattr(instance, "configured", None)) else None,
     }
@@ -135,7 +185,19 @@ def _make_request(request_cls, capability: str, task: dict[str, Any]):
     kwargs = {}
     missing = []
     mapping = {
+        "request_id": task["job_id"],
         "capability": capability,
+        "prompt": task["description"],
+        "messages": [],
+        "media": [],
+        "context": {
+            "source": "eira_inventor_holographic_lab",
+            "job_id": task["job_id"],
+            "invention_id": task["invention_id"],
+            "title": task["title"],
+        },
+        "options": task,
+        "mutation_authorized": False,
         "name": capability,
         "operation": task["operation"],
         "action": task["operation"],
@@ -147,12 +209,12 @@ def _make_request(request_cls, capability: str, task: dict[str, Any]):
         "args": task,
         "params": task,
         "parameters": task,
-        "options": task,
-        "context": {"source": "eira_inventor_holographic_lab", "job_id": task["job_id"]},
-        "metadata": {"source": "eira_inventor_holographic_lab", "job_id": task["job_id"], "invention_id": task["invention_id"]},
-        "request_id": task["job_id"],
+        "metadata": {
+            "source": "eira_inventor_holographic_lab",
+            "job_id": task["job_id"],
+            "invention_id": task["invention_id"],
+        },
         "job_id": task["job_id"],
-        "prompt": task["description"],
         "text": task["description"],
     }
     for p in sig.parameters.values():
@@ -178,7 +240,9 @@ def _make_request(request_cls, capability: str, task: dict[str, Any]):
 def invoke(job: dict[str, Any]) -> dict[str, Any]:
     contract = provider_contract()
     if not contract.get("ok"):
-        raise Engineering3DContractError("engineering3d provider contract unresolved: " + json.dumps(contract, default=str))
+        raise Engineering3DContractError(
+            "engineering3d provider contract unresolved: " + json.dumps(contract, default=str)
+        )
 
     provider_mod = importlib.import_module(PROVIDER_MODULE)
     provider_cls = getattr(provider_mod, "Engineering3DProvider")
