@@ -6,6 +6,7 @@ import hashlib
 import importlib
 import inspect
 import json
+import subprocess
 import tempfile
 import time
 from pathlib import Path
@@ -127,12 +128,30 @@ def _construct(cls, mapping: dict):
     return cls(**kwargs)
 
 
+def _blender_export_glb(blender: str, blend: Path, glb: Path):
+    expr = (
+        "import bpy; "
+        f"bpy.ops.export_scene.gltf(filepath={str(glb)!r}, export_format='GLB')"
+    )
+    cp = subprocess.run(
+        [blender, "-b", str(blend), "--python-expr", expr],
+        text=True,
+        capture_output=True,
+        timeout=300,
+    )
+    if cp.returncode != 0 or not glb.is_file() or glb.stat().st_size <= 0:
+        fail(
+            "blender_glb_export",
+            f"returncode={cp.returncode}; stderr={cp.stderr[-1400:]!r}; stdout={cp.stdout[-800:]!r}",
+        )
+
+
 def check_blender_smoke(results: list[dict], contract: dict):
     blender = contract.get("blender_executable")
     pkg = importlib.import_module("extensions.unified_brain_ai.engineering3d")
     Assembly = getattr(pkg, "Assembly")
     Part = getattr(pkg, "Part")
-    V = getattr(pkg, "V")
+    Vec3 = getattr(pkg, "Vec3")
     write_blueprint_package = getattr(pkg, "write_blueprint_package")
     with tempfile.TemporaryDirectory(prefix="eira_lab_blender_") as td:
         out = Path(td) / "model"
@@ -142,9 +161,9 @@ def check_blender_smoke(results: list[dict], contract: dict):
             "id": "regression_box",
             "name": "Regression Box",
             "shape": "box",
-            "size": V(1.0, 0.6, 0.4),
-            "position": V(0, 0, 0),
-            "rotation_deg": V(0, 0, 0),
+            "size": Vec3(1.0, 0.6, 0.4),
+            "position": Vec3(0, 0, 0),
+            "rotation_deg": Vec3(0, 0, 0),
             "material": "aluminum",
             "metadata": {"provenance": "regression_fixture"},
             "color": "#88aacc",
@@ -165,17 +184,20 @@ def check_blender_smoke(results: list[dict], contract: dict):
             render_blender=True,
             blender_executable=blender,
         )
+        if not isinstance(produced, dict) or not produced.get("ok"):
+            fail("engineering3d_blender_package", repr(produced))
         files = [p for p in out.rglob("*") if p.is_file()]
-        glbs = [p for p in files if p.suffix.lower() == ".glb" and p.stat().st_size > 0]
         blends = [p for p in files if p.suffix.lower() == ".blend" and p.stat().st_size > 0]
-        if not glbs:
-            fail("blender_glb_smoke", "no nonempty GLB produced; return=" + repr(produced))
+        if not blends:
+            fail("blender_blend_smoke", "no nonempty .blend produced; return=" + repr(produced))
+        glb = out / "assembly.glb"
+        _blender_export_glb(blender, blends[0], glb)
         results.append({
             "test": "blender_glb_smoke",
             "ok": True,
-            "glb_bytes": glbs[0].stat().st_size,
-            "glb_name": glbs[0].name,
-            "blend_present": bool(blends),
+            "glb_bytes": glb.stat().st_size,
+            "glb_name": glb.name,
+            "blend_present": True,
         })
 
 
