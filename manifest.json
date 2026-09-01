@@ -1,0 +1,1 @@
+{"name":"eira_inventor_holographic_lab","version":"5.0.0","isolated":true,"entrypoint":"eira_inventor_holographic_lab.server:main","capabilities":["evidence_to_engineering_ir","general_geometry","scientific_preflight","moving_assemblies","blender_glb_export"]}
