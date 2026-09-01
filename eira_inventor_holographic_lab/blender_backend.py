@@ -21,16 +21,29 @@ def rgba(v,default=(.55,.62,.68,1)):
 def material(name,color,alpha=1,metallic=.05,roughness=.42):
  m=bpy.data.materials.get(name) or bpy.data.materials.new(name); c=rgba(color); m.diffuse_color=(c[0],c[1],c[2],alpha*c[3]); m.use_nodes=True
  bs=m.node_tree.nodes.get('Principled BSDF'); bs.inputs['Base Color'].default_value=m.diffuse_color; bs.inputs['Metallic'].default_value=float(metallic); bs.inputs['Roughness'].default_value=float(roughness); bs.inputs['Alpha'].default_value=m.diffuse_color[3]
+ # Blender versions rename the transmission socket; use it when available so transparent
+ # shells read as glazing rather than ghost-gray opaque plastic.
+ if m.diffuse_color[3]<.999:
+  for sock in ('Transmission Weight','Transmission'):
+   if bs.inputs.get(sock) is not None: bs.inputs[sock].default_value=max(.05,min(.65,1.0-m.diffuse_color[3]))
+  if bs.inputs.get('IOR') is not None: bs.inputs['IOR'].default_value=1.46
  try:
   if m.diffuse_color[3]<.999: m.surface_render_method='DITHERED'
  except Exception: pass
  return m
 
+def smooth(o):
+ try:
+  if hasattr(o.data,'polygons'):
+   for poly in o.data.polygons: poly.use_smooth=True
+ except Exception: pass
+ return o
+
 def mesh_obj(pid,verts,faces):
  me=bpy.data.meshes.new(pid); me.from_pydata(verts,[],faces); me.validate(); me.update(); o=bpy.data.objects.new(pid,me); bpy.context.collection.objects.link(o); return o
 
 def curve_obj(pid,pts,basis='POLY',radius=.01,material_obj=None):
- cu=bpy.data.curves.new(pid,'CURVE'); cu.dimensions='3D'; cu.bevel_depth=float(radius); cu.bevel_resolution=3; cu.resolution_u=12
+ cu=bpy.data.curves.new(pid,'CURVE'); cu.dimensions='3D'; cu.bevel_depth=float(radius); cu.bevel_resolution=4; cu.resolution_u=16
  sp=cu.splines.new('BEZIER' if basis=='BEZIER' else 'NURBS' if basis=='NURBS' else 'POLY')
  if basis=='BEZIER':
   sp.bezier_points.add(len(pts)-1)
@@ -49,27 +62,39 @@ def text_obj(name,text,loc,size=.08):
 def cylinder_between(name,a,b,r=.006,mat=None):
  a=Vector(a); b=Vector(b); d=b-a; L=d.length
  if L<1e-9: return None
- bpy.ops.mesh.primitive_cylinder_add(vertices=16,radius=r,depth=L,location=(a+b)/2); o=bpy.context.object; o.name=name; o.rotation_mode='QUATERNION'; o.rotation_quaternion=d.to_track_quat('Z','Y')
+ bpy.ops.mesh.primitive_cylinder_add(vertices=24,radius=r,depth=L,location=(a+b)/2); o=smooth(bpy.context.object); o.name=name; o.rotation_mode='QUATERNION'; o.rotation_quaternion=d.to_track_quat('Z','Y')
  if mat: o.data.materials.append(mat)
  return o
 
 def cone_tip(name,at,direction,r=.018,L=.05,mat=None):
  d=Vector(direction)
  if d.length<1e-9:return None
- d.normalize(); bpy.ops.mesh.primitive_cone_add(vertices=20,radius1=r,radius2=0,depth=L,location=Vector(at)-d*(L/2)); o=bpy.context.object; o.name=name; o.rotation_mode='QUATERNION'; o.rotation_quaternion=d.to_track_quat('Z','Y')
+ d.normalize(); bpy.ops.mesh.primitive_cone_add(vertices=24,radius1=r,radius2=0,depth=L,location=Vector(at)-d*(L/2)); o=bpy.context.object; o.name=name; o.rotation_mode='QUATERNION'; o.rotation_quaternion=d.to_track_quat('Z','Y')
  if mat:o.data.materials.append(mat)
  return o
+
+def capsule_obj(pid,radius,height,segments=48):
+ # Match the geometry engine: a cylindrical body of declared height capped by spheres.
+ body=max(0.0,float(height)); r=float(radius); made=[]
+ if body>1e-9:
+  bpy.ops.mesh.primitive_cylinder_add(vertices=int(segments),radius=r,depth=body,location=(0,0,0)); made.append(bpy.context.object)
+ for z in (-body/2,body/2):
+  bpy.ops.mesh.primitive_uv_sphere_add(segments=int(segments),ring_count=max(12,int(segments)//2),radius=r,location=(0,0,z)); made.append(bpy.context.object)
+ for o in made: o.select_set(True)
+ bpy.context.view_layer.objects.active=made[0]
+ bpy.ops.object.join(); o=smooth(bpy.context.object); o.name=pid; return o
 
 def build(g,pid):
  k=g['kind']
  if k=='primitive':
   d=g.get('dimensions',{{}}); q=g['primitive']
   if q=='box': bpy.ops.mesh.primitive_cube_add(); o=bpy.context.object; o.scale=(d.get('x',1)/2,d.get('y',1)/2,d.get('z',1)/2)
-  elif q=='cylinder': bpy.ops.mesh.primitive_cylinder_add(vertices=int(d.get('segments',64)),radius=d.get('radius',.5),depth=d.get('height',1)); o=bpy.context.object
-  elif q=='sphere': bpy.ops.mesh.primitive_uv_sphere_add(segments=int(d.get('segments',64)),ring_count=int(d.get('rings',32)),radius=d.get('radius',.5)); o=bpy.context.object
-  elif q=='cone': bpy.ops.mesh.primitive_cone_add(vertices=int(d.get('segments',64)),radius1=d.get('radius',.5),depth=d.get('height',1)); o=bpy.context.object
-  elif q=='torus': bpy.ops.mesh.primitive_torus_add(major_segments=96,minor_segments=32,major_radius=d.get('major_radius',1),minor_radius=d.get('minor_radius',.2)); o=bpy.context.object
-  elif q=='capsule': bpy.ops.mesh.primitive_uv_sphere_add(segments=64,ring_count=32,radius=d.get('radius',.25)); o=bpy.context.object
+  elif q=='plane': bpy.ops.mesh.primitive_cube_add(); o=bpy.context.object; o.scale=(d.get('x',1)/2,d.get('y',1)/2,max(d.get('z',.002),.0005)/2)
+  elif q=='cylinder': bpy.ops.mesh.primitive_cylinder_add(vertices=int(d.get('segments',64)),radius=d.get('radius',.5),depth=d.get('height',1)); o=smooth(bpy.context.object)
+  elif q=='sphere': bpy.ops.mesh.primitive_uv_sphere_add(segments=int(d.get('segments',64)),ring_count=int(d.get('rings',32)),radius=d.get('radius',.5)); o=smooth(bpy.context.object)
+  elif q=='cone': bpy.ops.mesh.primitive_cone_add(vertices=int(d.get('segments',64)),radius1=d.get('radius',.5),depth=d.get('height',1)); o=smooth(bpy.context.object)
+  elif q=='torus': bpy.ops.mesh.primitive_torus_add(major_segments=int(d.get('major_segments',96)),minor_segments=int(d.get('minor_segments',32)),major_radius=d.get('major_radius',1),minor_radius=d.get('minor_radius',.2)); o=smooth(bpy.context.object)
+  elif q=='capsule': o=capsule_obj(pid,d.get('radius',.25),d.get('height',1),int(d.get('segments',48)))
   else: raise RuntimeError('primitive unsupported:'+str(q))
   return o
  if k=='mesh': return mesh_obj(pid,g['vertices'],g['faces'])
@@ -96,7 +121,7 @@ for it in A.get('diagram_layer',{{}}).get('items',[]):
   if len(pts)>=2:
    cone_tip(iid+'__tip',pts[-1],Vector(pts[-1])-Vector(pts[-2]),.022,.055,flow_mat); tx=text_obj(iid+'__text',it.get('label',''),Vector(pts[len(pts)//2])+Vector((0,0,.04)),.06); tx.data.materials.append(text_mat)
  elif k=='port':
-  p=Vector(it['position']); d=Vector(it.get('direction',[0,0,1])); bpy.ops.mesh.primitive_uv_sphere_add(segments=24,ring_count=12,radius=.018,location=p); q=bpy.context.object; q.name=iid; q.data.materials.append(port_mat); cone_tip(iid+'__dir',p+d*.07,d,.014,.035,port_mat)
+  p=Vector(it['position']); d=Vector(it.get('direction',[0,0,1])); bpy.ops.mesh.primitive_uv_sphere_add(segments=24,ring_count=12,radius=.018,location=p); q=smooth(bpy.context.object); q.name=iid; q.data.materials.append(port_mat); cone_tip(iid+'__dir',p+d*.07,d,.014,.035,port_mat)
 
 fps=int(A.get('motion_fps',24)); bpy.context.scene.render.fps=fps
 for j in A.get('joints',[]):
