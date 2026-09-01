@@ -1,1 +1,17 @@
-{"name":"eira_inventor_holographic_lab","version":"5.0.0","isolated":true,"entrypoint":"eira_inventor_holographic_lab.server:main","capabilities":["evidence_to_engineering_ir","general_geometry","scientific_preflight","moving_assemblies","blender_glb_export"]}
+{
+  "name": "eira_inventor_holographic_lab",
+  "version": "6.0-living-engineering",
+  "isolated": true,
+  "entrypoint": "eira_inventor_holographic_lab.server:main",
+  "capabilities": [
+    "evidence_to_engineering_ir",
+    "general_3d_geometry",
+    "engineering_diagram_overlays",
+    "closed_form_engineering_preflight",
+    "moving_assemblies",
+    "living_architecture_state",
+    "blender_glb_export",
+    "terminal_job_lifecycle"
+  ],
+  "truth_boundary": "No FEA/CFD/certification claim without a configured external solver; live Pi Gemma/Blender path must be validated on target hardware."
+}
