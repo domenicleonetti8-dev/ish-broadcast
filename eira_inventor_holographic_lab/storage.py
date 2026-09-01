@@ -28,10 +28,18 @@ class Store:
     def add_asset(self,iid,name,mime,data,kind='source'):
         x=self.get_invention(iid); aid='asset_'+uuid.uuid4().hex; d=self.files/iid; d.mkdir(exist_ok=True); safe=re.sub(r'[^A-Za-z0-9._-]+','_',Path(name).name)[:100] or 'asset.bin'; rel=f'files/{iid}/{aid}_{safe}'; p=self.root/rel; p.write_bytes(data)
         a={'id':aid,'invention_id':iid,'name':safe,'mime':mime,'relpath':rel,'sha256':hashlib.sha256(data).hexdigest(),'kind':kind,'created':time.time()}; x.setdefault('assets',[]).append(a); x['version']=int(x.get('version',0))+1; x['updated']=time.time(); self._write(self.inv/f'{iid}.json',x); return a
-    def queue_render(self,iid,mode='engineering_completion'):
+    def queue_render(self,iid,mode='engineering_completion',options=None):
         inv=self.get_invention(iid)
         if not inv.get('assets'): raise ValueError('source_asset_required')
-        jid='render_'+uuid.uuid4().hex; j={'job_id':jid,'invention_id':iid,'mode':mode,'created':time.time(),'updated':time.time(),'status':'queued','error':None,'model_url':None}; return self._write(self.jobs/f'{jid}.json',j)
+        opts=dict(options or {})
+        allowed={
+            'repair_attempts','visual_review','review_model','visual_review_threshold','visual_review_timeout_s',
+            'blender_timeout_s','preview_resolution','support_gap_m','forbidden_overlap_m3','duration_s','fps'
+        }
+        clean={k:opts[k] for k in allowed if k in opts}
+        jid='render_'+uuid.uuid4().hex
+        j={'job_id':jid,'invention_id':iid,'mode':str(mode),'created':time.time(),'updated':time.time(),'status':'queued','error':None,'model_url':None,**clean}
+        return self._write(self.jobs/f'{jid}.json',j)
     def get_job(self,jid):
         j=self._read(self.jobs/f'{jid}.json')
         if not j: raise KeyError('job_not_found')
