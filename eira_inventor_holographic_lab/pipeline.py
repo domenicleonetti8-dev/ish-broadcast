@@ -4,6 +4,7 @@ from pathlib import Path
 from .provider import ollama_vision
 from .compiler import compile_assembly
 from .blender_backend import generate_blender_script
+from .quality import inspect_scene, require_quality
 
 TERMINAL={"completed","failed","cancelled"}
 
@@ -19,6 +20,15 @@ def run_job(job,image_path,user_text,out_dir,vision=ollama_vision,blender="blend
         compiled,scene=compile_assembly(assembly,duration_s=float(job.get("duration_s",10)),fps=int(job.get("fps",24)))
         (out/"compiled_ir.json").write_text(json.dumps(compiled,indent=2))
         (out/"engineering_report.json").write_text(json.dumps({"summary":compiled.get("engineering_summary"),"quantities":compiled.get("calculated_quantities"),"diagrams":compiled.get("diagram_layer")},indent=2))
+
+        stage("geometry_quality_check")
+        quality=inspect_scene(compiled,scene,
+            support_gap_m=float(job.get("support_gap_m",0.035)),
+            forbidden_overlap_m3=float(job.get("forbidden_overlap_m3",1e-6)))
+        compiled["geometry_quality"]=quality
+        (out/"geometry_quality.json").write_text(json.dumps(quality,indent=2))
+        require_quality(quality)
+
         stage("geometry_expanding")
         for p in compiled["parts"]:
             if p["geometry"]["kind"] in {"instance","boolean","primitive","mesh","curve"}: continue
@@ -29,6 +39,6 @@ def run_job(job,image_path,user_text,out_dir,vision=ollama_vision,blender="blend
         cp=subprocess.run([blender,"-b","--python",str(script)],capture_output=True,text=True,timeout=int(job.get("blender_timeout_s",900)))
         (out/"blender.stdout.txt").write_text(cp.stdout); (out/"blender.stderr.txt").write_text(cp.stderr)
         if cp.returncode!=0 or not glb.exists(): raise RuntimeError(f"blender_failed:returncode={cp.returncode}")
-        stage("completed",model_url=str(glb),engineering_report=str(out/"engineering_report.json")); return job
+        stage("completed",model_url=str(glb),engineering_report=str(out/"engineering_report.json"),geometry_quality=str(out/"geometry_quality.json")); return job
     except Exception as exc:
         stage("failed",error=f"{type(exc).__name__}:{exc}",traceback=traceback.format_exc()); return job
