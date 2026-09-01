@@ -22,22 +22,35 @@ def _mesh_metrics(mesh):
 
 def compile_assembly(assembly, duration_s=10.0, fps=24):
     a=copy.deepcopy(assembly); validate_assembly(a)
-    scene=trimesh.Scene(); cache={}; metrics={}
+    scene=trimesh.Scene(); base_cache={}; world_cache={}; metrics={}
+
+    # First compile every concrete geometry in local coordinates, then apply its transform.
+    # Keeping local geometry separate is critical for repeated/instanced parts: an instance
+    # must not accidentally inherit the source object's world transform.
     for p in a["parts"]:
         g=p["geometry"]
         if g["kind"] in {"instance","boolean"}: continue
-        m=mesh_from_geometry(g); apply_transform(m,p.get("transform",{})); cache[p["part_id"]]=m
+        base=mesh_from_geometry(g)
+        base_cache[p["part_id"]]=base.copy()
+        m=base.copy(); apply_transform(m,p.get("transform",{})); world_cache[p["part_id"]]=m
         metrics[p["part_id"]]=_mesh_metrics(m)
         scene.add_geometry(m,node_name=p["part_id"],geom_name=p["part_id"],metadata={"name":p.get("name"),"system":p.get("system"),"source":p.get("source")})
+
+    # Resolve instances against LOCAL source geometry so copies render at their own declared
+    # transforms. This keeps compiler, Blender output and QA spatially consistent.
     for p in a["parts"]:
         g=p["geometry"]
         if g["kind"]=="instance":
-            src=cache.get(g["source_part_id"])
-            if src is None: raise ContractError("instance source missing")
-            m=src.copy(); apply_transform(m,p.get("transform",{})); cache[p["part_id"]]=m
-            metrics[p["part_id"]]=_mesh_metrics(m); scene.add_geometry(m,node_name=p["part_id"],geom_name=p["part_id"])
+            src_id=g["source_part_id"]
+            src=base_cache.get(src_id)
+            if src is None: raise ContractError("instance source missing or instance-of-instance unsupported")
+            m=src.copy(); apply_transform(m,p.get("transform",{})); world_cache[p["part_id"]]=m
+            base_cache[p["part_id"]]=src.copy()
+            metrics[p["part_id"]]=_mesh_metrics(m)
+            scene.add_geometry(m,node_name=p["part_id"],geom_name=p["part_id"],metadata={"name":p.get("name"),"system":p.get("system"),"source":p.get("source")})
         elif g["kind"]=="boolean":
             raise ContractError("boolean requires configured exact boolean backend")
+
     a["mesh_metrics"]=metrics
     a["calculated_quantities"]=preflight(a,metrics)
     a["motion_tracks"]=compile_motion(a,duration_s=duration_s,fps=fps)
