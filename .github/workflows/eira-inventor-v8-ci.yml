@@ -11,7 +11,7 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -25,5 +25,7 @@ jobs:
         run: python -m compileall -q eira_inventor_holographic_lab tests
       - name: Run unit and integration tests
         run: pytest -q
-      - name: Run 300-case regression suite
+      - name: Run 300-case geometry regression suite
         run: python tests/regression_300.py
+      - name: Run 300-case quality regression suite
+        run: python tests/regression_300_quality.py
