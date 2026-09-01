@@ -1,0 +1,42 @@
+{
+  "revision": "V12",
+  "artifact": "EIRA_Off_World_Greenhouse_V12_Color.usdz",
+  "purpose": "Replace rejected V11 greenhouse geometry with a cleaner, more faithful engineering reconstruction.",
+  "reference_target": "Off-World Greenhouse Habitat engineering reference",
+  "geometry_changes": {
+    "solar_array": {
+      "status": "rebuilt",
+      "requirements": ["shell-tangent mounting", "dedicated standoff rails", "cell grid detail", "no turbine-zone overlap", "no floating panels"]
+    },
+    "wind_system": {
+      "status": "rebuilt",
+      "requirements": ["arched shell-conforming intake", "four axial fan cartridges", "tapered fan blades", "compact crown duct", "integrated inlet/outlet", "no giant corrugated duct"]
+    },
+    "plants": {
+      "status": "rebuilt",
+      "requirements": ["tapered polygon leaf meshes", "multiple crop families", "fruiting beds", "herbs", "tall crops", "hanging vines", "no sphere-on-stick leaf geometry"]
+    },
+    "service_bay": {
+      "status": "expanded",
+      "requirements": ["water/nutrient tanks", "pumps", "motors", "filters", "control cabinets", "heat exchangers", "accumulators", "valved manifolds", "power/data cable trays", "sensor nodes"]
+    },
+    "utilities": {
+      "status": "rerouted",
+      "requirements": ["separate water", "nutrient", "air", "thermal", "power", "data trunks", "controlled risers", "roof utility separation"]
+    },
+    "shell": {
+      "status": "cleaned",
+      "requirements": ["12 primary ribs", "9 purlins", "transparent glazing", "open cutaway readability"]
+    }
+  },
+  "export_validation": {
+    "material_groups": 20,
+    "scene_geometries": 2477,
+    "vertices": 59102,
+    "faces": 105392,
+    "usdz_storage": "uncompressed",
+    "usdz_alignment": 64,
+    "quicklook_package_checks": "pass"
+  },
+  "truth_boundary": "This manifest records deterministic geometry/export checks. Final visual acceptance remains a human review gate."
+}
