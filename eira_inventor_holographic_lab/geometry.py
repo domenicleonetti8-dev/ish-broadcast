@@ -47,6 +47,7 @@ def extrude(g):
 def revolve(g):
     prof=np.array(g["profile"],float)
     if prof.shape[1]==3: prof=prof[:,[0,2]]
+    axis=_unit(np.array(g.get("axis",[0,0,1]),float))
     ang=math.radians(float(g.get("angle_deg",360))); seg=max(8,int(g.get("segments",64))); us=np.linspace(0,ang,seg+1); verts=[]
     for u in us:
         c,s=math.cos(u),math.sin(u)
@@ -55,7 +56,10 @@ def revolve(g):
     for a in range(seg):
         for i in range(n-1):
             x=a*n+i; y=x+n; faces += [[x,y,y+1],[x,y+1,x+1]]
-    return trimesh.Trimesh(np.array(verts),np.array(faces),process=False)
+    m=trimesh.Trimesh(np.array(verts),np.array(faces),process=False)
+    T=trimesh.geometry.align_vectors([0,0,1],axis)
+    if T is not None: m.apply_transform(T)
+    return m
 
 def _unit(v):
     v=np.asarray(v,float); n=float(np.linalg.norm(v))
