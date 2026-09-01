@@ -29,3 +29,13 @@ jobs:
         run: python tests/regression_300.py
       - name: Run 300-case quality regression suite
         run: python tests/regression_300_quality.py
+      - name: Upload dense reference artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: eira-v8-reference-evidence
+          if-no-files-found: error
+          retention-days: 14
+          path: |
+            artifacts/off_world_greenhouse_v8_reference.glb
+            artifacts/off_world_greenhouse_v8_ir.json
+            artifacts/off_world_greenhouse_v8_quality.json
