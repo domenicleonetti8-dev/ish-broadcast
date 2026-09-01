@@ -1,8 +1,7 @@
 from __future__ import annotations
 
-import math
 from dataclasses import dataclass, asdict
-from typing import Dict, Iterable, List, Mapping, Sequence, Tuple
+from typing import Dict, List, Mapping
 
 import numpy as np
 import trimesh
@@ -39,7 +38,6 @@ def _overlap_volume(a: np.ndarray, b: np.ndarray, epsilon: float = 1e-6) -> floa
 
 
 def _gap(a: np.ndarray, b: np.ndarray) -> float:
-    """Euclidean distance between two axis-aligned bounding boxes."""
     delta = np.maximum(np.maximum(a[0] - b[1], b[0] - a[1]), 0.0)
     return float(np.linalg.norm(delta))
 
@@ -98,12 +96,11 @@ def inspect_scene(
     forbidden_overlap_m3: float = 1e-6,
     tiny_part_ratio: float = 1e-5,
 ) -> dict:
-    """Deterministic geometry QA.
+    """Conservative deterministic geometry QA before delivery.
 
-    This is intentionally conservative. It detects obvious structural failures before a
-    GLB/USDZ is delivered: floating supported parts, solar/wind envelope collisions,
-    non-finite geometry, collapsed parts, and grossly tiny accidental fragments.
-    It is not FEA or exact collision detection.
+    Only real assembly parts are evaluated. Diagram arrows, labels, dimensions and other
+    generated presentation geometry are deliberately excluded so they cannot trigger
+    false floating/collision failures.
     """
     parts = {str(p["part_id"]): p for p in assembly.get("parts", [])}
     meshes: Dict[str, trimesh.Trimesh] = {}
@@ -111,28 +108,18 @@ def inspect_scene(
 
     for name, geom in scene.geometry.items():
         pid = str(name)
-        if not isinstance(geom, trimesh.Trimesh):
+        if pid not in parts or not isinstance(geom, trimesh.Trimesh):
             continue
         meshes[pid] = geom
         try:
             b = _bounds(geom)
             ext = b[1] - b[0]
             if np.any(ext <= 1e-8):
-                issues.append(QualityIssue(
-                    "collapsed_geometry", "error", pid,
-                    "Part has a near-zero spatial extent.",
-                    {"extents_m": ext.tolist()},
-                ))
+                issues.append(QualityIssue("collapsed_geometry", "error", pid, "Part has a near-zero spatial extent.", {"extents_m": ext.tolist()}))
             if not np.isfinite(np.asarray(geom.vertices, dtype=float)).all():
-                issues.append(QualityIssue(
-                    "non_finite_geometry", "error", pid,
-                    "Part contains non-finite vertex coordinates.", {},
-                ))
+                issues.append(QualityIssue("non_finite_geometry", "error", pid, "Part contains non-finite vertex coordinates.", {}))
         except Exception as exc:
-            issues.append(QualityIssue(
-                "bounds_failure", "error", pid,
-                "Part bounds could not be evaluated.", {"error": str(exc)},
-            ))
+            issues.append(QualityIssue("bounds_failure", "error", pid, "Part bounds could not be evaluated.", {"error": str(exc)}))
 
     if meshes:
         all_bounds = np.vstack([_bounds(m) for m in meshes.values()])
@@ -142,55 +129,42 @@ def inspect_scene(
     else:
         scene_diag = 0.0
 
-    # Tiny-fragment guard: catches spikes, accidental slivers and disconnected crumbs.
     if scene_diag > 0:
         min_diag = max(scene_diag * tiny_part_ratio, 1e-7)
         for pid, mesh in meshes.items():
             ext = _bounds(mesh)[1] - _bounds(mesh)[0]
-            if float(np.linalg.norm(ext)) < min_diag:
-                issues.append(QualityIssue(
-                    "tiny_fragment", "warning", pid,
-                    "Part is extremely small relative to the complete assembly.",
-                    {"part_diagonal_m": float(np.linalg.norm(ext)), "scene_diagonal_m": scene_diag},
-                ))
+            diag = float(np.linalg.norm(ext))
+            if diag < min_diag:
+                issues.append(QualityIssue("tiny_fragment", "warning", pid, "Part is extremely small relative to the complete assembly.", {"part_diagonal_m": diag, "scene_diagonal_m": scene_diag}))
 
-    # Explicit forbidden clearance groups. This directly blocks solar/wind bleed-through.
     ids = list(meshes)
     for i, a_id in enumerate(ids):
-        pa = parts.get(a_id, {})
+        pa = parts[a_id]
         ga = _clearance_group(pa)
         if not ga:
             continue
         ba = _bounds(meshes[a_id])
         allow_a = _allowed_overlap(pa)
         for b_id in ids[i + 1:]:
-            pb = parts.get(b_id, {})
+            pb = parts[b_id]
             gb = _clearance_group(pb)
             if not gb or ga == gb:
                 continue
             if b_id in allow_a or a_id in _allowed_overlap(pb):
                 continue
-            # Solar and wind envelopes are mutually exclusive unless declared otherwise.
             if {ga, gb} != {"solar", "wind"}:
                 continue
-            bb = _bounds(meshes[b_id])
-            vol = _overlap_volume(ba, bb)
+            vol = _overlap_volume(ba, _bounds(meshes[b_id]))
             if vol > forbidden_overlap_m3:
-                issues.append(QualityIssue(
-                    "solar_wind_overlap", "error", a_id,
-                    "Solar and wind-system geometry occupy the same clearance envelope.",
-                    {"other_part_id": b_id, "overlap_aabb_volume_m3": vol},
-                ))
+                issues.append(QualityIssue("solar_wind_overlap", "error", a_id, "Solar and wind-system geometry occupy the same clearance envelope.", {"other_part_id": b_id, "overlap_aabb_volume_m3": vol}))
 
-    # Support/floating check. A part that requires support must touch another part or the
-    # declared ground/deck plane within the tolerance. Suspended roles are exempt.
     ground_z = float((assembly.get("quality") or {}).get("ground_z_m", 0.0))
     for pid, mesh in meshes.items():
-        part = parts.get(pid, {})
+        part = parts[pid]
         if not _support_required(part):
             continue
         b = _bounds(mesh)
-        grounded = abs(float(b[0, 2]) - ground_z) <= support_gap_m or b[0, 2] < ground_z + support_gap_m
+        grounded = b[0, 2] <= ground_z + support_gap_m
         touching = False
         if not grounded:
             for other_id, other in meshes.items():
@@ -202,11 +176,7 @@ def inspect_scene(
                     touching = True
                     break
         if not grounded and not touching:
-            issues.append(QualityIssue(
-                "floating_part", "error", pid,
-                "Part requiring physical support is floating beyond the configured support tolerance.",
-                {"minimum_z_m": float(b[0, 2]), "ground_z_m": ground_z, "support_gap_m": support_gap_m},
-            ))
+            issues.append(QualityIssue("floating_part", "error", pid, "Part requiring physical support is floating beyond the configured support tolerance.", {"minimum_z_m": float(b[0, 2]), "ground_z_m": ground_z, "support_gap_m": support_gap_m}))
 
     counts = {
         "errors": sum(1 for x in issues if x.severity == "error"),
