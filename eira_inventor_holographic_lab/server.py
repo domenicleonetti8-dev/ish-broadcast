@@ -6,7 +6,7 @@ from urllib.parse import urlparse,unquote
 from .storage import Store
 from .pipeline import run_job
 ROOT=Path(__file__).resolve().parent; DATA_ROOT=Path(os.environ.get('EIRA_INVENTOR_ARCHIVE',str(ROOT/'archive'))).resolve(); STORE=Store(DATA_ROOT); STATIC=ROOT/'static'; _LOCK=threading.Lock()
-def _test_vision(_img,_txt): return {'assembly_id':'test','name':'test','parts':[{'part_id':'p','name':'part','geometry':{'kind':'primitive','primitive':'box','dimensions':{'x':1,'y':1,'z':1}},'transform':{'location':[0,0,0],'rotation_deg':[0,0,0],'scale':[1,1,1]},'source':{'provenance':'assumed','confidence':1.0},'engineering':{}}],'joints':[]}
+def _test_vision(_img,_txt): return {'assembly_id':'test','name':'test','quality':{'ground_z_m':0.0},'parts':[{'part_id':'p','name':'part','geometry':{'kind':'primitive','primitive':'box','dimensions':{'x':1,'y':1,'z':1}},'transform':{'location':[0,0,.5],'rotation_deg':[0,0,0],'scale':[1,1,1]},'source':{'provenance':'assumed','confidence':1.0},'engineering':{},'visual':{'role':'structural test part','support_required':True}}],'joints':[]}
 def process_job(jid):
     if not _LOCK.acquire(blocking=False): return
     try:
@@ -15,15 +15,19 @@ def process_job(jid):
             j.update(status='starting',updated=time.time()); STORE.save_job(j); j.update(status='vision_running',updated=time.time()); STORE.save_job(j)
             from .compiler import compile_assembly
             compiled,scene=compile_assembly(_test_vision(str(image),inv.get('description',''))); out.mkdir(parents=True,exist_ok=True); glb=out/'assembly.glb'; scene.export(glb); j.update(status='completed',updated=time.time(),model_url=f'/archive/models/{jid}/assembly.glb',error=None); STORE.save_job(j); return
-        result=run_job(j,str(image),inv.get('description',''),out)
+        mode=str(j.get('mode','engineering_completion'))
+        request_context=(inv.get('description','') or '').strip()
+        user_text=(request_context+'\n\n' if request_context else '')+f'RENDER MODE: {mode}. Preserve the source design while applying this mode only as an engineering reconstruction objective.'
+        result=run_job(j,str(image),user_text,out)
         if result.get('model_url'): result['model_url']=f'/archive/models/{jid}/assembly.glb'
+        if result.get('preview_dir'): result['preview_urls']=[f'/archive/models/{jid}/previews/{n}.png' for n in ('front_three_quarter','rear_three_quarter','side_cutaway','roof_systems','underside_service')]
         STORE.save_job(result)
     except Exception as e:
         try: j=STORE.get_job(jid); j.update(status='failed',updated=time.time(),error=f'{type(e).__name__}:{e}'); STORE.save_job(j)
         except Exception: pass
     finally:_LOCK.release()
 class H(BaseHTTPRequestHandler):
-    server_version='EIRA-InventorLab/5.0'
+    server_version='EIRA-InventorLab/8.0'
     def log_message(self,fmt,*args): print('[InventorLab]',fmt%args,flush=True)
     def sendb(self,c,data,ctype='application/octet-stream'):
         self.send_response(c); self.send_header('Content-Type',ctype); self.send_header('Content-Length',str(len(data))); self.send_header('Cache-Control','no-store'); self.send_header('X-Content-Type-Options','nosniff'); self.end_headers(); self.wfile.write(data)
@@ -35,7 +39,7 @@ class H(BaseHTTPRequestHandler):
     def do_GET(self):
         p=urlparse(self.path).path
         try:
-            if p=='/health': return self.sendj(200,{'ok':True,'service':'eira-inventor-v5','data_root':str(DATA_ROOT)})
+            if p=='/health': return self.sendj(200,{'ok':True,'service':'eira-inventor-v8','data_root':str(DATA_ROOT),'render_gate':'geometry+preview+visual-review'})
             if p=='/api/inventions': return self.sendj(200,STORE.list_inventions())
             if p.startswith('/api/inventions/'): return self.sendj(200,STORE.get_invention(unquote(p.rsplit('/',1)[-1])))
             if p.startswith('/api/jobs/'): return self.sendj(200,STORE.get_job(unquote(p.rsplit('/',1)[-1])))
@@ -57,7 +61,7 @@ class H(BaseHTTPRequestHandler):
             if p=='/api/inventions': return self.sendj(201,STORE.create_invention(o.get('title',''),o.get('description','')))
             if p=='/api/upload': return self.sendj(201,STORE.add_asset(o['invention_id'],o.get('name','asset.bin'),o.get('mime','application/octet-stream'),base64.b64decode(o.get('data_base64',''),validate=True),o.get('kind','source')))
             if p=='/api/render':
-                j=STORE.queue_render(o['invention_id'],o.get('mode','engineering_completion')); threading.Thread(target=process_job,args=(j['job_id'],),daemon=True).start(); return self.sendj(202,j)
+                j=STORE.queue_render(o['invention_id'],o.get('mode','engineering_completion'),o); threading.Thread(target=process_job,args=(j['job_id'],),daemon=True).start(); return self.sendj(202,j)
             if p=='/api/delete-invention': return self.sendj(200,STORE.delete_invention(o['invention_id']))
             return self.sendj(404,{'error':'not_found'})
         except (ValueError,KeyError) as e:return self.sendj(400,{'error':str(e)})
