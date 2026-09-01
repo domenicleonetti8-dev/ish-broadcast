@@ -21,6 +21,15 @@ def test_extrude_follows_arbitrary_vector():
     assert ext[2] < 1.1
 
 
+def test_revolve_honors_declared_axis():
+    profile = [[0.25, -0.6], [0.35, -0.3], [0.35, 0.3], [0.25, 0.6]]
+    z_axis = mesh_from_geometry({"kind": "revolve", "profile": profile, "axis": [0,0,1], "segments": 32})
+    x_axis = mesh_from_geometry({"kind": "revolve", "profile": profile, "axis": [1,0,0], "segments": 32})
+    assert z_axis.extents[2] > z_axis.extents[0]
+    assert x_axis.extents[0] > x_axis.extents[2]
+    assert np.isfinite(x_axis.vertices).all()
+
+
 def test_parallel_transport_sweep_stays_finite_and_connected():
     profile = []
     for a in np.linspace(0, 2 * math.pi, 16, endpoint=False):
