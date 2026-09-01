@@ -23,20 +23,26 @@ def primitive(g):
     if p=="cylinder": return trimesh.creation.cylinder(radius=d.get("radius",.5),height=d.get("height",1),sections=int(d.get("segments",48)))
     if p=="sphere": return trimesh.creation.icosphere(subdivisions=int(d.get("subdivisions",3)),radius=d.get("radius",.5))
     if p=="cone": return trimesh.creation.cone(radius=d.get("radius",.5),height=d.get("height",1),sections=int(d.get("segments",48)))
-    if p=="torus": return trimesh.creation.torus(major_radius=d.get("major_radius",1),minor_radius=d.get("minor_radius",.2),major_sections=64,minor_sections=24)
+    if p=="torus": return trimesh.creation.torus(major_radius=d.get("major_radius",1),minor_radius=d.get("minor_radius",.2),major_sections=int(d.get("major_segments",64)),minor_sections=int(d.get("minor_segments",24)))
     if p=="capsule": return trimesh.creation.capsule(height=d.get("height",1),radius=d.get("radius",.25),count=[16,32])
-    return trimesh.creation.box([d.get("x",1),d.get("y",1),max(d.get("z",.01),.001)])
+    if p=="plane": return trimesh.creation.box([d.get("x",1),d.get("y",1),max(d.get("z",.002),.0005)])
+    raise ValueError(f"unsupported primitive:{p}")
 
 def extrude(g):
     prof=np.array(g["profile"],float)
     if prof.shape[1]==3: prof=prof[:,:2]
-    h=np.linalg.norm(np.array(g["vector"],float)); n=len(prof)
-    verts=np.vstack([np.c_[prof,np.zeros(n)],np.c_[prof,np.full(n,h)]])
+    vec=np.array(g["vector"],float); h=np.linalg.norm(vec)
+    if h<1e-12: raise ValueError("extrude vector is zero")
+    n=len(prof)
+    local=np.vstack([np.c_[prof,np.zeros(n)],np.c_[prof,np.full(n,h)]])
     faces=[]
     for i in range(1,n-1): faces += [[0,i,i+1],[n,n+i+1,n+i]]
     for i in range(n):
         j=(i+1)%n; faces += [[i,j,n+j],[i,n+j,n+i]]
-    return trimesh.Trimesh(verts,np.array(faces),process=False)
+    m=trimesh.Trimesh(local,np.array(faces),process=False)
+    T=trimesh.geometry.align_vectors([0,0,1],vec/h)
+    if T is not None: m.apply_transform(T)
+    return m
 
 def revolve(g):
     prof=np.array(g["profile"],float)
@@ -51,22 +57,51 @@ def revolve(g):
             x=a*n+i; y=x+n; faces += [[x,y,y+1],[x,y+1,x+1]]
     return trimesh.Trimesh(np.array(verts),np.array(faces),process=False)
 
-def _frame(t,prev_n=None):
-    t=np.array(t,float); t/=np.linalg.norm(t)
-    if prev_n is None:
-        ref=np.array([0.,0.,1.]) if abs(t[2])<.9 else np.array([0.,1.,0.]); n=np.cross(t,ref); n/=np.linalg.norm(n)
-    else:
-        n=prev_n-t*np.dot(prev_n,t)
-        if np.linalg.norm(n)<1e-9: return _frame(t,None)
-        n/=np.linalg.norm(n)
-    b=np.cross(t,n); b/=np.linalg.norm(b); return n,b
+def _unit(v):
+    v=np.asarray(v,float); n=float(np.linalg.norm(v))
+    if n<1e-12: raise ValueError("zero-length vector in path")
+    return v/n
+
+def _initial_frame(t):
+    t=_unit(t)
+    refs=(np.array([0.,0.,1.]),np.array([0.,1.,0.]),np.array([1.,0.,0.]))
+    ref=min(refs,key=lambda r:abs(float(np.dot(t,r))))
+    n=_unit(np.cross(t,ref)); b=_unit(np.cross(t,n)); return n,b
+
+def _rotate_about_axis(v,axis,angle):
+    axis=_unit(axis); v=np.asarray(v,float)
+    c=math.cos(angle); s=math.sin(angle)
+    return v*c + np.cross(axis,v)*s + axis*np.dot(axis,v)*(1-c)
+
+def _parallel_transport(prev_t,new_t,prev_n):
+    """Transport a frame normal with minimal twist between neighboring path tangents."""
+    a=_unit(prev_t); b=_unit(new_t); cross=np.cross(a,b); cn=float(np.linalg.norm(cross)); dot=float(np.clip(np.dot(a,b),-1,1))
+    if cn<1e-10:
+        n=prev_n-b*np.dot(prev_n,b)
+        if np.linalg.norm(n)<1e-10: return _initial_frame(b)
+        n=_unit(n); return n,_unit(np.cross(b,n))
+    axis=cross/cn; angle=math.atan2(cn,dot); n=_rotate_about_axis(prev_n,axis,angle); n=n-b*np.dot(n,b)
+    if np.linalg.norm(n)<1e-10: return _initial_frame(b)
+    n=_unit(n); return n,_unit(np.cross(b,n))
+
+def _path_tangents(path):
+    path=np.asarray(path,float); tang=[]
+    for i in range(len(path)):
+        if i==0: d=path[1]-path[0]
+        elif i==len(path)-1: d=path[-1]-path[-2]
+        else: d=path[i+1]-path[i-1]
+        tang.append(_unit(d))
+    return tang
 
 def sweep(g):
     prof=np.array(g["profile"],float)
     if prof.shape[1]==3: prof=prof[:,:2]
-    path=np.array(g["path"],float); rings=[]; prev_n=None
-    for i,p in enumerate(path):
-        t=path[min(i+1,len(path)-1)]-path[max(i-1,0)]; n,b=_frame(t,prev_n); prev_n=n; rings.append(np.array([p+n*x+b*y for x,y in prof]))
+    path=np.array(g["path"],float)
+    tang=_path_tangents(path); n,b=_initial_frame(tang[0]); frames=[(n,b)]
+    for i in range(1,len(path)):
+        n,b=_parallel_transport(tang[i-1],tang[i],n); frames.append((n,b))
+    rings=[]
+    for p,(n,b) in zip(path,frames): rings.append(np.array([p+n*x+b*y for x,y in prof]))
     verts=np.vstack(rings); m=len(prof); faces=[]
     for r in range(len(path)-1):
         for i in range(m):
@@ -100,5 +135,8 @@ def curve_tube(g):
     for a,b in zip(pts[:-1],pts[1:]):
         v=b-a; L=np.linalg.norm(v)
         if L<1e-9: continue
-        m=trimesh.creation.cylinder(radius=rad,height=L,sections=16); m.apply_transform(trimesh.geometry.align_vectors([0,0,1],v/L)); m.apply_translation((a+b)/2); meshes.append(m)
+        m=trimesh.creation.cylinder(radius=rad,height=L,sections=int(g.get("segments",16))); T=trimesh.geometry.align_vectors([0,0,1],v/L)
+        if T is not None: m.apply_transform(T)
+        m.apply_translation((a+b)/2); meshes.append(m)
+    if not meshes: raise ValueError("curve has no non-zero segments")
     return trimesh.util.concatenate(meshes)
