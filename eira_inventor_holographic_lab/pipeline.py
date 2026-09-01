@@ -31,11 +31,32 @@ def _run_blender(blender,script,stdout_path,stderr_path,timeout_s):
 
 
 def _expand_geometry(compiled):
+    """Materialize renderer-incompatible geometry while preserving per-part transforms.
+
+    Blender consumes primitive/mesh/curve directly. Complex geometry is converted to a
+    mesh. Instances are materialized from the source part's LOCAL geometry so they do not
+    disappear from the GLB and do not inherit the source object's world transform.
+    """
     from .geometry import mesh_from_geometry
+    by_id={p["part_id"]:p for p in compiled["parts"]}
     for p in compiled["parts"]:
-        if p["geometry"]["kind"] in {"instance","boolean","primitive","mesh","curve"}:
+        g=p["geometry"]
+        kind=g["kind"]
+        if kind=="boolean":
+            raise RuntimeError("render_materialization:boolean_requires_exact_backend")
+        if kind=="instance":
+            src=by_id.get(g.get("source_part_id"))
+            if src is None:
+                raise RuntimeError(f"render_materialization:missing_instance_source:{g.get('source_part_id')}")
+            src_g=src["geometry"]
+            if src_g.get("kind")=="instance":
+                raise RuntimeError("render_materialization:instance_of_instance_unsupported")
+            m=mesh_from_geometry(src_g)
+            p["geometry"]={"kind":"mesh","vertices":m.vertices.tolist(),"faces":m.faces.tolist()}
             continue
-        m=mesh_from_geometry(p["geometry"])
+        if kind in {"primitive","mesh","curve"}:
+            continue
+        m=mesh_from_geometry(g)
         p["geometry"]={"kind":"mesh","vertices":m.vertices.tolist(),"faces":m.faces.tolist()}
 
 
@@ -84,7 +105,6 @@ def run_job(job,image_path,user_text,out_dir,vision=ollama_vision,blender="blend
             last_quality=quality
             _write_json(attempt_dir/"geometry_quality.json",quality)
 
-            # Deterministic defects are repair evidence, not an excuse to ship a bad model.
             if not quality.get("ok"):
                 if attempt>=max_attempts:
                     require_quality(quality)
@@ -150,7 +170,6 @@ def run_job(job,image_path,user_text,out_dir,vision=ollama_vision,blender="blend
                     _write_json(attempt_dir/"repaired_ir.json",assembly)
                     continue
 
-            # Promote only a geometry-clean, preview-rendered, visually accepted attempt.
             final_glb=out/"assembly.glb"
             shutil.copy2(glb,final_glb)
             final_preview_dir=out/"previews"
