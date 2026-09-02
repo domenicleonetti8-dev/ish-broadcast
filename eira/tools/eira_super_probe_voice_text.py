@@ -207,6 +207,7 @@ def main():
     report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     compact = outdir / "eira_super_probe_compact.txt"
     voice_hits = [x for x in findings if x.category in {"voice_to_text_frontend", "browser_request_construction", "typed_input_frontend", "voice_transport_contract", "runtime_activation"}]
+    voice_hits.sort(key=lambda x: (0 if "Voice send error" in x.text else 1, 0 if x.category == "voice_to_text_frontend" else 1, x.file, x.line))
     lines = [VERSION, f"ROOT={root}", f"SOURCE_FILES={len(files)}", f"VOICE_FRONTEND_HITS={len(voice_hits)}", f"CRITICAL_ARCH_RISKS={summary['critical_architecture_risks']}", f"COMPILE_FAILURES={summary['compile_failures']}", "", "VOICE/TEXT SEND EVIDENCE:"]
     for f in voice_hits[:120]:
         lines.append(f"[{f.category}] {f.file}:{f.line} :: {f.text}")
