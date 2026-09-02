@@ -14,20 +14,26 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-VERSION = "EIRA_SUPER_PROBE_V2_VOICE_TEXT"
+VERSION = "EIRA_SUPER_PROBE_V3_FULL_SYSTEM_VOICE_TEXT"
 
 DEFAULT_SKIP_DIRS = {
-    ".git", "__pycache__", "node_modules", ".venv", "venv",
-    "inventions", "archive", "archives", "logs", "cache", "tmp",
-    "queue_old", "queue_done", "quarantine",
+    ".git", "__pycache__", "node_modules", ".venv", "venv", "eira_probe",
 }
 
-SOURCE_SUFFIXES = {".py", ".html", ".htm", ".js", ".mjs", ".ts", ".tsx", ".jsx"}
+SOURCE_SUFFIXES = {
+    ".py", ".html", ".htm", ".js", ".mjs", ".ts", ".tsx", ".jsx",
+    ".sh", ".bash", ".zsh", ".json", ".yaml", ".yml", ".toml", ".ini",
+    ".cfg", ".conf", ".service", ".socket", ".md", ".txt", ".env",
+}
+SOURCE_NAMES = {"Dockerfile", "Makefile", "Procfile"}
+MAX_SOURCE_BYTES = 4_000_000
 
 SCAN_PATTERNS = {
     "voice_to_text_frontend": [r"Voice send error", r"SpeechRecognition", r"webkitSpeechRecognition", r"onresult", r"transcript", r"start Eira Mic", r"stop Eira Mic"],
     "browser_request_construction": [r"fetch\s*\(", r"new\s+URL\s*\(", r"WebSocket\s*\(", r"EventSource\s*\(", r"XMLHttpRequest", r"addFromString\s*\("],
     "typed_input_frontend": [r"chatInput", r"textInput", r"messageInput", r"submit", r"sendMessage", r"sendText", r"/api/chat"],
+    "voice_transport_contract": [r"/api/voice", r"/api/input", r"/api/message", r"/api/chat", r"Content-Type", r"application/json", r"location\.origin", r"tailscale", r"ts\.net"],
+    "runtime_activation": [r"python3\s+main\.py", r"serve_forever", r"HTTPServer", r"ThreadingHTTPServer", r"uvicorn", r"systemctl", r"ExecStart", r"eira\.tails"],
     "ollama_or_model_calls": [r"\bollama\b", r"\bchat\s*\(", r"\bgenerate\s*\(", r"\bprovider\s*\(", r"\bexecute\s*\("],
     "outward_voice": [r"_speak\s*\(", r"\bunified_response\b", r"\bfinal_response\b", r"\brendered\b", r"\boutward\b"],
     "candidate_leaks": [r"\bcandidate\b", r"UNTRUSTED LLM", r"_extract_candidate", r"untrusted_candidate_material"],
@@ -71,9 +77,16 @@ def run(cmd: list[str], cwd: Path) -> dict[str, Any]:
 
 def iter_source(root: Path):
     for p in root.rglob("*"):
-        if not p.is_file() or p.suffix.lower() not in SOURCE_SUFFIXES:
+        if not p.is_file():
             continue
         if any(part in DEFAULT_SKIP_DIRS for part in p.parts):
+            continue
+        if p.suffix.lower() not in SOURCE_SUFFIXES and p.name not in SOURCE_NAMES:
+            continue
+        try:
+            if p.stat().st_size > MAX_SOURCE_BYTES:
+                continue
+        except OSError:
             continue
         yield p
 
@@ -176,7 +189,7 @@ def main():
         "functions": funcs,
         "imports": imports,
         "compile_failures": compile_failures,
-        "voice_frontend_context": [f.__dict__ for f in findings if f.category in {"voice_to_text_frontend", "browser_request_construction", "typed_input_frontend"}],
+        "voice_frontend_context": [f.__dict__ for f in findings if f.category in {"voice_to_text_frontend", "browser_request_construction", "typed_input_frontend", "voice_transport_contract", "runtime_activation"}],
         "snapshots": copied,
         "invariants": [
             "Current user turn must remain immutable as intent authority.",
@@ -193,7 +206,7 @@ def main():
     report_path = outdir / "eira_super_probe_report.json"
     report_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     compact = outdir / "eira_super_probe_compact.txt"
-    voice_hits = [x for x in findings if x.category in {"voice_to_text_frontend", "browser_request_construction", "typed_input_frontend"}]
+    voice_hits = [x for x in findings if x.category in {"voice_to_text_frontend", "browser_request_construction", "typed_input_frontend", "voice_transport_contract", "runtime_activation"}]
     lines = [VERSION, f"ROOT={root}", f"SOURCE_FILES={len(files)}", f"VOICE_FRONTEND_HITS={len(voice_hits)}", f"CRITICAL_ARCH_RISKS={summary['critical_architecture_risks']}", f"COMPILE_FAILURES={summary['compile_failures']}", "", "VOICE/TEXT SEND EVIDENCE:"]
     for f in voice_hits[:120]:
         lines.append(f"[{f.category}] {f.file}:{f.line} :: {f.text}")
