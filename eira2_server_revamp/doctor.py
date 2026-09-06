@@ -13,7 +13,6 @@ import json
 import re
 import shutil
 import subprocess
-import sys
 from pathlib import Path
 from typing import Any
 
@@ -113,7 +112,7 @@ def semantic_neural_check(overview: Any, fibers: Any, activity: Any) -> list[dic
         queue = list(core)
         while queue:
             cur = queue.pop(0)
-            for nxt in adjacency.get(cur, ()): 
+            for nxt in adjacency.get(cur, ()):
                 if nxt not in seen:
                     seen.add(nxt)
                     queue.append(nxt)
@@ -146,11 +145,13 @@ def static_checks() -> list[dict[str, Any]]:
     script = extract_script(html)
 
     checks.append(result("no_shell_true", "shell=True" not in server and "shell=True" not in hardening, "subprocesses remain argv-based"))
-    checks.append(result("ar_path_containment", "root not in p.parents" in server and "ar_path_escape" in server, "USDZ route contains root-boundary enforcement"))
+    containment = bool(re.search(r"root\s*!=\s*\w+\s+and\s+root\s+not\s+in\s+\w+\.parents", server)) and "ar_path_escape" in server
+    checks.append(result("ar_path_containment", containment, "USDZ route contains root-boundary enforcement"))
     checks.append(result("pid_lock_present", "eira2_server_instance_already_running" in server and "release_pid_lock" in server, "exclusive instance lock + cleanup present"))
     checks.append(result("tls_support_present", "SSLContext" in server and "EIRA2_TLS_CERT" in server and "EIRA2_TLS_KEY" in server, "optional TLS termination present"))
     checks.append(result("manifest_verifier_present", "verify_manifest" in hardening and "sha256_mismatch" in hardening and "manifest_path_escape" in hardening, "size/hash/path manifest verification present"))
     checks.append(result("probe_verifier_present", "verify_command_bridge" in hardening and "probe_not_configured" in hardening, "side-effect-free bridge probes supported"))
+    checks.append(result("deep_doctor_route_present", 'path == "/api/doctor"' in server and "deep_doctor()" in server, "runtime deep doctor exposed"))
 
     client_routes = set(re.findall(r"['\"](/api/[A-Za-z0-9_./{}-]+)['\"]", script))
     dynamic_prefixes = {x for x in client_routes if "${" in x or "{" in x}
