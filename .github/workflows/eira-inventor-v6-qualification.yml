@@ -1,0 +1,36 @@
+name: EIRA Inventor V6 Qualification
+
+on:
+  push:
+    branches: [eira-inventor-holographic-lab-v6-living]
+    paths:
+      - 'eira_inventor_holographic_lab/**'
+      - 'tests/**'
+      - 'requirements.txt'
+      - '.github/workflows/eira-inventor-v6-qualification.yml'
+  workflow_dispatch:
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install dependencies
+        run: python -m pip install --upgrade pip && python -m pip install -r requirements.txt
+      - name: Compile inventor package
+        run: python -m compileall -q eira_inventor_holographic_lab tests
+      - name: Living engineering contract
+        run: python tests/test_living_engineering.py
+      - name: Failure gates
+        run: python tests/test_failures.py
+      - name: Reference greenhouse contract
+        run: python tests/test_reference_greenhouse.py
+      - name: Multi-photo HTTP lifecycle
+        run: python tests/test_http_lifecycle.py
+      - name: Forensic blueprint and Apple AR package
+        run: python tests/test_forensic_apple_ar.py
+      - name: Regression sweep
+        run: python tests/regression_300.py
