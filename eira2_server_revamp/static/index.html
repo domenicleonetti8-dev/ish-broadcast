@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>EIRA 2.0 — Live Neural Organism</title>
+<style>
+:root{
+  --bg0:#04070d;--bg1:#071321;--glass:rgba(10,24,39,.66);--line:rgba(129,226,255,.18);
+  --cyan:#62e7ff;--teal:#27d7c3;--gold:#ffc66d;--amber:#ff9e55;--violet:#b68cff;--rose:#ff7bac;
+  --text:#f6fbff;--muted:#90a6b8;--danger:#ff6f7f;--ok:#8ff3c7;
+}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:
+radial-gradient(circle at 50% -10%,rgba(62,135,255,.20),transparent 34%),
+radial-gradient(circle at 8% 28%,rgba(182,140,255,.12),transparent 30%),
+radial-gradient(circle at 92% 18%,rgba(255,158,85,.10),transparent 30%),
+linear-gradient(180deg,var(--bg1),var(--bg0) 46%,#03050a);color:var(--text);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"SF Pro Display",Segoe UI,sans-serif}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px);background-size:28px 28px;mask-image:linear-gradient(to bottom,black,transparent 88%)}
+.shell{width:min(1180px,100%);margin:auto;padding:max(18px,env(safe-area-inset-top)) 14px calc(26px + env(safe-area-inset-bottom))}
+.top{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:14px}.brand h1{margin:0;font-size:clamp(25px,5vw,45px);letter-spacing:.045em}.brand small{color:var(--muted);font-size:12px;letter-spacing:.18em;text-transform:uppercase}.statusDot{display:inline-block;width:8px;height:8px;border-radius:99px;background:var(--danger);box-shadow:0 0 16px currentColor;margin-right:7px}.statusDot.ok{background:var(--ok)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.btn{appearance:none;border:1px solid rgba(121,222,255,.25);background:linear-gradient(180deg,rgba(31,70,96,.72),rgba(10,28,42,.78));color:var(--text);padding:11px 14px;border-radius:14px;font-weight:700;letter-spacing:.03em;box-shadow:inset 0 1px rgba(255,255,255,.06),0 8px 26px rgba(0,0,0,.2);touch-action:manipulation}.btn:active{transform:translateY(1px)}.btn.gold{border-color:rgba(255,198,109,.35);background:linear-gradient(180deg,rgba(105,69,30,.75),rgba(39,27,15,.82))}.btn.violet{border-color:rgba(182,140,255,.35);background:linear-gradient(180deg,rgba(72,51,108,.7),rgba(28,19,47,.82))}.btn[disabled]{opacity:.4}
+.grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(280px,.7fr);gap:14px}@media(max-width:860px){.grid{grid-template-columns:1fr}.top{align-items:flex-start}.actions{max-width:48%}}
+.card{position:relative;overflow:hidden;border:1px solid var(--line);background:linear-gradient(180deg,rgba(11,30,48,.77),rgba(6,14,24,.72));border-radius:24px;box-shadow:0 24px 80px rgba(0,0,0,.30),inset 0 1px rgba(255,255,255,.035);backdrop-filter:blur(18px)}
+.brainCard{min-height:540px}.brainHeader{position:absolute;z-index:4;left:18px;right:18px;top:16px;display:flex;justify-content:space-between;gap:12px;pointer-events:none}.eyebrow{font-size:11px;color:var(--muted);letter-spacing:.15em;text-transform:uppercase}.metric{font-size:12px;color:#d8f8ff;text-align:right}.metric strong{color:var(--gold)}
+#brain{width:100%;height:540px;display:block}.glow{position:absolute;border-radius:50%;filter:blur(34px);opacity:.24;pointer-events:none}.g1{width:210px;height:210px;background:var(--cyan);left:10%;top:20%}.g2{width:200px;height:200px;background:var(--violet);right:9%;top:22%}.g3{width:180px;height:180px;background:var(--amber);left:43%;top:10%;opacity:.12}
+.side{padding:18px;display:flex;flex-direction:column;gap:14px}.title{display:flex;align-items:center;justify-content:space-between}.title h2{margin:0;font-size:17px}.pill{font-size:11px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.log{height:214px;overflow:auto;padding:12px;border:1px solid rgba(124,224,255,.12);border-radius:16px;background:rgba(0,0,0,.15);font-size:13px;line-height:1.45}.msg{margin:0 0 10px}.msg.me{color:#dff9ff}.msg.eira{color:#ffe0ab}.msg.err{color:#ff9ca7}.msg .who{opacity:.55;font-size:10px;letter-spacing:.12em;text-transform:uppercase;display:block;margin-bottom:2px}
+.compose{display:flex;gap:8px}.compose input{flex:1;min-width:0;border:1px solid rgba(129,226,255,.20);border-radius:14px;background:rgba(0,0,0,.22);color:white;padding:13px 14px;outline:none}.compose input:focus{border-color:rgba(98,231,255,.52);box-shadow:0 0 0 3px rgba(98,231,255,.07)}
+.runtime{display:grid;grid-template-columns:1fr 1fr;gap:8px}.r{border:1px solid rgba(255,255,255,.06);border-radius:13px;padding:9px;background:rgba(255,255,255,.025)}.r b{font-size:11px}.r span{display:block;color:var(--muted);font-size:10px;margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.r.ok b{color:var(--ok)}.r.bad b{color:var(--danger)}
+.notice{font-size:11px;color:var(--muted);line-height:1.4}.pulse{animation:pulse 1.8s ease-in-out infinite}@keyframes pulse{50%{filter:brightness(1.4);text-shadow:0 0 16px rgba(98,231,255,.6)}}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><h1>EIRA 2.0</h1><small><span id="statusDot" class="statusDot"></span><span id="headline">QUALIFYING SERVER</span></small></div>
+    <div class="actions">
+      <button class="btn gold" id="arBtn">APPLE AR</button>
+      <button class="btn violet" id="inventBtn">INVENTION LAB</button>
+    </div>
+  </div>
+  <div class="grid">
+    <section class="card brainCard">
+      <div class="glow g1"></div><div class="glow g2"></div><div class="glow g3"></div>
+      <div class="brainHeader"><div><div class="eyebrow">LIVE NEURAL ORGANISM</div><div id="brainState" class="pulse">WAITING FOR CANONICAL INVENTORY</div></div><div class="metric"><span id="neurons">0</span> NEURONS<br><strong><span id="fibers">0</span> EVIDENCED FIBERS</strong></div></div>
+      <canvas id="brain"></canvas>
+    </section>
+    <aside class="card side">
+      <div class="title"><h2>Live Conversation</h2><span id="activePill" class="pill">INACTIVE</span></div>
+      <div class="actions" style="justify-content:flex-start;max-width:none"><button id="activateBtn" class="btn">ACTIVATE EIRA</button><button id="muteBtn" class="btn">MUTE</button></div>
+      <div id="log" class="log"><p class="msg eira"><span class="who">Eira</span>I’m here. Server bridges are being qualified before I claim readiness.</p></div>
+      <form id="form" class="compose"><input id="input" autocomplete="off" placeholder="Ask Eira anything…"/><button class="btn" type="submit">SEND</button></form>
+      <div><div class="eyebrow" style="margin-bottom:7px">BRIDGE MATRIX</div><div id="runtime" class="runtime"></div></div>
+      <div id="notice" class="notice">A red bridge is not hidden. It stays red until the underlying path really resolves.</div>
+    </aside>
+  </div>
+</div>
+<script>
+const $=s=>document.querySelector(s);const log=$('#log');let state={active:false,muted:false};let neural={nodes:[],fibers:[],activity:[]};
+function add(who,text,kind='eira'){const p=document.createElement('p');p.className='msg '+kind;p.innerHTML=`<span class="who">${who}</span>${escapeHtml(String(text))}`;log.appendChild(p);log.scrollTop=log.scrollHeight}
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+async function req(url,opt={}){const r=await fetch(url,{cache:'no-store',headers:{'Content-Type':'application/json',...(opt.headers||{})},...opt});let j={};try{j=await r.json()}catch{}if(!r.ok)throw new Error(j.error||`${r.status} ${r.statusText}`);return j}
+function updateState(){ $('#activePill').textContent=state.active?'ACTIVE':'INACTIVE';$('#activateBtn').textContent=state.active?'DEACTIVATE EIRA':'ACTIVATE EIRA';$('#muteBtn').textContent=state.muted?'UNMUTE':'MUTE'}
+function renderBridges(b){const box=$('#runtime');box.innerHTML='';Object.entries(b||{}).forEach(([k,v])=>{const d=document.createElement('div');d.className='r '+(v.healthy?'ok':'bad');d.innerHTML=`<b>${v.healthy?'●':'○'} ${k.replaceAll('_',' ').toUpperCase()}</b><span>${escapeHtml(v.detail||'')}</span>`;box.appendChild(d)})}
+async function health(){try{const r=await fetch('/api/health',{cache:'no-store'}),j=await r.json();state=j.runtime||state;updateState();renderBridges(j.bridges);const ok=!!j.ok;$('#statusDot').classList.toggle('ok',ok);$('#headline').textContent=ok?'SERVER QUALIFIED':'SERVER PARTIALLY READY';}catch(e){$('#headline').textContent='SERVER UNREACHABLE';renderBridges({server:{healthy:false,detail:e.message}})}}
+$('#activateBtn').onclick=async()=>{try{const j=await req('/api/activate',{method:'POST',body:JSON.stringify({active:!state.active})});state=j.runtime;updateState();add('System',state.active?'Eira activated.':'Eira deactivated.','me')}catch(e){add('Activation error',e.message,'err')}};
+$('#muteBtn').onclick=async()=>{try{const j=await req('/api/mute',{method:'POST',body:JSON.stringify({muted:!state.muted})});state=j.runtime;updateState();add('System',state.muted?'Microphone path muted.':'Microphone path unmuted.','me')}catch(e){add('Mute error',e.message,'err')}};
+$('#form').onsubmit=async e=>{e.preventDefault();const i=$('#input'),text=i.value.trim();if(!text)return;add('You',text,'me');i.value='';try{const j=await req('/api/conversation',{method:'POST',body:JSON.stringify({text})});const r=j.result||{};add('Eira',r.text||r.reply||r.response||JSON.stringify(r))}catch(err){add('Conversation bridge',err.message,'err')}};
+$('#inventBtn').onclick=async()=>{try{const j=await req('/api/invention/launch',{method:'POST',body:JSON.stringify({action:'launch'})});const r=j.result||{};if(r.url)location.href=r.url;else add('Invention Lab',r.text||r.status||JSON.stringify(r),'me')}catch(e){add('Invention Lab',e.message,'err')}};
+$('#arBtn').onclick=async()=>{try{const j=await req('/api/ar/list');if(!j.items.length)throw new Error('No verified USDZ artifacts available');const a=j.items[0];location.href=`/api/ar/file/${a.root}/${encodeURIComponent(a.path).replaceAll('%2F','/')}`}catch(e){add('Apple AR',e.message,'err')}};
+function normNodes(data){const d=data&&data.data!==undefined?data.data:data;if(Array.isArray(d))return d;if(d&&Array.isArray(d.nodes))return d.nodes;if(d&&Array.isArray(d.neurons))return d.neurons;return[]}
+function normFibers(data){const d=data&&data.data!==undefined?data.data:data;if(Array.isArray(d))return d;if(d&&Array.isArray(d.fibers))return d.fibers;if(d&&Array.isArray(d.edges))return d.edges;return[]}
+async function loadNeural(){try{const [o,f,a]=await Promise.all([req('/api/neural/overview'),req('/api/neural/fibers'),req('/api/neural/activity')]);neural.nodes=normNodes(o);neural.fibers=normFibers(f);neural.activity=normNodes(a);$('#neurons').textContent=neural.nodes.length;$('#fibers').textContent=neural.fibers.length;$('#brainState').textContent='CANONICAL NEURAL INVENTORY LIVE';}catch(e){$('#brainState').textContent='NEURAL BRIDGE NOT QUALIFIED';neural.nodes=[];neural.fibers=[]}}
+const cv=$('#brain'),ctx=cv.getContext('2d');function fit(){const d=devicePixelRatio||1,r=cv.getBoundingClientRect();cv.width=Math.max(1,r.width*d);cv.height=Math.max(1,r.height*d);ctx.setTransform(d,0,0,d,0,0)}addEventListener('resize',fit);fit();
+function seed(s){let h=2166136261;for(const c of String(s))h=Math.imul(h^c.charCodeAt(0),16777619);return()=>((h=Math.imul(h^(h>>>13),1274126177))>>>0)/4294967295}
+function nodeId(n,i){return n.id||n.node_id||n.name||n.path||`n${i}`}
+function region(n,i){const s=JSON.stringify(n).toLowerCase();if(/spine|kernel|core|supervisor|registry|bridge/.test(s))return'core';if(/right|expression|delivery|voice|speech|render|invent/.test(s))return'right';if(/left|reason|evidence|memory|analysis|security|learn/.test(s))return'left';return i%2?'right':'left'}
+function positions(w,h,t){const map=new Map(),nodes=neural.nodes;nodes.forEach((n,i)=>{const r=seed(nodeId(n,i)),reg=region(n,i),ang=r()*Math.PI*2,rr=.18+.78*Math.sqrt(r());let x,y;if(reg==='left'){x=w*.31+Math.cos(ang)*w*.20*rr;y=h*.42+Math.sin(ang)*h*.29*rr}else if(reg==='right'){x=w*.69+Math.cos(ang)*w*.20*rr;y=h*.42+Math.sin(ang)*h*.29*rr}else{x=w*.5+(r()-.5)*w*.055;y=h*(.32+.58*r())}map.set(nodeId(n,i),{x,y,reg,r:n})});return map}
+function draw(){const w=cv.clientWidth,h=cv.clientHeight,t=performance.now()/1000;ctx.clearRect(0,0,w,h);const p=positions(w,h,t);
+  const grad=ctx.createRadialGradient(w*.5,h*.36,10,w*.5,h*.44,w*.48);grad.addColorStop(0,'rgba(42,96,139,.15)');grad.addColorStop(1,'rgba(0,0,0,0)');ctx.fillStyle=grad;ctx.fillRect(0,0,w,h);
+  // hemisphere silhouettes
+  for(const [cx,cy,rx,ry,col] of [[w*.31,h*.42,w*.23,h*.31,'98,231,255'],[w*.69,h*.42,w*.23,h*.31,'182,140,255']]){ctx.beginPath();ctx.ellipse(cx,cy,rx,ry,0,0,Math.PI*2);ctx.strokeStyle=`rgba(${col},.15)`;ctx.lineWidth=2;ctx.stroke();for(let k=0;k<3;k++){ctx.beginPath();ctx.ellipse(cx+(k-1)*5,cy,rx*(.78-k*.08),ry*(.82-k*.05),k*.11,0,Math.PI*2);ctx.strokeStyle=`rgba(${col},${.05+k*.018})`;ctx.stroke()}}
+  // corpus callosum glow
+  ctx.beginPath();ctx.moveTo(w*.43,h*.39);ctx.bezierCurveTo(w*.47,h*.31,w*.53,h*.31,w*.57,h*.39);ctx.strokeStyle='rgba(255,198,109,.34)';ctx.lineWidth=7;ctx.shadowBlur=20;ctx.shadowColor='rgba(255,198,109,.55)';ctx.stroke();ctx.shadowBlur=0;
+  // fibers: only connect if endpoints resolve; never invent semantic edges
+  neural.fibers.forEach((f,i)=>{const s=p.get(f.source||f.from||f.a||f.source_id),d=p.get(f.target||f.to||f.b||f.target_id);if(!s||!d)return;ctx.beginPath();ctx.moveTo(s.x,s.y);ctx.lineTo(d.x,d.y);const active=((i*17+Math.floor(t*6))%31)<2;ctx.strokeStyle=active?'rgba(255,198,109,.75)':'rgba(79,201,232,.17)';ctx.lineWidth=active?1.5:.65;ctx.stroke()});
+  // fallback topology display when canonical fibers are empty: nodes remain visible but no fake edges
+  [...p.entries()].forEach(([id,q],i)=>{const warm=((i*13+Math.floor(t*8))%47)<2;const core=q.reg==='core',rad=core?3.3:1.7+(i%5===0?1:0);ctx.beginPath();ctx.arc(q.x,q.y,rad+(warm?1.5:0),0,Math.PI*2);ctx.fillStyle=warm?'#ffc66d':q.reg==='left'?'#62e7ff':q.reg==='right'?'#b68cff':'#27d7c3';ctx.shadowBlur=warm?18:8;ctx.shadowColor=ctx.fillStyle;ctx.fill();ctx.shadowBlur=0});
+  // spine core beam
+  const g=ctx.createLinearGradient(0,h*.35,0,h*.94);g.addColorStop(0,'rgba(255,198,109,.62)');g.addColorStop(.5,'rgba(39,215,195,.38)');g.addColorStop(1,'rgba(98,231,255,.06)');ctx.strokeStyle=g;ctx.lineWidth=2;ctx.beginPath();ctx.moveTo(w*.5,h*.37);ctx.lineTo(w*.5,h*.94);ctx.stroke();requestAnimationFrame(draw)}requestAnimationFrame(draw);
+health();loadNeural();setInterval(health,5000);setInterval(loadNeural,7000);
+</script>
+</body>
+</html>
