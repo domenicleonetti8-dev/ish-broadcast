@@ -21,6 +21,7 @@ SERVER = ROOT / "server.py"
 HARDENING = ROOT / "hardening.py"
 QUALIFY = ROOT / "qualify.py"
 UI = ROOT / "static" / "index.html"
+REFERENCE_CSS = ROOT / "static" / "reference.css"
 PY_FILES = [SERVER, HARDENING, QUALIFY, Path(__file__).resolve()]
 
 
@@ -166,9 +167,12 @@ def static_checks() -> list[dict[str, Any]]:
         unresolved.append(route)
     checks.append(result("ui_api_routes_resolve", not unresolved, f"unresolved={unresolved}" if unresolved else f"routes={len(client_routes)} all_resolved"))
 
-    required_ui = ["ACTIVATE EIRA", "MUTE", "SEND", "INVENTION LAB", "APPLE AR", "/api/neural/activity", "pathTo(", "topology.paths", "topology.cores", "topology.pathEdges", "topology.pathNodes"]
+    required_ui = ["ACTIVATE EIRA", "MUTE", "SEND", "INVENTION LAB", "APPLE AR", "/api/neural/activity", "pathTo(", "let cores=[]", "paths:paths.slice(0,24)", "pathEdges", "pathNodes"]
     absent = [x for x in required_ui if x not in html]
     checks.append(result("live_neural_activity_contract", not absent, f"missing={absent}" if absent else "core-to-active evidenced routing markers present"))
+
+    visual_ok = REFERENCE_CSS.is_file() and 'href="/reference.css"' in html
+    checks.append(result("reference_visual_skin_linked", visual_ok, "full-screen hovering-brain reference skin present and linked"))
 
     node = shutil.which("node")
     if script and node:
