@@ -48,13 +48,13 @@ def main():
     with tempfile.TemporaryDirectory(prefix="eira2-server-qual-") as td:
         root=Path(td); live=root/"LIVE"; live.mkdir(); state=root/"state"; ar=live/"artifacts"; ar.mkdir(); (ar/"test.usdz").write_bytes(b"PK\x03\x04EIRA2-USDZ-FIXTURE")
         overview=live/"overview.json"; fibers=live/"fibers.json"; activity=live/"activity.json"
-        overview.write_text(json.dumps({"nodes":[{"id":"core","role":"core"},{"id":"voice","role":"voice"},{"id":"conversation","role":"conversation"}]})); fibers.write_text(json.dumps({"fibers":[{"source":"core","target":"voice"},{"source":"voice","target":"conversation"}]})); activity.write_text(json.dumps({"activity":[{"id":"conversation","strength":1.0}]}))
+        overview.write_text(json.dumps({"nodes":[{"id":"eira.kernel.core","role":"core"},{"id":"voice","role":"voice"},{"id":"conversation","role":"conversation"},{"id":"math","role":"math"},{"id":"web.search","role":"tool"}]})); fibers.write_text(json.dumps({"fibers":[{"source":"eira.kernel.core","target":"voice"},{"source":"voice","target":"conversation"},{"source":"conversation","target":"math"},{"source":"conversation","target":"web.search"}]})); activity.write_text(json.dumps({"activity":[{"node_ids":["conversation","math","web.search"],"strength":1.0,"operation":"question_math_web"}]}))
         bridge=live/"bridge.py"; fixture(bridge); port=free_port(); cmd=f"{sys.executable} {bridge}"; env=dict(os.environ); env.update({"EIRA2_HOST":"127.0.0.1","EIRA2_PORT":str(port),"EIRA2_LIVE_ROOT":str(live),"EIRA2_STATE_DIR":str(state),"EIRA2_CONVERSATION_CMD":cmd,"EIRA2_CONVERSATION_PROBE_CMD":cmd,"EIRA2_VOICE_CMD":cmd,"EIRA2_VOICE_PROBE_CMD":cmd,"EIRA2_INVENTION_CMD":cmd,"EIRA2_INVENTION_PROBE_CMD":cmd,"EIRA2_NEURAL_OVERVIEW":str(overview),"EIRA2_NEURAL_FIBERS":str(fibers),"EIRA2_NEURAL_ACTIVITY":str(activity),"EIRA2_AR_ROOTS":str(ar),"EIRA2_PACKAGE_MANIFEST":""})
         proc=subprocess.Popen([sys.executable,str(SERVER)],cwd=str(HERE),env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
         try:
             wait_server(port,proc)
             status,h=request(port,"GET","/api/health"); check("health_all_bridges_green",status==200 and h.get("ok") and h.get("port")==port and h["bridges"]["voice_to_text"]["healthy"]); checks+=1
-            status,d=request(port,"GET","/api/doctor"); check("deep_forensic_doctor",status==200 and d.get("ok") and d["bridges"]["voice_to_text"]["healthy"]); checks+=1
+            status,d=request(port,"GET","/api/doctor"); check("deep_forensic_doctor",status==200 and d.get("ok") and d["bridges"]["voice_to_text"]["healthy"] and all(x.get("ok") for x in d.get("semantic",[]))); checks+=1
             status,a=request(port,"POST","/api/activate",jbody({"active":True})); check("activate_route",status==200 and a["runtime"]["active"]); checks+=1
             status,m=request(port,"POST","/api/mute",jbody({"muted":True})); check("mute_route",status==200 and m["runtime"]["muted"]); checks+=1
             status,vt=request(port,"POST","/api/voice",b"RIFFfake-valid-audio-fixture","audio/wav"); check("voice_audio_transcription",status==200 and vt.get("text")=="blue comet voice fixture"); checks+=1
@@ -70,9 +70,11 @@ def main():
             status,lst=request(port,"GET","/api/ar/list"); check("apple_ar_list",status==200 and lst.get("items") and lst["items"][0]["name"]=="test.usdz"); checks+=1
             status,model=request(port,"GET","/api/ar/file/0/test.usdz"); check("apple_ar_usdz_route",status==200 and isinstance(model,bytes) and model.startswith(b"PK")); checks+=1
             check("ar_path_escape_rejected",request(port,"GET","/api/ar/file/0/../overview.json")[0] in {400,404}); checks+=1
-            status,html=request(port,"GET","/"); text=html.decode() if isinstance(html,bytes) else ""; markers=["MediaRecorder","vadLoop","/api/voice","submitText(transcript,'voice')","/api/conversation","window.isSecureContext","APPLE AR","INVENTION LAB","ACTIVATE EIRA","FREE-HOVERING 360° NEURAL TOPOLOGY"]
+            status,html=request(port,"GET","/"); text=html.decode() if isinstance(html,bytes) else ""; markers=["MediaRecorder","vadLoop","/api/voice","submitText(transcript,'voice')","/api/conversation","window.isSecureContext","APPLE AR","INVENTION LAB","ACTIVATE EIRA","FREE-HOVERING 360° NEURAL TOPOLOGY","FIND NEURON","findCanonicalNode","activityTargets","electronPhase","quadraticCurveTo","CANONICAL CORE MISSING"]
             check("continuous_voice_visual_control_surface",status==200 and all(x in text for x in markers)); checks+=1
             check("voice_transcript_frontend_convergence",text.count("submitText(transcript,'voice')")==1 and "submitText(text,'text')" in text); checks+=1
+            check("real_activity_multi_target_visual_contract",all(x in text for x in ("node_ids","participants","active_nodes","routes.push","pathEdges.add"))); checks+=1
+            check("no_renderer_core_fallback","if(!cores.length&&" not in text and "explicitCore" in text); checks+=1
             second=subprocess.run([sys.executable,str(SERVER)],cwd=str(HERE),env=env,capture_output=True,text=True,timeout=4); check("live_instance_lock_protected",second.returncode!=0 and "instance_already_running" in second.stderr+second.stdout); checks+=1
         finally:
             proc.terminate()
@@ -80,9 +82,14 @@ def main():
             except subprocess.TimeoutExpired: proc.kill(); proc.wait()
         check("lock_cleanup",not (state/"server.pid").exists()); checks+=1
         sys.path.insert(0,str(HERE)); from hardening import verify_manifest
+        from doctor import semantic_neural_check
         protected=live/"protected.txt"; protected.write_text("canonical"); digest=hashlib.sha256(protected.read_bytes()).hexdigest(); manifest=live/"manifest.json"; manifest.write_text(json.dumps({"files":{"protected.txt":{"size":protected.stat().st_size,"sha256":digest}}}))
         check("manifest_integrity_green",verify_manifest(str(manifest),live)["healthy"]); checks+=1
         protected.write_text("corrupt"); check("manifest_corruption_fail_closed",not verify_manifest(str(manifest),live)["healthy"]); checks+=1
         manifest.write_text(json.dumps({"files":{"../escape":{"size":0,"sha256":""}}})); check("manifest_path_escape_fail_closed",not verify_manifest(str(manifest),live)["healthy"]); checks+=1
+        fake_overview={"nodes":[{"id":"ordinary","role":"worker","description":"talks to bridge and core services"},{"id":"math","role":"math"}]}; fake_fibers={"fibers":[{"source":"ordinary","target":"math"}]}; fake_activity={"activity":[{"id":"math","strength":1}]}
+        bad=semantic_neural_check(fake_overview,fake_fibers,fake_activity); check("descriptive_metadata_cannot_fake_core",any(x["name"]=="canonical_core_explicit" and not x["ok"] for x in bad)); checks+=1
+        good_overview={"nodes":[{"id":"eira.kernel.core","role":"core"},{"id":"math","role":"math"},{"id":"web.search","role":"tool"}]}; good_fibers={"fibers":[{"source":"eira.kernel.core","target":"math"},{"source":"eira.kernel.core","target":"web.search"}]}; good_activity={"activity":[{"participants":["math","web.search"],"strength":1}]}
+        good=semantic_neural_check(good_overview,good_fibers,good_activity); check("explicit_core_and_multi_target_activity_pass",all(x["ok"] for x in good)); checks+=1
     print(f"EIRA2_SERVER_QUALIFICATION=PASS checks={checks}"); return 0
 if __name__=="__main__": raise SystemExit(main())
