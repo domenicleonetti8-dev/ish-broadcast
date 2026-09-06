@@ -15,13 +15,18 @@ on:
 jobs:
   qualify:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile server and qualification harness
-        run: python -m py_compile eira2_server_revamp/server.py eira2_server_revamp/qualify.py
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Compile every EIRA 2 revamp Python layer
+        run: python -m py_compile eira2_server_revamp/server.py eira2_server_revamp/qualify.py eira2_server_revamp/hardening.py eira2_server_revamp/doctor.py
+      - name: Run forensic and semantic static doctor
+        run: python eira2_server_revamp/doctor.py --static
       - name: Run isolated end-to-end server qualification
         run: python eira2_server_revamp/qualify.py
