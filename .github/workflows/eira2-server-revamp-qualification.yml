@@ -23,7 +23,7 @@ jobs:
           python-version: '3.12'
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '24'
       - name: Compile every EIRA 2 revamp Python layer
         run: python -m py_compile eira2_server_revamp/server.py eira2_server_revamp/qualify.py eira2_server_revamp/hardening.py eira2_server_revamp/doctor.py
       - name: Run forensic and semantic static doctor
