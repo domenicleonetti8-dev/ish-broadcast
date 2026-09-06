@@ -99,7 +99,7 @@ def static_checks()->list[dict[str,Any]]:
       ("voice_text_frontend_convergence","submitText(transcript,'voice')" in html and "submitText(text,'text')" in html,"spoken and typed text reuse submitText"),
       ("iphone_secure_context_gate","window.isSecureContext" in html and "Microphone requires HTTPS on iPhone Safari" in html,"secure-context microphone gate"),
       ("ui_api_routes_resolve",all(x in server for x in ("/api/health","/api/doctor","/api/runtime","/api/voice","/api/conversation","/api/invention/launch","/api/neural/overview","/api/neural/fibers","/api/neural/activity","/api/ar/list","/api/ar/file/")),"all umbrella routes implemented"),
-      ("explicit_core_no_fallback","if(!cores.length" not in html and "explicitCore" in html,"renderer refuses invented core authority"),
+      ("explicit_core_no_fallback","cores=[id(neural.nodes[0],0)]" not in html and "explicitCore" in html and "CANONICAL CORE MISSING" in html,"renderer refuses invented core authority and visibly blocks routing"),
       ("multi_target_activity_contract",all(x in html for x in ("activityTargets","node_ids","participants","active_nodes")),"renderer accepts explicit real multi-node activity events"),
       ("electron_path_flow",all(x in html for x in ("routes","electronPhase","quadraticCurveTo")),"electrons animate only over evidenced active routes"),
       ("canonical_node_finder",all(x in html for x in ("nodeFind","findCanonicalNode","FIND NEURON")),"all canonical nodes are searchable/displayable on demand"),
