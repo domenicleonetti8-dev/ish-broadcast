@@ -4,10 +4,17 @@ from pathlib import Path
 
 class AppleARError(RuntimeError): pass
 
+_USDC_MAGIC=b'PXR-USDC'
+
+def _require_usdc_payload(data:bytes):
+    if len(data)<16: raise AppleARError('usdc_too_small')
+    if not data.startswith(_USDC_MAGIC): raise AppleARError('usdc_bad_magic')
+
 def package_usdc(usdc_path,out_path):
     src=Path(usdc_path); out=Path(out_path)
     if not src.is_file(): raise AppleARError(f'usdc_missing:{src}')
-    data=src.read_bytes(); name=b'model.usdc'; crc=zlib.crc32(data)&0xffffffff
+    data=src.read_bytes(); _require_usdc_payload(data)
+    name=b'model.usdc'; crc=zlib.crc32(data)&0xffffffff
     tm=time.localtime(); dos_time=((tm.tm_hour&31)<<11)|((tm.tm_min&63)<<5)|((tm.tm_sec//2)&31); dos_date=(((tm.tm_year-1980)&127)<<9)|((tm.tm_mon&15)<<5)|(tm.tm_mday&31)
     base=30+len(name)
     pad=(-base)%64
@@ -34,10 +41,13 @@ def validate_usdz(path):
     try:
         with zipfile.ZipFile(p,'r') as z:
             infos=z.infolist()
-            if not infos: raise AppleARError('usdz_empty')
-            if any(i.compress_type!=zipfile.ZIP_STORED for i in infos): raise AppleARError('usdz_compression_forbidden')
-            if infos[0].filename not in {'model.usdc','model.usda','model.usd'}: raise AppleARError('usdz_root_layer_missing')
+            if len(infos)!=1: raise AppleARError(f'usdz_unexpected_member_count:{len(infos)}')
+            info=infos[0]
+            if info.compress_type!=zipfile.ZIP_STORED: raise AppleARError('usdz_compression_forbidden')
+            if info.filename!='model.usdc': raise AppleARError('usdz_root_layer_missing')
+            payload=z.read(info)
+            _require_usdc_payload(payload)
             bad=z.testzip()
             if bad: raise AppleARError(f'usdz_crc_failed:{bad}')
     except zipfile.BadZipFile as exc: raise AppleARError('usdz_bad_zip') from exc
-    return {'ok':True,'path':str(p),'size':p.stat().st_size,'root_layer':'model.usdc','payload_alignment':data_offset}
+    return {'ok':True,'path':str(p),'size':p.stat().st_size,'root_layer':'model.usdc','payload_alignment':data_offset,'usdc_magic':_USDC_MAGIC.decode()}
