@@ -1,0 +1,27 @@
+name: EIRA 2 Server Revamp Qualification
+
+on:
+  push:
+    branches:
+      - eira2-isolated-super-upgrade
+    paths:
+      - 'eira2_server_revamp/**'
+      - '.github/workflows/eira2-server-revamp-qualification.yml'
+  pull_request:
+    paths:
+      - 'eira2_server_revamp/**'
+      - '.github/workflows/eira2-server-revamp-qualification.yml'
+
+jobs:
+  qualify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile server and qualification harness
+        run: python -m py_compile eira2_server_revamp/server.py eira2_server_revamp/qualify.py
+      - name: Run isolated end-to-end server qualification
+        run: python eira2_server_revamp/qualify.py
