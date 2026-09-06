@@ -25,8 +25,10 @@ jobs:
         with:
           node-version: '24'
       - name: Compile every EIRA 2 revamp Python layer
-        run: python -m py_compile eira2_server_revamp/server.py eira2_server_revamp/qualify.py eira2_server_revamp/hardening.py eira2_server_revamp/doctor.py
+        run: python -m py_compile eira2_server_revamp/server.py eira2_server_revamp/qualify.py eira2_server_revamp/hardening.py eira2_server_revamp/doctor.py eira2_server_revamp/migrate.py eira2_server_revamp/migration_qualify.py
       - name: Run forensic and semantic static doctor
         run: python eira2_server_revamp/doctor.py --static
       - name: Run isolated end-to-end server qualification
         run: python eira2_server_revamp/qualify.py
+      - name: Run isolated migration transaction qualification
+        run: python eira2_server_revamp/migration_qualify.py
