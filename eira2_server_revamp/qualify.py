@@ -188,9 +188,19 @@ def main() -> int:
             ok("empty_conversation_rejected")
 
             _, html = request(base, "/")
-            for marker_text in (b"ACTIVATE EIRA", b"INVENTION LAB", b"APPLE AR", b"activePaths", b"pathTo"):
-                assert marker_text in html
+            current_markers = (
+                b"ACTIVATE EIRA", b"MUTE", b"SEND", b"INVENTION LAB", b"APPLE AR",
+                b"FREE-HOVERING 360", b"/api/neural/activity", b"pathTo(",
+                b"let cores=[]", b"paths:paths.slice(0,24)", b"pathEdges", b"pathNodes",
+                b"nodeLabel", b'href="/reference.css"',
+            )
+            missing = [m.decode("utf-8", "replace") for m in current_markers if m not in html]
+            assert not missing, f"current visual/topology markers missing: {missing}"
+            _, skin = request(base, "/reference.css")
+            for marker_text in (b"brainCard", b"compose", b"position:fixed", b"orbGlow"):
+                assert marker_text in skin
             ok("live_visual_control_surface_served")
+            ok("reference_hovering_brain_skin_served")
 
             pid_file = state / "server.pid"
             assert pid_file.exists() and int(pid_file.read_text()) == proc.pid
