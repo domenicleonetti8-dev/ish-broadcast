@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, importlib.util, json, os, shutil, signal, subprocess, sys, time
+import argparse, importlib.util, json, os, shutil, signal, subprocess, sys, threading, time
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +14,7 @@ RETRY_SECONDS=8
 AUTH_RETRIES=24
 AUTH_SLEEP=5
 WORKER_STALE_SECONDS=900
+HEARTBEAT_INTERVAL_SECONDS=5
 
 def run(cmd:list[str],*,cwd:Path|None=None,timeout:int=300)->subprocess.CompletedProcess[str]:
     return subprocess.run(cmd,cwd=str(cwd) if cwd else None,text=True,capture_output=True,timeout=timeout,check=False)
@@ -57,13 +58,21 @@ def authorize(root:Path,req:dict[str,Any])->dict[str,Any]:
     raise RuntimeError('watcher_unavailable_after_retries:'+last)
 
 def atomic(path:Path,obj:Any)->None:
-    path.parent.mkdir(parents=True,exist_ok=True); tmp=path.with_name(path.name+f'.tmp.{os.getpid()}')
-    tmp.write_text(json.dumps(obj,indent=2,sort_keys=True)+'\n',encoding='utf-8'); os.replace(tmp,path)
+    path.parent.mkdir(parents=True,exist_ok=True)
+    tmp=path.with_name(path.name+f'.tmp.{os.getpid()}.{threading.get_ident()}')
+    tmp.write_text(json.dumps(obj,indent=2,sort_keys=True)+'\n',encoding='utf-8')
+    os.replace(tmp,path)
 
 def touch_heartbeat(runtime:Path,stage:str,extra:dict[str,Any]|None=None)->None:
-    payload={'schema':'eira2_transport_heartbeat_v1','pid':os.getpid(),'stage':stage,'unix':time.time()}
+    payload={'schema':'eira2_transport_heartbeat_v2','pid':os.getpid(),'stage':stage,'unix':time.time()}
     if extra: payload.update(extra)
     atomic(runtime/'heartbeat.json',payload)
+
+def heartbeat_pump(runtime:Path,stop:threading.Event)->None:
+    while not stop.is_set():
+        try: touch_heartbeat(runtime,'pulse')
+        except Exception: pass
+        stop.wait(HEARTBEAT_INTERVAL_SECONDS)
 
 def run_superprobe(root:Path)->dict[str,Any]:
     p=run([sys.executable,str(root/'tools'/'eira2_superprobe_engine.py'),'--root',str(root),'--json'],cwd=root,timeout=2400)
@@ -114,38 +123,42 @@ def worker(root:Path,runtime:Path,name:str)->int:
 def supervisor(root:Path,interval:float)->int:
     runtime=root/'eira_probe'/'transport_runtime_v2_3'; control=runtime/'control'; state=runtime/'state'; state.mkdir(parents=True,exist_ok=True)
     active:dict[str,dict[str,Any]]={}; retry:dict[str,float]={}
-    while True:
-        touch_heartbeat(runtime,'loop_start',{'active_workers':len(active)})
-        try:
-            sync_repo(control); touch_heartbeat(runtime,'repo_synced',{'active_workers':len(active)})
-            b=base(control); inbox=control/REQUEST_ROOT
-            for rid,row in list(active.items()):
-                p=row['process']; code=p.poll(); age=time.time()-row['started_unix']
-                if code is None and age<=WORKER_STALE_SECONDS: continue
-                if code is None:
-                    try: os.killpg(p.pid,signal.SIGKILL)
-                    except Exception:
-                        try: p.kill()
-                        except Exception: pass
-                    code=124
-                del active[rid]
-                if code!=0: retry[rid]=time.time()+RETRY_SECONDS
-            for src in sorted(inbox.glob('*.json')):
-                try:
-                    req=json.loads(src.read_text()); raw=src.read_bytes(); digest=b.sha256_bytes(raw); rid=str(req.get('request_id') or ''); op=str(req.get('operation') or '').casefold()
-                    if req.get('schema')!=REQUEST_SCHEMA or op not in {'inspect','deploy'} or not rid: continue
-                    if (state/f'{digest}.success.json').exists() or rid in active or time.time()<retry.get(rid,0): continue
-                    started={'schema':'eira2_transport_terminal_receipt_v4','request_id':rid,'operation':op,'transport_request_sha256':digest,'status':'STARTED','ok':None,'stage':'worker_spawned','supervisor_pid':os.getpid(),'started_unix':time.time()}
-                    b.publish(control,rid,started); sync_repo(control); b=base(control)
-                    p=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'--root',str(root),'--worker-request',src.name],cwd=str(root),stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
-                    active[rid]={'process':p,'started_unix':time.time()}
-                    atomic(runtime/'leases'/f'{rid}.json',{'request_id':rid,'pid':p.pid,'operation':op,'request_file':src.name,'started_unix':time.time()})
-                except Exception as exc:
-                    (runtime/'request_errors.log').write_text(f'{time.time()} {src.name} {type(exc).__name__}:{exc}\n')
-        except Exception as exc:
-            runtime.mkdir(parents=True,exist_ok=True); (runtime/'supervisor_error.log').write_text(f'{time.time()} {type(exc).__name__}:{exc}\n')
-        touch_heartbeat(runtime,'loop_end',{'active_workers':len(active)})
-        time.sleep(max(1.0,interval))
+    stop=threading.Event(); hb=threading.Thread(target=heartbeat_pump,args=(runtime,stop),name='eira2-transport-heartbeat',daemon=True); hb.start()
+    try:
+        while True:
+            touch_heartbeat(runtime,'loop_start',{'active_workers':len(active)})
+            try:
+                sync_repo(control); touch_heartbeat(runtime,'repo_synced',{'active_workers':len(active)})
+                b=base(control); inbox=control/REQUEST_ROOT
+                for rid,row in list(active.items()):
+                    p=row['process']; code=p.poll(); age=time.time()-row['started_unix']
+                    if code is None and age<=WORKER_STALE_SECONDS: continue
+                    if code is None:
+                        try: os.killpg(p.pid,signal.SIGKILL)
+                        except Exception:
+                            try: p.kill()
+                            except Exception: pass
+                        code=124
+                    del active[rid]
+                    if code!=0: retry[rid]=time.time()+RETRY_SECONDS
+                for src in sorted(inbox.glob('*.json')):
+                    try:
+                        req=json.loads(src.read_text()); raw=src.read_bytes(); digest=b.sha256_bytes(raw); rid=str(req.get('request_id') or ''); op=str(req.get('operation') or '').casefold()
+                        if req.get('schema')!=REQUEST_SCHEMA or op not in {'inspect','deploy'} or not rid: continue
+                        if (state/f'{digest}.success.json').exists() or rid in active or time.time()<retry.get(rid,0): continue
+                        started={'schema':'eira2_transport_terminal_receipt_v4','request_id':rid,'operation':op,'transport_request_sha256':digest,'status':'STARTED','ok':None,'stage':'worker_spawned','supervisor_pid':os.getpid(),'started_unix':time.time()}
+                        b.publish(control,rid,started); sync_repo(control); b=base(control)
+                        p=subprocess.Popen([sys.executable,str(Path(__file__).resolve()),'--root',str(root),'--worker-request',src.name],cwd=str(root),stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)
+                        active[rid]={'process':p,'started_unix':time.time()}
+                        atomic(runtime/'leases'/f'{rid}.json',{'request_id':rid,'pid':p.pid,'operation':op,'request_file':src.name,'started_unix':time.time()})
+                    except Exception as exc:
+                        (runtime/'request_errors.log').write_text(f'{time.time()} {src.name} {type(exc).__name__}:{exc}\n')
+            except Exception as exc:
+                runtime.mkdir(parents=True,exist_ok=True); (runtime/'supervisor_error.log').write_text(f'{time.time()} {type(exc).__name__}:{exc}\n')
+            touch_heartbeat(runtime,'loop_end',{'active_workers':len(active)})
+            time.sleep(max(1.0,interval))
+    finally:
+        stop.set(); hb.join(timeout=1)
 
 def main()->int:
     ap=argparse.ArgumentParser(); ap.add_argument('--root',required=True); ap.add_argument('--interval',type=float,default=2.0); ap.add_argument('--worker-request'); a=ap.parse_args()
