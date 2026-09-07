@@ -8,6 +8,7 @@ from typing import Any
 NORMAL_WRAPPER_COMMIT = "e18144c74324de86bfbf3a0c7480abb6cd949355"
 NORMAL_WRAPPER_PATH = "EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py"
 INSPECTION_PREFIX = "inspect_revamp_mic_lifecycle_v1"
+FRONTEND_PROBE_PATH = "EIRA2_REVAMP2_FRONTEND_ACCEPTANCE_PROBE_V1.py"
 SIGNATURES = ["/v1/listen", "getUserMedia", "packPCM16", "state.active", "transcribing", "inactive"]
 
 
@@ -72,7 +73,7 @@ def context(lines: list[str], indexes: list[int], radius: int = 80) -> list[dict
     return spans[:12]
 
 
-def inspect_live(root: Path, packet_id: str) -> dict[str, Any]:
+def inspect_filesystem(root: Path, packet_id: str) -> dict[str, Any]:
     rows: list[dict[str, Any]] = []
     candidates: list[Path] = []
     for base in (root / "eira2", root / "extensions"):
@@ -105,15 +106,58 @@ def inspect_live(root: Path, packet_id: str) -> dict[str, Any]:
         })
     rows.sort(key=lambda r: (-len(r["matched_signatures"]), r["path"]))
     return {
-        "schema": "eira2_read_only_revamp_mic_inspection_v1",
+        "candidate_files_scanned": len(candidates),
+        "matching_files": rows[:20],
+        "best_match": rows[0] if rows else None,
+    }
+
+
+def inspect_served(root: Path, repo: Path) -> dict[str, Any]:
+    probe = Path("/tmp") / f"eira2_readonly_revamp_probe_{os.getpid()}.py"
+    out = root / "eira_probe" / "revamp2_readonly_mic_inspection.json"
+    show = subprocess.run([
+        "git", "-C", str(repo), "show", f"origin/master:{FRONTEND_PROBE_PATH}"
+    ], capture_output=True, timeout=120, check=False)
+    if show.returncode:
+        return {"ok": False, "error": "frontend_probe_fetch_failed:" + show.stderr[-800:].decode(errors="replace")}
+    probe.write_bytes(show.stdout)
+    try:
+        proc = run([
+            sys.executable, str(probe), "--base", "http://127.0.0.1:8782/", "--out", str(out)
+        ], cwd=root, timeout=180)
+    finally:
+        try:
+            probe.unlink()
+        except OSError:
+            pass
+    payload: dict[str, Any] = {}
+    if out.is_file():
+        try:
+            value = json.loads(out.read_text(encoding="utf-8"))
+            if isinstance(value, dict):
+                payload = value
+        except Exception:
+            payload = {}
+    return {
+        "probe_returncode": proc.returncode,
+        "stdout": proc.stdout[-1200:],
+        "stderr": proc.stderr[-1200:],
+        **payload,
+    }
+
+
+def inspect_live(root: Path, repo: Path, packet_id: str) -> dict[str, Any]:
+    fs = inspect_filesystem(root, packet_id)
+    served = inspect_served(root, repo)
+    return {
+        "schema": "eira2_read_only_revamp_mic_inspection_v2",
         "packet_id": packet_id,
         "mode": "read_only",
         "mutates_live": False,
         "root": str(root),
         "signatures": SIGNATURES,
-        "candidate_files_scanned": len(candidates),
-        "matching_files": rows[:20],
-        "best_match": rows[0] if rows else None,
+        "filesystem": fs,
+        "served_revamp2": served,
         "generated_unix": time.time(),
     }
 
@@ -131,7 +175,7 @@ def main() -> int:
     packet_id = str(packet.get("packet_id") or "")
 
     if packet_id.startswith(INSPECTION_PREFIX):
-        payload = inspect_live(root, packet_id)
+        payload = inspect_live(root, repo, packet_id)
         rel = Path("eira2_transport_bus/from_superprobe/inspections") / "inspect_revamp_mic_lifecycle_v1__result.json"
         commit = publish(repo, rel, payload)
         print(json.dumps({
@@ -139,7 +183,8 @@ def main() -> int:
             "inspection_only": True,
             "mutates_live": False,
             "packet_id": packet_id,
-            "matching_files": len(payload.get("matching_files") or []),
+            "filesystem_matches": len(((payload.get("filesystem") or {}).get("matching_files") or [])),
+            "served_matches": len(((payload.get("served_revamp2") or {}).get("mic_source_matches") or [])),
             "return_transport_commit": commit,
         }, indent=2))
         return 0
