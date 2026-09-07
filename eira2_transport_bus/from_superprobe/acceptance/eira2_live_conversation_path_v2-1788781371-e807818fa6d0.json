@@ -1,0 +1,28 @@
+{
+  "completed_unix": 1788781377.3135328,
+  "live_http_acceptance": {
+    "base_url": "http://127.0.0.1:8782",
+    "listen": {
+      "error": "URLError:<urlopen error [Errno 111] Connection refused>",
+      "full_transcription_verified": false,
+      "route_reached": false
+    },
+    "runtime_acceptance_ok": false,
+    "schema": "eira2_live_http_acceptance_v1",
+    "tested_unix": 1788781377.2978363,
+    "text": {
+      "error": "URLError:<urlopen error [Errno 111] Connection refused>",
+      "ok": false
+    },
+    "voice_delivery": {
+      "delivery_voice_module_present": true,
+      "flashcube_audio_observed": false,
+      "live_voice_enabled_declared": true,
+      "note": "Physical Flashcube sound is not claimed without an observed audio event.",
+      "voice_sink_source_present": true
+    }
+  },
+  "package_and_superprobe_qualified": true,
+  "packet_id": "eira2_live_conversation_path_v2-1788781371-e807818fa6d0",
+  "schema": "eira2_live_acceptance_return_v1"
+}
