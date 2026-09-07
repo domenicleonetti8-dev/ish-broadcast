@@ -1,0 +1,10 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "inspect_transport_v22_runtime",
+  "schema": "eira2_transport_terminal_receipt_v2",
+  "stage": "watcher_authorization",
+  "started_unix": 1788810108.5952208,
+  "status": "STARTED",
+  "transport_request_sha256": "6ea48e7b1fc6733cc761172c34315f64b9813428bd5da455939c80e7fe14cd42"
+}
