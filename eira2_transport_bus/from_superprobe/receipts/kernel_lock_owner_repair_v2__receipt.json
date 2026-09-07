@@ -1,0 +1,42 @@
+{
+  "action": "retire_unhealthy_duplicate_runtime",
+  "eligible_eira2_holders": [
+    {
+      "cmdline": "/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/main.py",
+      "cwd": "/media/domenicleonetti/easystore/EIRA/LIVE",
+      "exe": "/usr/bin/python3.13",
+      "pid": 2308007
+    }
+  ],
+  "generated_unix": 1788815830.0238442,
+  "health_after": {
+    "error": "URLError:<urlopen error [Errno 111] Connection refused>",
+    "ok": false
+  },
+  "health_before": {
+    "error": "TimeoutError:timed out",
+    "ok": false
+  },
+  "holders_before": [
+    {
+      "cmdline": "/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/main.py",
+      "cwd": "/media/domenicleonetti/easystore/EIRA/LIVE",
+      "exe": "/usr/bin/python3.13",
+      "pid": 2308007
+    }
+  ],
+  "lock": "/media/domenicleonetti/easystore/EIRA/LIVE/var/eira2.lock",
+  "lock_free_after": true,
+  "lock_free_before": false,
+  "lockfile_pid_text": "2308007",
+  "ok": true,
+  "protected_noncanonical_holders": [],
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_kernel_lock_owner_repair_v2",
+  "signals": [
+    {
+      "pid": 2308007,
+      "signal": "TERM"
+    }
+  ]
+}
