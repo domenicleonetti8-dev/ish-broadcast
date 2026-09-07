@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "deploy_doctor_boundary_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788822403.8702326,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2600829,
-  "transport_request_sha256": "a910f29e9565e419ee51ced783cbb150a546ea307d66c1e79e577a4ecb8f6b9d"
+  "transport_request_sha256": "a910f29e9565e419ee51ced783cbb150a546ea307d66c1e79e577a4ecb8f6b9d",
+  "updated_unix": 1788822406.9640324
 }
