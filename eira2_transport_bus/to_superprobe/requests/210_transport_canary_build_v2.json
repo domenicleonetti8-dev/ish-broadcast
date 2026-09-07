@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "transport_canary_build_v2",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "cd41f43e2eac6d1fb0b71ff340b332e154de406a",
+      "path": "EIRA2_TRANSPORT_CANARY_V1.json"
+    },
+    "target": {
+      "path": "eira2/transport_canary_v2.json"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_only_writer": true,
+    "package_reseal": true,
+    "post_superprobe": true,
+    "return_completion_hash": true
+  }
+}
