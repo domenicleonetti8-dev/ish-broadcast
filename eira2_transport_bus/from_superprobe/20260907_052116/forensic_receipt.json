@@ -1,0 +1,17 @@
+{
+  "ar_hologram_sources": 103,
+  "file_count": 406,
+  "live_modified": false,
+  "ok": true,
+  "organism_ok": null,
+  "package_identity_ok": null,
+  "sandbox": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116",
+  "schema": "eira2_full_brain_forensic_receipt_v1",
+  "semantic_edges": 483,
+  "semantic_modules": 273,
+  "semantic_unresolved": 9,
+  "superprobe_ok": true,
+  "superprobe_schema": "eira2_superprobe_forensic_v4",
+  "total_bytes": 7205112826,
+  "unresolved_internal_imports": null
+}

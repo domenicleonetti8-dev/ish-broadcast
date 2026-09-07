@@ -1,0 +1,78 @@
+{
+  "artifact_count": 10,
+  "artifacts": [
+    {
+      "bytes": 611,
+      "name": "brain_map.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/brain_map.json",
+      "sha256": "53953ca5dcae4c359b44b59704e17bd0b804a40eb5e5d2b3900d232f6df714d4"
+    },
+    {
+      "bytes": 48992,
+      "name": "bridge_map.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/bridge_map.json",
+      "sha256": "66e32ee72cacee530ce8ab6b5f1abbc40e99b5de6e7e3d64eac5fbd536344c98"
+    },
+    {
+      "bytes": 171639,
+      "name": "byte_ledger.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/byte_ledger.json",
+      "sha256": "9c8a90bea8603b944ad1a099135810a3ca468fa43b92cf03e060df8f6084e4ea"
+    },
+    {
+      "bytes": 75618,
+      "name": "canonical_orchestration.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/canonical_orchestration.json",
+      "sha256": "f0b861fc308b318a34b57046b6651122a055fe8c39d33218bc367ba4f616cf5d"
+    },
+    {
+      "bytes": 540,
+      "name": "forensic_receipt.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/forensic_receipt.json",
+      "sha256": "d5f9056f576f81beea8df1245b93069055092f0ea6de0c07c8eb2a055f497f3d"
+    },
+    {
+      "bytes": 263661,
+      "name": "neural_ar_fusion_map.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/neural_ar_fusion_map.json",
+      "sha256": "87ec919d7bfcbf45999383377a2d8657aababe92f62c367fcb459526191edbbc"
+    },
+    {
+      "bytes": 60890,
+      "name": "node_map.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/node_map.json",
+      "sha256": "4fb2af7c19a8a7019e27b44ca3dc21110b3eca40665d32e1ec476b4bbfebabed"
+    },
+    {
+      "bytes": 1192,
+      "name": "runtime_graph.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/runtime_graph.json",
+      "sha256": "d6af0af2a39e3d0441e3e7bd2ece69d18efbffe6f862b662770133611dd94001"
+    },
+    {
+      "bytes": 3036,
+      "name": "sandbox_reconstruction_manifest.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/sandbox_reconstruction_manifest.json",
+      "sha256": "b689f7e7fab3ad2f29e8f22e33da32dc1dea027fe0f96ecf43be37fe01032524"
+    },
+    {
+      "bytes": 2639407,
+      "name": "semantic_graph.json",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116/semantic_graph.json",
+      "sha256": "e9f349a268d445fc0061cf167ca008957b2b40af16d62a67a34cdfb2c290f25c"
+    }
+  ],
+  "code_executed_from_reconstruction": false,
+  "generated_unix": 1788773047.6589346,
+  "live_modified": false,
+  "reconstruction_fingerprint": "c9c1d19fa202fd59a046c364adedc0530a59eebeb25549a405237c8f98965b67",
+  "request": {
+    "bytes": 869,
+    "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/map_request.md",
+    "sha256": "077057aff5ecadad5a1652538a25c5987697d7ae727837a025a4874994b021d1"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "sandbox": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/full_brain_reconstruction/20260907_052116",
+  "schema": "eira2_full_brain_reconstruction_v1",
+  "superprobe_evidence_fingerprint": null
+}

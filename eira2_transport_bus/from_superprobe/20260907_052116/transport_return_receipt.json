@@ -1,0 +1,58 @@
+{
+  "direction": "from_superprobe",
+  "file_count": 10,
+  "files": [
+    {
+      "bytes": 611,
+      "path": "brain_map.json",
+      "sha256": "53953ca5dcae4c359b44b59704e17bd0b804a40eb5e5d2b3900d232f6df714d4"
+    },
+    {
+      "bytes": 48992,
+      "path": "bridge_map.json",
+      "sha256": "66e32ee72cacee530ce8ab6b5f1abbc40e99b5de6e7e3d64eac5fbd536344c98"
+    },
+    {
+      "bytes": 171639,
+      "path": "byte_ledger.json",
+      "sha256": "9c8a90bea8603b944ad1a099135810a3ca468fa43b92cf03e060df8f6084e4ea"
+    },
+    {
+      "bytes": 75618,
+      "path": "canonical_orchestration.json",
+      "sha256": "f0b861fc308b318a34b57046b6651122a055fe8c39d33218bc367ba4f616cf5d"
+    },
+    {
+      "bytes": 540,
+      "path": "forensic_receipt.json",
+      "sha256": "d5f9056f576f81beea8df1245b93069055092f0ea6de0c07c8eb2a055f497f3d"
+    },
+    {
+      "bytes": 263661,
+      "path": "neural_ar_fusion_map.json",
+      "sha256": "87ec919d7bfcbf45999383377a2d8657aababe92f62c367fcb459526191edbbc"
+    },
+    {
+      "bytes": 60890,
+      "path": "node_map.json",
+      "sha256": "4fb2af7c19a8a7019e27b44ca3dc21110b3eca40665d32e1ec476b4bbfebabed"
+    },
+    {
+      "bytes": 1192,
+      "path": "runtime_graph.json",
+      "sha256": "d6af0af2a39e3d0441e3e7bd2ece69d18efbffe6f862b662770133611dd94001"
+    },
+    {
+      "bytes": 3648,
+      "path": "sandbox_reconstruction_manifest.json",
+      "sha256": "8b39bdd5b285b9cfd6c32208aca74472ee294906b4b8f400be9d6014997665bb"
+    },
+    {
+      "bytes": 2639407,
+      "path": "semantic_graph.json",
+      "sha256": "e9f349a268d445fc0061cf167ca008957b2b40af16d62a67a34cdfb2c290f25c"
+    }
+  ],
+  "return_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_outbox/from_superprobe/20260907_052116",
+  "schema": "eira2_transport_return_bundle_v1"
+}

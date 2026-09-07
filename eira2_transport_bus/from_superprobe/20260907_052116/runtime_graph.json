@@ -1,0 +1,16 @@
+{
+  "listener_count": 1,
+  "listeners": [
+    "LISTEN 0      5                          0.0.0.0:8787       0.0.0.0:*    users:((\"python3\",pid=1300484,fd=3))"
+  ],
+  "processes": [
+    "2177880       1  112794 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+    "2197106       1    6532 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15",
+    "2233043 2233034       1 python3 eira_probe/transport_runtime/EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1.py --root /media/domenicleonetti/easystore/EIRA/LIVE --request /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/map_request.md",
+    "2233044 2233043       1 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE"
+  ],
+  "runtime_processes": 4,
+  "schema": "eira2_runtime_graph_v1",
+  "source": "superprobe_execution_truth",
+  "truth_label": "runtime_observed"
+}

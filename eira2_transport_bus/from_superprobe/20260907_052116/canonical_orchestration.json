@@ -1,0 +1,3054 @@
+{
+  "candidate_orchestration_components": [
+    {
+      "module": "tests.test_constellation_identity",
+      "path": "tests/test_constellation_identity.py",
+      "score": 2
+    },
+    {
+      "module": "eira2.capabilities",
+      "path": "eira2/capabilities/__init__.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.capabilities.engineering",
+      "path": "eira2/capabilities/engineering.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.capabilities.executor",
+      "path": "eira2/capabilities/executor.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.capabilities.workers",
+      "path": "eira2/capabilities/workers.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.capabilities.worlds",
+      "path": "eira2/capabilities/worlds.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.conversation.analysis",
+      "path": "eira2/conversation/analysis.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.conversation.constellation",
+      "path": "eira2/conversation/constellation.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.conversation.history",
+      "path": "eira2/conversation/history.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.delivery.gate",
+      "path": "eira2/delivery/gate.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.delivery.native_bluetooth_voice",
+      "path": "eira2/delivery/native_bluetooth_voice.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.delivery.presence",
+      "path": "eira2/delivery/presence.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.delivery.voice",
+      "path": "eira2/delivery/voice.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.delivery.voice_prosody",
+      "path": "eira2/delivery/voice_prosody.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.delivery.voice_qualification",
+      "path": "eira2/delivery/voice_qualification.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.evidence.identity",
+      "path": "eira2/evidence/identity.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.interfaces.ingress",
+      "path": "eira2/interfaces/ingress.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.kernel.supervisor",
+      "path": "eira2/kernel/supervisor.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.operations.package_identity",
+      "path": "eira2/operations/package_identity.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.reasoning.local_candidate",
+      "path": "eira2/reasoning/local_candidate.py",
+      "score": 1
+    },
+    {
+      "module": "eira2.reasoning.provider",
+      "path": "eira2/reasoning/provider.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_capability_cancellation_authority",
+      "path": "tests/test_capability_cancellation_authority.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_capability_executor",
+      "path": "tests/test_capability_executor.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_cognitive_analysis",
+      "path": "tests/test_cognitive_analysis.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_ingress_to_mouth_path",
+      "path": "tests/test_ingress_to_mouth_path.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_package_identity",
+      "path": "tests/test_package_identity.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_package_identity_runtime_stability",
+      "path": "tests/test_package_identity_runtime_stability.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_streaming_verified_speech",
+      "path": "tests/test_streaming_verified_speech.py",
+      "score": 1
+    },
+    {
+      "module": "tests.test_supervisor",
+      "path": "tests/test_supervisor.py",
+      "score": 1
+    }
+  ],
+  "schema": "eira2_canonical_orchestration_v1",
+  "semantic_edges": [
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.__main__",
+      "target": "eira2.evidence.deterministic"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.__main__",
+      "target": "eira2.live"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.__main__",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.engineering",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.engineering",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.executor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.executor",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.workers",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.workers",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.worlds",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.worlds",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.worlds",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.config.schema",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.analysis",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.analysis",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.analysis",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.analysis",
+      "target": "eira2.conversation.history"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.commit",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.commit",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.commit",
+      "target": "eira2.memory.service"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.commit",
+      "target": "eira2.conversation.history"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.constellation",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.constellation",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.constellation",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.expression",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.expression",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.history",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.history",
+      "target": "eira2.memory.service"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.reaction",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.reaction",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.semantic_matrix",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.semantic_matrix",
+      "target": "eira2.conversation.semantic_quality"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.semantic_quality",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.evidence.identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.interfaces.senses"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.commit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.constellation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.expression"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.history"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.conversation.reaction"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.gate",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.native_bluetooth_voice",
+      "target": "eira2.delivery.voice_prosody"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.presence",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.presence",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.voice",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.voice",
+      "target": "eira2.delivery.native_bluetooth_voice"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.voice_qualification",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.evidence.deterministic",
+      "target": "eira2.conversation.semantic_quality"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.evidence.gate",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.evidence.identity",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.evidence.web",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.cosmos_reference",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.cosmos_reference",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "target": "eira2.security.attestation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "target": "eira2.security.jellyfish_immune"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.local_context",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.local_context",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.local_context",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.parity",
+      "target": "eira2.preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.parity",
+      "target": "eira2.preservation_catalog"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.parity",
+      "target": "eira2.extensions.legacy_static_inventory"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.self_probe",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.subjective_state",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.subjective_state",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.subjective_state",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.subjective_state",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.ingress",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.native",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.native",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.native",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.senses",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.senses",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.senses",
+      "target": "eira2.interfaces.native"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "eira2.invention",
+      "target": "eira2.pipeline"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "eira2.invention",
+      "target": "eira2.science"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.memory.service"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.operations.full_doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.events",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.lock",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.supervisor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.supervisor",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.launcher",
+      "target": "eira2.config.schema"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.launcher",
+      "target": "eira2.evidence.deterministic"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.launcher",
+      "target": "eira2.reasoning.local_candidate"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.launcher",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.learning.experience",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.learning.experience",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.live",
+      "target": "eira2.adapters.ollama"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.live",
+      "target": "eira2.evidence.deterministic"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.live",
+      "target": "eira2.operations.model_takeover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.live",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.live",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.memory.service",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.memory.service",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.migration.qualification",
+      "target": "eira2.preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "eira2.neural",
+      "target": "eira2.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "eira2.neural",
+      "target": "eira2.activity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.activity",
+      "target": "eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.conversation.spine"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.delivery.gate"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.delivery.presence"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.interfaces.native"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.neural.live"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.neural.server"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.growth",
+      "target": "eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.neural.apple_ar"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.neural.growth"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.neural.server"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.neural.sync"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.live",
+      "target": "eira2.neural.activity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.neural.communication"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.neural.live"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.server",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.server",
+      "target": "eira2.neural.activity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.server",
+      "target": "eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.boot_authority",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.boot_authority",
+      "target": "eira2.operations.easystore_cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.boot_authority",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.coordinator",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.coordinator",
+      "target": "eira2.operations.doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.coordinator",
+      "target": "eira2.operations.health"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.doctor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.doctor",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.doctor",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.easystore_cutover",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.easystore_cutover",
+      "target": "eira2.operations.model_takeover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.easystore_cutover",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.easystore_cutover",
+      "target": "eira2.operations.storage"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.easystore_cutover",
+      "target": "eira2.operations.voice_asset_takeover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.final_cutover_qualification",
+      "target": "eira2.operations.replacement_boundary"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.full_doctor",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.full_doctor",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.full_doctor",
+      "target": "eira2.operations.doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.health",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.health",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.legacy_retirement",
+      "target": "eira2.migration.qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.legacy_retirement",
+      "target": "eira2.migration.runtime_parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.legacy_retirement",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.legacy_retirement",
+      "target": "eira2.operations.easystore_cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.legacy_retirement",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.operations.full_doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.operations.health"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.state.checkpoints"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.runtime_handoff",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.runtime_handoff",
+      "target": "eira2.operations.easystore_cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.runtime_handoff",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.runtime_handoff",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.status",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.system_audit",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.system_audit",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.system_audit",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.work",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.work",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.work",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "eira2.parity.evaluator",
+      "target": "eira2.adapters.eira1.protocol"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.preservation_behavior_parity",
+      "target": "eira2.preservation_catalog"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.preservation_catalog",
+      "target": "eira2.extensions.legacy_static_inventory"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.preservation_qualification",
+      "target": "eira2.preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.reasoning.provider",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.extensions",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.extensions",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.extensions",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.graph",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.activation",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.activation",
+      "target": "eira2.operations.doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.autonomy",
+      "target": "eira2.conversation.spine"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.autonomy",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.autonomy",
+      "target": "eira2.state.checkpoints"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.autonomy",
+      "target": "eira2.repair.activation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.autonomy",
+      "target": "eira2.repair.evolution"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.coordinator",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.cutover",
+      "target": "eira2.operations.final_cutover_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.evolution",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.evolution",
+      "target": "eira2.operations.doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.evolution",
+      "target": "eira2.repair.coordinator"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.proposal_provider",
+      "target": "eira2.operations.doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.proposal_provider",
+      "target": "eira2.reasoning.provider"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.repair.proposal_provider",
+      "target": "eira2.repair.evolution"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.capabilities.engineering"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.capabilities.workers"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.capabilities.worlds"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.config.schema"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.commit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.constellation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.expression"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.history"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.reaction"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.conversation.spine"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.delivery.gate"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.delivery.presence"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.delivery.voice"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.evidence.gate"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.evidence.identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.interfaces.native"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.interfaces.senses"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.kernel.bootstrap"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.kernel.lock"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.memory.service"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.neural.organism"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.operations.coordinator"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.operations.full_doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.operations.health"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.operations.resilience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.operations.status"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.operations.work"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.reasoning.provider"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.repair.activation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.repair.autonomy"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.repair.coordinator"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.repair.evolution"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.repair.proposal_provider"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.security.attestation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.security.jellyfish_platform"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.state.checkpoints"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.attestation",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.attestation",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_immune",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_immune",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_immune",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_immune",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_platform",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_platform",
+      "target": "eira2.security.attestation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_platform",
+      "target": "eira2.security.jellyfish_superimmune"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.security.jellyfish_superimmune",
+      "target": "eira2.security.jellyfish_immune"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.state.checkpoints",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.state.checkpoints",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.state.store",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "main",
+      "target": "eira2.__main__"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_atomic_accepted_state",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_capability_cancellation_authority",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_capability_cancellation_authority",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_capability_executor",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_checkpoint_activation",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_cognitive_analysis",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_cognitive_analysis",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_config_cutover_gate",
+      "target": "eira2.config.schema"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_constellation_identity",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_constellation_identity",
+      "target": "eira2.conversation.constellation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_constellation_identity",
+      "target": "eira2.evidence.identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_constellation_identity",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_conversation_cognition_runtime",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_conversation_transaction_lock",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_cosmos_reference",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_cutover_preservation_gate",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_doctor",
+      "target": "eira2.operations.doctor"
+    },
+    {
+      "kind": "import",
+      "resolved": true,
+      "source": "tests.test_easystore_cutover",
+      "target": "eira2.operations.easystore_cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_easystore_cutover",
+      "target": "eira2.operations.storage"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_eira1_preservation",
+      "target": "eira2.operations.eira1_preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_end_to_end_mouth_bridge",
+      "target": "eira2.delivery"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_end_to_end_mouth_bridge",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_experience_learning",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_experience_learning",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.conversation.expression"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.delivery"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.delivery.voice"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_extension_cancellation_authority",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_extension_cancellation_authority",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_extension_parity",
+      "target": "eira2.extensions.parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_fast_local_context",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_final_cutover_qualification",
+      "target": "eira2.operations.final_cutover_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_full_system_integrity",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_full_system_integrity",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_full_system_integrity",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_full_system_integrity",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_ingress_to_mouth_path",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_ingress_to_mouth_path",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_invention_on_demand",
+      "target": "eira2.neural"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_iphone_communication_http",
+      "target": "eira2.neural.communication"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_iphone_communication_http",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_attested_recovery",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_attested_recovery",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_attested_recovery",
+      "target": "eira2.security.attestation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_attested_recovery",
+      "target": "eira2.security.jellyfish_platform"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_attested_recovery",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.extensions.jellyfish_defense_coverage_v4"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.security.attestation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.security.jellyfish_immune"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_defense_coverage",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_immune",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_immune",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_immune",
+      "target": "eira2.security.jellyfish_immune"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_immune",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_platform",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_platform",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_platform",
+      "target": "eira2.security.attestation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_platform",
+      "target": "eira2.security.jellyfish_platform"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_platform",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_superimmune",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_superimmune",
+      "target": "eira2.learning.experience"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_superimmune",
+      "target": "eira2.security.jellyfish_superimmune"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_jellyfish_superimmune",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_language_and_figures",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_language_and_figures",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_language_matrix_50",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_launcher",
+      "target": "eira2.config.schema"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_launcher",
+      "target": "eira2.launcher"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_launcher",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_layout",
+      "target": "eira2.layout"
+    },
+    {
+      "kind": "import",
+      "resolved": true,
+      "source": "tests.test_legacy_behavior_catalog",
+      "target": "eira2.preservation_catalog"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_legacy_behavior_catalog",
+      "target": "eira2.preservation_catalog"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_legacy_retirement",
+      "target": "eira2.operations.legacy_retirement"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_manifests",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_migration_and_cutover",
+      "target": "eira2.migration.planner"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_migration_qualification",
+      "target": "eira2.migration.qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_model_backend_boundary",
+      "target": "eira2.reasoning.provider"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_model_backend_boundary",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_model_takeover",
+      "target": "eira2.operations.model_takeover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_multilingual_voice_qualification",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_multilingual_voice_qualification",
+      "target": "eira2.delivery.voice_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_native_async_boundaries",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_native_async_boundaries",
+      "target": "eira2.interfaces.native"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_native_only_audit",
+      "target": "eira2.operations.native_only_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_native_only_legacy_extension_guard",
+      "target": "eira2.operations.native_only_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_native_replacement_ownership",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_native_tailscale",
+      "target": "eira2.interfaces.native"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_atlas",
+      "target": "eira2.neural.activity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_atlas",
+      "target": "eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_fanout_fusion",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_fanout_fusion",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_graph",
+      "target": "eira2.interfaces.neural_graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_live_growth",
+      "target": "eira2.neural.live"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_live_growth",
+      "target": "eira2.neural.sync"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_neural_server",
+      "target": "eira2.neural.server"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_package_identity",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_package_identity_runtime_stability",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_execution_contract",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_execution_contract",
+      "target": "eira2.capabilities.workers"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_execution_contract",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_neural_fanout",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_neural_fanout",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_pi_hardware_qualification",
+      "target": "eira2.operations.hardware_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_post_replacement_boot",
+      "target": "eira2.operations.post_replacement_boot"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_preservation_behavior_parity",
+      "target": "eira2.preservation_behavior_parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_preservation_behavior_parity",
+      "target": "eira2.preservation_catalog"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_preservation_contract",
+      "target": "eira2.preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_preservation_qualification",
+      "target": "eira2.preservation_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_reactions",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_reactions",
+      "target": "eira2.conversation.reaction"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_reactions",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_registry_graph",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_registry_graph",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_replacement_completion",
+      "target": "eira2.operations.replacement_completion"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_runtime_end_to_end",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_runtime_file_parity",
+      "target": "eira2.migration.runtime_parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_runtime_handoff_probe",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_self_evolution",
+      "target": "eira2.repair.evolution"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_self_evolution_symlink_containment",
+      "target": "eira2.repair.coordinator"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_self_evolution_symlink_containment",
+      "target": "eira2.repair.evolution"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_self_evolution_transaction_boundary",
+      "target": "eira2.repair.evolution"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_self_evolution_transaction_boundary",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_semantic_language_matrix",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_semantic_language_matrix",
+      "target": "eira2.conversation.semantic_matrix"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_semantic_quality",
+      "target": "eira2.conversation.semantic_quality"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_semantic_quality",
+      "target": "eira2.evidence.deterministic"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_sensory_fusion",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_sensory_fusion",
+      "target": "eira2.interfaces.native"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_sensory_fusion",
+      "target": "eira2.interfaces.senses"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_state_integrity",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_state_integrity",
+      "target": "eira2.kernel.lock"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_state_integrity",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_state_integrity",
+      "target": "eira2.state.store"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_streaming_verified_speech",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_streaming_verified_speech",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_subjective_multidisciplinary_cognition",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_subjective_multidisciplinary_cognition",
+      "target": "eira2.conversation.constellation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_subjective_multidisciplinary_cognition",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_subjective_multidisciplinary_cognition",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_supervisor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_supervisor",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_supervisor",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_system_audit",
+      "target": "eira2.operations.system_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_system_runtime_gauntlet",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_system_runtime_gauntlet",
+      "target": "eira2.operations.system_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_terminal_client",
+      "target": "eira2.interfaces"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_voice_asset_takeover",
+      "target": "eira2.operations.voice_asset_takeover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.analysis"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.commit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.constellation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.expression"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.history"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.reaction"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.conversation.spine"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.evidence.identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.evidence.web"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.assemble_final_cutover_bundle",
+      "target": "eira2.operations.final_cutover_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.authorize_final_cutover",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.build_legacy_behavior_catalog",
+      "target": "eira2.preservation_catalog"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.build_migration_ledger",
+      "target": "eira2.migration.ledger_builder"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.boot_authority"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.easystore_cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.full_doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.storage"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.repair.cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "tools.eira2_live_organism_forensic",
+      "target": "eira2.eira2.neural.anatomy"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "tools.eira2_live_organism_forensic",
+      "target": "eira2.eira2.neural.atlas"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "tools.eira2_superprobe",
+      "target": "eira2_shared_evidence_bus"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "tools.eira2_superprobe",
+      "target": "eira2_superprobe_engine"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.handoff_eira2_runtime",
+      "target": "eira2.operations.runtime_handoff"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.integrate_eira2_easystore",
+      "target": "eira2.operations.easystore_cutover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.manage_boot_authority",
+      "target": "eira2.operations.boot_authority"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.probe_runtime_handoff",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.provision_native_voice_asset",
+      "target": "eira2.operations.voice_asset_takeover"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_300_isolated_turns",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_500_conversation_turns",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_500_semantic_simulations",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_eira1_preservation",
+      "target": "eira2.operations.eira1_preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_extension_parity",
+      "target": "eira2.extensions.parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_final_cutover",
+      "target": "eira2.operations.final_cutover_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_isolated_system",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_isolated_system",
+      "target": "eira2.operations.full_doctor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_isolated_system",
+      "target": "eira2.operations.native_only_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_isolated_system",
+      "target": "eira2.operations.system_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_isolated_system",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_replacement",
+      "target": "eira2.operations.replacement_completion"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_functional_preservation",
+      "target": "eira2.preservation"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_functional_preservation",
+      "target": "eira2.preservation_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_legacy_behavior_parity",
+      "target": "eira2.preservation_behavior_parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_migration_76056",
+      "target": "eira2.migration.qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_multilingual_voice_receipt",
+      "target": "eira2.delivery.voice_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_native_only_runtime",
+      "target": "eira2.operations.native_only_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_pi_hardware",
+      "target": "eira2.operations.hardware_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_post_replacement_boot",
+      "target": "eira2.operations.post_replacement_boot"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_randomized_conversation_fuzz",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_randomized_conversation_fuzz",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_real_model_super_gauntlet",
+      "target": "eira2.adapters.ollama"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_real_model_super_gauntlet",
+      "target": "eira2.evidence.deterministic"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_real_model_super_gauntlet",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_runtime_file_parity",
+      "target": "eira2.migration.runtime_parity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_semantic_language_matrix",
+      "target": "eira2.conversation.semantic_matrix"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.real_model_gauntlet",
+      "target": "eira2.adapters.ollama"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.real_model_gauntlet",
+      "target": "eira2.evidence.deterministic"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.real_model_gauntlet",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.retire_eira1_runtime",
+      "target": "eira2.operations.legacy_retirement"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.run_system_audit",
+      "target": "eira2.operations.system_audit"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.seal_eira2_package",
+      "target": "eira2.operations.package_identity"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.stage_migration",
+      "target": "eira2.migration.planner"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.takeover_private_models",
+      "target": "eira2.operations.model_takeover"
+    }
+  ],
+  "superprobe_ok": true,
+  "superprobe_schema": "eira2_superprobe_forensic_v4",
+  "truth_label": "mixed_superprobe_and_static_evidence",
+  "truth_policy": "Only explicitly evidenced relationships are canonical. Candidate ordering is a reconstruction aid, not invented authority."
+}

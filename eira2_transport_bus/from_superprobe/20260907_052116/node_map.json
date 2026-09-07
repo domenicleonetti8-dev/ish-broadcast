@@ -1,0 +1,1996 @@
+{
+  "addressable_node_count": 497,
+  "nodes": [
+    {
+      "id": "eira2",
+      "kind": "python_module",
+      "physical_path": "eira2/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.__main__",
+      "kind": "python_module",
+      "physical_path": "eira2/__main__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.adapters.ollama",
+      "kind": "python_module",
+      "physical_path": "eira2/adapters/ollama.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.capabilities",
+      "kind": "python_module",
+      "physical_path": "eira2/capabilities/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.capabilities.engineering",
+      "kind": "python_module",
+      "physical_path": "eira2/capabilities/engineering.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.capabilities.executor",
+      "kind": "python_module",
+      "physical_path": "eira2/capabilities/executor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.capabilities.workers",
+      "kind": "python_module",
+      "physical_path": "eira2/capabilities/workers.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.capabilities.worlds",
+      "kind": "python_module",
+      "physical_path": "eira2/capabilities/worlds.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.commands.registry",
+      "kind": "python_module",
+      "physical_path": "eira2/commands/registry.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.config.schema",
+      "kind": "python_module",
+      "physical_path": "eira2/config/schema.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.contracts",
+      "kind": "python_module",
+      "physical_path": "eira2/contracts.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.analysis",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/analysis.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.commit",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/commit.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.constellation",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/constellation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.expression",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/expression.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.history",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/history.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.language",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/language.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.reaction",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/reaction.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.semantic_matrix",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/semantic_matrix.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.semantic_quality",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/semantic_quality.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.conversation.spine",
+      "kind": "python_module",
+      "physical_path": "eira2/conversation/spine.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.delivery.gate",
+      "kind": "python_module",
+      "physical_path": "eira2/delivery/gate.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.delivery.native_bluetooth_voice",
+      "kind": "python_module",
+      "physical_path": "eira2/delivery/native_bluetooth_voice.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.delivery.presence",
+      "kind": "python_module",
+      "physical_path": "eira2/delivery/presence.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.delivery.voice",
+      "kind": "python_module",
+      "physical_path": "eira2/delivery/voice.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.delivery.voice_prosody",
+      "kind": "python_module",
+      "physical_path": "eira2/delivery/voice_prosody.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.delivery.voice_qualification",
+      "kind": "python_module",
+      "physical_path": "eira2/delivery/voice_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.evidence.deterministic",
+      "kind": "python_module",
+      "physical_path": "eira2/evidence/deterministic.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.evidence.gate",
+      "kind": "python_module",
+      "physical_path": "eira2/evidence/gate.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.evidence.identity",
+      "kind": "python_module",
+      "physical_path": "eira2/evidence/identity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.evidence.web",
+      "kind": "python_module",
+      "physical_path": "eira2/evidence/web.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.cosmos_reference",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/cosmos_reference.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.jellyfish_defense_coverage_v4",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/jellyfish_defense_coverage_v4.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.legacy_static_inventory",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/legacy_static_inventory.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.local_context",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/local_context.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.parity",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.self_probe",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/self_probe.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.extensions.subjective_state",
+      "kind": "python_module",
+      "physical_path": "eira2/extensions/subjective_state.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.interfaces.ingress",
+      "kind": "python_module",
+      "physical_path": "eira2/interfaces/ingress.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.interfaces.native",
+      "kind": "python_module",
+      "physical_path": "eira2/interfaces/native.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.interfaces.neural_graph",
+      "kind": "python_module",
+      "physical_path": "eira2/interfaces/neural_graph.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.interfaces.senses",
+      "kind": "python_module",
+      "physical_path": "eira2/interfaces/senses.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.interfaces.terminal",
+      "kind": "python_module",
+      "physical_path": "eira2/interfaces/terminal.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.invention",
+      "kind": "python_module",
+      "physical_path": "eira2/invention/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.invention.rendering",
+      "kind": "python_module",
+      "physical_path": "eira2/invention/rendering.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.invention.science",
+      "kind": "python_module",
+      "physical_path": "eira2/invention/science.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.kernel.bootstrap",
+      "kind": "python_module",
+      "physical_path": "eira2/kernel/bootstrap.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.kernel.events",
+      "kind": "python_module",
+      "physical_path": "eira2/kernel/events.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.kernel.lock",
+      "kind": "python_module",
+      "physical_path": "eira2/kernel/lock.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.kernel.supervisor",
+      "kind": "python_module",
+      "physical_path": "eira2/kernel/supervisor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.launcher",
+      "kind": "python_module",
+      "physical_path": "eira2/launcher.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.layout",
+      "kind": "python_module",
+      "physical_path": "eira2/layout.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.learning",
+      "kind": "python_module",
+      "physical_path": "eira2/learning/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.learning.experience",
+      "kind": "python_module",
+      "physical_path": "eira2/learning/experience.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.live",
+      "kind": "python_module",
+      "physical_path": "eira2/live.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.memory.service",
+      "kind": "python_module",
+      "physical_path": "eira2/memory/service.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.migration.ledger_builder",
+      "kind": "python_module",
+      "physical_path": "eira2/migration/ledger_builder.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.migration.planner",
+      "kind": "python_module",
+      "physical_path": "eira2/migration/planner.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.migration.qualification",
+      "kind": "python_module",
+      "physical_path": "eira2/migration/qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.migration.runtime_parity",
+      "kind": "python_module",
+      "physical_path": "eira2/migration/runtime_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.activity",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/activity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.apple_ar",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/apple_ar.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.atlas",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/atlas.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.communication",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/communication.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.growth",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/growth.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.live",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/live.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.organism",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/organism.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.server",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/server.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.neural.sync",
+      "kind": "python_module",
+      "physical_path": "eira2/neural/sync.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.boot_authority",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/boot_authority.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.coordinator",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/coordinator.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.doctor",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/doctor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.easystore_cutover",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/easystore_cutover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.eira1_preservation",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/eira1_preservation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.final_cutover_qualification",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/final_cutover_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.full_doctor",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/full_doctor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.hardware_qualification",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/hardware_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.health",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/health.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.legacy_retirement",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/legacy_retirement.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.model_takeover",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/model_takeover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.native_only_audit",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/native_only_audit.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.package_identity",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/package_identity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.post_replacement_boot",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/post_replacement_boot.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.replacement_boundary",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/replacement_boundary.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.replacement_completion",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/replacement_completion.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.resilience",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/resilience.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.runtime_handoff",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/runtime_handoff.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.runtime_handoff_probe",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/runtime_handoff_probe.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.status",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/status.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.storage",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/storage.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.system_audit",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/system_audit.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.voice_asset_takeover",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/voice_asset_takeover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.operations.work",
+      "kind": "python_module",
+      "physical_path": "eira2/operations/work.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.parity.evaluator",
+      "kind": "python_module",
+      "physical_path": "eira2/parity/evaluator.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.preservation",
+      "kind": "python_module",
+      "physical_path": "eira2/preservation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.preservation_behavior_parity",
+      "kind": "python_module",
+      "physical_path": "eira2/preservation_behavior_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.preservation_catalog",
+      "kind": "python_module",
+      "physical_path": "eira2/preservation_catalog.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.preservation_qualification",
+      "kind": "python_module",
+      "physical_path": "eira2/preservation_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.reasoning.local_candidate",
+      "kind": "python_module",
+      "physical_path": "eira2/reasoning/local_candidate.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.reasoning.provider",
+      "kind": "python_module",
+      "physical_path": "eira2/reasoning/provider.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.registry.extensions",
+      "kind": "python_module",
+      "physical_path": "eira2/registry/extensions.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.registry.graph",
+      "kind": "python_module",
+      "physical_path": "eira2/registry/graph.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.registry.manifests",
+      "kind": "python_module",
+      "physical_path": "eira2/registry/manifests.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.repair.activation",
+      "kind": "python_module",
+      "physical_path": "eira2/repair/activation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.repair.autonomy",
+      "kind": "python_module",
+      "physical_path": "eira2/repair/autonomy.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.repair.coordinator",
+      "kind": "python_module",
+      "physical_path": "eira2/repair/coordinator.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.repair.cutover",
+      "kind": "python_module",
+      "physical_path": "eira2/repair/cutover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.repair.evolution",
+      "kind": "python_module",
+      "physical_path": "eira2/repair/evolution.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.repair.proposal_provider",
+      "kind": "python_module",
+      "physical_path": "eira2/repair/proposal_provider.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.runtime",
+      "kind": "python_module",
+      "physical_path": "eira2/runtime.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.security",
+      "kind": "python_module",
+      "physical_path": "eira2/security/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.security.attestation",
+      "kind": "python_module",
+      "physical_path": "eira2/security/attestation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.security.jellyfish_immune",
+      "kind": "python_module",
+      "physical_path": "eira2/security/jellyfish_immune.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.security.jellyfish_platform",
+      "kind": "python_module",
+      "physical_path": "eira2/security/jellyfish_platform.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.security.jellyfish_superimmune",
+      "kind": "python_module",
+      "physical_path": "eira2/security/jellyfish_superimmune.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.state.checkpoints",
+      "kind": "python_module",
+      "physical_path": "eira2/state/checkpoints.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2.state.store",
+      "kind": "python_module",
+      "physical_path": "eira2/state/store.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2_server_revamp.doctor",
+      "kind": "python_module",
+      "physical_path": "eira2_server_revamp/doctor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2_server_revamp.hardening",
+      "kind": "python_module",
+      "physical_path": "eira2_server_revamp/hardening.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2_server_revamp.migrate",
+      "kind": "python_module",
+      "physical_path": "eira2_server_revamp/migrate.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2_server_revamp.migration_qualify",
+      "kind": "python_module",
+      "physical_path": "eira2_server_revamp/migration_qualify.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2_server_revamp.qualify",
+      "kind": "python_module",
+      "physical_path": "eira2_server_revamp/qualify.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira2_server_revamp.server",
+      "kind": "python_module",
+      "physical_path": "eira2_server_revamp/server.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "eira_probe.transport_runtime.EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1",
+      "kind": "python_module",
+      "physical_path": "eira_probe/transport_runtime/EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "extensions.repair_watcher_ai",
+      "kind": "python_module",
+      "physical_path": "extensions/repair_watcher_ai/__init__.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "extensions.repair_watcher_ai.plugin",
+      "kind": "python_module",
+      "physical_path": "extensions/repair_watcher_ai/plugin.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "main",
+      "kind": "python_module",
+      "physical_path": "main.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_atomic_accepted_state",
+      "kind": "python_module",
+      "physical_path": "tests/test_atomic_accepted_state.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_capability_cancellation_authority",
+      "kind": "python_module",
+      "physical_path": "tests/test_capability_cancellation_authority.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_capability_executor",
+      "kind": "python_module",
+      "physical_path": "tests/test_capability_executor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_checkpoint_activation",
+      "kind": "python_module",
+      "physical_path": "tests/test_checkpoint_activation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_cognitive_analysis",
+      "kind": "python_module",
+      "physical_path": "tests/test_cognitive_analysis.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_config_cutover_gate",
+      "kind": "python_module",
+      "physical_path": "tests/test_config_cutover_gate.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_constellation_identity",
+      "kind": "python_module",
+      "physical_path": "tests/test_constellation_identity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_conversation_cognition_runtime",
+      "kind": "python_module",
+      "physical_path": "tests/test_conversation_cognition_runtime.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_conversation_transaction_lock",
+      "kind": "python_module",
+      "physical_path": "tests/test_conversation_transaction_lock.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_cosmos_reference",
+      "kind": "python_module",
+      "physical_path": "tests/test_cosmos_reference.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_cutover_preservation_gate",
+      "kind": "python_module",
+      "physical_path": "tests/test_cutover_preservation_gate.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_doctor",
+      "kind": "python_module",
+      "physical_path": "tests/test_doctor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_easystore_cutover",
+      "kind": "python_module",
+      "physical_path": "tests/test_easystore_cutover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_eira1_preservation",
+      "kind": "python_module",
+      "physical_path": "tests/test_eira1_preservation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_end_to_end_mouth_bridge",
+      "kind": "python_module",
+      "physical_path": "tests/test_end_to_end_mouth_bridge.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_experience_learning",
+      "kind": "python_module",
+      "physical_path": "tests/test_experience_learning.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_expression_voice",
+      "kind": "python_module",
+      "physical_path": "tests/test_expression_voice.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_extension_cancellation_authority",
+      "kind": "python_module",
+      "physical_path": "tests/test_extension_cancellation_authority.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_extension_parity",
+      "kind": "python_module",
+      "physical_path": "tests/test_extension_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_fast_local_context",
+      "kind": "python_module",
+      "physical_path": "tests/test_fast_local_context.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_final_cutover_bundle_assembly",
+      "kind": "python_module",
+      "physical_path": "tests/test_final_cutover_bundle_assembly.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_final_cutover_qualification",
+      "kind": "python_module",
+      "physical_path": "tests/test_final_cutover_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_full_system_integrity",
+      "kind": "python_module",
+      "physical_path": "tests/test_full_system_integrity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_ingress_to_mouth_path",
+      "kind": "python_module",
+      "physical_path": "tests/test_ingress_to_mouth_path.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_invention_on_demand",
+      "kind": "python_module",
+      "physical_path": "tests/test_invention_on_demand.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_invention_science_viewer",
+      "kind": "python_module",
+      "physical_path": "tests/test_invention_science_viewer.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_iphone_communication_http",
+      "kind": "python_module",
+      "physical_path": "tests/test_iphone_communication_http.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_jellyfish_attested_recovery",
+      "kind": "python_module",
+      "physical_path": "tests/test_jellyfish_attested_recovery.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_jellyfish_defense_coverage",
+      "kind": "python_module",
+      "physical_path": "tests/test_jellyfish_defense_coverage.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_jellyfish_immune",
+      "kind": "python_module",
+      "physical_path": "tests/test_jellyfish_immune.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_jellyfish_platform",
+      "kind": "python_module",
+      "physical_path": "tests/test_jellyfish_platform.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_jellyfish_superimmune",
+      "kind": "python_module",
+      "physical_path": "tests/test_jellyfish_superimmune.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_language_and_figures",
+      "kind": "python_module",
+      "physical_path": "tests/test_language_and_figures.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_language_matrix_50",
+      "kind": "python_module",
+      "physical_path": "tests/test_language_matrix_50.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_launcher",
+      "kind": "python_module",
+      "physical_path": "tests/test_launcher.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_layout",
+      "kind": "python_module",
+      "physical_path": "tests/test_layout.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_legacy_behavior_catalog",
+      "kind": "python_module",
+      "physical_path": "tests/test_legacy_behavior_catalog.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_legacy_retirement",
+      "kind": "python_module",
+      "physical_path": "tests/test_legacy_retirement.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_local_entrypoints",
+      "kind": "python_module",
+      "physical_path": "tests/test_local_entrypoints.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_manifests",
+      "kind": "python_module",
+      "physical_path": "tests/test_manifests.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_migration_and_cutover",
+      "kind": "python_module",
+      "physical_path": "tests/test_migration_and_cutover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_migration_ledger",
+      "kind": "python_module",
+      "physical_path": "tests/test_migration_ledger.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_migration_qualification",
+      "kind": "python_module",
+      "physical_path": "tests/test_migration_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_model_backend_boundary",
+      "kind": "python_module",
+      "physical_path": "tests/test_model_backend_boundary.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_model_takeover",
+      "kind": "python_module",
+      "physical_path": "tests/test_model_takeover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_multilingual_voice_qualification",
+      "kind": "python_module",
+      "physical_path": "tests/test_multilingual_voice_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_native_async_boundaries",
+      "kind": "python_module",
+      "physical_path": "tests/test_native_async_boundaries.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_native_only_audit",
+      "kind": "python_module",
+      "physical_path": "tests/test_native_only_audit.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_native_only_legacy_extension_guard",
+      "kind": "python_module",
+      "physical_path": "tests/test_native_only_legacy_extension_guard.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_native_replacement_ownership",
+      "kind": "python_module",
+      "physical_path": "tests/test_native_replacement_ownership.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_native_tailscale",
+      "kind": "python_module",
+      "physical_path": "tests/test_native_tailscale.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_neural_atlas",
+      "kind": "python_module",
+      "physical_path": "tests/test_neural_atlas.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_neural_fanout_fusion",
+      "kind": "python_module",
+      "physical_path": "tests/test_neural_fanout_fusion.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_neural_graph",
+      "kind": "python_module",
+      "physical_path": "tests/test_neural_graph.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_neural_live_growth",
+      "kind": "python_module",
+      "physical_path": "tests/test_neural_live_growth.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_neural_server",
+      "kind": "python_module",
+      "physical_path": "tests/test_neural_server.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_package_identity",
+      "kind": "python_module",
+      "physical_path": "tests/test_package_identity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_package_identity_runtime_stability",
+      "kind": "python_module",
+      "physical_path": "tests/test_package_identity_runtime_stability.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_parallel_execution_contract",
+      "kind": "python_module",
+      "physical_path": "tests/test_parallel_execution_contract.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_parallel_neural_fanout",
+      "kind": "python_module",
+      "physical_path": "tests/test_parallel_neural_fanout.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_pi_hardware_qualification",
+      "kind": "python_module",
+      "physical_path": "tests/test_pi_hardware_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_post_replacement_boot",
+      "kind": "python_module",
+      "physical_path": "tests/test_post_replacement_boot.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_preservation_behavior_parity",
+      "kind": "python_module",
+      "physical_path": "tests/test_preservation_behavior_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_preservation_contract",
+      "kind": "python_module",
+      "physical_path": "tests/test_preservation_contract.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_preservation_qualification",
+      "kind": "python_module",
+      "physical_path": "tests/test_preservation_qualification.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_preservation_truthfulness",
+      "kind": "python_module",
+      "physical_path": "tests/test_preservation_truthfulness.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_reactions",
+      "kind": "python_module",
+      "physical_path": "tests/test_reactions.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_registry_graph",
+      "kind": "python_module",
+      "physical_path": "tests/test_registry_graph.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_replacement_completion",
+      "kind": "python_module",
+      "physical_path": "tests/test_replacement_completion.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_runtime_end_to_end",
+      "kind": "python_module",
+      "physical_path": "tests/test_runtime_end_to_end.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_runtime_file_parity",
+      "kind": "python_module",
+      "physical_path": "tests/test_runtime_file_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_runtime_handoff_probe",
+      "kind": "python_module",
+      "physical_path": "tests/test_runtime_handoff_probe.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_self_evolution",
+      "kind": "python_module",
+      "physical_path": "tests/test_self_evolution.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_self_evolution_symlink_containment",
+      "kind": "python_module",
+      "physical_path": "tests/test_self_evolution_symlink_containment.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_self_evolution_transaction_boundary",
+      "kind": "python_module",
+      "physical_path": "tests/test_self_evolution_transaction_boundary.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_semantic_language_matrix",
+      "kind": "python_module",
+      "physical_path": "tests/test_semantic_language_matrix.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_semantic_quality",
+      "kind": "python_module",
+      "physical_path": "tests/test_semantic_quality.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_sensory_fusion",
+      "kind": "python_module",
+      "physical_path": "tests/test_sensory_fusion.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_state_integrity",
+      "kind": "python_module",
+      "physical_path": "tests/test_state_integrity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_streaming_verified_speech",
+      "kind": "python_module",
+      "physical_path": "tests/test_streaming_verified_speech.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_subjective_multidisciplinary_cognition",
+      "kind": "python_module",
+      "physical_path": "tests/test_subjective_multidisciplinary_cognition.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_supervisor",
+      "kind": "python_module",
+      "physical_path": "tests/test_supervisor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_system_audit",
+      "kind": "python_module",
+      "physical_path": "tests/test_system_audit.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_system_runtime_gauntlet",
+      "kind": "python_module",
+      "physical_path": "tests/test_system_runtime_gauntlet.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_terminal_client",
+      "kind": "python_module",
+      "physical_path": "tests/test_terminal_client.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_voice_asset_takeover",
+      "kind": "python_module",
+      "physical_path": "tests/test_voice_asset_takeover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tests.test_web_evidence",
+      "kind": "python_module",
+      "physical_path": "tests/test_web_evidence.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.assemble_final_cutover_bundle",
+      "kind": "python_module",
+      "physical_path": "tools/assemble_final_cutover_bundle.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.authorize_final_cutover",
+      "kind": "python_module",
+      "physical_path": "tools/authorize_final_cutover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.build_eira2_remote_bundle",
+      "kind": "python_module",
+      "physical_path": "tools/build_eira2_remote_bundle.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.build_legacy_behavior_catalog",
+      "kind": "python_module",
+      "physical_path": "tools/build_legacy_behavior_catalog.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.build_migration_ledger",
+      "kind": "python_module",
+      "physical_path": "tools/build_migration_ledger.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.build_model_vault",
+      "kind": "python_module",
+      "physical_path": "tools/build_model_vault.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.collect_post_replacement_boot",
+      "kind": "python_module",
+      "physical_path": "tools/collect_post_replacement_boot.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_builder_probe",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_builder_probe.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_canonical_reader",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_canonical_reader.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_control_plane_qualify",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_control_plane_qualify.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_forensic_map",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_forensic_map.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_github_transport_agent",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_github_transport_agent.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_live_organism_forensic",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_live_organism_forensic.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_offsystem_control_plane",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_offsystem_control_plane.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_shared_evidence_bus",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_shared_evidence_bus.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_superprobe",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_superprobe.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_superprobe_engine",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_superprobe_engine.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_transaction_executor",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_transaction_executor.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.eira2_transport_probe",
+      "kind": "python_module",
+      "physical_path": "tools/eira2_transport_probe.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.emit_foundation_ci_receipt",
+      "kind": "python_module",
+      "physical_path": "tools/emit_foundation_ci_receipt.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.handoff_eira2_runtime",
+      "kind": "python_module",
+      "physical_path": "tools/handoff_eira2_runtime.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.install_local_entrypoints",
+      "kind": "python_module",
+      "physical_path": "tools/install_local_entrypoints.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.integrate_eira2_easystore",
+      "kind": "python_module",
+      "physical_path": "tools/integrate_eira2_easystore.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.manage_boot_authority",
+      "kind": "python_module",
+      "physical_path": "tools/manage_boot_authority.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.model_socket_proxy",
+      "kind": "python_module",
+      "physical_path": "tools/model_socket_proxy.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.prepare_pi_isolated_install",
+      "kind": "python_module",
+      "physical_path": "tools/prepare_pi_isolated_install.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.probe_runtime_handoff",
+      "kind": "python_module",
+      "physical_path": "tools/probe_runtime_handoff.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.provision_native_voice_asset",
+      "kind": "python_module",
+      "physical_path": "tools/provision_native_voice_asset.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_300_isolated_turns",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_300_isolated_turns.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_500_conversation_turns",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_500_conversation_turns.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_500_semantic_simulations",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_500_semantic_simulations.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_eira1_preservation",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_eira1_preservation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_everything_isolated",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_everything_isolated.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_extension_parity",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_extension_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_final_cutover",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_final_cutover.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_full_isolated_system",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_full_isolated_system.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_full_replacement",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_full_replacement.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_functional_preservation",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_functional_preservation.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_legacy_behavior_parity",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_legacy_behavior_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_migration_76056",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_migration_76056.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_multilingual_voice_receipt",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_multilingual_voice_receipt.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_native_only_runtime",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_native_only_runtime.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_persistent_randomized_conversation_fuzz",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_persistent_randomized_conversation_fuzz.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_pi_hardware",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_pi_hardware.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_pi_isolated_install",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_pi_isolated_install.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_post_replacement_boot",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_post_replacement_boot.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_randomized_conversation_fuzz",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_randomized_conversation_fuzz.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_real_model_super_gauntlet",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_real_model_super_gauntlet.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_runtime_file_parity",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_runtime_file_parity.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.qualify_semantic_language_matrix",
+      "kind": "python_module",
+      "physical_path": "tools/qualify_semantic_language_matrix.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.real_model_gauntlet",
+      "kind": "python_module",
+      "physical_path": "tools/real_model_gauntlet.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.restore_model_vault",
+      "kind": "python_module",
+      "physical_path": "tools/restore_model_vault.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.retire_eira1_runtime",
+      "kind": "python_module",
+      "physical_path": "tools/retire_eira1_runtime.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.run_system_audit",
+      "kind": "python_module",
+      "physical_path": "tools/run_system_audit.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.seal_eira2_package",
+      "kind": "python_module",
+      "physical_path": "tools/seal_eira2_package.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.stage_migration",
+      "kind": "python_module",
+      "physical_path": "tools/stage_migration.py",
+      "truth_label": "static_evidence"
+    },
+    {
+      "id": "tools.takeover_private_models",
+      "kind": "python_module",
+      "physical_path": "tools/takeover_private_models.py",
+      "truth_label": "static_evidence"
+    }
+  ],
+  "organism_truth": {
+    "addressable_node_count": 497,
+    "authority": "eira2.neural.atlas.NeuralAtlas",
+    "conductive_road_count": 0,
+    "duplicate_road_count": 0,
+    "inventory_neuron_count": 477,
+    "inventory_source": "filesystem_scan_fallback",
+    "layout_identity_status": "not_asserted_without_canonical_shared_layout_contract",
+    "layout_identity_verified": false,
+    "ok": true,
+    "overview": {
+      "all_inventory_entries_have_neurons": true,
+      "clusters": [
+        {
+          "activity_classes": {
+            "runtime": 3
+          },
+          "bytes": 9518,
+          "cluster": "extension:repair_watcher_ai",
+          "code_count": 2,
+          "dispositions": {
+            "runtime_scan_fallback": 3
+          },
+          "file_count": 2,
+          "hemisphere": "left",
+          "id": "neuron:a060fb0d4a82f9c2a13db3d6",
+          "neuron_count": 3,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 2085,
+          "cluster": "root:AUDIT_SCOPE.md",
+          "code_count": 0,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:4475ef067af7fa7551ae53c8",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 15118,
+          "cluster": "root:CANONICAL_ORDER.md",
+          "code_count": 0,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:2b4f6d52b80eecea616ec5ba",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 6077,
+          "cluster": "root:FUNCTIONAL_PRESERVATION.md",
+          "code_count": 0,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:5a833d299983fbf2b08122c2",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 10795,
+          "cluster": "root:REPLACEMENT_CONTRACT.md",
+          "code_count": 0,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:cd5216721e557b64ddbeec2a",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1,
+            "runtime": 158
+          },
+          "bytes": 1117735,
+          "cluster": "root:eira2",
+          "code_count": 131,
+          "dispositions": {
+            "runtime_scan_fallback": 159
+          },
+          "file_count": 134,
+          "hemisphere": "left",
+          "id": "neuron:ea1f8696f12b3755fc96ae42",
+          "neuron_count": 159,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 57859,
+          "cluster": "root:eira2-package-manifest.json",
+          "code_count": 1,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "right",
+          "id": "neuron:a224e8b178f32e08521a825f",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 54385,
+          "cluster": "root:eira2-package-manifest.json.retired_pre_runtime_boundary_20260907_043440",
+          "code_count": 0,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "right",
+          "id": "neuron:d9ac9102c30e6402e08acaf8",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 12
+          },
+          "bytes": 113760,
+          "cluster": "root:eira2_server_revamp",
+          "code_count": 9,
+          "dispositions": {
+            "runtime_scan_fallback": 12
+          },
+          "file_count": 10,
+          "hemisphere": "left",
+          "id": "neuron:1aeffc978d546008cdde02f9",
+          "neuron_count": 12,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 49
+          },
+          "bytes": 1887056,
+          "cluster": "root:eira_probe",
+          "code_count": 26,
+          "dispositions": {
+            "runtime_scan_fallback": 49
+          },
+          "file_count": 29,
+          "hemisphere": "left",
+          "id": "neuron:7827f44531faf9ea11f8ff4e",
+          "neuron_count": 49,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 0,
+          "cluster": "root:extensions",
+          "code_count": 0,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 0,
+          "hemisphere": "right",
+          "id": "neuron:8cde990aacb43415348e84a2",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 2094,
+          "cluster": "root:fraternal_twin_contract.json",
+          "code_count": 1,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:d5febd94b43559e0728b8783",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 199,
+          "cluster": "root:main.py",
+          "code_count": 1,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:8b55add9b9ce836aca3ae8be",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 43
+          },
+          "bytes": 20974,
+          "cluster": "root:manifests",
+          "code_count": 42,
+          "dispositions": {
+            "runtime_scan_fallback": 43
+          },
+          "file_count": 42,
+          "hemisphere": "left",
+          "id": "neuron:41167bc7707b7f0082e6001a",
+          "neuron_count": 43,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 15210,
+          "cluster": "root:preservation_contract.json",
+          "code_count": 1,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "right",
+          "id": "neuron:92db16e179581b14662313df",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 829,
+          "cluster": "root:private_model_set.json",
+          "code_count": 1,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "right",
+          "id": "neuron:1154f9089a12bf0d83c2fccd",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 1
+          },
+          "bytes": 508,
+          "cluster": "root:pyproject.toml",
+          "code_count": 1,
+          "dispositions": {
+            "runtime_scan_fallback": 1
+          },
+          "file_count": 1,
+          "hemisphere": "left",
+          "id": "neuron:c9fa40bf365d4cb27bd38199",
+          "neuron_count": 1,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 88
+          },
+          "bytes": 371854,
+          "cluster": "root:tests",
+          "code_count": 87,
+          "dispositions": {
+            "runtime_scan_fallback": 88
+          },
+          "file_count": 87,
+          "hemisphere": "right",
+          "id": "neuron:d0273b7f3abf5a6a6ef88bd3",
+          "neuron_count": 88,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 61
+          },
+          "bytes": 354215,
+          "cluster": "root:tools",
+          "code_count": 59,
+          "dispositions": {
+            "runtime_scan_fallback": 61
+          },
+          "file_count": 60,
+          "hemisphere": "right",
+          "id": "neuron:4272876278690260138d501c",
+          "neuron_count": 61,
+          "spine": false
+        },
+        {
+          "activity_classes": {
+            "other": 50
+          },
+          "bytes": 7201069877,
+          "cluster": "root:var",
+          "code_count": 4,
+          "dispositions": {
+            "runtime_scan_fallback": 50
+          },
+          "file_count": 31,
+          "hemisphere": "right",
+          "id": "neuron:83e9fcabd536ed7f29e1ced9",
+          "neuron_count": 50,
+          "spine": false
+        }
+      ],
+      "conductive_fiber_count": 479,
+      "conductive_fibers_require_evidence": true,
+      "fiber_count": 956,
+      "inventory_neuron_count": 477,
+      "inventory_source": "filesystem_scan_fallback",
+      "ok": true,
+      "schema": "eira2_neural_atlas_v1",
+      "structural_fibers_are_conductive": false,
+      "synthetic_cluster_count": 20,
+      "total_addressable_nodes": 497
+    },
+    "road_count": 956,
+    "schema": "eira2_neural_organism_truth_v4",
+    "unresolved_road_endpoint_count": 0
+  },
+  "road_count": 956,
+  "schema": "eira2_node_map_v1",
+  "truth_label": "superprobe_plus_static_evidence"
+}

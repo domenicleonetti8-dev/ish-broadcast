@@ -1,0 +1,1460 @@
+{
+  "files": [
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/capabilities/executor.py",
+      "bytes": 17785,
+      "path": "eira2/capabilities/executor.py",
+      "sha256": "1b70cc6c71d11dd4555bb282cac8f98b62c38f3fa7846904cb00bfcbe234a9cc",
+      "suffix": ".py",
+      "tags": [
+        "executor"
+      ],
+      "virtual_byte_end_exclusive": 180730,
+      "virtual_byte_start": 162945
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/commands/registry.py",
+      "bytes": 1372,
+      "path": "eira2/commands/registry.py",
+      "sha256": "ae64ca554382c804a01455db68eb4f42f806334110a196a81e03413bfb5b307d",
+      "suffix": ".py",
+      "tags": [
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 198290,
+      "virtual_byte_start": 196918
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/delivery/gate.py",
+      "bytes": 5117,
+      "path": "eira2/delivery/gate.py",
+      "sha256": "df9260ea575ba680e406315a2afe667eb0b530bb7e778020c3689f3505337f33",
+      "suffix": ".py",
+      "tags": [
+        "delivery"
+      ],
+      "virtual_byte_end_exclusive": 310923,
+      "virtual_byte_start": 305806
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/delivery/native_bluetooth_voice.py",
+      "bytes": 14967,
+      "path": "eira2/delivery/native_bluetooth_voice.py",
+      "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359",
+      "suffix": ".py",
+      "tags": [
+        "delivery"
+      ],
+      "virtual_byte_end_exclusive": 325890,
+      "virtual_byte_start": 310923
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/delivery/presence.py",
+      "bytes": 3515,
+      "path": "eira2/delivery/presence.py",
+      "sha256": "a8af0c0c1d20c24705688293981cffe3b036f300423da112cb07504177fc2db3",
+      "suffix": ".py",
+      "tags": [
+        "delivery"
+      ],
+      "virtual_byte_end_exclusive": 329405,
+      "virtual_byte_start": 325890
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/delivery/voice.py",
+      "bytes": 19550,
+      "path": "eira2/delivery/voice.py",
+      "sha256": "ad24ae376049a72b4d0b0aca2e306cbdc274e685343c2ad0f46e7f142e023bf6",
+      "suffix": ".py",
+      "tags": [
+        "delivery"
+      ],
+      "virtual_byte_end_exclusive": 348955,
+      "virtual_byte_start": 329405
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/delivery/voice_prosody.py",
+      "bytes": 6072,
+      "path": "eira2/delivery/voice_prosody.py",
+      "sha256": "535237bb81ab3b47fd0191f34a2addc988355bdebb38840fe81631c8b9a6b43c",
+      "suffix": ".py",
+      "tags": [
+        "delivery"
+      ],
+      "virtual_byte_end_exclusive": 355027,
+      "virtual_byte_start": 348955
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/delivery/voice_qualification.py",
+      "bytes": 5170,
+      "path": "eira2/delivery/voice_qualification.py",
+      "sha256": "fab9bec8a8c12607ee144ff580b552ac0839283017d54a49b3ccff768a167446",
+      "suffix": ".py",
+      "tags": [
+        "delivery"
+      ],
+      "virtual_byte_end_exclusive": 360197,
+      "virtual_byte_start": 355027
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/extensions/manifests/self-probe.json",
+      "bytes": 341,
+      "path": "eira2/extensions/manifests/self-probe.json",
+      "sha256": "238e4c967fe3ac40b869c1edf7f98c39983691e98b9d3a3ba8c6f27dc4505ad9",
+      "suffix": ".json",
+      "tags": [
+        "extension",
+        "manifest",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 448390,
+      "virtual_byte_start": 448049
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/extensions/self_probe.py",
+      "bytes": 715,
+      "path": "eira2/extensions/self_probe.py",
+      "sha256": "ba614e67aedd7e18554ca934021ecae8f5305a63969b89fc9bfff15da4f38140",
+      "suffix": ".py",
+      "tags": [
+        "extension",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 462291,
+      "virtual_byte_start": 461576
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/interfaces/ingress.py",
+      "bytes": 1745,
+      "path": "eira2/interfaces/ingress.py",
+      "sha256": "52d38e67b8fcdcda5ec1ef04e0140b4abc2efb552cb8bbe246910a99a7bed884",
+      "suffix": ".py",
+      "tags": [
+        "ingress"
+      ],
+      "virtual_byte_end_exclusive": 470683,
+      "virtual_byte_start": 468938
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py",
+      "bytes": 8671,
+      "path": "eira2/kernel/supervisor.py",
+      "sha256": "71af18ad0ce9b7c108496d8891a22b0ad335efab8831a1ff6250543eda10a455",
+      "suffix": ".py",
+      "tags": [
+        "supervisor"
+      ],
+      "virtual_byte_end_exclusive": 575214,
+      "virtual_byte_start": 566543
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/operations/runtime_handoff_probe.py",
+      "bytes": 6950,
+      "path": "eira2/operations/runtime_handoff_probe.py",
+      "sha256": "069012f4ce4d0d5042b8fb13514efa30dfe1bcac20cb2172dd3a1e3cd61ddc56",
+      "suffix": ".py",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1020886,
+      "virtual_byte_start": 1013936
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/registry/extensions.py",
+      "bytes": 10269,
+      "path": "eira2/registry/extensions.py",
+      "sha256": "e1d10691a20e2119a01aeb5fc4eafb819c8d3ad5885c7d70d9806eecdaf91455",
+      "suffix": ".py",
+      "tags": [
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 1105257,
+      "virtual_byte_start": 1094988
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/registry/graph.py",
+      "bytes": 9151,
+      "path": "eira2/registry/graph.py",
+      "sha256": "cdbac8dc60db061ccb96982fc38df9a9b4d0a8df67531a1412110fcd9a6200c4",
+      "suffix": ".py",
+      "tags": [
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 1114408,
+      "virtual_byte_start": 1105257
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2/registry/manifests.py",
+      "bytes": 3413,
+      "path": "eira2/registry/manifests.py",
+      "sha256": "f9680f0ae883a965ff2608c7275b557f64202e3af10fe9714e16d6c609948e23",
+      "suffix": ".py",
+      "tags": [
+        "manifest",
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 1117821,
+      "virtual_byte_start": 1114408
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_package_runtime_boundary_receipt.json",
+      "bytes": 884,
+      "path": "eira_probe/eira2_package_runtime_boundary_receipt.json",
+      "sha256": "094e2766e43d5fc6afa1068458b3e0b2029b89868d1d37d2b237cc81b2d3d75d",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1378698,
+      "virtual_byte_start": 1377814
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/execution_truth.json",
+      "bytes": 1217,
+      "path": "eira_probe/eira2_superprobe_evidence/execution_truth.json",
+      "sha256": "ae5da602f2df9191c6a77a3e6e2c6c80fcb74d12e7a786dc97dd07830f66cd5f",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1379915,
+      "virtual_byte_start": 1378698
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/extension_truth.json",
+      "bytes": 931,
+      "path": "eira_probe/eira2_superprobe_evidence/extension_truth.json",
+      "sha256": "93d41730a22be6c61f3588184614200f9b4f8b6411141dbd36967b3dd7b7ba7d",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1380846,
+      "virtual_byte_start": 1379915
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/forensic_map.json",
+      "bytes": 23907,
+      "path": "eira_probe/eira2_superprobe_evidence/forensic_map.json",
+      "sha256": "01427c871c8711572f2efe9585c103226c950749563c0a14193e2fd4f1698cfc",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1404753,
+      "virtual_byte_start": 1380846
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/organism_truth.json",
+      "bytes": 9043,
+      "path": "eira_probe/eira2_superprobe_evidence/organism_truth.json",
+      "sha256": "10af4660fb84ea351f87b5286ee61c2ae67b60ff2fa70808f81531b5dc1ebd18",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1413796,
+      "virtual_byte_start": 1404753
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/package_truth.json",
+      "bytes": 379,
+      "path": "eira_probe/eira2_superprobe_evidence/package_truth.json",
+      "sha256": "ef4fa42c3e7aed908f6dc555b595fd0db6ca9adc887bbe8891f657e90512236c",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1414175,
+      "virtual_byte_start": 1413796
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/semantic_graph.json",
+      "bytes": 59291,
+      "path": "eira_probe/eira2_superprobe_evidence/semantic_graph.json",
+      "sha256": "83571f3758c1a612beee98631527aebf62026360af720060ba18ad83e736f6a4",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1473466,
+      "virtual_byte_start": 1414175
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/semantic_impact_index.json",
+      "bytes": 21922,
+      "path": "eira_probe/eira2_superprobe_evidence/semantic_impact_index.json",
+      "sha256": "d3a9360189c89e69bf93abf9e8df3bb4d16f24200d2395f56b936c41ae4e915b",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1495388,
+      "virtual_byte_start": 1473466
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_report.json",
+      "bytes": 41307,
+      "path": "eira_probe/eira2_superprobe_report.json",
+      "sha256": "374dd486f9d1ba4307c6683bcfce97c0ecb3946cc380d39900c19579c2519929",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1536695,
+      "virtual_byte_start": 1495388
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_visibility_install_receipt.json",
+      "bytes": 2847,
+      "path": "eira_probe/eira2_visibility_install_receipt.json",
+      "sha256": "eb6dc0bc71df14867087212bc22f6d51764adbb0eb9bcf9553d6a93f9a406686",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1539542,
+      "virtual_byte_start": 1536695
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/github_transport.log",
+      "bytes": 79543,
+      "path": "eira_probe/github_transport.log",
+      "sha256": "57a0190dbed112c47182a35ec1a5fbeb1089e2803f6baa8f56e645c13931d8ab",
+      "suffix": ".log",
+      "tags": [
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 1619085,
+      "virtual_byte_start": 1539542
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/github_transport.pid",
+      "bytes": 8,
+      "path": "eira_probe/github_transport.pid",
+      "sha256": "f45df1a7e73012da9ed505603d32a97d302a431f272d40e52f2001f42a948e6b",
+      "suffix": ".pid",
+      "tags": [
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 1619093,
+      "virtual_byte_start": 1619085
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/latest.json",
+      "bytes": 2597,
+      "path": "eira_probe/shared_evidence_bus/latest.json",
+      "sha256": "a5cd4ecfbe1784683728db4368c956cd4ef6683a15f5ad8b32448dac1ac96212",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1621690,
+      "virtual_byte_start": 1619093
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/02dd11883886a8a0e508f5af1bf3dd2711d56bd85503173b042660abdcdfb4ca/manifest.json",
+      "bytes": 2073,
+      "path": "eira_probe/shared_evidence_bus/objects/02dd11883886a8a0e508f5af1bf3dd2711d56bd85503173b042660abdcdfb4ca/manifest.json",
+      "sha256": "e81976defaccc87f887cb0955d3d62b40d86defd7235dd462effd35c0147f0c9",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1623763,
+      "virtual_byte_start": 1621690
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/51f1eb2f005b488ea50c4ea860bc3fcfa757345e79440468166b011071d02816/manifest.json",
+      "bytes": 2072,
+      "path": "eira_probe/shared_evidence_bus/objects/51f1eb2f005b488ea50c4ea860bc3fcfa757345e79440468166b011071d02816/manifest.json",
+      "sha256": "95124f3fa87b94061c4ba9757e5c2f79e8e8ad266b0a70744bf7eac2d367a39a",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1625835,
+      "virtual_byte_start": 1623763
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d36f80bc9295e125074ad9044f636abbefa987a55f03326a269dd41550340f9e/manifest.json",
+      "bytes": 2072,
+      "path": "eira_probe/shared_evidence_bus/objects/d36f80bc9295e125074ad9044f636abbefa987a55f03326a269dd41550340f9e/manifest.json",
+      "sha256": "3e23824fd6a279d9efdcb579d56b8fc312683298c66836b9d1caccac992d01e5",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1627907,
+      "virtual_byte_start": 1625835
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/execution_truth.json",
+      "bytes": 2321,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/execution_truth.json",
+      "sha256": "8f0243e6f1c0b88d31f03ebf8e0bc27a08b399ef6ca20ef69e3bf73a19d10627",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1630228,
+      "virtual_byte_start": 1627907
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/extension_truth.json",
+      "bytes": 216,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/extension_truth.json",
+      "sha256": "bd201594321d829e9e1edb6af3ab8a9e152c83f72a978706695d7d1638d35284",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 1630444,
+      "virtual_byte_start": 1630228
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/forensic_map.json",
+      "bytes": 629577,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/forensic_map.json",
+      "sha256": "8f4971784c9b49c9d28bd71ea862164d5e16eb8f5c8fbe73860936f01757eebd",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 2260021,
+      "virtual_byte_start": 1630444
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/manifest.json",
+      "bytes": 2597,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/manifest.json",
+      "sha256": "a5cd4ecfbe1784683728db4368c956cd4ef6683a15f5ad8b32448dac1ac96212",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 2262618,
+      "virtual_byte_start": 2260021
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/organism_truth.json",
+      "bytes": 80,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/organism_truth.json",
+      "sha256": "eefd5e4101676dde7851fea8f32663e2a40bf322fb3d8b22bc4755f017d6d005",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 2262698,
+      "virtual_byte_start": 2262618
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/package_truth.json",
+      "bytes": 50,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/package_truth.json",
+      "sha256": "1116b2435f99e1e6f93c21c801202a08911ea1b5b1f1d4786f57b3dc4d3d3157",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 2262748,
+      "virtual_byte_start": 2262698
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/semantic_graph.json",
+      "bytes": 559576,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/semantic_graph.json",
+      "sha256": "5889edc6133872e73662892086cde45f491342c132c0c057426abb121805b249",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 2822324,
+      "virtual_byte_start": 2262748
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/semantic_impact_index.json",
+      "bytes": 423885,
+      "path": "eira_probe/shared_evidence_bus/objects/d5068d5f6c5efe4bbf594a4be84865b4c59287cb502188b933af69772a9c001a/semantic_impact_index.json",
+      "sha256": "9a9527ae2c7ebccace28567c72a915e6fcf20ad9fe3153b58e6e2f188a7b9651",
+      "suffix": ".json",
+      "tags": [
+        "ar_hologram_related",
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3246209,
+      "virtual_byte_start": 2822324
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport/superprobe/outbox/d3de10ead9fa428583dc942a2491e49f.json",
+      "bytes": 711,
+      "path": "eira_probe/transport/superprobe/outbox/d3de10ead9fa428583dc942a2491e49f.json",
+      "sha256": "1f48f894425d91c5fdd0cebac08d67238aad22726ef743a84184fde78f734281",
+      "suffix": ".json",
+      "tags": [
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 3246920,
+      "virtual_byte_start": 3246209
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport/superprobe/processed/d3de10ead9fa428583dc942a2491e49f.json",
+      "bytes": 512,
+      "path": "eira_probe/transport/superprobe/processed/d3de10ead9fa428583dc942a2491e49f.json",
+      "sha256": "ba43e48b787ee00a0f922f78d7d3bea317b9b1b882b02d8a46974b0b9d485524",
+      "suffix": ".json",
+      "tags": [
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 3247432,
+      "virtual_byte_start": 3246920
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport/watcher/outbox/25882ce0bdc64efcbdb06c1b437b39bb.json",
+      "bytes": 971,
+      "path": "eira_probe/transport/watcher/outbox/25882ce0bdc64efcbdb06c1b437b39bb.json",
+      "sha256": "fe2213193aae4df1c2df06cfeae777a7701a247e3dbb013d16d5de3ba229eee8",
+      "suffix": ".json",
+      "tags": [
+        "probe",
+        "transport",
+        "watcher"
+      ],
+      "virtual_byte_end_exclusive": 3248403,
+      "virtual_byte_start": 3247432
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport/watcher/processed/25882ce0bdc64efcbdb06c1b437b39bb.json",
+      "bytes": 510,
+      "path": "eira_probe/transport/watcher/processed/25882ce0bdc64efcbdb06c1b437b39bb.json",
+      "sha256": "6d63ee6ade3f36934f692c7704550ed4aa38c9439de20313d53b65729481c9a7",
+      "suffix": ".json",
+      "tags": [
+        "probe",
+        "transport",
+        "watcher"
+      ],
+      "virtual_byte_end_exclusive": 3248913,
+      "virtual_byte_start": 3248403
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/map_request.md",
+      "bytes": 869,
+      "path": "eira_probe/transport_inbox/map_request.md",
+      "sha256": "077057aff5ecadad5a1652538a25c5987697d7ae727837a025a4874994b021d1",
+      "suffix": ".md",
+      "tags": [
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 3249782,
+      "virtual_byte_start": 3248913
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime/EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1.py",
+      "bytes": 17767,
+      "path": "eira_probe/transport_runtime/EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1.py",
+      "sha256": "83f59ac0c1797e9515f022657e17684e113514054d5251c7d4d63d5118175a1e",
+      "suffix": ".py",
+      "tags": [
+        "ar_hologram_related",
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 3267549,
+      "virtual_byte_start": 3249782
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/extensions/repair_watcher_ai/__init__.py",
+      "bytes": 439,
+      "path": "extensions/repair_watcher_ai/__init__.py",
+      "sha256": "b864489e85b2c8b2860da964e04718decc771b0f2d4e6c7446022a5dfb4680ba",
+      "suffix": ".py",
+      "tags": [
+        "watcher"
+      ],
+      "virtual_byte_end_exclusive": 3267988,
+      "virtual_byte_start": 3267549
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/extensions/repair_watcher_ai/plugin.py",
+      "bytes": 9079,
+      "path": "extensions/repair_watcher_ai/plugin.py",
+      "sha256": "57f945f90764d0d3772daf0289e6b06963076e0900c0914a1c84bb889e518a36",
+      "suffix": ".py",
+      "tags": [
+        "watcher"
+      ],
+      "virtual_byte_end_exclusive": 3277067,
+      "virtual_byte_start": 3267988
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/manifests/25-registry.json",
+      "bytes": 389,
+      "path": "manifests/25-registry.json",
+      "sha256": "c12ba131e5e60ab098c283215cd7b33a64090413ecfe55a958d835f47d23d8bf",
+      "suffix": ".json",
+      "tags": [
+        "manifest",
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 3282525,
+      "virtual_byte_start": 3282136
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/manifests/27-registry-extensions.json",
+      "bytes": 439,
+      "path": "manifests/27-registry-extensions.json",
+      "sha256": "7600d5d76cfb142bd6541d8101aabfd180913cfbe0c7354b51bbafa6f6da5331",
+      "suffix": ".json",
+      "tags": [
+        "manifest",
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 3282964,
+      "virtual_byte_start": 3282525
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/manifests/49-capability-executor.json",
+      "bytes": 561,
+      "path": "manifests/49-capability-executor.json",
+      "sha256": "d13b6226d8ac1bfc4ce5c78cd48c27b45d280a337985adf4bcd9464fec782575",
+      "suffix": ".json",
+      "tags": [
+        "executor",
+        "manifest"
+      ],
+      "virtual_byte_end_exclusive": 3290549,
+      "virtual_byte_start": 3289988
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/manifests/70-delivery.json",
+      "bytes": 386,
+      "path": "manifests/70-delivery.json",
+      "sha256": "f26dc6d17836e314e99ea86259c77d74b7557ad726adb63b49815abd9b1ff1e5",
+      "suffix": ".json",
+      "tags": [
+        "delivery",
+        "manifest"
+      ],
+      "virtual_byte_end_exclusive": 3294228,
+      "virtual_byte_start": 3293842
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/manifests/80-ingress.json",
+      "bytes": 347,
+      "path": "manifests/80-ingress.json",
+      "sha256": "9c3da6e40744e06813c0e9f3586be6d27871d2f58169d249964568c19808b6df",
+      "suffix": ".json",
+      "tags": [
+        "ingress",
+        "manifest"
+      ],
+      "virtual_byte_end_exclusive": 3296947,
+      "virtual_byte_start": 3296600
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tests/test_capability_executor.py",
+      "bytes": 3282,
+      "path": "tests/test_capability_executor.py",
+      "sha256": "3521aa67978b25e6f496a70c9b68728761d93bfa6ea76db9b8438f1c6ec217f4",
+      "suffix": ".py",
+      "tags": [
+        "executor"
+      ],
+      "virtual_byte_end_exclusive": 3324253,
+      "virtual_byte_start": 3320971
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tests/test_end_to_end_mouth_bridge.py",
+      "bytes": 3885,
+      "path": "tests/test_end_to_end_mouth_bridge.py",
+      "sha256": "2001cbd713c5a58d0789f6998e7d7046bdbec1bc2a8e9957832202cd9d477316",
+      "suffix": ".py",
+      "tags": [
+        "bridge"
+      ],
+      "virtual_byte_end_exclusive": 3370606,
+      "virtual_byte_start": 3366721
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tests/test_ingress_to_mouth_path.py",
+      "bytes": 830,
+      "path": "tests/test_ingress_to_mouth_path.py",
+      "sha256": "7550f72cd5498bb0e21f6f755633b97a5f7f1f18aae43b6e3f47f6e80260b87a",
+      "suffix": ".py",
+      "tags": [
+        "ingress"
+      ],
+      "virtual_byte_end_exclusive": 3424316,
+      "virtual_byte_start": 3423486
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tests/test_registry_graph.py",
+      "bytes": 2402,
+      "path": "tests/test_registry_graph.py",
+      "sha256": "e864bd162b7e8a99a964f5024760a2df7545b2c27e15c1530d1b898d79e4dd08",
+      "suffix": ".py",
+      "tags": [
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 3612124,
+      "virtual_byte_start": 3609722
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tests/test_runtime_handoff_probe.py",
+      "bytes": 4585,
+      "path": "tests/test_runtime_handoff_probe.py",
+      "sha256": "5979ccb21e7579b88c94454fbf3092e129f37c6ef9f0a71951093edeba95962a",
+      "suffix": ".py",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3634942,
+      "virtual_byte_start": 3630357
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tests/test_supervisor.py",
+      "bytes": 4449,
+      "path": "tests/test_supervisor.py",
+      "sha256": "831c15c71b544c1f2d41071eead32e484b89f31bf9549b15f0d225c98d45f480",
+      "suffix": ".py",
+      "tags": [
+        "supervisor"
+      ],
+      "virtual_byte_end_exclusive": 3671018,
+      "virtual_byte_start": 3666569
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_builder_probe.py",
+      "bytes": 9949,
+      "path": "tools/eira2_builder_probe.py",
+      "sha256": "baf727ce59d2db039495f4091c20f146c2470180bb8319d1ce6cb9dc810cef8d",
+      "suffix": ".py",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3722217,
+      "virtual_byte_start": 3712268
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_builder_probe_contract.json",
+      "bytes": 1966,
+      "path": "tools/eira2_builder_probe_contract.json",
+      "sha256": "a3bad73216dc2f4673a92192c4c39c3fcd67d60d818e8d0ee4686bc4a16dcd92",
+      "suffix": ".json",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3724183,
+      "virtual_byte_start": 3722217
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py",
+      "bytes": 5981,
+      "path": "tools/eira2_github_transport_agent.py",
+      "sha256": "f0424f17cf02ba22606e62d0e0669426fc8d39d3a87b488f993f3b311ace7f76",
+      "suffix": ".py",
+      "tags": [
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 3751320,
+      "virtual_byte_start": 3745339
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe.py",
+      "bytes": 3480,
+      "path": "tools/eira2_superprobe.py",
+      "sha256": "48aea3c46d6fac1cc0fe47286e8ca7fbd0af5807b7367f7f36619c2bbebc048d",
+      "suffix": ".py",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3783763,
+      "virtual_byte_start": 3780283
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py",
+      "bytes": 19971,
+      "path": "tools/eira2_superprobe_engine.py",
+      "sha256": "c4aa2d4dbbd5d2b815fe2d5cc80bc30fc577acc8a1b058113e202accdb9b4e4e",
+      "suffix": ".py",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3803734,
+      "virtual_byte_start": 3783763
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py.retired_20260907_042751",
+      "bytes": 25599,
+      "path": "tools/eira2_superprobe_engine.py.retired_20260907_042751",
+      "sha256": "f7da922bd8dda051833220260ffe53a9d3f230cb2373c86cd10f18ccf807b1cf",
+      "suffix": ".retired_20260907_042751",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3829333,
+      "virtual_byte_start": 3803734
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_transaction_executor.py",
+      "bytes": 8734,
+      "path": "tools/eira2_transaction_executor.py",
+      "sha256": "594afd89baa5d13f15beeec05aa78d56ae68eb4dc943d35ffaf55759deba58fe",
+      "suffix": ".py",
+      "tags": [
+        "executor"
+      ],
+      "virtual_byte_end_exclusive": 3838067,
+      "virtual_byte_start": 3829333
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_transport_probe.py",
+      "bytes": 12886,
+      "path": "tools/eira2_transport_probe.py",
+      "sha256": "afd51a529a09f3ca3759a5076f02461eb875d713a2111feb5644317d5bfde906",
+      "suffix": ".py",
+      "tags": [
+        "probe",
+        "transport"
+      ],
+      "virtual_byte_end_exclusive": 3850953,
+      "virtual_byte_start": 3838067
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/tools/probe_runtime_handoff.py",
+      "bytes": 1202,
+      "path": "tools/probe_runtime_handoff.py",
+      "sha256": "366b05d4ee1753a3a494ab871a54d99e94f4c9849bdd837689ced333a52acf0b",
+      "suffix": ".py",
+      "tags": [
+        "probe"
+      ],
+      "virtual_byte_end_exclusive": 3872468,
+      "virtual_byte_start": 3871266
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/gemma3/4b",
+      "bytes": 856,
+      "path": "var/models/ollama/manifests/registry.ollama.ai/library/gemma3/4b",
+      "sha256": "a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a",
+      "suffix": "",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 7205110889,
+      "virtual_byte_start": 7205110033
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5-coder/3b",
+      "bytes": 857,
+      "path": "var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5-coder/3b",
+      "sha256": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+      "suffix": "",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 7205111746,
+      "virtual_byte_start": 7205110889
+    },
+    {
+      "absolute_path": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5/3b",
+      "bytes": 857,
+      "path": "var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5/3b",
+      "sha256": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+      "suffix": "",
+      "tags": [
+        "ar_hologram_related",
+        "manifest",
+        "registry"
+      ],
+      "virtual_byte_end_exclusive": 7205112603,
+      "virtual_byte_start": 7205111746
+    }
+  ],
+  "modules": {
+    "eira2.capabilities.executor": "eira2/capabilities/executor.py",
+    "eira2.commands.registry": "eira2/commands/registry.py",
+    "eira2.delivery.gate": "eira2/delivery/gate.py",
+    "eira2.delivery.native_bluetooth_voice": "eira2/delivery/native_bluetooth_voice.py",
+    "eira2.delivery.presence": "eira2/delivery/presence.py",
+    "eira2.delivery.voice": "eira2/delivery/voice.py",
+    "eira2.delivery.voice_prosody": "eira2/delivery/voice_prosody.py",
+    "eira2.delivery.voice_qualification": "eira2/delivery/voice_qualification.py",
+    "eira2.extensions.self_probe": "eira2/extensions/self_probe.py",
+    "eira2.interfaces.ingress": "eira2/interfaces/ingress.py",
+    "eira2.kernel.supervisor": "eira2/kernel/supervisor.py",
+    "eira2.operations.runtime_handoff_probe": "eira2/operations/runtime_handoff_probe.py",
+    "eira2.registry.extensions": "eira2/registry/extensions.py",
+    "eira2.registry.graph": "eira2/registry/graph.py",
+    "eira2.registry.manifests": "eira2/registry/manifests.py",
+    "eira_probe.transport_runtime.EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1": "eira_probe/transport_runtime/EIRA2_FULL_BRAIN_RECONSTRUCTOR_V1.py",
+    "extensions.repair_watcher_ai": "extensions/repair_watcher_ai/__init__.py",
+    "extensions.repair_watcher_ai.plugin": "extensions/repair_watcher_ai/plugin.py",
+    "tests.test_capability_executor": "tests/test_capability_executor.py",
+    "tests.test_end_to_end_mouth_bridge": "tests/test_end_to_end_mouth_bridge.py",
+    "tests.test_ingress_to_mouth_path": "tests/test_ingress_to_mouth_path.py",
+    "tests.test_registry_graph": "tests/test_registry_graph.py",
+    "tests.test_runtime_handoff_probe": "tests/test_runtime_handoff_probe.py",
+    "tests.test_supervisor": "tests/test_supervisor.py",
+    "tools.eira2_builder_probe": "tools/eira2_builder_probe.py",
+    "tools.eira2_github_transport_agent": "tools/eira2_github_transport_agent.py",
+    "tools.eira2_superprobe": "tools/eira2_superprobe.py",
+    "tools.eira2_superprobe_engine": "tools/eira2_superprobe_engine.py",
+    "tools.eira2_transaction_executor": "tools/eira2_transaction_executor.py",
+    "tools.eira2_transport_probe": "tools/eira2_transport_probe.py",
+    "tools.probe_runtime_handoff": "tools/probe_runtime_handoff.py"
+  },
+  "schema": "eira2_bridge_map_v1",
+  "semantic_edges": [
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.engineering",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.executor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.executor",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.workers",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.capabilities.worlds",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.analysis",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.commit",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.constellation",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.conversation.spine",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.gate",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.native_bluetooth_voice",
+      "target": "eira2.delivery.voice_prosody"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.presence",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.presence",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.voice",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.voice",
+      "target": "eira2.delivery.native_bluetooth_voice"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.delivery.voice_qualification",
+      "target": "eira2.conversation.language"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.cosmos_reference",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.local_context",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.self_probe",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.extensions.subjective_state",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.ingress",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.native",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.native",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.interfaces.senses",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.bootstrap",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.supervisor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.kernel.supervisor",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.delivery.gate"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.delivery.presence"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.communication",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.neural.organism",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.doctor",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.doctor",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.full_doctor",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.full_doctor",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.health",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.resilience",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.runtime_handoff",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.system_audit",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.system_audit",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.operations.work",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.extensions",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.extensions",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.extensions",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.registry.graph",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.delivery.gate"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.delivery.presence"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.delivery.voice"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "eira2.runtime",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_capability_cancellation_authority",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_capability_executor",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_end_to_end_mouth_bridge",
+      "target": "eira2.delivery"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_end_to_end_mouth_bridge",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_expression_voice",
+      "target": "eira2.delivery.voice"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_extension_cancellation_authority",
+      "target": "eira2.registry.extensions"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_extension_cancellation_authority",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_full_system_integrity",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_full_system_integrity",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_ingress_to_mouth_path",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_ingress_to_mouth_path",
+      "target": "eira2.runtime"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_manifests",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_model_backend_boundary",
+      "target": "eira2.registry.manifests"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_multilingual_voice_qualification",
+      "target": "eira2.delivery.voice_qualification"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_execution_contract",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_parallel_neural_fanout",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_registry_graph",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_registry_graph",
+      "target": "eira2.registry.graph"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_runtime_handoff_probe",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_sensory_fusion",
+      "target": "eira2.interfaces.ingress"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_state_integrity",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_supervisor",
+      "target": "eira2.contracts"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_supervisor",
+      "target": "eira2.kernel.events"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_supervisor",
+      "target": "eira2.kernel.supervisor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tests.test_web_evidence",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.collect_post_replacement_boot",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "tools.eira2_superprobe",
+      "target": "eira2_shared_evidence_bus"
+    },
+    {
+      "kind": "from",
+      "resolved": false,
+      "source": "tools.eira2_superprobe",
+      "target": "eira2_superprobe_engine"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.probe_runtime_handoff",
+      "target": "eira2.operations.runtime_handoff_probe"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_full_isolated_system",
+      "target": "eira2.capabilities.executor"
+    },
+    {
+      "kind": "from",
+      "resolved": true,
+      "source": "tools.qualify_multilingual_voice_receipt",
+      "target": "eira2.delivery.voice_qualification"
+    }
+  ],
+  "truth_label": "static_evidence"
+}

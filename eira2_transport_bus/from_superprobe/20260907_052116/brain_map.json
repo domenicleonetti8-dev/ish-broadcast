@@ -1,0 +1,30 @@
+{
+  "ar_hologram": {
+    "layout_identity_verified": false,
+    "source_files": 103
+  },
+  "bridges": {
+    "file_count": 71,
+    "module_count": 31
+  },
+  "nodes": {
+    "addressable_neural_nodes": 497,
+    "module_nodes": 273,
+    "neural_roads": 956
+  },
+  "physical": {
+    "file_count": 406,
+    "total_bytes": 7205112826
+  },
+  "runtime": {
+    "listeners": 1,
+    "processes": 4
+  },
+  "schema": "eira2_brain_map_v1",
+  "semantic": {
+    "edge_count": 483,
+    "module_count": 273,
+    "unresolved_count": 9
+  },
+  "truth_policy": "verified/observed/static/inferred/unknown/unresolved remain distinct"
+}
