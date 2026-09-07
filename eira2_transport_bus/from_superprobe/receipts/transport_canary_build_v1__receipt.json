@@ -4,7 +4,7 @@
   "request_id": "transport_canary_build_v1",
   "schema": "eira2_transport_terminal_receipt_v2",
   "stage": "worker_spawned",
-  "started_unix": 1788810020.281566,
+  "started_unix": 1788810072.9880524,
   "status": "STARTED",
   "supervisor_pid": 2480657,
   "transport_request_sha256": "85bead434f23e1dbd8343bc55e5078d1eb0c71a2b37339d68cb9f3acfc196f26"
