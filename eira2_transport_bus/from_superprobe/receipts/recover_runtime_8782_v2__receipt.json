@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788821484.9079168,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 2, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"3bb581e82272e8acaa4ad484ac3eb9528c07371f\", \"source_path\": \"EIRA2_RUNTIME_8782_RECOVERY_V2.sh\", \"source_sha256\": \"8376365847c1c667f920564cfd14821f5f2f84a9355aef0959294f58471da355\", \"stderr_tail\": \"\", \"stdout_tail\": \"EIRA2_RUNTIME_8782_RECOVERY=FAIL\\nACTION=start_canonical_eira2_live\\nEVIDENCE=/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/runtime_8782_recovery_v2.json\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "recover_runtime_8782_v2",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2600829,
-  "transport_request_sha256": "37e72d15f9028bdcf5fa8bc84ede74fbb617382b84c7cbbab5dfa9e13a7918ee",
-  "updated_unix": 1788821445.8000212,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "37e72d15f9028bdcf5fa8bc84ede74fbb617382b84c7cbbab5dfa9e13a7918ee"
 }
