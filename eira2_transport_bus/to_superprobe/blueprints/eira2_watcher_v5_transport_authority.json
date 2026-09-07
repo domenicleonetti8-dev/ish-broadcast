@@ -1,0 +1,28 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "eira2_watcher_v5_transport_authority",
+  "created_utc": "2026-09-07T19:12:00Z",
+  "intent": "Upgrade the EIRA-side Watcher to first-class inspect/deploy transport authorization while preserving Superprobe read-only authority and Builder-only writes.",
+  "authority": {
+    "transport": "github_only",
+    "evaluation": "repair_watcher_ai",
+    "writer": "builder_probe",
+    "forensics": "superprobe_read_only"
+  },
+  "source": {
+    "repository": "domenicleonetti8-dev/ish-broadcast",
+    "path": "EIRA2_REPAIR_WATCHER_V5_FULL_REPLACEMENT.py",
+    "commit": "7425b8e4a28fa9c842e5bef5a983dbcdb7c1af25"
+  },
+  "target": {
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "path": "extensions/repair_watcher_ai/plugin.py"
+  },
+  "required_behavior": {
+    "inspect": "Watcher authorizes read-only transport request after Superprobe/package verification; Builder not invoked",
+    "deploy": "Watcher authorizes staged replacement; Builder writes; package reseals; Superprobe post-qualifies",
+    "single_watcher_authority": true,
+    "builder_only_writes": true,
+    "superprobe_read_only": true
+  }
+}
