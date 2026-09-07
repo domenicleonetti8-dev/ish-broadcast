@@ -1,0 +1,75 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "eira2_live_conversation_path_v2",
+  "created_utc": "2026-09-07T10:57:00Z",
+  "retry_nonce": "package-truth-reader-f6124000",
+  "intent": "Restore the working revamp=2 page conversation path before any visual/AR work. Bind /v1/text and /v1/listen directly into canonical EIRA2 runtime authority and preserve canonical voice delivery.",
+  "authority": {
+    "transport": "github_only",
+    "evaluation": "repair_watcher_ai",
+    "writer": "builder_probe",
+    "forensics": "superprobe_read_only"
+  },
+  "source": {
+    "repository": "domenicleonetti8-dev/ish-broadcast",
+    "path": "EIRA2_LIVE_CONVERSATION_PATH_FULL_REPLACEMENT_V2.py",
+    "commit": "f38de0a25ce8b043173ade5977c5a4f5ff98192c",
+    "sha256": "69daa35fb4a1372f713f3cae8eceea2e6c929d0d56fcf28bb76d86725128a4e1"
+  },
+  "target": {
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "path": "eira2/live.py",
+    "expected_before_sha256": "25b7ba54f61f74c46edc578f0315d5c311b6736238c17cc66142b0135573238f"
+  },
+  "required_behavior": {
+    "/v1/text": "JSON text -> InputKind.IPHONE_TEXT -> Eira2Runtime.process -> DeliveryGate -> VoiceOutputService",
+    "/v1/listen": "raw PCM 16kHz mono 16-bit -> NativeInputEvidenceService.transcribe_pcm -> InputKind.IPHONE_VOICE -> Eira2Runtime.process -> DeliveryGate -> VoiceOutputService",
+    "frontend": "preserve working https://eira.tail9a0112.ts.net/?revamp=2 surface",
+    "single_runtime": true,
+    "no_second_conversation_authority": true,
+    "ollama_candidate_only": true
+  },
+  "acceptance": [
+    "package identity passes after replacement",
+    "Superprobe v4 passes with zero discrepancy",
+    "/v1/text no longer returns 501 and produces canonical EIRA2 response",
+    "/v1/listen no longer returns 501 and returns utterance plus canonical EIRA2 response",
+    "voice delivery remains through eira2.delivery.voice and Flashcube/native Bluetooth path",
+    "no visual/AR files changed in this transaction"
+  ],
+  "return_receipt": {
+    "required": true,
+    "timing": "immediate_after_transaction_finishes",
+    "transport_direction": "EIRA LIVE -> GitHub transport bus -> ChatGPT",
+    "destination_root": "eira2_transport_bus/from_superprobe/deployments",
+    "filename_pattern": "<blueprint_id>__<transaction_id>__receipt.json",
+    "emit_on": ["success", "failure", "rollback"],
+    "required_fields": [
+      "schema",
+      "blueprint_id",
+      "transaction_id",
+      "status",
+      "completed_utc",
+      "watcher_authorized",
+      "watcher_version",
+      "builder_deployed",
+      "builder_receipt",
+      "target_path",
+      "before_sha256",
+      "after_sha256",
+      "package_identity_ok",
+      "superprobe_schema",
+      "superprobe_ok",
+      "superprobe_discrepancy_count",
+      "superprobe_evidence_fingerprint",
+      "acceptance_results",
+      "rollback_performed",
+      "error"
+    ],
+    "success_status": "DEPLOYED_SUCCESSFULLY",
+    "failure_status": "DEPLOYMENT_FAILED",
+    "rollback_status": "ROLLED_BACK",
+    "no_polling_delay": true,
+    "no_notification_dependency": true
+  }
+}
