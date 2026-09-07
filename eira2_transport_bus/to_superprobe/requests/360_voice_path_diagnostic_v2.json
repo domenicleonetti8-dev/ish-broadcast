@@ -1,0 +1,23 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "voice_path_diagnostic_v2",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2", "extensions"],
+    "suffixes": [".py", ".js", ".html", ".json"],
+    "signatures": ["/v1/text", "/v1/listen", "INTENT_KEY", "track.onended", "context.onstatechange", "pageshow", "Flashcube"],
+    "served_urls": ["http://127.0.0.1:8782/?revamp=2"],
+    "execute_source": {
+      "commit": "3c98277925ba2842af4de4770e707e4c15b2a1d9",
+      "path": "EIRA2_VOICE_PATH_DIAGNOSTIC_V2.py",
+      "sha256": "0de2d08d078e92f823db7981a9c0a88d9a12326ac725d19623c7fe5a53a927e9",
+      "timeout_seconds": 720
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": false,
+    "mutates_live": false,
+    "diagnose_frontend_conversation_microphone_speaker_separately": true
+  }
+}
