@@ -4,7 +4,7 @@
   "request_id": "upgrade_watcher_v5_transport_authority",
   "schema": "eira2_transport_terminal_receipt_v2",
   "stage": "worker_spawned",
-  "started_unix": 1788810012.1253688,
+  "started_unix": 1788810051.9340332,
   "status": "STARTED",
   "supervisor_pid": 2480657,
   "transport_request_sha256": "25450031a152a982d032fb69f2734c3b49dc4879e2031792d30bdb401771ccd0"
