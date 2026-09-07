@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "transport_v4_clean_pass",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788817007.9138994,
+  "status": "STARTED",
+  "supervisor_pid": 2566230,
+  "transport_request_sha256": "8a12988cf57d25e0ea8a6b7149d0ae7f1251791b2b4fb34e03ba99845805ec46"
+}
