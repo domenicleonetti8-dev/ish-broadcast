@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "recover_runtime_8782_v2",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2"],
+    "suffixes": [".py", ".json"],
+    "signatures": ["run_live", "ProcessLock", "8782"],
+    "served_urls": ["http://127.0.0.1:8782/health"],
+    "execute_source": {
+      "commit": "3bb581e82272e8acaa4ad484ac3eb9528c07371f",
+      "path": "EIRA2_RUNTIME_8782_RECOVERY_V2.sh",
+      "timeout_seconds": 90
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": false,
+    "qualification_result_ok": true
+  }
+}
