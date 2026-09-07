@@ -109,7 +109,7 @@ def reseal_package(root: Path) -> dict[str, Any]:
     if not isinstance(verified, dict): raise RuntimeError("package_identity_verify_not_dict")
     return verified
 def normalize_superprobe_report(report: dict[str, Any]) -> dict[str, Any]:
-    package = report.get("package_identity") or {}; physical = report.get("physical_truth") or {}; semantic = report.get("semantic_truth") or {}; execution = report.get("execution_truth") or {}
+    package = report.get("package_truth") or report.get("package_identity") or {}; physical = report.get("physical_truth") or {}; semantic = report.get("semantic_truth") or {}; execution = report.get("execution_truth") or {}
     discrepancies = report.get("declared_vs_observed_discrepancies") or []
     return {"ok": report.get("ok") is True, "schema": report.get("schema"), "package_identity_ok": package.get("ok") is True, "package_tree_sha256": package.get("package_tree_sha256"), "package_file_count": package.get("file_count"), "discrepancy_count": len(discrepancies), "evidence_fingerprint": report.get("evidence_bundle_fingerprint_sha256") or (report.get("shared_evidence") or {}).get("fingerprint"), "files": physical.get("files"), "python_files": semantic.get("python_files"), "unresolved_internal_imports": semantic.get("unresolved_internal_import_count"), "runtime_processes": execution.get("runtime_processes"), "listeners": execution.get("listener_count")}
 def run_superprobe(root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
