@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788822434.3278859,
-  "error": "AttributeError:'str' object has no attribute 'get'",
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
   "request_id": "deploy_doctor_boundary_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788822447.6834393,
+  "status": "STARTED",
+  "supervisor_pid": 2600829,
   "transport_request_sha256": "a910f29e9565e419ee51ced783cbb150a546ea307d66c1e79e577a4ecb8f6b9d"
 }
