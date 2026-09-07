@@ -8,7 +8,7 @@ HB="$ROOT/eira_probe/transport_runtime_v2_3/heartbeat.json"
 LOG="$ROOT/eira_probe/autonomous_transport_v4.log"
 SERVICE_DIR="$HOME/.config/systemd/user"
 SERVICE="$SERVICE_DIR/eira2-autonomous-transport-v4.service"
-SUP_URL=https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/master/EIRA2_OMNIDIRECTIONAL_TRANSPORT_CONSUMER_V2_1.py
+SUP_URL=https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/master/EIRA2_OMNIDIRECTIONAL_TRANSPORT_CONSUMER_V2_2.py
 
 cd "$ROOT"
 mkdir -p "$RUNTIME" "$SERVICE_DIR" "$ROOT/eira_probe"
@@ -22,7 +22,7 @@ SUP="$RUNTIME/eira2_transport_supervisor.py"
 NEXT="$SUP.next"
 HB="$ROOT/eira_probe/transport_runtime_v2_3/heartbeat.json"
 LOG="$ROOT/eira_probe/autonomous_transport_v4.log"
-SUP_URL=https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/master/EIRA2_OMNIDIRECTIONAL_TRANSPORT_CONSUMER_V2_1.py
+SUP_URL=https://raw.githubusercontent.com/domenicleonetti8-dev/ish-broadcast/master/EIRA2_OMNIDIRECTIONAL_TRANSPORT_CONSUMER_V2_2.py
 HB_STALE=30
 HB_GRACE=45
 UPDATE_CHECK=10
@@ -93,14 +93,13 @@ done
 SH
 chmod 700 "$BOOT"
 
-# Retire every older transport generation and orphaned deployment worker.
 systemctl --user disable --now eira2-autonomous-transport.service >/dev/null 2>&1 || true
 systemctl --user disable --now eira2-autonomous-transport-v4.service >/dev/null 2>&1 || true
 pkill -f 'eira2_bidirectional_blueprint_consumer_v1.py' 2>/dev/null || true
 pkill -f 'eira2_omnidirectional_transport_consumer_v2.py' 2>/dev/null || true
 pkill -f 'eira2_omnidirectional_transport_consumer_v2_1.py' 2>/dev/null || true
 pkill -f 'eira2_omnidirectional_transport_consumer_v2_2.py' 2>/dev/null || true
-pkill -f 'eira2_omnidirectional_transport_supervisor.py' 2>/dev/null || true
+pkill -f 'eira2_transport_supervisor.py' 2>/dev/null || true
 pkill -f 'EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py' 2>/dev/null || true
 sleep 1
 
@@ -136,6 +135,7 @@ printf 'MODE=systemd-user\n'
 printf 'PID=%s\n' "$PID"
 printf 'REQUEST_INBOX=eira2_transport_bus/to_superprobe/requests\n'
 printf 'RETURN_OUTBOX=eira2_transport_bus/from_superprobe/receipts\n'
+printf 'DIRECT_SUPERVISOR_V2_2=ENABLED\n'
 printf 'OUTER_WATCHDOG=ENABLED\n'
 printf 'HEARTBEAT_KILL_RESTART=ENABLED\n'
 printf 'REMOTE_SUPERVISOR_UPDATE_RESTART=ENABLED\n'
