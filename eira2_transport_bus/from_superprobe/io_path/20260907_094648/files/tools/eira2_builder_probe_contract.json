@@ -1,0 +1,63 @@
+{
+  "schema": "eira2_watcher_builder_contract_v1",
+  "eira2_only": true,
+  "superprobe": {
+    "role": "read_only_exploratory_watchdog",
+    "may_write_live": false,
+    "may_repair": false,
+    "produces": [
+      "physical_truth",
+      "semantic_dependency_graph",
+      "runtime_execution_truth",
+      "semantic_impact_index",
+      "organism_topology",
+      "declared_vs_observed_discrepancies"
+    ]
+  },
+  "watcher": {
+    "role": "local_surgical_authority",
+    "authorizes_builder_probe": true,
+    "must_verify_superprobe_evidence": true,
+    "must_resolve_canonical_landing_zone": true,
+    "must_define_rollback_set": true,
+    "may_not_self_certify_success": true
+  },
+  "builder_probe": {
+    "role": "watcher_controlled_write_transport_and_constructor",
+    "entrypoint": "tools/eira2_builder_probe.py",
+    "may_decide_changes": false,
+    "may_write_only_from_watcher_plan": true,
+    "capabilities": [
+      "transport_verified_replacement_files",
+      "atomic_full_file_replacement",
+      "construct_missing_bridge_files",
+      "execute_watcher_approved_bash_blocks",
+      "backup_before_write",
+      "local_rollback_on_failure",
+      "retire_superseded_files_only_after_acceptance"
+    ],
+    "forbidden": [
+      "independent_repair_decisions",
+      "editing_eira1",
+      "unverified_source_bytes",
+      "unapproved_live_paths",
+      "deleting_superseded_files_before_acceptance",
+      "self_certifying_repair_success"
+    ]
+  },
+  "required_flow": [
+    "superprobe_explore",
+    "superprobe_return_evidence",
+    "watcher_resolve_failure_and_landing_zone",
+    "offsystem_builder_prepare_replacement",
+    "watcher_issue_builder_plan",
+    "builder_probe_backup",
+    "builder_probe_transport_and_construct",
+    "package_reseal_if_required",
+    "restart_only_affected_boundary_if_required",
+    "superprobe_reinspect",
+    "watcher_compare_before_after",
+    "accept_or_rollback",
+    "retire_superseded_after_acceptance"
+  ]
+}

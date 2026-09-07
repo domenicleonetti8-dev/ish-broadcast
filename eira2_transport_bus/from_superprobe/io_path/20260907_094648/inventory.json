@@ -1,0 +1,89 @@
+{
+  "schema": "eira2_live_io_path_export_v1",
+  "files": [
+    {
+      "path": "tools/eira2_builder_probe.py",
+      "exists": true,
+      "bytes": 9949,
+      "sha256": "baf727ce59d2db039495f4091c20f146c2470180bb8319d1ce6cb9dc810cef8d"
+    },
+    {
+      "path": "tools/eira2_builder_probe_contract.json",
+      "exists": true,
+      "bytes": 1966,
+      "sha256": "a3bad73216dc2f4673a92192c4c39c3fcd67d60d818e8d0ee4686bc4a16dcd92"
+    },
+    {
+      "path": "eira2/__main__.py",
+      "exists": true,
+      "bytes": 2347,
+      "sha256": "3df01aed7326cc7ef5aa90b3abdd4d00344528370c4874497326750cd4b48f33"
+    },
+    {
+      "path": "eira2/runtime.py",
+      "exists": true,
+      "bytes": 16465,
+      "sha256": "c16b1535f9105d4d93eaf7473ce18a40e09049638fe86445099e8441f6534fbe"
+    },
+    {
+      "path": "eira2/live.py",
+      "exists": true,
+      "bytes": 5308,
+      "sha256": "f58da2667674ac07154cb656bceffedf691c04e2a86e96d7b44f805d5c8eb8dd"
+    },
+    {
+      "path": "eira2/interfaces/ingress.py",
+      "exists": true,
+      "bytes": 1745,
+      "sha256": "52d38e67b8fcdcda5ec1ef04e0140b4abc2efb552cb8bbe246910a99a7bed884"
+    },
+    {
+      "path": "eira2/interfaces/senses.py",
+      "exists": true,
+      "bytes": 16811,
+      "sha256": "1943131cee6036685e52f9a7d4572e24defda9c64546b2ea2bedbbc21e676726"
+    },
+    {
+      "path": "eira2/conversation/spine.py",
+      "exists": true,
+      "bytes": 22400,
+      "sha256": "e7e71f8e1963bf477af0eb44f5a9b4e100f018edefe00cc53a074ffe8549cb23"
+    },
+    {
+      "path": "eira2/delivery/gate.py",
+      "exists": true,
+      "bytes": 5117,
+      "sha256": "df9260ea575ba680e406315a2afe667eb0b530bb7e778020c3689f3505337f33"
+    },
+    {
+      "path": "eira2/delivery/voice.py",
+      "exists": true,
+      "bytes": 19550,
+      "sha256": "ad24ae376049a72b4d0b0aca2e306cbdc274e685343c2ad0f46e7f142e023bf6"
+    },
+    {
+      "path": "eira2/delivery/native_bluetooth_voice.py",
+      "exists": true,
+      "bytes": 14967,
+      "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359"
+    },
+    {
+      "path": "tests/test_ingress_to_mouth_path.py",
+      "exists": true,
+      "bytes": 830,
+      "sha256": "7550f72cd5498bb0e21f6f755633b97a5f7f1f18aae43b6e3f47f6e80260b87a"
+    },
+    {
+      "path": "tests/test_end_to_end_mouth_bridge.py",
+      "exists": true,
+      "bytes": 3885,
+      "sha256": "2001cbd713c5a58d0789f6998e7d7046bdbec1bc2a8e9957832202cd9d477316"
+    },
+    {
+      "path": "tests/test_streaming_verified_speech.py",
+      "exists": true,
+      "bytes": 7807,
+      "sha256": "5bfaf7ac4480b3dec38e1fbfb349a57925a15d588d6bbdbd738d18ed017dabf0"
+    }
+  ]
+}
