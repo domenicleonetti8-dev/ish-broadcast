@@ -1,0 +1,40 @@
+{
+  "acceptance_results": {
+    "live_http_roundtrip_verified": false,
+    "note": "HTTP roundtrip requires the live process to be running the newly deployed file; this receipt does not fake that check.",
+    "package_identity_ok": false,
+    "payload_sha256_matches_target": true,
+    "runtime_source_checks": {
+      "canonical_runtime_process_bound": true,
+      "native_pcm_transcription_bound": true,
+      "v1_listen_route_present": true,
+      "v1_text_route_present": true
+    },
+    "single_target_only": true,
+    "superprobe_ok": true,
+    "superprobe_zero_discrepancy": false,
+    "target_hash_changed": false
+  },
+  "after_sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379",
+  "before_sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379",
+  "blueprint_id": "eira2_live_conversation_path_v2",
+  "builder_deployed": false,
+  "builder_receipt": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_builder_receipt.json",
+  "completed_utc": "2026-09-07T11:42:58.893598Z",
+  "error": null,
+  "lane_receipt": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/blueprint_receipts/eira2_live_conversation_path_v2-1788781371-e807818fa6d0.lane_v4.json",
+  "package_identity_ok": false,
+  "payload_sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379",
+  "rollback_performed": false,
+  "schema": "eira2_immediate_deployment_return_receipt_v1",
+  "status": "DEPLOYMENT_FAILED",
+  "superprobe_discrepancy_count": null,
+  "superprobe_evidence_fingerprint": null,
+  "superprobe_ok": true,
+  "superprobe_schema": "eira2_superprobe_forensic_v4",
+  "target_path": "eira2/live.py",
+  "transaction_id": "1788781371-e807818fa6d0",
+  "transport_blueprint_sha256": "e807818fa6d05dff1fd77b2d57671aa0f56724387142f85e039fdca1a34ec421",
+  "watcher_authorized": true,
+  "watcher_version": "2.4.0-eira2-superprobe-v4"
+}
