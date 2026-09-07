@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "repair_doctor_full_v2",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788823133.1336756,
+  "status": "STARTED",
+  "supervisor_pid": 2600829,
+  "transport_request_sha256": "2146542e4d7bf2307b7c42accccba7ea5248e4d632b250e53ddc7fee387fe962"
+}
