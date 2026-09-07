@@ -2,8 +2,8 @@
   "schema": "eira2_blueprint_transport_v2",
   "blueprint_id": "eira2_live_conversation_path_v2",
   "created_utc": "2026-09-07T10:57:00Z",
-  "retry_nonce": "verification-only-d8aa9a0e",
-  "intent": "Verify the already-installed revamp=2 conversation path through Watcher, Builder, package reseal, and Superprobe without changing its bytes.",
+  "retry_nonce": "localhost-acceptance-9e5207f8",
+  "intent": "Verify the already-installed revamp=2 conversation path through Watcher, Builder, package reseal, Superprobe, and localhost HTTP acceptance without changing its bytes.",
   "authority": {
     "transport": "github_only",
     "evaluation": "repair_watcher_ai",
@@ -33,8 +33,8 @@
     "installed target hash remains d8aa9a0e...",
     "package identity passes after reseal",
     "Superprobe v4 passes with zero discrepancy",
-    "/v1/text route remains present",
-    "/v1/listen route remains present",
+    "localhost /v1/text returns HTTP 200 with a non-empty canonical EIRA2 response",
+    "localhost /v1/listen is implemented and does not return 501",
     "native PCM transcription binding remains present",
     "canonical Eira2Runtime.process binding remains present",
     "no visual/AR files changed"
