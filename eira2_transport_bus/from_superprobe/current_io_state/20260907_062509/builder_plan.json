@@ -1,0 +1,38 @@
+{
+  "acceptance_verified": false,
+  "authorized_by": "repair_watcher_ai",
+  "bash_blocks": [],
+  "bridges": [],
+  "builder_probe_may_decide_changes": false,
+  "eira2_only": true,
+  "files": [
+    {
+      "before_sha256": "f58da2667674ac07154cb656bceffedf691c04e2a86e96d7b44f805d5c8eb8dd",
+      "sha256": "25b7ba54f61f74c46edc578f0315d5c311b6736238c17cc66142b0135573238f",
+      "staged_path": "payloads/000_live.py",
+      "target_path": "eira2/live.py"
+    }
+  ],
+  "generated_unix": 1788776203.037626,
+  "offsystem_stage_root": "/tmp/eira2_blueprint_staging/eira2_live_io_path_v1",
+  "package_fingerprint_sha256": null,
+  "pre_superprobe_fingerprint_sha256": "d0eac95c3d45084052139079c6fdc4283b0c3d9820b650b905c588f33a8dde36",
+  "requires_package_reseal": true,
+  "requires_post_superprobe": true,
+  "retire_after_acceptance": [],
+  "rollback_on_post_probe_failure": true,
+  "schema": "eira2_watcher_builder_plan_v1",
+  "semantic_blast_radius": {
+    "eira2/live.py": {
+      "impact_score": 7,
+      "incoming_edges": 1,
+      "module": "eira2.live",
+      "outgoing_edges": 5,
+      "path": "eira2/live.py"
+    }
+  },
+  "source_commit_sha": null,
+  "superprobe_evidence_fingerprint_sha256": "d0eac95c3d45084052139079c6fdc4283b0c3d9820b650b905c588f33a8dde36",
+  "superprobe_evidence_verified": true,
+  "watcher_version": "2.4.0-eira2-superprobe-v4"
+}
