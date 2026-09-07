@@ -1,11 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788810803.6910272,
+  "error": "RuntimeError:deployment_lane_failed:",
+  "ok": false,
   "operation": "deploy",
   "request_id": "transport_canary_build_v2",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v3",
-  "stage": "worker_spawned",
-  "started_unix": 1788810498.7505026,
-  "status": "STARTED",
-  "supervisor_pid": 2480657,
+  "status": "RETRYING",
   "transport_request_sha256": "05647920ba81fe3b979739bd4566bc8daa125468dfcfc2171dee103ebcd4bf32"
 }
