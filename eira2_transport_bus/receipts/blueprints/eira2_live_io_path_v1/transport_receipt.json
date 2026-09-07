@@ -1,7 +1,7 @@
 {
   "packet_id": "eira2_live_io_path_v1",
   "packet_sha256": "0a355f9dc2dbe2194ac6eac53ee079624721b9291d05b62c39326dd8e593bafa",
-  "processed_unix": 1788776733.3928359,
+  "processed_unix": 1788776768.3151855,
   "returncode": 2,
   "schema": "eira2_blueprint_transport_receipt_v2",
   "stderr": "{\n  \"EIRA2_BLUEPRINT_DEPLOYMENT_V3\": \"FAIL\",\n  \"packet_id\": \"eira2_live_io_path_v1\",\n  \"error\": \"RuntimeError:live_before_hash_mismatch:eira2/live.py\"\n}\n",
