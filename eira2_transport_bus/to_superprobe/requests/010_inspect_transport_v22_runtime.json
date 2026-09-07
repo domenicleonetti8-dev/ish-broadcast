@@ -1,0 +1,15 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "inspect_transport_v22_runtime",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira_probe/transport_runtime_v2_2"],
+    "suffixes": [".json", ".log"],
+    "signatures": ["transport_canary_build_v1", "upgrade_watcher_v5_transport_authority", "RETRYING", "error", "pid", "request_file"],
+    "full_source_paths": [
+      "eira_probe/transport_runtime_v2_2/leases/transport_canary_build_v1.json",
+      "eira_probe/transport_runtime_v2_2/leases/upgrade_watcher_v5_transport_authority.json",
+      "eira_probe/transport_runtime_v2_2/supervisor_error.log"
+    ]
+  }
+}
