@@ -2,7 +2,8 @@
   "schema": "eira2_blueprint_transport_v2",
   "blueprint_id": "inspect_revamp_mic_lifecycle_v1",
   "created_utc": "2026-09-07T19:05:00Z",
-  "intent": "Read-only inspection of the exact live revamp=2 microphone lifecycle source before replacement.",
+  "retry_nonce": "served-source-capture-3e788d14",
+  "intent": "Read-only inspection of the exact live revamp=2 microphone lifecycle source before replacement, including filesystem and served-browser JavaScript source.",
   "authority": {
     "transport": "github_only",
     "evaluation": "read_only_probe",
