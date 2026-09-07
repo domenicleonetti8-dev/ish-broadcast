@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "transport_canary_build_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "cd41f43e2eac6d1fb0b71ff340b332e154de406a",
+      "path": "EIRA2_TRANSPORT_CANARY_V1.json"
+    },
+    "target": {
+      "path": "eira2/transport_canary_v1.json"
+    }
+  }
+}
