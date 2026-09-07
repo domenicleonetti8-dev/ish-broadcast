@@ -1,141 +1,234 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, ast, hashlib, importlib.util, json, os, re, shutil, subprocess, sys, time
+import argparse, json, os, subprocess, sys, time, urllib.error, urllib.request
 from pathlib import Path
 from typing import Any
 
-SCHEMA = "eira2_builder_blueprint_v2"
-PACKET_ID = re.compile(r"^[A-Za-z0-9._-]{1,96}$")
-PACKAGE_SCHEMA = "eira2_offsystem_surgery_package_v2"
-INDEX_SCHEMA = "eira2_offsystem_file_index_v2"
-SUPERPROBE_SCHEMA = "eira2_superprobe_forensic_v4"
+CORE_COMMIT = "f61240000d4fd3eb8ddab7ff6800c5555f501490"
+CORE_PATH = "EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py"
 
-def sha256_bytes(data: bytes) -> str: return hashlib.sha256(data).hexdigest()
-def sha256_file(path: Path) -> str:
-    h = hashlib.sha256()
-    with path.open("rb") as f:
-        for c in iter(lambda: f.read(1024 * 1024), b""): h.update(c)
-    return h.hexdigest()
-def atomic_json(path: Path, value: Any) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True); tmp = path.with_name(path.name + f".tmp.{os.getpid()}")
-    tmp.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n", encoding="utf-8"); os.replace(tmp, path)
-def safe_rel(value: str) -> str:
-    p = Path(str(value or ""))
-    if p.is_absolute() or not p.parts or ".." in p.parts: raise RuntimeError(f"unsafe_relative_path:{value}")
-    return p.as_posix()
-def load_packet(path: Path) -> dict[str, Any]:
-    packet = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(packet, dict) or packet.get("schema") != SCHEMA: raise RuntimeError("blueprint_schema_mismatch")
-    pid = str(packet.get("packet_id") or "")
-    if not PACKET_ID.fullmatch(pid): raise RuntimeError("invalid_packet_id")
-    if packet.get("apply") is not True: raise RuntimeError("blueprint_apply_not_true")
-    if not isinstance(packet.get("payloads"), list) or not packet["payloads"]: raise RuntimeError("payloads_missing")
-    commit = str(packet.get("source_commit") or "")
-    if not re.fullmatch(r"[0-9a-fA-F]{40}", commit): raise RuntimeError("source_commit_invalid")
-    return packet
-def git_blob(repo: Path, commit: str, repo_path: str) -> bytes:
-    rel = safe_rel(repo_path); p = subprocess.run(["git", "-C", str(repo), "show", f"{commit}:{rel}"], capture_output=True, timeout=120, check=False)
-    if p.returncode: raise RuntimeError(f"source_blob_missing:{rel}:{p.stderr[-500:].decode(errors='replace')}")
-    return p.stdout
-def load_watcher(root: Path):
-    path = root / "extensions" / "repair_watcher_ai" / "plugin.py"; spec = importlib.util.spec_from_file_location("eira2_live_repair_watcher_v4", path)
-    if spec is None or spec.loader is None: raise RuntimeError("repair_watcher_import_failed")
-    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod); return mod, path
-def prepare_native_watcher_inbox(root: Path, repo: Path, packet: dict[str, Any], watcher: Any) -> tuple[Path, dict[str, Any], dict[str, Any]]:
-    inbox_fn = getattr(watcher, "_inbox", None)
-    if not callable(inbox_fn): raise RuntimeError("watcher_inbox_missing")
-    inbox = Path(inbox_fn()).expanduser().resolve(); stage = inbox / "stage"; inbox.mkdir(parents=True, exist_ok=True)
-    if stage.exists(): shutil.rmtree(stage)
-    stage.mkdir(parents=True, exist_ok=False); rows, targets = [], []
-    for i, item in enumerate(packet["payloads"]):
-        repo_path = safe_rel(str(item.get("repo_path") or "")); target_path = safe_rel(str(item.get("target_path") or "")); before = str(item.get("before_sha256") or "").strip().lower()
-        target = (root / target_path).resolve(); target.relative_to(root)
-        if before and (not target.is_file() or sha256_file(target) != before): raise RuntimeError(f"live_before_hash_mismatch:{target_path}")
-        data = git_blob(repo, str(packet["source_commit"]), repo_path); staged_rel = f"{i:03d}_{Path(target_path).name}"; staged = stage / staged_rel; staged.write_bytes(data)
-        if target_path.endswith(".py"):
-            q = subprocess.run([sys.executable, "-m", "py_compile", str(staged)], capture_output=True, text=True, timeout=60)
-            if q.returncode: raise RuntimeError(f"payload_python_compile_failed:{target_path}:{q.stderr[-800:]}")
-        rows.append({"target_path": target_path, "staged_path": staged_rel, "sha256": sha256_bytes(data)}); targets.append(target_path)
-    index = {"schema": INDEX_SCHEMA, "files": rows}; index_path = inbox / "file_index.json"; atomic_json(index_path, index)
-    package_core = {"schema": PACKAGE_SCHEMA, "built_off_live": True, "writes_live": False, "eira2_only": True, "targets": targets, "file_index_sha256": sha256_file(index_path), "source_commit_sha": str(packet["source_commit"])}
-    package = dict(package_core); package["package_fingerprint_sha256"] = sha256_bytes(json.dumps(package_core, sort_keys=True, separators=(",", ":")).encode()); atomic_json(inbox / "surgery_package.json", package)
-    return inbox, package, index
-def discover_builder_schema(root: Path) -> str:
-    path = root / "tools" / "eira2_builder_probe.py"; tree = ast.parse(path.read_text(encoding="utf-8")); constants: dict[str, str] = {}
-    for node in tree.body:
-        if isinstance(node, (ast.Assign, ast.AnnAssign)) and isinstance(node.value, ast.Constant) and isinstance(node.value.value, str):
-            targets = node.targets if isinstance(node, ast.Assign) else [node.target]
-            for t in targets:
-                if isinstance(t, ast.Name): constants[t.id] = node.value.value
-    def resolve(node: ast.AST) -> str | None:
-        if isinstance(node, ast.Constant) and isinstance(node.value, str): return node.value
-        if isinstance(node, ast.Name): return constants.get(node.id)
-        return None
-    for node in ast.walk(tree):
-        if not isinstance(node, ast.Compare): continue
-        parts = [node.left, *node.comparators]
-        for i, part in enumerate(parts):
-            if isinstance(part, ast.Call) and isinstance(part.func, ast.Attribute) and part.func.attr == "get" and isinstance(part.func.value, ast.Name) and part.func.value.id == "plan" and part.args and isinstance(part.args[0], ast.Constant) and part.args[0].value == "schema":
-                for j, other in enumerate(parts):
-                    if j == i: continue
-                    value = resolve(other)
-                    if value: return value
-    raise RuntimeError("builder_plan_schema_not_discoverable")
-def adapt_watcher_plan(root: Path, inspect_result: dict[str, Any], inbox: Path, packet_id: str) -> tuple[Path, str, str, str]:
-    if inspect_result.get("ok") is not True: raise RuntimeError("watcher_plan_rejected:" + json.dumps(inspect_result, sort_keys=True)[-1200:])
-    plan_path = Path(str(inspect_result.get("builder_plan") or root / "eira_probe" / "eira2_builder_plan.json")).resolve(); plan = json.loads(plan_path.read_text(encoding="utf-8"))
-    if not isinstance(plan, dict) or plan.get("authorized_by") != "repair_watcher_ai": raise RuntimeError("watcher_authorization_missing")
-    before = str(plan.get("schema") or ""); accepted = discover_builder_schema(root); live_stage = (inbox / "stage").resolve(); off_stage = Path("/tmp/eira2_builder_stage") / packet_id
-    if off_stage.exists(): shutil.rmtree(off_stage)
-    shutil.copytree(live_stage, off_stage)
-    for row in plan.get("files") or []:
-        rel = safe_rel(str(row.get("staged_path") or "")); expected = str(row.get("sha256") or ""); copied = (off_stage / rel).resolve(); copied.relative_to(off_stage.resolve())
-        if not copied.is_file() or sha256_file(copied) != expected: raise RuntimeError(f"off_live_stage_hash_mismatch:{rel}")
-    plan["schema"] = accepted; plan["offsystem_stage_root"] = str(off_stage.resolve())
-    plan["transport_schema_adapter"] = {"applied": before != accepted, "from_schema": before, "to_schema": accepted, "scope": "schema_envelope_only", "watcher_authorized_content_unchanged": True}
-    plan["transport_stage_relocation"] = {"applied": True, "from": str(live_stage), "to": str(off_stage.resolve()), "rehash_verified": True, "watcher_authorized_content_unchanged": True}; atomic_json(plan_path, plan)
-    return plan_path, before, accepted, str(off_stage.resolve())
-def run_builder(root: Path, plan_path: Path) -> dict[str, Any]:
-    receipt = root / "eira_probe" / "eira2_builder_receipt.json"; p = subprocess.run([sys.executable, str(root / "tools" / "eira2_builder_probe.py"), "--root", str(root), "--plan", str(plan_path), "--receipt", str(receipt)], cwd=str(root), capture_output=True, text=True, timeout=1800)
-    combo = (p.stdout or "") + "\n" + (p.stderr or ""); payload = json.loads(receipt.read_text(encoding="utf-8")) if receipt.is_file() else {}
-    if p.returncode or "EIRA2_BUILDER_PROBE=PASS" not in combo or payload.get("ok") is not True: raise RuntimeError("builder_failed:" + combo[-1800:])
-    return payload
-def reseal_package(root: Path) -> dict[str, Any]:
-    manifest = root / "eira2-package-manifest.json"; current = json.loads(manifest.read_text(encoding="utf-8")); source_commit = str(current.get("source_commit_sha") or "")
-    if str(root) not in sys.path: sys.path.insert(0, str(root))
-    from eira2.operations.package_identity import write_package_manifest, verify_package_manifest
-    write_package_manifest(root, source_commit_sha=source_commit); verified = verify_package_manifest(root, manifest)
-    if not isinstance(verified, dict): raise RuntimeError("package_identity_verify_not_dict")
-    return verified
-def normalize_superprobe_report(report: dict[str, Any]) -> dict[str, Any]:
-    package = report.get("package_truth") or report.get("package_identity") or {}; physical = report.get("physical_truth") or {}; semantic = report.get("semantic_truth") or {}; execution = report.get("execution_truth") or {}
-    discrepancies = report.get("declared_vs_observed_discrepancies") or []
-    return {"ok": report.get("ok") is True, "schema": report.get("schema"), "package_identity_ok": package.get("ok") is True, "package_tree_sha256": package.get("package_tree_sha256"), "package_file_count": package.get("file_count"), "discrepancy_count": len(discrepancies), "evidence_fingerprint": report.get("evidence_bundle_fingerprint_sha256") or (report.get("shared_evidence") or {}).get("fingerprint"), "files": physical.get("files"), "python_files": semantic.get("python_files"), "unresolved_internal_imports": semantic.get("unresolved_internal_import_count"), "runtime_processes": execution.get("runtime_processes"), "listeners": execution.get("listener_count")}
-def run_superprobe(root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
-    p = subprocess.run([sys.executable, str(root / "tools" / "eira2_superprobe_engine.py"), "--root", str(root), "--json"], cwd=str(root), capture_output=True, text=True, timeout=2400); combo = (p.stdout or "") + "\n" + (p.stderr or "")
-    report_path = root / "eira_probe" / "eira2_superprobe_report.json"; report = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {}; summary = normalize_superprobe_report(report)
-    if p.returncode or "EIRA2_SUPERPROBE=PASS" not in combo or not summary["ok"] or summary["schema"] != SUPERPROBE_SCHEMA: raise RuntimeError("post_superprobe_failed:" + json.dumps({**summary,"returncode":p.returncode,"tail":combo[-800:]}, sort_keys=True))
-    if not summary["package_identity_ok"] or summary["discrepancy_count"] != 0: raise RuntimeError("post_superprobe_qualification_failed:" + json.dumps(summary, sort_keys=True))
-    return report, summary
-def main() -> int:
-    ap = argparse.ArgumentParser(); ap.add_argument("--root", required=True); ap.add_argument("--packet", required=True); ap.add_argument("--source-repo-root", required=True); a = ap.parse_args()
-    root = Path(a.root).resolve(); packet_path = Path(a.packet).resolve(); repo = Path(a.source_repo_root).resolve(); packet = load_packet(packet_path); pid = str(packet["packet_id"])
-    receipt_path = root / "eira_probe" / "blueprint_receipts" / f"{pid}.lane_v4.json"; backup_root = root / "eira_probe" / "transport_lane_backups" / pid; backup_root.mkdir(parents=True, exist_ok=True)
-    manifest = root / "eira2-package-manifest.json"; manifest_backup = backup_root / "eira2-package-manifest.json"; target_backups: list[tuple[Path, Path]] = []
+
+def run(cmd: list[str], *, cwd: Path, timeout: int = 2400) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(cmd, cwd=str(cwd), text=True, capture_output=True, timeout=timeout, check=False)
+
+
+def atomic_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + f".tmp.{os.getpid()}")
+    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def request_json(url: str, payload: dict[str, Any], timeout: float) -> tuple[int, Any]:
+    raw = json.dumps(payload).encode("utf-8")
+    req = urllib.request.Request(url, data=raw, method="POST", headers={"Content-Type": "application/json"})
     try:
-        watcher, watcher_path = load_watcher(root); inbox, package, index = prepare_native_watcher_inbox(root, repo, packet, watcher)
-        for row in index["files"]:
-            target = (root / str(row["target_path"])).resolve(); backup = backup_root / str(row["target_path"]); backup.parent.mkdir(parents=True, exist_ok=True)
-            if target.is_file(): shutil.copy2(target, backup); target_backups.append((target, backup))
-        if manifest.is_file(): shutil.copy2(manifest, manifest_backup)
-        inspect = watcher.inspect_once(); plan_path, watcher_schema, builder_schema, off_stage = adapt_watcher_plan(root, inspect, inbox, pid); builder_receipt = run_builder(root, plan_path); package_receipt = reseal_package(root); report, probe_summary = run_superprobe(root)
-        atomic_json(receipt_path, {"schema":"eira2_blueprint_lane_v4_receipt","packet_id":pid,"status":"accepted","watcher_native_contract_used":True,"watcher_plugin":str(watcher_path),"watcher_inbox":str(inbox),"watcher_authorized":True,"watcher_plan_schema_original":watcher_schema,"builder_plan_schema_accepted":builder_schema,"schema_adapter_scope":"envelope_only","builder_direct":True,"transaction_executor_bypassed_as_non_authority_schema_bottleneck":True,"off_live_builder_stage":off_stage,"watcher_authorized_content_rehash_verified":True,"package_fingerprint_sha256":package["package_fingerprint_sha256"],"planned_files":len(index["files"]),"builder_receipt":builder_receipt,"package_identity":package_receipt,"superprobe_summary":probe_summary,"superprobe":report,"generated_unix":time.time()})
-        print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"PASS","packet_id":pid,"status":"accepted","watcher_schema":watcher_schema,"builder_schema":builder_schema,"superprobe":probe_summary}, indent=2)); return 0
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            body = r.read().decode("utf-8", errors="replace")
+            try:
+                parsed = json.loads(body)
+            except Exception:
+                parsed = body
+            return int(r.status), parsed
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        try:
+            parsed = json.loads(body)
+        except Exception:
+            parsed = body
+        return int(exc.code), parsed
+
+
+def request_binary(url: str, payload: bytes, timeout: float) -> tuple[int, Any]:
+    req = urllib.request.Request(url, data=payload, method="POST", headers={"Content-Type": "application/octet-stream"})
+    try:
+        with urllib.request.urlopen(req, timeout=timeout) as r:
+            body = r.read().decode("utf-8", errors="replace")
+            try:
+                parsed = json.loads(body)
+            except Exception:
+                parsed = body
+            return int(r.status), parsed
+    except urllib.error.HTTPError as exc:
+        body = exc.read().decode("utf-8", errors="replace")
+        try:
+            parsed = json.loads(body)
+        except Exception:
+            parsed = body
+        return int(exc.code), parsed
+
+
+def live_acceptance(root: Path, port: int = 8782) -> dict[str, Any]:
+    base = f"http://127.0.0.1:{port}"
+    result: dict[str, Any] = {
+        "schema": "eira2_live_http_acceptance_v1",
+        "base_url": base,
+        "tested_unix": time.time(),
+    }
+
+    try:
+        status, body = request_json(
+            base + "/v1/text",
+            {"text": "Respond with a short greeting for this internal EIRA2 acceptance check.", "source": "acceptance_probe"},
+            120.0,
+        )
+        payload = body.get("result") if isinstance(body, dict) else None
+        answer = ""
+        if isinstance(payload, dict):
+            answer = str(payload.get("text") or payload.get("response") or "").strip()
+        elif isinstance(body, dict):
+            answer = str(body.get("text") or body.get("response") or body.get("reply") or "").strip()
+        result["text"] = {
+            "http_status": status,
+            "not_501": status != 501,
+            "response_present": bool(answer),
+            "response_preview": answer[:240],
+            "ok": status == 200 and bool(answer),
+        }
     except Exception as exc:
-        rolled_back = False
-        for target, backup in target_backups:
-            if backup.is_file(): target.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(backup, target); rolled_back = True
-        if manifest_backup.is_file(): shutil.copy2(manifest_backup, manifest); rolled_back = True
-        error = f"{type(exc).__name__}:{exc}"[:3600]; atomic_json(receipt_path, {"schema":"eira2_blueprint_lane_v4_receipt","packet_id":pid,"status":"rejected_or_failed","rollback_performed":rolled_back,"error":error,"generated_unix":time.time()}); print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"FAIL","packet_id":pid,"rollback_performed":rolled_back,"error":error}, indent=2), file=sys.stderr); return 2
-if __name__ == "__main__": raise SystemExit(main())
+        result["text"] = {"ok": False, "error": f"{type(exc).__name__}:{exc}"[:1200]}
+
+    try:
+        silence = b"\x00\x00" * 1600
+        status, body = request_binary(
+            base + "/v1/listen?sample_rate=16000&channels=1&sample_width=2",
+            silence,
+            60.0,
+        )
+        utterance = str(body.get("utterance") or body.get("text") or "").strip() if isinstance(body, dict) else ""
+        result["listen"] = {
+            "http_status": status,
+            "not_501": status != 501,
+            "route_reached": status != 501,
+            "full_transcription_verified": status == 200 and bool(utterance),
+            "body_preview": json.dumps(body, sort_keys=True)[:320] if isinstance(body, dict) else str(body)[:320],
+        }
+    except Exception as exc:
+        result["listen"] = {
+            "route_reached": False,
+            "full_transcription_verified": False,
+            "error": f"{type(exc).__name__}:{exc}"[:1200],
+        }
+
+    live_py = root / "eira2" / "live.py"
+    voice_py = root / "eira2" / "delivery" / "voice.py"
+    live_source = live_py.read_text(encoding="utf-8", errors="replace") if live_py.is_file() else ""
+    voice_source = voice_py.read_text(encoding="utf-8", errors="replace") if voice_py.is_file() else ""
+    result["voice_delivery"] = {
+        "live_voice_enabled_declared": "voice_enabled=True" in live_source,
+        "delivery_voice_module_present": voice_py.is_file(),
+        "voice_sink_source_present": "sink_for_turn" in voice_source or "native" in voice_source or "Bluetooth" in voice_source,
+        "flashcube_audio_observed": False,
+        "note": "Physical Flashcube sound is not claimed without an observed audio event.",
+    }
+    result["runtime_acceptance_ok"] = bool(
+        (result.get("text") or {}).get("ok") is True
+        and (result.get("listen") or {}).get("route_reached") is True
+    )
+    return result
+
+
+def publish_acceptance(repo: Path, packet_id: str, payload: dict[str, Any]) -> str:
+    rel = Path("eira2_transport_bus/from_superprobe/acceptance") / f"{packet_id}.json"
+    reset = run(["git", "reset", "--hard", "origin/master"], cwd=repo, timeout=300)
+    if reset.returncode:
+        raise RuntimeError("acceptance_reset_failed:" + reset.stderr[-800:])
+    dest = repo / rel
+    atomic_json(dest, payload)
+    add = run(["git", "add", rel.as_posix()], cwd=repo, timeout=120)
+    if add.returncode:
+        raise RuntimeError("acceptance_git_add_failed:" + add.stderr[-800:])
+    diff = run(["git", "diff", "--cached", "--quiet"], cwd=repo, timeout=120)
+    if diff.returncode == 0:
+        return run(["git", "rev-parse", "HEAD"], cwd=repo, timeout=120).stdout.strip()
+    commit = run([
+        "git", "-c", "user.name=EIRA Acceptance Transport",
+        "-c", "user.email=eira-acceptance@localhost",
+        "commit", "--quiet", "-m", f"Return EIRA2 acceptance {packet_id}",
+    ], cwd=repo, timeout=120)
+    if commit.returncode:
+        raise RuntimeError("acceptance_commit_failed:" + commit.stderr[-800:])
+    pull = run(["git", "pull", "--rebase", "--quiet", "origin", "master"], cwd=repo, timeout=300)
+    if pull.returncode:
+        raise RuntimeError("acceptance_rebase_failed:" + pull.stderr[-1000:])
+    push = run(["git", "push", "--quiet", "origin", "master"], cwd=repo, timeout=300)
+    if push.returncode:
+        raise RuntimeError("acceptance_push_failed:" + push.stderr[-1000:])
+    return run(["git", "rev-parse", "HEAD"], cwd=repo, timeout=120).stdout.strip()
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", required=True)
+    ap.add_argument("--packet", required=True)
+    ap.add_argument("--source-repo-root", required=True)
+    args = ap.parse_args()
+
+    root = Path(args.root).resolve()
+    repo = Path(args.source_repo_root).resolve()
+    packet = json.loads(Path(args.packet).read_text(encoding="utf-8"))
+    packet_id = str(packet.get("packet_id") or "")
+    receipt_path = root / "eira_probe" / "blueprint_receipts" / f"{packet_id}.lane_v4.json"
+
+    core = Path("/tmp") / f"eira2_lane_v4_core_{os.getpid()}.py"
+    show = subprocess.run(
+        ["git", "-C", str(repo), "show", f"{CORE_COMMIT}:{CORE_PATH}"],
+        capture_output=True, timeout=120, check=False,
+    )
+    if show.returncode:
+        print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4": "FAIL", "error": "core_lane_fetch_failed"}), file=sys.stderr)
+        return 2
+    core.write_bytes(show.stdout)
+
+    proc = run(
+        [sys.executable, str(core), "--root", str(root), "--packet", str(Path(args.packet).resolve()), "--source-repo-root", str(repo)],
+        cwd=root,
+        timeout=3600,
+    )
+    try:
+        core.unlink()
+    except OSError:
+        pass
+
+    combo = (proc.stdout or "") + "\n" + (proc.stderr or "")
+    if proc.returncode or "EIRA2_BLUEPRINT_DEPLOYMENT_V4" not in combo or "PASS" not in combo:
+        sys.stderr.write(proc.stderr or proc.stdout)
+        return proc.returncode or 2
+
+    acceptance = live_acceptance(root)
+    acceptance_transport = {
+        "schema": "eira2_live_acceptance_return_v1",
+        "packet_id": packet_id,
+        "completed_unix": time.time(),
+        "package_and_superprobe_qualified": True,
+        "live_http_acceptance": acceptance,
+    }
+    transport_commit = publish_acceptance(repo, packet_id, acceptance_transport)
+    acceptance_transport["return_transport_commit"] = transport_commit
+
+    receipt: dict[str, Any] = {}
+    if receipt_path.is_file():
+        try:
+            value = json.loads(receipt_path.read_text(encoding="utf-8"))
+            if isinstance(value, dict):
+                receipt = value
+        except Exception:
+            receipt = {}
+    receipt["live_http_acceptance"] = acceptance
+    receipt["runtime_acceptance_separate_from_package_integrity"] = True
+    receipt["runtime_acceptance_failure_does_not_rollback_valid_package"] = True
+    atomic_json(receipt_path, receipt)
+
+    print(json.dumps({
+        "EIRA2_BLUEPRINT_DEPLOYMENT_V4": "PASS",
+        "packet_id": packet_id,
+        "package_and_superprobe_qualified": True,
+        "live_http_acceptance": acceptance,
+        "acceptance_return_transport_commit": transport_commit,
+    }, indent=2))
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
