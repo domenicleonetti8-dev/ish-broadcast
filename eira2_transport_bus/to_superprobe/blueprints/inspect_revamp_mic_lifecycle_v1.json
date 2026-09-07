@@ -1,0 +1,33 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "inspect_revamp_mic_lifecycle_v1",
+  "created_utc": "2026-09-07T19:05:00Z",
+  "intent": "Read-only inspection of the exact live revamp=2 microphone lifecycle source before replacement.",
+  "authority": {
+    "transport": "github_only",
+    "evaluation": "read_only_probe",
+    "writer": "none",
+    "forensics": "superprobe_read_only"
+  },
+  "source": {
+    "repository": "domenicleonetti8-dev/ish-broadcast",
+    "path": "EIRA2_LIVE_CONVERSATION_PATH_FULL_REPLACEMENT_V2.py",
+    "commit": "f38de0a25ce8b043173ade5977c5a4f5ff98192c",
+    "sha256": "69daa35fb4a1372f713f3cae8eceea2e6c929d0d56fcf28bb76d86725128a4e1"
+  },
+  "target": {
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "path": "eira2/live.py",
+    "expected_before_sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379"
+  },
+  "inspection_only": true,
+  "mutates_live": false,
+  "search_signatures": [
+    "/v1/listen",
+    "getUserMedia",
+    "packPCM16",
+    "state.active",
+    "transcribing",
+    "inactive"
+  ]
+}
