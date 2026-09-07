@@ -1,11 +1,13 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788810103.3557422,
+  "error": "RuntimeError:materialize_commit_failed:",
+  "ok": false,
   "operation": "deploy",
   "request_id": "transport_canary_build_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v2",
-  "stage": "worker_spawned",
-  "started_unix": 1788810072.9880524,
-  "status": "STARTED",
-  "supervisor_pid": 2480657,
+  "status": "RETRYING",
   "transport_request_sha256": "85bead434f23e1dbd8343bc55e5078d1eb0c71a2b37339d68cb9f3acfc196f26"
 }
