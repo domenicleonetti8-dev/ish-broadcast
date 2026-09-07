@@ -3,9 +3,25 @@
   "operation": "deploy",
   "request_id": "deploy_doctor_boundary_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2600829,
   "transport_request_sha256": "84e2421c64fe48ea618535ee091d8c610523372b0f2a17c79d96922861aba0c0",
-  "updated_unix": 1788822498.745474
+  "updated_unix": 1788822521.2516084,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": true,
+    "discrepancy_count": 0,
+    "generated_unix": 1788822521.2515001,
+    "ok": true,
+    "operation": "deploy",
+    "package_identity_ok": true,
+    "read_only": false,
+    "request_id": "deploy_doctor_boundary_v1",
+    "superprobe_evidence_fingerprint_sha256": "bd674e64048a905c702a07cb82a46204ec769738524b1be239f6b38e76af8b98",
+    "superprobe_schema": "eira2_superprobe_forensic_v4",
+    "watcher_version": "2.5.0-eira2-transport-authority"
+  },
+  "watcher_authorized": true
 }
