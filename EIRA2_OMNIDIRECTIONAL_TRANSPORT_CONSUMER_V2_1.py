@@ -74,6 +74,23 @@ def publish_started(base,work:Path,request:dict[str,Any],digest:str)->None:
     base.publish(work,rid,receipt)
 
 
+def add_full_sources(base,root:Path,request:dict[str,Any],evidence:dict[str,Any])->None:
+    spec=request.get('inspection') or {}
+    rows=[]
+    for value in spec.get('full_source_paths') or []:
+        rel=base.safe_rel(str(value))
+        path=(root/rel).resolve(); path.relative_to(root)
+        if not path.is_file():
+            rows.append({'path':rel,'error':'not_found'})
+            continue
+        raw=path.read_bytes()
+        rows.append({'path':rel,'bytes':len(raw),'sha256':base.sha256_bytes(raw),'source':raw.decode('utf-8',errors='replace')})
+    if rows:
+        evidence['full_sources']=rows
+        canonical=dict(evidence); canonical.pop('evidence_sha256',None)
+        evidence['evidence_sha256']=base.sha256_bytes((json.dumps(canonical,sort_keys=True,separators=(',',':'))+'\n').encode())
+
+
 def process_one(base,root:Path,work:Path,src:Path,state:Path)->dict[str,Any]:
     raw=src.read_bytes(); digest=base.sha256_bytes(raw); request=json.loads(raw.decode())
     rid=str(request.get('request_id') or ''); op=str(request.get('operation') or '').casefold()
@@ -86,7 +103,7 @@ def process_one(base,root:Path,work:Path,src:Path,state:Path)->dict[str,Any]:
         try:
             auth=legacy_inspection_authorize(root,request)
             receipt['watcher_authorized']=True; receipt['watcher_authorization']=auth; receipt['stage']='inspection'
-            evidence=base.inspect_request(root,request,auth)
+            evidence=base.inspect_request(root,request,auth); add_full_sources(base,root,request,evidence)
             receipt.update(status='INSPECTION_COMPLETE',ok=True,builder_invoked=False,evidence=evidence,evidence_sha256=evidence['evidence_sha256'],error=None)
         except Exception as exc:
             receipt.update(status='REQUEST_FAILED',ok=False,builder_invoked=False,error=f'{type(exc).__name__}:{exc}'[:2400])
