@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "verify_doctor_recovery_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788824440.9421086,
+  "status": "STARTED",
+  "supervisor_pid": 2600829,
+  "transport_request_sha256": "e25ec51091c45a4f3cee384add9ccfc1781b9ca6376c58cd7e76169232f60118"
+}
