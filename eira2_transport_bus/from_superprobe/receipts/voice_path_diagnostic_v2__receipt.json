@@ -3,25 +3,10 @@
   "operation": "inspect",
   "request_id": "voice_path_diagnostic_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZED",
+  "stage": "QUALIFYING",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2600829,
   "transport_request_sha256": "34241ef486919f635ef147a0be833f89052309ffa2d07241732f08b036bf96e5",
-  "updated_unix": 1788820439.0007577,
-  "watcher_authorization": {
-    "authorized": true,
-    "authorized_by": "repair_watcher_ai",
-    "builder_required": false,
-    "discrepancy_count": 0,
-    "generated_unix": 1788820439.000657,
-    "ok": true,
-    "operation": "inspect",
-    "package_identity_ok": true,
-    "read_only": true,
-    "request_id": "voice_path_diagnostic_v2",
-    "superprobe_evidence_fingerprint_sha256": "a57de3fa17b653a44aba98119ad54b89cb0fae464d7aafdbf564bf49c30ba943",
-    "superprobe_schema": "eira2_superprobe_forensic_v4",
-    "watcher_version": "2.5.0-eira2-transport-authority"
-  },
+  "updated_unix": 1788820441.0798576,
   "watcher_authorized": true
 }
