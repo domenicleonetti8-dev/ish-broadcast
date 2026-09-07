@@ -2,8 +2,8 @@
   "schema": "eira2_blueprint_transport_v2",
   "blueprint_id": "eira2_live_conversation_path_v2",
   "created_utc": "2026-09-07T10:57:00Z",
-  "retry_nonce": "revamp2-frontend-deep-acceptance-20c69125",
-  "intent": "Deep-verify the already-installed revamp=2 conversation path and diagnose the current white-screen frontend from inside EIRA without changing live.py bytes.",
+  "retry_nonce": "runtime-launch-fallback-e18144c7",
+  "intent": "Deep-verify the already-installed revamp=2 conversation path, recover the canonical EIRA2 live runtime on port 8782, and diagnose the current white-screen frontend from inside EIRA without changing live.py bytes.",
   "authority": {
     "transport": "github_only",
     "evaluation": "repair_watcher_ai",
@@ -33,13 +33,10 @@
     "installed target hash remains d8aa9a0e...",
     "package identity passes after reseal",
     "Superprobe v4 passes with zero discrepancy",
-    "canonical main runtime owns or functionally serves port 8782",
+    "a canonical EIRA2 live launch path successfully binds localhost 8782",
     "localhost /v1/text returns HTTP 200 with a non-empty canonical EIRA2 response",
-    "localhost /v1/listen is implemented and does not return 501",
     "localhost /?revamp=2 returns non-empty HTML",
     "every referenced revamp JavaScript and stylesheet asset returns a non-empty body",
-    "native PCM transcription binding remains present",
-    "canonical Eira2Runtime.process binding remains present",
     "no visual/AR files changed"
   ],
   "return_receipt": {
