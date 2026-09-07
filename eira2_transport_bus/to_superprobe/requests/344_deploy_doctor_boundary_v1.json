@@ -1,0 +1,22 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_doctor_boundary_v1",
+  "operation": "deploy",
+  "deployment": {
+    "target": "eira2/operations/doctor.py",
+    "source": {
+      "commit": "60ea389f8c41ecc1365418ceb56154b485712e87",
+      "path": "EIRA2_DOCTOR_BOUNDARY_REPLACEMENT_V1.py"
+    },
+    "expected_before_sha256": "d5d7807c22a35449a11f9913ea7c8f9f2db9d320eec7074c3fba9b828f21f542",
+    "expected_after_sha256": "43ea7281ebb242b6a799849de077a4e18e495dc5c61e06c630f4b8ce685e68e9",
+    "reseal_package": true,
+    "post_superprobe": true
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
