@@ -1,9 +1,7 @@
 {
-  "error": "RuntimeError:watcher_package_filename_not_discoverable",
-  "generated_unix": 1788775600.4531696,
-  "live_write_authority_used": false,
+  "error": "AttributeError:'int' object has no attribute 'get'",
+  "generated_unix": 1788775635.7457035,
   "packet_id": "eira2_live_io_path_v1",
-  "schema": "eira2_blueprint_lane_v2_receipt",
-  "status": "rejected_or_failed",
-  "watcher_delegated": true
+  "schema": "eira2_blueprint_lane_v3_receipt",
+  "status": "rejected_or_failed"
 }
