@@ -94,6 +94,33 @@ def publish(repo:Path,request_id:str,receipt:dict[str,Any])->str:
     return run(['git','rev-parse','HEAD'],cwd=repo,timeout=120).stdout.strip()
 
 
+def stage(repo:Path,rid:str,op:str,digest:str,name:str,**extra:Any)->str:
+    payload={
+        'schema':'eira2_transport_terminal_receipt_v6',
+        'request_id':rid,
+        'operation':op,
+        'transport_request_sha256':digest,
+        'status':'IN_PROGRESS',
+        'ok':None,
+        'stage':name,
+        'supervisor_pid':os.getpid(),
+        'updated_unix':time.time(),
+        **extra,
+    }
+    return publish(repo,rid,payload)
+
+
+def request_still_current(repo:Path,source_name:str,digest:str,base)->bool:
+    sync_repo(repo)
+    current=repo/REQUEST_ROOT/source_name
+    if not current.is_file():
+        return False
+    try:
+        return base.sha256_bytes(current.read_bytes())==digest
+    except OSError:
+        return False
+
+
 def add_full_sources(base,root:Path,request:dict[str,Any],evidence:dict[str,Any])->None:
     rows=[]
     for value in ((request.get('inspection') or {}).get('full_source_paths') or []):
@@ -125,12 +152,27 @@ def process_one(root:Path,runtime:Path,repo:Path,source:Path)->bool:
     try:
         sync_repo(repo)
         base=load_base(repo)
+        if not request_still_current(repo,source.name,digest,base):
+            retired={'schema':'eira2_transport_terminal_receipt_v6','request_id':rid,'operation':op,'transport_request_sha256':digest,'status':'SUPERSEDED_ABORTED','ok':True,'superseded':True,'builder_invoked':False,'error':None,'completed_unix':time.time()}
+            commit=publish(repo,rid,retired)
+            retired['return_transport_commit']=commit
+            atomic(success,retired)
+            atomic(runtime/'local_receipts'/f'{rid}.terminal.json',retired)
+            return True
+
+        stage(repo,rid,op,digest,'WATCHER_AUTHORIZING')
         auth=authorize(root,request)
+        stage(repo,rid,op,digest,'WATCHER_AUTHORIZED',watcher_authorized=True,watcher_authorization=auth)
+
         if op=='inspect':
+            inspect_spec=request.get('inspection') or {}
+            stage_name='QUALIFYING' if inspect_spec.get('execute_source') else 'INSPECTING'
+            stage(repo,rid,op,digest,stage_name,watcher_authorized=True)
             evidence=base.inspect_request(root,request,auth)
             add_full_sources(base,root,request,evidence)
             receipt={'schema':'eira2_transport_terminal_receipt_v6','request_id':rid,'operation':op,'transport_request_sha256':digest,'status':'INSPECTION_COMPLETE','ok':True,'watcher_authorized':True,'watcher_authorization':auth,'builder_invoked':False,'evidence':evidence,'error':None,'completed_unix':time.time()}
         else:
+            stage(repo,rid,op,digest,'DEPLOYING',watcher_authorized=True)
             evidence=base.deploy_request(root,repo,request,auth)
             receipt={'schema':'eira2_transport_terminal_receipt_v6','request_id':rid,'operation':op,'transport_request_sha256':digest,'status':'DEPLOYED_SUCCESSFULLY','ok':True,'watcher_authorized':True,'watcher_authorization':auth,'builder_invoked':bool(evidence.get('builder_invoked')),'deployment':evidence,'completion_sha256':evidence.get('completion_sha256') or evidence.get('after_sha256'),'error':None,'completed_unix':time.time()}
         commit=publish(repo,rid,receipt)
