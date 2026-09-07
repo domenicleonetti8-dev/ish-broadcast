@@ -2,7 +2,7 @@
   "schema": "eira2_blueprint_transport_v2",
   "blueprint_id": "eira2_live_conversation_path_v2",
   "created_utc": "2026-09-07T10:57:00Z",
-  "retry_nonce": "direct-builder-v4-10ba70e8",
+  "retry_nonce": "off-live-stage-981cc905",
   "intent": "Restore the working revamp=2 page conversation path before any visual/AR work. Bind /v1/text and /v1/listen directly into canonical EIRA2 runtime authority and preserve canonical voice delivery.",
   "authority": {
     "transport": "github_only",
