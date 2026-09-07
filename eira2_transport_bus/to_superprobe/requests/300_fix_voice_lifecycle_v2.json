@@ -1,0 +1,23 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "fix_voice_lifecycle_v2",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "76effff7cbb0f441b2d9c5bc3eaf209d0379a82c",
+      "path": "EIRA2_COMMUNICATION_JS_VOICE_LIFECYCLE_V2.js",
+      "sha256": "fb5def022e94f225a677e199cf86f985da5a388aa5c980c8a7deb554f53ba92b"
+    },
+    "target": {
+      "path": "eira2/neural/web/communication.js",
+      "expected_before_sha256": "54143eede72282ba8fc6038a7177df73d058c509b05c34a3fbd01c9fc391d363"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_only_writer": true,
+    "package_reseal": true,
+    "post_superprobe": true,
+    "return_completion_hash": true
+  }
+}
