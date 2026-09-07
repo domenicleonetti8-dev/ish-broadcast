@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788820064.613159,
-  "error": "RuntimeError:qualification_source_sha256_mismatch",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "voice_full_path_qualification_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
-  "transport_request_sha256": "b41a36b56922780bfcd3b426f036144bc2df9f0dfe61c6ca67a854f96d15df6e"
+  "stage": "single_checkout_execution",
+  "started_unix": 1788820117.5580819,
+  "status": "STARTED",
+  "supervisor_pid": 2600829,
+  "transport_request_sha256": "3e5809ddc1210d11fe3fc00a13e171ab626e74e48ea048780f65e640a2f4e4a1"
 }
