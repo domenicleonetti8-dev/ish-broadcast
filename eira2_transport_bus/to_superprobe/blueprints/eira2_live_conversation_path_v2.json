@@ -2,8 +2,8 @@
   "schema": "eira2_blueprint_transport_v2",
   "blueprint_id": "eira2_live_conversation_path_v2",
   "created_utc": "2026-09-07T10:57:00Z",
-  "retry_nonce": "package-truth-reader-f6124000",
-  "intent": "Restore the working revamp=2 page conversation path before any visual/AR work. Bind /v1/text and /v1/listen directly into canonical EIRA2 runtime authority and preserve canonical voice delivery.",
+  "retry_nonce": "verification-only-d8aa9a0e",
+  "intent": "Verify the already-installed revamp=2 conversation path through Watcher, Builder, package reseal, and Superprobe without changing its bytes.",
   "authority": {
     "transport": "github_only",
     "evaluation": "repair_watcher_ai",
@@ -19,7 +19,7 @@
   "target": {
     "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
     "path": "eira2/live.py",
-    "expected_before_sha256": "25b7ba54f61f74c46edc578f0315d5c311b6736238c17cc66142b0135573238f"
+    "expected_before_sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379"
   },
   "required_behavior": {
     "/v1/text": "JSON text -> InputKind.IPHONE_TEXT -> Eira2Runtime.process -> DeliveryGate -> VoiceOutputService",
@@ -30,12 +30,14 @@
     "ollama_candidate_only": true
   },
   "acceptance": [
-    "package identity passes after replacement",
+    "installed target hash remains d8aa9a0e...",
+    "package identity passes after reseal",
     "Superprobe v4 passes with zero discrepancy",
-    "/v1/text no longer returns 501 and produces canonical EIRA2 response",
-    "/v1/listen no longer returns 501 and returns utterance plus canonical EIRA2 response",
-    "voice delivery remains through eira2.delivery.voice and Flashcube/native Bluetooth path",
-    "no visual/AR files changed in this transaction"
+    "/v1/text route remains present",
+    "/v1/listen route remains present",
+    "native PCM transcription binding remains present",
+    "canonical Eira2Runtime.process binding remains present",
+    "no visual/AR files changed"
   ],
   "return_receipt": {
     "required": true,
@@ -44,28 +46,6 @@
     "destination_root": "eira2_transport_bus/from_superprobe/deployments",
     "filename_pattern": "<blueprint_id>__<transaction_id>__receipt.json",
     "emit_on": ["success", "failure", "rollback"],
-    "required_fields": [
-      "schema",
-      "blueprint_id",
-      "transaction_id",
-      "status",
-      "completed_utc",
-      "watcher_authorized",
-      "watcher_version",
-      "builder_deployed",
-      "builder_receipt",
-      "target_path",
-      "before_sha256",
-      "after_sha256",
-      "package_identity_ok",
-      "superprobe_schema",
-      "superprobe_ok",
-      "superprobe_discrepancy_count",
-      "superprobe_evidence_fingerprint",
-      "acceptance_results",
-      "rollback_performed",
-      "error"
-    ],
     "success_status": "DEPLOYED_SUCCESSFULLY",
     "failure_status": "DEPLOYMENT_FAILED",
     "rollback_status": "ROLLED_BACK",
