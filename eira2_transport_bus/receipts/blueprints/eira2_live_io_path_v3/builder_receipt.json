@@ -1,0 +1,21 @@
+{
+  "applied_files": [
+    {
+      "after_sha256": "25b7ba54f61f74c46edc578f0315d5c311b6736238c17cc66142b0135573238f",
+      "before_sha256": "f58da2667674ac07154cb656bceffedf691c04e2a86e96d7b44f805d5c8eb8dd",
+      "target_path": "eira2/live.py"
+    }
+  ],
+  "authorized_by": "repair_watcher_ai",
+  "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260907T061643",
+  "builder_probe_made_no_change_decisions": true,
+  "constructed_bridges": [],
+  "eira2_only": true,
+  "generated_unix": 1788776203.3251407,
+  "mode": "watcher_authorized_write_transport",
+  "ok": true,
+  "requires_post_superprobe_verification": true,
+  "retired_after_acceptance": [],
+  "schema": "eira2_builder_probe_v1",
+  "superprobe_remained_read_only": true
+}
