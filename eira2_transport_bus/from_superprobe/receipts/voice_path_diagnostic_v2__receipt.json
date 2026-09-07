@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788820704.5714717,
-  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": {\"checks\": {\"flashcube_observed\": false, \"js_sha_match\": true, \"lifecycle_markers\": true, \"listen_http_200\": false, \"listen_ok\": false, \"no_destructive_pagehide\": true, \"text_http_200\": false, \"text_ok\": false, \"text_response_present\": false, \"transcript_present\": false, \"voice_response_present\": false}, \"conversation_path_ok\": false, \"frontend_lifecycle_ok\": true, \"full_end_to_end_ok\": false, \"js_sha256\": \"fb5def022e94f225a677e199cf86f985da5a388aa5c980c8a7deb554f53ba92b\", \"microphone_transcription_path_ok\": false, \"ok\": false, \"schema\": \"eira2_voice_path_diagnostic_v2\", \"speaker_detail_tail\": \"pactl_unavailable\", \"speaker_routing_ok\": false, \"text_error\": \"URLError:<urlopen error [Errno 111] Connection refused>\", \"text_result\": {}, \"voice_error\": \"RuntimeError:speech_synthesizer_unavailable\", \"voice_result\": {}}, \"returncode\": 2, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"3c98277925ba2842af4de4770e707e4c15b2a1d9\", \"source_path\": \"EIRA2_VOICE_PATH_DIAGNOSTIC_V2.py\", \"source_sha256\": \"0de2d08d078e92f823db7981a9c0a88d9a12326ac725d19623c7fe5a53a927e9\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\\"checks\\\": {\\\"flashcube_observed\\\": false, \\\"js_sha_match\\\": true, \\\"lifecycle_markers\\\": true, \\\"listen_http_200\\\": false, \\\"listen_ok\\\": false, \\\"no_destructive_pagehide\\\": true, \\\"text_http_200\\\": false, \\\"text_ok\\\": false, \\\"text_response_present\\\": false, \\\"transcript_present\\\": false, \\\"voice_response_present\\\": false}, \\\"conversation_path_ok\\\": false, \\\"frontend_lifecycle_ok\\\": true, \\\"full_end_to_end_ok\\\": false, \\\"js_sha256\\\": \\\"fb5def022e94f225a677e199cf86f985da5a388aa5c980c8a7deb554f53ba92b\\\", \\\"microphone_transcription_path_ok\\\": false, \\\"ok\\\": false, \\\"schema\\\": \\\"eira2_voice_path_diagnostic_v2\\\", \\\"speaker_detail_tail\\\": \\\"pactl_unavailable\\\", \\\"speaker_routing_ok\\\": false, \\\"text_error\\\": \\\"URLError:<urlopen error [Errno 111] Connection refused>\\\", \\\"text_result\\\": {}, \\\"voice_error\\\": \\\"RuntimeError:speech_synthesizer_unavailable\\\", \\\"voice_result\\\": {}}\"}",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "voice_path_diagnostic_v2",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788820758.8741026,
+  "status": "STARTED",
+  "supervisor_pid": 2600829,
   "transport_request_sha256": "34241ef486919f635ef147a0be833f89052309ffa2d07241732f08b036bf96e5"
 }
