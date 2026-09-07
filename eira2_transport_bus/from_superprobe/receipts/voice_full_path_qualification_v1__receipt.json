@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788820232.87231,
+  "error": "RuntimeError:read_only_qualification_failed:               ~~~~~~~~~~~~~~~~~~~~~~~^\\n        (self.host,self.port), self.timeout, self.source_address)\\n        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/socket.py\\\", line 864, in create_connection\\n    raise exceptions[0]\\n  File \\\"/usr/lib/python3.13/socket.py\\\", line 849, in create_connection\\n    sock.connect(sa)\\n    ~~~~~~~~~~~~^^^^\\nConnectionRefusedError: [Errno 111] Connection refused\\n\\nDuring handling of the above exception, another exception occurred:\\n\\nTraceback (most recent call last):\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_32o_nasg/qualification.py\\\", line 57, in <module>\\n    if __name__=='__main__': raise SystemExit(main())\\n                                              ~~~~^^\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_32o_nasg/qualification.py\\\", line 35, in main\\n    status,payload=post('/v1/text',json.dumps({'text':'Eira voice path qualification ping'}).encode(),'application/json',300)\\n                   ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_32o_nasg/qualification.py\\\", line 14, in post\\n    with urllib.request.urlopen(req,timeout=timeout) as r:\\n         ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/urllib/request.py\\\", line 189, in urlopen\\n    return opener.open(url, data, timeout)\\n           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/urllib/request.py\\\", line 489, in open\\n    response = self._open(req, data)\\n  File \\\"/usr/lib/python3.13/urllib/request.py\\\", line 506, in _open\\n    result = self._call_chain(self.handle_open, protocol, protocol +\\n                              '_open', req)\\n  File \\\"/usr/lib/python3.13/urllib/request.py\\\", line 466, in _call_chain\\n    result = func(*args)\\n  File \\\"/usr/lib/python3.13/urllib/request.py\\\", line 1348, in http_open\\n    return self.do_open(http.client.HTTPConnection, req)\\n           ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/urllib/request.py\\\", line 1322, in do_open\\n    raise URLError(err)\\nurllib.error.URLError: <urlopen error [Errno 111] Connection refused>\", \"stdout_tail\": \"\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "voice_full_path_qualification_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2600829,
-  "transport_request_sha256": "3e5809ddc1210d11fe3fc00a13e171ab626e74e48ea048780f65e640a2f4e4a1",
-  "updated_unix": 1788820229.2797902,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "3e5809ddc1210d11fe3fc00a13e171ab626e74e48ea048780f65e640a2f4e4a1"
 }
