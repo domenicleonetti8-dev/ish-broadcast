@@ -4,8 +4,8 @@
   "request_id": "transport_canary_build_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
   "stage": "single_checkout_execution",
-  "started_unix": 1788818208.2596555,
+  "started_unix": 1788818573.1680977,
   "status": "STARTED",
-  "supervisor_pid": 2573693,
+  "supervisor_pid": 2580463,
   "transport_request_sha256": "05647920ba81fe3b979739bd4566bc8daa125468dfcfc2171dee103ebcd4bf32"
 }
