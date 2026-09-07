@@ -35,5 +35,40 @@
     "/v1/listen no longer returns 501 and returns utterance plus canonical EIRA2 response",
     "voice delivery remains through eira2.delivery.voice and Flashcube/native Bluetooth path",
     "no visual/AR files changed in this transaction"
-  ]
+  ],
+  "return_receipt": {
+    "required": true,
+    "timing": "immediate_after_transaction_finishes",
+    "transport_direction": "EIRA LIVE -> GitHub transport bus -> ChatGPT",
+    "destination_root": "eira2_transport_bus/from_superprobe/deployments",
+    "filename_pattern": "<blueprint_id>__<transaction_id>__receipt.json",
+    "emit_on": ["success", "failure", "rollback"],
+    "required_fields": [
+      "schema",
+      "blueprint_id",
+      "transaction_id",
+      "status",
+      "completed_utc",
+      "watcher_authorized",
+      "watcher_version",
+      "builder_deployed",
+      "builder_receipt",
+      "target_path",
+      "before_sha256",
+      "after_sha256",
+      "package_identity_ok",
+      "superprobe_schema",
+      "superprobe_ok",
+      "superprobe_discrepancy_count",
+      "superprobe_evidence_fingerprint",
+      "acceptance_results",
+      "rollback_performed",
+      "error"
+    ],
+    "success_status": "DEPLOYED_SUCCESSFULLY",
+    "failure_status": "DEPLOYMENT_FAILED",
+    "rollback_status": "ROLLED_BACK",
+    "no_polling_delay": true,
+    "no_notification_dependency": true
+  }
 }
