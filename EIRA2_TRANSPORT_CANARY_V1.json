@@ -1,0 +1,6 @@
+{
+  "schema": "eira2_transport_canary_v1",
+  "purpose": "Prove Watcher to Builder to reseal to Superprobe to return-hash path.",
+  "mutates_runtime_behavior": false,
+  "created_by": "transport_canary"
+}
