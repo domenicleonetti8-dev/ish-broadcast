@@ -1,0 +1,86 @@
+{
+  "functions": {
+    "_build_plan": {
+      "args": [
+        "report",
+        "package",
+        "index"
+      ],
+      "end_lineno": 85,
+      "lineno": 80
+    },
+    "_impact": {
+      "args": [
+        "report",
+        "target"
+      ],
+      "end_lineno": 77,
+      "lineno": 75
+    },
+    "_inbox": {
+      "args": [],
+      "end_lineno": 27,
+      "lineno": 26
+    },
+    "_verify_package": {
+      "args": [],
+      "end_lineno": 72,
+      "lineno": 60
+    },
+    "deploy_builder_probe": {
+      "args": [],
+      "end_lineno": 106,
+      "lineno": 99
+    },
+    "inspect_once": {
+      "args": [],
+      "end_lineno": 96,
+      "lineno": 88
+    }
+  },
+  "schema": "eira2_watcher_contract_export_v1",
+  "string_literals": [
+    "repair_watcher_ai",
+    "eira2_offsystem_surgery_package_v2",
+    "eira2_offsystem_file_index_v2",
+    "eira2_watcher_builder_plan_v2",
+    "watcher_version",
+    "package_fingerprint_sha256",
+    "builder_probe_may_decide_changes",
+    "offsystem_stage_root",
+    "requires_package_reseal",
+    "builder_probe_role",
+    "single_watcher_authority",
+    "watcher_controlled_write_transport_and_constructor",
+    "deploy_builder_probe",
+    "offsystem_package_missing_or_invalid",
+    "offsystem_package_authority_invalid",
+    "file_index_sha256",
+    "offsystem_file_index_hash_mismatch",
+    "semantic_impact_index",
+    "package_fingerprint_sha256",
+    "--inbox",
+    "surgery_package.json",
+    "file_index.json",
+    "file_index.json",
+    "staged_path",
+    "eira2_builder_plan.json",
+    "builder_plan",
+    "package_fingerprint",
+    "builder_plan_ready",
+    "eira2-repair-watcher",
+    "offsystem_staged_hash_invalid:",
+    "package_fingerprint_sha256",
+    "builder_plan_rejected",
+    "eira2_builder_plan.json",
+    "repair",
+    "staged_path",
+    "stage",
+    "stage",
+    "stage",
+    "EIRA2_SURGERY_INBOX",
+    "impact_index",
+    "staged_path",
+    "offsystem_inbox"
+  ]
+}
