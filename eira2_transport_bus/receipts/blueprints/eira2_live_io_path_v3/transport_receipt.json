@@ -1,7 +1,7 @@
 {
   "packet_id": "eira2_live_io_path_v3",
   "packet_sha256": "9e63d1a1ec6e4bc5026206f0391296eea0e27c66ac7a0c14a3b9f393d5b9f02e",
-  "processed_unix": 1788776009.269856,
+  "processed_unix": 1788776048.4519541,
   "returncode": 2,
   "schema": "eira2_blueprint_transport_receipt_v2",
   "stderr": "{\n  \"EIRA2_BLUEPRINT_DEPLOYMENT_V3\": \"FAIL\",\n  \"packet_id\": \"eira2_live_io_path_v3\",\n  \"error\": \"AttributeError:'int' object has no attribute 'get'\"\n}\n",
