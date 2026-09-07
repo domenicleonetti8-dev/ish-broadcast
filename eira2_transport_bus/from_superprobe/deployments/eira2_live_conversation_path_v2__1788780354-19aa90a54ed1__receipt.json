@@ -1,0 +1,40 @@
+{
+  "acceptance_results": {
+    "live_http_roundtrip_verified": false,
+    "note": "HTTP roundtrip requires the live process to be running the newly deployed file; this receipt does not fake that check.",
+    "package_identity_ok": false,
+    "payload_sha256_matches_target": false,
+    "runtime_source_checks": {
+      "canonical_runtime_process_bound": true,
+      "native_pcm_transcription_bound": false,
+      "v1_listen_route_present": false,
+      "v1_text_route_present": false
+    },
+    "single_target_only": true,
+    "superprobe_ok": true,
+    "superprobe_zero_discrepancy": false,
+    "target_hash_changed": false
+  },
+  "after_sha256": "25b7ba54f61f74c46edc578f0315d5c311b6736238c17cc66142b0135573238f",
+  "before_sha256": "25b7ba54f61f74c46edc578f0315d5c311b6736238c17cc66142b0135573238f",
+  "blueprint_id": "eira2_live_conversation_path_v2",
+  "builder_deployed": false,
+  "builder_receipt": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_builder_receipt.json",
+  "completed_utc": "2026-09-07T11:25:57.623569Z",
+  "error": "RuntimeError:deployment_lane_failed:0354-19aa90a54ed1\",\n  \"error\": \"RuntimeError:watcher_transaction_failed:{\\\"detail\\\": \\\"\\\\nTraceback (most recent call last):\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_transaction_executor.py\\\\\\\", line 127, in <module>\\\\n    if __name__ == \\\\\\\"__main__\\\\\\\": main()\\\\n                               ~~~~^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_transaction_executor.py\\\\\\\", line 125, in main\\\\n    r = execute(root, inbox, plan, receipt); print(json.dumps({\\\\\\\"ok\\\\\\\": r[\\\\\\\"ok\\\\\\\"], \\\\\\\"status\\\\\\\": r[\\\\\\\"status\\\\\\\"], \\\\\\\"receipt\\\\\\\": str(receipt)}, sort_keys=True)); print(\\\\\\\"EIRA2_TRANSACTION_EXECUTOR=PASS\\\\\\\")\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_transaction_executor.py\\\\\\\", line 64, in execute\\\\n    if plan.get(\\\\\\\"schema\\\\\\\") != PLAN_SCHEMA or plan.get(\\\\\\\"authorized_by\\\\\\\") != \\\\\\\"repair_watcher_ai\\\\\\\": raise RuntimeError(\\\\\\\"watcher_plan_invalid\\\\\\\")\\\\n                                                                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\\\nRuntimeError: watcher_plan_invalid\\\\n\\\", \\\"ok\\\": false, \\\"status\\\": \\\"transaction_failed_or_rolled_back\\\"}\"\n}\n",
+  "lane_receipt": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/blueprint_receipts/eira2_live_conversation_path_v2-1788780354-19aa90a54ed1.lane_v4.json",
+  "package_identity_ok": false,
+  "payload_sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379",
+  "rollback_performed": false,
+  "schema": "eira2_immediate_deployment_return_receipt_v1",
+  "status": "DEPLOYMENT_FAILED",
+  "superprobe_discrepancy_count": null,
+  "superprobe_evidence_fingerprint": null,
+  "superprobe_ok": true,
+  "superprobe_schema": "eira2_superprobe_forensic_v4",
+  "target_path": "eira2/live.py",
+  "transaction_id": "1788780354-19aa90a54ed1",
+  "transport_blueprint_sha256": "19aa90a54ed1319c5145ff843e63a7b40ef34f8bd009e613ddf20e57fc39565b",
+  "watcher_authorized": false,
+  "watcher_version": "2.4.0-eira2-superprobe-v4"
+}
