@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "voice_path_diagnostic_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788820588.6950164,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2600829,
-  "transport_request_sha256": "34241ef486919f635ef147a0be833f89052309ffa2d07241732f08b036bf96e5"
+  "transport_request_sha256": "34241ef486919f635ef147a0be833f89052309ffa2d07241732f08b036bf96e5",
+  "updated_unix": 1788820591.3553922
 }
