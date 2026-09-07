@@ -1,0 +1,25 @@
+{
+  "schema": "eira2_builder_blueprint_v2",
+  "packet_id": "eira2_live_io_path_v1",
+  "apply": true,
+  "source_commit": "f43f0fb3e0ac91928477fb31d9508a96948ee559",
+  "reason": "Finish the canonical EIRA2 input-to-output path without creating a second conversation authority.",
+  "payloads": [
+    {
+      "repo_path": "EIRA2_LIVE_IO_FULL_REPLACEMENT_V1.py",
+      "target_path": "eira2/live.py",
+      "before_sha256": "f58da2667674ac07154cb656bceffedf691c04e2a86e96d7b44f805d5c8eb8dd"
+    }
+  ],
+  "bridges": [],
+  "bash_blocks": [],
+  "retire_after_acceptance": [],
+  "acceptance": {
+    "one_conversation_authority": "Eira2Runtime.process",
+    "required_ingress": ["terminal", "iphone_text", "iphone_voice_transcript"],
+    "required_http_routes": ["/api/input", "/api/chat", "/api/conversation", "/api/message", "/api/voice"],
+    "required_delivery": "existing DeliveryGate and VoiceOutputService",
+    "require_superprobe_postflight": true,
+    "require_builder_receipt": true
+  }
+}
