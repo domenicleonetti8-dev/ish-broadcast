@@ -103,30 +103,38 @@ def discover_builder_schema(root: Path) -> str:
                     if value: return value
     raise RuntimeError("builder_plan_schema_not_discoverable")
 
-def adapt_watcher_plan(root: Path, inspect_result: dict[str, Any]) -> tuple[Path, str, str]:
+def adapt_watcher_plan(root: Path, inspect_result: dict[str, Any], inbox: Path, packet_id: str) -> tuple[Path, str, str, str]:
     if inspect_result.get("ok") is not True: raise RuntimeError("watcher_plan_rejected:" + json.dumps(inspect_result, sort_keys=True)[-1200:])
     plan_path = Path(str(inspect_result.get("builder_plan") or root / "eira_probe" / "eira2_builder_plan.json")).resolve()
     plan = json.loads(plan_path.read_text(encoding="utf-8"))
     if not isinstance(plan, dict) or plan.get("authorized_by") != "repair_watcher_ai": raise RuntimeError("watcher_authorization_missing")
     before = str(plan.get("schema") or ""); accepted = discover_builder_schema(root)
-    if before != accepted:
-        plan["schema"] = accepted; plan["transport_schema_adapter"] = {"applied": True, "from_schema": before, "to_schema": accepted, "scope": "schema_envelope_only", "watcher_authorized_content_unchanged": True}
-        atomic_json(plan_path, plan)
-    return plan_path, before, accepted
+    live_stage = (inbox / "stage").resolve()
+    off_stage = Path("/tmp/eira2_builder_stage") / packet_id
+    if off_stage.exists(): shutil.rmtree(off_stage)
+    shutil.copytree(live_stage, off_stage)
+    for row in plan.get("files") or []:
+        rel = safe_rel(str(row.get("staged_path") or "")); expected = str(row.get("sha256") or "")
+        copied = (off_stage / rel).resolve(); copied.relative_to(off_stage.resolve())
+        if not copied.is_file() or sha256_file(copied) != expected: raise RuntimeError(f"off_live_stage_hash_mismatch:{rel}")
+    plan["schema"] = accepted
+    plan["offsystem_stage_root"] = str(off_stage.resolve())
+    plan["transport_schema_adapter"] = {"applied": before != accepted, "from_schema": before, "to_schema": accepted, "scope": "schema_envelope_only", "watcher_authorized_content_unchanged": True}
+    plan["transport_stage_relocation"] = {"applied": True, "from": str(live_stage), "to": str(off_stage.resolve()), "rehash_verified": True, "watcher_authorized_content_unchanged": True}
+    atomic_json(plan_path, plan)
+    return plan_path, before, accepted, str(off_stage.resolve())
 
 def run_builder(root: Path, plan_path: Path) -> dict[str, Any]:
     receipt = root / "eira_probe" / "eira2_builder_receipt.json"
     p = subprocess.run([sys.executable, str(root / "tools" / "eira2_builder_probe.py"), "--root", str(root), "--plan", str(plan_path), "--receipt", str(receipt)], cwd=str(root), capture_output=True, text=True, timeout=1800)
     combo = (p.stdout or "") + "\n" + (p.stderr or "")
     payload = json.loads(receipt.read_text(encoding="utf-8")) if receipt.is_file() else {}
-    if p.returncode or "EIRA2_BUILDER_PROBE=PASS" not in combo or payload.get("ok") is not True:
-        raise RuntimeError("builder_failed:" + combo[-1600:])
+    if p.returncode or "EIRA2_BUILDER_PROBE=PASS" not in combo or payload.get("ok") is not True: raise RuntimeError("builder_failed:" + combo[-1800:])
     return payload
 
 def reseal_package(root: Path) -> dict[str, Any]:
-    manifest = root / "eira2-package-manifest.json"
-    current = json.loads(manifest.read_text(encoding="utf-8")); source_commit = str(current.get("source_commit_sha") or "")
-    sys.path.insert(0, str(root)) if str(root) not in sys.path else None
+    manifest = root / "eira2-package-manifest.json"; current = json.loads(manifest.read_text(encoding="utf-8")); source_commit = str(current.get("source_commit_sha") or "")
+    if str(root) not in sys.path: sys.path.insert(0, str(root))
     from eira2.operations.package_identity import write_package_manifest, verify_package_manifest
     write_package_manifest(root, source_commit_sha=source_commit)
     verified = verify_package_manifest(root, manifest)
@@ -137,8 +145,7 @@ def run_superprobe(root: Path) -> dict[str, Any]:
     p = subprocess.run([sys.executable, str(root / "tools" / "eira2_superprobe_engine.py"), "--root", str(root), "--json"], cwd=str(root), capture_output=True, text=True, timeout=2400)
     combo = (p.stdout or "") + "\n" + (p.stderr or "")
     report_path = root / "eira_probe" / "eira2_superprobe_report.json"; report = json.loads(report_path.read_text(encoding="utf-8")) if report_path.is_file() else {}
-    if p.returncode or "EIRA2_SUPERPROBE=PASS" not in combo or report.get("ok") is not True or report.get("schema") != SUPERPROBE_SCHEMA:
-        raise RuntimeError("post_superprobe_failed:" + combo[-1600:])
+    if p.returncode or "EIRA2_SUPERPROBE=PASS" not in combo or report.get("ok") is not True or report.get("schema") != SUPERPROBE_SCHEMA: raise RuntimeError("post_superprobe_failed:" + combo[-1600:])
     if report.get("package_identity_ok") is not True or int(report.get("discrepancy_count") or 0) != 0: raise RuntimeError("post_superprobe_qualification_failed")
     return report
 
@@ -155,15 +162,15 @@ def main() -> int:
             target = (root / str(row["target_path"])).resolve(); backup = backup_root / str(row["target_path"]); backup.parent.mkdir(parents=True, exist_ok=True)
             if target.is_file(): shutil.copy2(target, backup); target_backups.append((target, backup))
         if manifest.is_file(): shutil.copy2(manifest, manifest_backup)
-        inspect = watcher.inspect_once(); plan_path, watcher_schema, builder_schema = adapt_watcher_plan(root, inspect)
+        inspect = watcher.inspect_once(); plan_path, watcher_schema, builder_schema, off_stage = adapt_watcher_plan(root, inspect, inbox, pid)
         builder_receipt = run_builder(root, plan_path); package_receipt = reseal_package(root); report = run_superprobe(root)
-        atomic_json(receipt_path, {"schema":"eira2_blueprint_lane_v4_receipt","packet_id":pid,"status":"accepted","watcher_native_contract_used":True,"watcher_plugin":str(watcher_path),"watcher_inbox":str(inbox),"watcher_authorized":True,"watcher_plan_schema_original":watcher_schema,"builder_plan_schema_accepted":builder_schema,"schema_adapter_scope":"envelope_only","builder_direct":True,"transaction_executor_bypassed_as_non_authority_schema_bottleneck":True,"package_fingerprint_sha256":package["package_fingerprint_sha256"],"planned_files":len(index["files"]),"builder_receipt":builder_receipt,"package_identity":package_receipt,"superprobe":report,"generated_unix":time.time()})
-        print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"PASS","packet_id":pid,"status":"accepted","watcher_schema":watcher_schema,"builder_schema":builder_schema}, indent=2)); return 0
+        atomic_json(receipt_path, {"schema":"eira2_blueprint_lane_v4_receipt","packet_id":pid,"status":"accepted","watcher_native_contract_used":True,"watcher_plugin":str(watcher_path),"watcher_inbox":str(inbox),"watcher_authorized":True,"watcher_plan_schema_original":watcher_schema,"builder_plan_schema_accepted":builder_schema,"schema_adapter_scope":"envelope_only","builder_direct":True,"transaction_executor_bypassed_as_non_authority_schema_bottleneck":True,"off_live_builder_stage":off_stage,"watcher_authorized_content_rehash_verified":True,"package_fingerprint_sha256":package["package_fingerprint_sha256"],"planned_files":len(index["files"]),"builder_receipt":builder_receipt,"package_identity":package_receipt,"superprobe":report,"generated_unix":time.time()})
+        print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"PASS","packet_id":pid,"status":"accepted","watcher_schema":watcher_schema,"builder_schema":builder_schema,"off_live_stage":off_stage}, indent=2)); return 0
     except Exception as exc:
         for target, backup in target_backups:
             if backup.is_file(): target.parent.mkdir(parents=True, exist_ok=True); shutil.copy2(backup, target)
         if manifest_backup.is_file(): shutil.copy2(manifest_backup, manifest)
-        atomic_json(receipt_path, {"schema":"eira2_blueprint_lane_v4_receipt","packet_id":pid,"status":"rejected_or_failed","rollback_performed":bool(target_backups),"error":f"{type(exc).__name__}:{exc}"[:2600],"generated_unix":time.time()})
+        atomic_json(receipt_path, {"schema":"eira2_blueprint_lane_v4_receipt","packet_id":pid,"status":"rejected_or_failed","rollback_performed":bool(target_backups),"error":f"{type(exc).__name__}:{exc}"[:2800],"generated_unix":time.time()})
         print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"FAIL","packet_id":pid,"error":f"{type(exc).__name__}:{exc}"}, indent=2), file=sys.stderr); return 2
 
 if __name__ == "__main__": raise SystemExit(main())
