@@ -1,11 +1,19 @@
-# EIRA2 Omnidirectional Superprobe Transport Bus
+# EIRA2 GitHub Transport Bus
 
-This directory is the GitHub-side mailbox for `EIRA2_OMNIDIRECTIONAL_SUPERPROBE_TRANSPORT_V1.py`.
+This directory is ONLY the GitHub-side omnidirectional mailbox that ChatGPT can access.
 
-- `from_eira/` — outbound packets created from a clean EIRA2 Superprobe report or blueprint export.
-- `to_eira/` — inbound packets intended for Superprobe validation and Watcher handoff.
-- `receipts/` — acceptance/rejection receipts returned after validation.
+The Superprobe itself lives inside EIRA LIVE on Dom's machine. GitHub does not contain, run, replace, or emulate the Superprobe.
 
-Transport packet schema: `eira2_superprobe_transport_packet_v1`.
+Canonical path:
 
-The transport boundary is `eira_probe` only. Packets do not directly modify `eira2/`, `tools/`, `main.py`, or `eira2-package-manifest.json`. Inbound packets must pass schema, SHA-256 payload, SHA-256 packet, direction, and Superprobe evidence-fingerprint checks before a Watcher handoff is created.
+EIRA LIVE Superprobe -> GitHub transport bus -> ChatGPT
+ChatGPT -> GitHub transport bus -> EIRA LIVE Superprobe -> Watcher
+
+Mailboxes:
+- `from_superprobe/` — packets exported by the real Superprobe in EIRA LIVE for ChatGPT to inspect.
+- `to_superprobe/` — packets, blueprints, or instructions placed by ChatGPT for the real Superprobe to retrieve and verify.
+- `receipts/` — delivery/acceptance/rejection receipts produced by the transport path.
+
+This GitHub surface has no authority to mutate EIRA 2 directly. It is transport only. The real Superprobe remains the forensic/verification boundary and Watcher remains the evaluator/router on the EIRA side.
+
+Packet schema: `eira2_superprobe_transport_packet_v1`.
