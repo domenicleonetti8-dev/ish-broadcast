@@ -1,0 +1,106 @@
+{
+  "canonical_runtime_ensure": {
+    "attempts": [
+      {
+        "bound": false,
+        "cmd": [
+          "/usr/bin/python3",
+          "/media/domenicleonetti/easystore/EIRA/LIVE/main.py"
+        ],
+        "exit_code": 1,
+        "log_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/canonical_live_restart_main_py.log",
+        "log_tail": "print'. Did you mean print(...)? (test_python2.py, line 1);python_syntax:eira_probe/transport_runtime_v2_2/control_repo/tests/e2e/hello/test_python2.py:SyntaxError:Missing parentheses in call to 'print'. Did you mean print(...)? (test_python2.py, line 1);python_syntax:eira_probe/transport_runtime_v2_2/workers/transport_canary_build_v1/repo/tests/e2e/hello/test_python2.py:SyntaxError:Missing parentheses in call to 'print'. Did you mean print(...)? (test_python2.py, line 1);python_syntax:eira_probe/transport_runtime_v2_2/workers/upgrade_watcher_v5_transport_authority/repo/tests/e2e/hello/test_python2.py:SyntaxError:Missing parentheses in call to 'print'. Did you mean print(...)? (test_python2.py, line 1);python_syntax:eira_probe/transport_runtime_v2_3/control/tests/e2e/hello/test_python2.py:SyntaxError:Missing parentheses in call to 'print'. Did you mean print(...)? (test_python2.py, line 1)\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/main.py\", line 11, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\", line 62, in main\n    asyncio.run(run_live(root, manifest, model=args.model, host=args.host, port=args.port))\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/asyncio/runners.py\", line 195, in run\n    return runner.run(main)\n           ~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/asyncio/runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/asyncio/base_events.py\", line 725, in run_until_complete\n    return future.result()\n           ~~~~~~~~~~~~~^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/live.py\", line 248, in run_live\n    await runtime.start()\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/runtime.py\", line 202, in start\n    await self.supervisor.start()\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 100, in start\n    raise RuntimeError(f\"required_service_failed:{name}\") from error\nRuntimeError: required_service_failed:operations.doctor\ndoctor_unexpected_before_sha256:d18b60f0b7f0987e7317e487d6a3c05429de30824bcedfc807eab6aa0402d8ee\n",
+        "name": "main_py",
+        "pid": 2635309
+      },
+      {
+        "bound": false,
+        "cmd": [
+          "/usr/bin/python3",
+          "-m",
+          "eira2",
+          "--live",
+          "--root",
+          "/media/domenicleonetti/easystore/EIRA/LIVE"
+        ],
+        "exit_code": 1,
+        "log_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/canonical_live_restart_module_live_root.log",
+        "log_tail": "^^^^^^^^^\nBlockingIOError: [Errno 11] Resource temporarily unavailable\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 96, in start\n    await self._start_record(name, record)\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 76, in _start_record\n    await asyncio.wait_for(\n    ...<2 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/lock.py\", line 25, in start\n    raise RuntimeError(\"eira2_instance_already_running\") from error\nRuntimeError: eira2_instance_already_running\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\", line 67, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\", line 62, in main\n    asyncio.run(run_live(root, manifest, model=args.model, host=args.host, port=args.port))\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/asyncio/runners.py\", line 195, in run\n    return runner.run(main)\n           ~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/asyncio/runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/asyncio/base_events.py\", line 725, in run_until_complete\n    return future.result()\n           ~~~~~~~~~~~~~^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/live.py\", line 248, in run_live\n    await runtime.start()\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/runtime.py\", line 202, in start\n    await self.supervisor.start()\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 100, in start\n    raise RuntimeError(f\"required_service_failed:{name}\") from error\nRuntimeError: required_service_failed:kernel.lock\ndoctor_unexpected_before_sha256:d18b60f0b7f0987e7317e487d6a3c05429de30824bcedfc807eab6aa0402d8ee\n",
+        "name": "module_live_root",
+        "pid": 2635314
+      },
+      {
+        "bound": false,
+        "cmd": [
+          "/usr/bin/python3",
+          "-m",
+          "eira2",
+          "--live"
+        ],
+        "exit_code": 1,
+        "log_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/canonical_live_restart_module_live_cwd.log",
+        "log_tail": "^^^^^^^^^\nBlockingIOError: [Errno 11] Resource temporarily unavailable\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 96, in start\n    await self._start_record(name, record)\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 76, in _start_record\n    await asyncio.wait_for(\n    ...<2 lines>...\n    )\n  File \"/usr/lib/python3.13/asyncio/tasks.py\", line 507, in wait_for\n    return await fut\n           ^^^^^^^^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/lock.py\", line 25, in start\n    raise RuntimeError(\"eira2_instance_already_running\") from error\nRuntimeError: eira2_instance_already_running\n\nThe above exception was the direct cause of the following exception:\n\nTraceback (most recent call last):\n  File \"<frozen runpy>\", line 198, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\", line 67, in <module>\n    raise SystemExit(main())\n                     ~~~~^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\", line 62, in main\n    asyncio.run(run_live(root, manifest, model=args.model, host=args.host, port=args.port))\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.13/asyncio/runners.py\", line 195, in run\n    return runner.run(main)\n           ~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/asyncio/runners.py\", line 118, in run\n    return self._loop.run_until_complete(task)\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\n  File \"/usr/lib/python3.13/asyncio/base_events.py\", line 725, in run_until_complete\n    return future.result()\n           ~~~~~~~~~~~~~^^\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/live.py\", line 248, in run_live\n    await runtime.start()\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/runtime.py\", line 202, in start\n    await self.supervisor.start()\n  File \"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\", line 100, in start\n    raise RuntimeError(f\"required_service_failed:{name}\") from error\nRuntimeError: required_service_failed:kernel.lock\ndoctor_unexpected_before_sha256:d18b60f0b7f0987e7317e487d6a3c05429de30824bcedfc807eab6aa0402d8ee\n",
+        "name": "module_live_cwd",
+        "pid": 2635315
+      }
+    ],
+    "error": "all_canonical_launch_attempts_failed",
+    "listener_after": false,
+    "listener_before": false,
+    "ok": false,
+    "schema": "eira2_canonical_runtime_ensure_v3"
+  },
+  "completed_unix": 1788822574.4283338,
+  "live_http_acceptance": {
+    "runtime_acceptance_ok": false,
+    "schema": "eira2_live_http_acceptance_v3",
+    "text": {
+      "error": "port_closed",
+      "ok": false
+    }
+  },
+  "package_and_superprobe_qualified": true,
+  "packet_id": "deploy_doctor_boundary_v1",
+  "revamp2_frontend_acceptance": {
+    "assets": [],
+    "base": "http://127.0.0.1:8782/",
+    "checks": {
+      "revamp2": {
+        "bytes": 0,
+        "content_type": null,
+        "error": "URLError:<urlopen error [Errno 111] Connection refused>",
+        "ok": false,
+        "status": null
+      },
+      "root": {
+        "bytes": 0,
+        "content_type": null,
+        "error": "URLError:<urlopen error [Errno 111] Connection refused>",
+        "ok": false,
+        "status": null
+      },
+      "v1_text": {
+        "bytes": 0,
+        "content_type": null,
+        "error": "URLError:<urlopen error [Errno 111] Connection refused>",
+        "json": null,
+        "ok": false,
+        "status": null
+      }
+    },
+    "failures": [
+      "revamp2_document_invalid",
+      "v1_text_failed",
+      "mic_source_not_found_in_served_js"
+    ],
+    "mic_source_matches": [],
+    "mode": "read_only",
+    "mutates_live": false,
+    "ok": false,
+    "probe_returncode": 2,
+    "schema": "eira2_revamp2_frontend_acceptance_v2",
+    "stderr": "",
+    "stdout": "{\n  \"EIRA2_REVAMP2_ACCEPTANCE\": \"FAIL\",\n  \"failures\": [\n    \"revamp2_document_invalid\",\n    \"v1_text_failed\",\n    \"mic_source_not_found_in_served_js\"\n  ],\n  \"mic_source_matches\": 0,\n  \"out\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/revamp2_frontend_acceptance.json\"\n}\n"
+  },
+  "schema": "eira2_live_acceptance_return_v3"
+}
