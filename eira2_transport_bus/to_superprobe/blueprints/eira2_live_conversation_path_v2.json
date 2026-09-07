@@ -2,8 +2,8 @@
   "schema": "eira2_blueprint_transport_v2",
   "blueprint_id": "eira2_live_conversation_path_v2",
   "created_utc": "2026-09-07T10:57:00Z",
-  "retry_nonce": "canonical-runtime-ensure-7d8bb58d",
-  "intent": "Verify the already-installed revamp=2 conversation path through Watcher, Builder, package reseal, Superprobe, canonical runtime ensure, and localhost HTTP acceptance without changing its bytes.",
+  "retry_nonce": "revamp2-frontend-deep-acceptance-20c69125",
+  "intent": "Deep-verify the already-installed revamp=2 conversation path and diagnose the current white-screen frontend from inside EIRA without changing live.py bytes.",
   "authority": {
     "transport": "github_only",
     "evaluation": "repair_watcher_ai",
@@ -24,7 +24,7 @@
   "required_behavior": {
     "/v1/text": "JSON text -> InputKind.IPHONE_TEXT -> Eira2Runtime.process -> DeliveryGate -> VoiceOutputService",
     "/v1/listen": "raw PCM 16kHz mono 16-bit -> NativeInputEvidenceService.transcribe_pcm -> InputKind.IPHONE_VOICE -> Eira2Runtime.process -> DeliveryGate -> VoiceOutputService",
-    "frontend": "preserve working https://eira.tail9a0112.ts.net/?revamp=2 surface",
+    "frontend": "preserve and diagnose https://eira.tail9a0112.ts.net/?revamp=2 surface",
     "single_runtime": true,
     "no_second_conversation_authority": true,
     "ollama_candidate_only": true
@@ -33,9 +33,11 @@
     "installed target hash remains d8aa9a0e...",
     "package identity passes after reseal",
     "Superprobe v4 passes with zero discrepancy",
-    "canonical main runtime owns port 8782",
+    "canonical main runtime owns or functionally serves port 8782",
     "localhost /v1/text returns HTTP 200 with a non-empty canonical EIRA2 response",
     "localhost /v1/listen is implemented and does not return 501",
+    "localhost /?revamp=2 returns non-empty HTML",
+    "every referenced revamp JavaScript and stylesheet asset returns a non-empty body",
     "native PCM transcription binding remains present",
     "canonical Eira2Runtime.process binding remains present",
     "no visual/AR files changed"
