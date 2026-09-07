@@ -1,116 +1,171 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import argparse, json, os, socket, subprocess, sys, time
+import argparse, hashlib, json, os, subprocess, sys, time
 from pathlib import Path
 from typing import Any
 
-CORE_COMMIT="f61240000d4fd3eb8ddab7ff6800c5555f501490"
-CORE_PATH="EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py"
-FRONTEND_PROBE_PATH="EIRA2_REVAMP2_FRONTEND_ACCEPTANCE_PROBE_V1.py"
+NORMAL_WRAPPER_COMMIT = "e18144c74324de86bfbf3a0c7480abb6cd949355"
+NORMAL_WRAPPER_PATH = "EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py"
+INSPECTION_PREFIX = "inspect_revamp_mic_lifecycle_v1"
+SIGNATURES = ["/v1/listen", "getUserMedia", "packPCM16", "state.active", "transcribing", "inactive"]
 
-def run(cmd:list[str],*,cwd:Path,timeout:int=2400)->subprocess.CompletedProcess[str]:
-    return subprocess.run(cmd,cwd=str(cwd),text=True,capture_output=True,timeout=timeout,check=False)
 
-def atomic_json(path:Path,payload:Any)->None:
-    path.parent.mkdir(parents=True,exist_ok=True); tmp=path.with_name(path.name+f".tmp.{os.getpid()}")
-    tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+"\n",encoding="utf-8"); os.replace(tmp,path)
+def run(cmd: list[str], *, cwd: Path, timeout: int = 2400) -> subprocess.CompletedProcess[str]:
+    return subprocess.run(cmd, cwd=str(cwd), text=True, capture_output=True, timeout=timeout, check=False)
 
-def port_open(port:int=8782)->bool:
+
+def sha256_file(path: Path) -> str:
+    h = hashlib.sha256()
+    with path.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
+    return h.hexdigest()
+
+
+def atomic_json(path: Path, payload: Any) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + f".tmp.{os.getpid()}")
+    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+    os.replace(tmp, path)
+
+
+def publish(repo: Path, rel: Path, payload: dict[str, Any]) -> str:
+    reset = run(["git", "reset", "--hard", "origin/master"], cwd=repo, timeout=300)
+    if reset.returncode:
+        raise RuntimeError("inspection_reset_failed:" + reset.stderr[-800:])
+    atomic_json(repo / rel, payload)
+    add = run(["git", "add", rel.as_posix()], cwd=repo, timeout=120)
+    if add.returncode:
+        raise RuntimeError("inspection_git_add_failed:" + add.stderr[-800:])
+    if run(["git", "diff", "--cached", "--quiet"], cwd=repo, timeout=120).returncode != 0:
+        commit = run([
+            "git", "-c", "user.name=EIRA Read Only Probe", "-c", "user.email=eira-probe@localhost",
+            "commit", "--quiet", "-m", "Return read-only revamp mic inspection",
+        ], cwd=repo, timeout=120)
+        if commit.returncode:
+            raise RuntimeError("inspection_commit_failed:" + commit.stderr[-800:])
+        pull = run(["git", "pull", "--rebase", "--quiet", "origin", "master"], cwd=repo, timeout=300)
+        if pull.returncode:
+            raise RuntimeError("inspection_rebase_failed:" + pull.stderr[-1000:])
+        push = run(["git", "push", "--quiet", "origin", "master"], cwd=repo, timeout=300)
+        if push.returncode:
+            raise RuntimeError("inspection_push_failed:" + push.stderr[-1000:])
+    return run(["git", "rev-parse", "HEAD"], cwd=repo, timeout=120).stdout.strip()
+
+
+def context(lines: list[str], indexes: list[int], radius: int = 80) -> list[dict[str, Any]]:
+    spans = []
+    used: set[tuple[int, int]] = set()
+    for idx in indexes:
+        start = max(0, idx - radius)
+        end = min(len(lines), idx + radius + 1)
+        key = (start, end)
+        if key in used:
+            continue
+        used.add(key)
+        spans.append({
+            "start_line": start + 1,
+            "end_line": end,
+            "source": "\n".join(f"{i+1:05d}: {lines[i]}" for i in range(start, end)),
+        })
+    return spans[:12]
+
+
+def inspect_live(root: Path, packet_id: str) -> dict[str, Any]:
+    rows: list[dict[str, Any]] = []
+    candidates: list[Path] = []
+    for base in (root / "eira2", root / "extensions"):
+        if not base.is_dir():
+            continue
+        for p in base.rglob("*"):
+            if p.is_file() and p.suffix.lower() in {".js", ".html"}:
+                candidates.append(p)
+    for p in sorted(set(candidates)):
+        try:
+            text = p.read_text(encoding="utf-8", errors="replace")
+        except OSError:
+            continue
+        matched = [s for s in SIGNATURES if s in text]
+        if not matched:
+            continue
+        lines = text.splitlines()
+        indexes = [i for i, line in enumerate(lines) if any(s in line for s in matched)]
+        try:
+            rel = p.resolve().relative_to(root.resolve()).as_posix()
+        except Exception:
+            rel = str(p)
+        rows.append({
+            "path": rel,
+            "sha256": sha256_file(p),
+            "bytes": p.stat().st_size,
+            "matched_signatures": matched,
+            "match_line_numbers": [i + 1 for i in indexes[:80]],
+            "contexts": context(lines, indexes),
+        })
+    rows.sort(key=lambda r: (-len(r["matched_signatures"]), r["path"]))
+    return {
+        "schema": "eira2_read_only_revamp_mic_inspection_v1",
+        "packet_id": packet_id,
+        "mode": "read_only",
+        "mutates_live": False,
+        "root": str(root),
+        "signatures": SIGNATURES,
+        "candidate_files_scanned": len(candidates),
+        "matching_files": rows[:20],
+        "best_match": rows[0] if rows else None,
+        "generated_unix": time.time(),
+    }
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--root", required=True)
+    ap.add_argument("--packet", required=True)
+    ap.add_argument("--source-repo-root", required=True)
+    a = ap.parse_args()
+    root = Path(a.root).resolve()
+    packet_path = Path(a.packet).resolve()
+    repo = Path(a.source_repo_root).resolve()
+    packet = json.loads(packet_path.read_text(encoding="utf-8"))
+    packet_id = str(packet.get("packet_id") or "")
+
+    if packet_id.startswith(INSPECTION_PREFIX):
+        payload = inspect_live(root, packet_id)
+        rel = Path("eira2_transport_bus/from_superprobe/inspections") / "inspect_revamp_mic_lifecycle_v1__result.json"
+        commit = publish(repo, rel, payload)
+        print(json.dumps({
+            "EIRA2_BLUEPRINT_DEPLOYMENT_V4": "PASS",
+            "inspection_only": True,
+            "mutates_live": False,
+            "packet_id": packet_id,
+            "matching_files": len(payload.get("matching_files") or []),
+            "return_transport_commit": commit,
+        }, indent=2))
+        return 0
+
+    delegate = Path("/tmp") / f"eira2_lane_v4_normal_{os.getpid()}.py"
+    show = subprocess.run([
+        "git", "-C", str(repo), "show", f"{NORMAL_WRAPPER_COMMIT}:{NORMAL_WRAPPER_PATH}"
+    ], capture_output=True, timeout=120, check=False)
+    if show.returncode:
+        print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4": "FAIL", "error": "normal_wrapper_fetch_failed"}), file=sys.stderr)
+        return 2
+    delegate.write_bytes(show.stdout)
     try:
-        with socket.create_connection(("127.0.0.1",port),timeout=1): return True
-    except OSError: return False
-
-def launch_attempt(root:Path,name:str,cmd:list[str],port:int=8782,wait:int=30)->dict[str,Any]:
-    log_path=root/"eira_probe"/f"canonical_live_restart_{name}.log"; log_path.parent.mkdir(parents=True,exist_ok=True)
-    log=log_path.open("ab",buffering=0)
-    try:
-        child=subprocess.Popen(cmd,cwd=str(root),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,close_fds=True)
-    finally: log.close()
-    deadline=time.time()+wait
-    while time.time()<deadline:
-        if port_open(port):
-            tail=log_path.read_text(encoding="utf-8",errors="replace")[-2400:] if log_path.is_file() else ""
-            return {"name":name,"cmd":cmd,"pid":child.pid,"bound":True,"exit_code":child.poll(),"log_path":str(log_path),"log_tail":tail}
-        code=child.poll()
-        if code is not None:
-            tail=log_path.read_text(encoding="utf-8",errors="replace")[-2400:] if log_path.is_file() else ""
-            return {"name":name,"cmd":cmd,"pid":child.pid,"bound":False,"exit_code":code,"log_path":str(log_path),"log_tail":tail}
-        time.sleep(1)
-    tail=log_path.read_text(encoding="utf-8",errors="replace")[-2400:] if log_path.is_file() else ""
-    return {"name":name,"cmd":cmd,"pid":child.pid,"bound":port_open(port),"exit_code":child.poll(),"log_path":str(log_path),"log_tail":tail}
-
-def ensure_runtime(root:Path,port:int=8782)->dict[str,Any]:
-    if port_open(port): return {"schema":"eira2_canonical_runtime_ensure_v3","ok":True,"listener_before":True,"listener_after":True,"attempts":[]}
-    attempts=[]
-    candidates=[
-        ("main_py",[sys.executable,str(root/"main.py")],20),
-        ("module_live_root",[sys.executable,"-m","eira2","--live","--root",str(root)],30),
-        ("module_live_cwd",[sys.executable,"-m","eira2","--live"],30),
-    ]
-    for name,cmd,wait in candidates:
-        if name=="main_py" and not (root/"main.py").is_file():
-            attempts.append({"name":name,"cmd":cmd,"bound":False,"error":"main_py_missing"}); continue
-        row=launch_attempt(root,name,cmd,port,wait); attempts.append(row)
-        if row.get("bound"):
-            return {"schema":"eira2_canonical_runtime_ensure_v3","ok":True,"listener_before":False,"listener_after":True,"successful_attempt":name,"attempts":attempts}
-    return {"schema":"eira2_canonical_runtime_ensure_v3","ok":False,"listener_before":False,"listener_after":False,"error":"all_canonical_launch_attempts_failed","attempts":attempts}
-
-def post_json(url:str,payload:dict[str,Any],timeout:int=120)->dict[str,Any]:
-    import urllib.request, urllib.error
-    raw=json.dumps(payload).encode(); req=urllib.request.Request(url,data=raw,headers={"Content-Type":"application/json"},method="POST")
-    try:
-        with urllib.request.urlopen(req,timeout=timeout) as r:
-            body=r.read().decode("utf-8",errors="replace")
-            try: parsed=json.loads(body)
-            except Exception: parsed=body
-            return {"ok":r.status==200,"status":int(r.status),"body":parsed}
-    except Exception as exc: return {"ok":False,"error":f"{type(exc).__name__}:{exc}"[:1200]}
-
-def live_acceptance(port:int=8782)->dict[str,Any]:
-    text=post_json(f"http://127.0.0.1:{port}/v1/text",{"text":"How are you?","source":"deep_acceptance"}) if port_open(port) else {"ok":False,"error":"port_closed"}
-    return {"schema":"eira2_live_http_acceptance_v3","text":text,"runtime_acceptance_ok":bool(text.get("ok"))}
-
-def frontend_acceptance(root:Path,repo:Path,port:int=8782)->dict[str,Any]:
-    probe=Path("/tmp")/f"eira2_revamp2_acceptance_{os.getpid()}.py"; out=root/"eira_probe"/"revamp2_frontend_acceptance.json"
-    show=subprocess.run(["git","-C",str(repo),"show",f"origin/master:{FRONTEND_PROBE_PATH}"],capture_output=True,timeout=120,check=False)
-    if show.returncode: return {"ok":False,"error":"frontend_probe_fetch_failed:"+show.stderr[-600:].decode(errors="replace")}
-    probe.write_bytes(show.stdout)
-    try: p=run([sys.executable,str(probe),"--base",f"http://127.0.0.1:{port}/","--out",str(out)],cwd=root,timeout=180)
+        proc = run([
+            sys.executable, str(delegate), "--root", str(root), "--packet", str(packet_path),
+            "--source-repo-root", str(repo),
+        ], cwd=root, timeout=3600)
     finally:
-        try: probe.unlink()
-        except OSError: pass
-    payload={}
-    if out.is_file():
-        try: payload=json.loads(out.read_text(encoding="utf-8"))
-        except Exception: payload={}
-    return {"probe_returncode":p.returncode,"stdout":p.stdout[-1000:],"stderr":p.stderr[-1000:],**payload}
+        try:
+            delegate.unlink()
+        except OSError:
+            pass
+    sys.stdout.write(proc.stdout or "")
+    sys.stderr.write(proc.stderr or "")
+    return proc.returncode
 
-def publish_acceptance(repo:Path,packet_id:str,payload:dict[str,Any])->str:
-    rel=Path("eira2_transport_bus/from_superprobe/acceptance")/f"{packet_id}.json"
-    run(["git","reset","--hard","origin/master"],cwd=repo,timeout=300)
-    atomic_json(repo/rel,payload); run(["git","add",rel.as_posix()],cwd=repo,timeout=120)
-    if run(["git","diff","--cached","--quiet"],cwd=repo,timeout=120).returncode!=0:
-        c=run(["git","-c","user.name=EIRA Acceptance Transport","-c","user.email=eira-acceptance@localhost","commit","--quiet","-m",f"Return EIRA2 acceptance {packet_id}"],cwd=repo,timeout=120)
-        if c.returncode: raise RuntimeError("acceptance_commit_failed:"+c.stderr[-800:])
-        p=run(["git","pull","--rebase","--quiet","origin","master"],cwd=repo,timeout=300)
-        if p.returncode: raise RuntimeError("acceptance_rebase_failed:"+p.stderr[-800:])
-        p=run(["git","push","--quiet","origin","master"],cwd=repo,timeout=300)
-        if p.returncode: raise RuntimeError("acceptance_push_failed:"+p.stderr[-800:])
-    return run(["git","rev-parse","HEAD"],cwd=repo,timeout=120).stdout.strip()
 
-def main()->int:
-    ap=argparse.ArgumentParser(); ap.add_argument("--root",required=True); ap.add_argument("--packet",required=True); ap.add_argument("--source-repo-root",required=True); a=ap.parse_args()
-    root=Path(a.root).resolve(); repo=Path(a.source_repo_root).resolve(); packet=Path(a.packet).resolve(); data=json.loads(packet.read_text(encoding="utf-8")); packet_id=str(data.get("packet_id") or "")
-    core=Path("/tmp")/f"eira2_lane_core_{os.getpid()}.py"; show=subprocess.run(["git","-C",str(repo),"show",f"{CORE_COMMIT}:{CORE_PATH}"],capture_output=True,timeout=120,check=False)
-    if show.returncode: print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"FAIL","error":"core_fetch_failed"}),file=sys.stderr); return 2
-    core.write_bytes(show.stdout); proc=run([sys.executable,str(core),"--root",str(root),"--packet",str(packet),"--source-repo-root",str(repo)],cwd=root,timeout=3600)
-    try: core.unlink()
-    except OSError: pass
-    combo=(proc.stdout or "")+"\n"+(proc.stderr or "")
-    if proc.returncode or "PASS" not in combo: sys.stderr.write(proc.stderr or proc.stdout); return proc.returncode or 2
-    runtime=ensure_runtime(root); live=live_acceptance(); frontend=frontend_acceptance(root,repo)
-    payload={"schema":"eira2_live_acceptance_return_v3","packet_id":packet_id,"completed_unix":time.time(),"package_and_superprobe_qualified":True,"canonical_runtime_ensure":runtime,"live_http_acceptance":live,"revamp2_frontend_acceptance":frontend}
-    commit=publish_acceptance(repo,packet_id,payload)
-    print(json.dumps({"EIRA2_BLUEPRINT_DEPLOYMENT_V4":"PASS","packet_id":packet_id,"acceptance_return_transport_commit":commit,**payload},indent=2)); return 0
-if __name__=="__main__": raise SystemExit(main())
+if __name__ == "__main__":
+    raise SystemExit(main())
