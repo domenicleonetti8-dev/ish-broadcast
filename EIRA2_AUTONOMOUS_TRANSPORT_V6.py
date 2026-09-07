@@ -25,15 +25,40 @@ def atomic(path:Path,obj:Any)->None:
     os.replace(tmp,path)
 
 
+def heal_git_state(repo:Path)->None:
+    git=repo/'.git'
+    if not git.is_dir():
+        return
+    if (git/'rebase-merge').exists() or (git/'rebase-apply').exists():
+        run(['git','rebase','--abort'],cwd=repo,timeout=120)
+    merge_head=git/'MERGE_HEAD'
+    if merge_head.exists():
+        run(['git','merge','--abort'],cwd=repo,timeout=120)
+    for p in (git/'CHERRY_PICK_HEAD',git/'REVERT_HEAD'):
+        if p.exists():
+            run(['git','reset','--merge'],cwd=repo,timeout=120)
+            break
+    lock=git/'index.lock'
+    if lock.exists():
+        try:
+            age=time.time()-lock.stat().st_mtime
+            if age>300:
+                lock.unlink()
+        except OSError:
+            pass
+
+
 def sync_repo(repo:Path)->None:
     if not (repo/'.git').is_dir():
         if repo.exists(): shutil.rmtree(repo)
         p=run(['git','clone','--quiet',REPO_URL,str(repo)],timeout=600)
         if p.returncode: raise RuntimeError('git_clone_failed:'+(p.stdout+p.stderr)[-1800:])
+    heal_git_state(repo)
     for cmd in (
         ['git','fetch','--quiet','origin','master'],
         ['git','checkout','--quiet','master'],
         ['git','reset','--hard','origin/master'],
+        ['git','clean','-fd'],
     ):
         p=run(cmd,cwd=repo,timeout=600)
         if p.returncode: raise RuntimeError('git_sync_failed:'+(p.stdout+p.stderr)[-1800:])
@@ -87,8 +112,16 @@ def publish(repo:Path,request_id:str,receipt:dict[str,Any])->str:
     if run(['git','diff','--cached','--quiet'],cwd=repo,timeout=120).returncode!=0:
         p=run(['git','-c','user.name=EIRA Transport V6','-c','user.email=eira-transport-v6@localhost','commit','--quiet','-m',f'Return EIRA2 transport V6 receipt {request_id}'],cwd=repo,timeout=120)
         if p.returncode: raise RuntimeError('receipt_commit_failed:'+(p.stdout+p.stderr)[-1600:])
+        heal_git_state(repo)
         p=run(['git','pull','--rebase','--quiet','origin','master'],cwd=repo,timeout=600)
-        if p.returncode: raise RuntimeError('receipt_rebase_failed:'+(p.stdout+p.stderr)[-1800:])
+        if p.returncode:
+            heal_git_state(repo)
+            p2=run(['git','fetch','--quiet','origin','master'],cwd=repo,timeout=600)
+            if p2.returncode: raise RuntimeError('receipt_fetch_recovery_failed:'+(p2.stdout+p2.stderr)[-1800:])
+            p2=run(['git','rebase','origin/master'],cwd=repo,timeout=600)
+            if p2.returncode:
+                heal_git_state(repo)
+                raise RuntimeError('receipt_rebase_failed:'+(p.stdout+p.stderr+p2.stdout+p2.stderr)[-2200:])
         p=run(['git','push','--quiet','origin','master'],cwd=repo,timeout=600)
         if p.returncode: raise RuntimeError('receipt_push_failed:'+(p.stdout+p.stderr)[-1800:])
     return run(['git','rev-parse','HEAD'],cwd=repo,timeout=120).stdout.strip()
