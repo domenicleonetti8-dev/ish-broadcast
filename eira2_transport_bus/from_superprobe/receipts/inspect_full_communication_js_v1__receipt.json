@@ -4,8 +4,8 @@
   "request_id": "inspect_full_communication_js_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
   "stage": "single_checkout_execution",
-  "started_unix": 1788817532.3558958,
+  "started_unix": 1788817871.4380789,
   "status": "STARTED",
-  "supervisor_pid": 2566230,
+  "supervisor_pid": 2573693,
   "transport_request_sha256": "8a7bf9072f3a74f7e9a017a4a1b16a3d1ebfefd1d329901d385466b042935c05"
 }
