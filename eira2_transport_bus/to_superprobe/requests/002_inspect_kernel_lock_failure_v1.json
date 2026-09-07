@@ -1,0 +1,18 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "inspect_kernel_lock_failure_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2", "extensions"],
+    "suffixes": [".py", ".json"],
+    "signatures": ["kernel.lock", "required_service_failed", "supervisor.start", "lock"],
+    "full_source_paths": [
+      "eira2/kernel/supervisor.py"
+    ]
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": false,
+    "mutates_live": false
+  }
+}
