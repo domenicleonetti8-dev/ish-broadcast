@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_library_25x2_qualification_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "a1e073ee9e23c9c94155ca25eb8e9c638ac264eb",
+      "path": "EIRA2_UNIVERSE_LIBRARY_FULL_REPLACEMENT_V1.py",
+      "timeout_seconds": 180
+    }
+  }
+}
