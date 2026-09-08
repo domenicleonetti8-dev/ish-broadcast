@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "deploy_v13_walkthrough_wrapper_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788854733.0875401,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "2c98a81cd473be38eba4a665206628a43f76a91121ae03d5c93036a74378c8b1"
+}
