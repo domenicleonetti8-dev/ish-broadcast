@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "universe_library_stock_gutenberg_20260908_v3",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788901699.6452782,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 86297,
-  "transport_request_sha256": "d1fb54f93e1f8b4fda58ca79bcac00c784d54119b570d4bfb89bf45748e5f4c3"
+  "transport_request_sha256": "d1fb54f93e1f8b4fda58ca79bcac00c784d54119b570d4bfb89bf45748e5f4c3",
+  "updated_unix": 1788901702.8538115
 }
