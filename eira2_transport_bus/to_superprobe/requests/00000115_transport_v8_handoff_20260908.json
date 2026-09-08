@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "transport_v8_handoff_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "target": {
+      "path": "eira_probe/transport_runtime_v8/handoff.py"
+    },
+    "autonomous_job": {
+      "objective": "Start EIRA2 transport V8 as the new single-owner transport, then retire legacy V6/V7 transport owners after a short delayed handoff without interrupting Superprobe or EIRA runtime.",
+      "target_path": "eira_probe/transport_runtime_v8/handoff.py",
+      "qualification_canary": true,
+      "canary_candidate_text": "#!/usr/bin/env python3\nfrom __future__ import annotations\nimport json, os, signal, subprocess, sys, time\nfrom pathlib import Path\nROOT=Path('/media/domenicleonetti/easystore/EIRA/LIVE').resolve()\nV8=ROOT/'eira_probe'/'transport_runtime_v8'/'EIRA2_AUTONOMOUS_TRANSPORT_V8.py'\nLOG=ROOT/'eira_probe'/'transport_runtime_v8'/'transport_v8.log'\nSTATE=ROOT/'eira_probe'/'transport_runtime_v8'/'process.json'\nif not V8.is_file(): raise SystemExit('transport_v8_missing')\nlegacy=[]\nfor p in Path('/proc').iterdir():\n    if not p.name.isdigit(): continue\n    try: cmd=(p/'cmdline').read_bytes().replace(b'\\x00',b' ').decode(errors='replace')\n    except Exception: continue\n    if 'EIRA2_AUTONOMOUS_TRANSPORT_V6.py' in cmd or 'EIRA2_AUTONOMOUS_TRANSPORT_V7.py' in cmd: legacy.append(int(p.name))\nLOG.parent.mkdir(parents=True,exist_ok=True)\nwith LOG.open('ab',buffering=0) as log:\n    proc=subprocess.Popen([sys.executable,str(V8),'--root',str(ROOT),'--interval','2'],cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\nreaper='import os,signal,time; time.sleep(12); pids='+repr(legacy)+'; [(os.kill(p,signal.SIGTERM) if p!=os.getpid() else None) for p in pids if os.path.exists(f\\'/proc/{p}\\')]'\nsubprocess.Popen([sys.executable,'-c',reaper],cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,start_new_session=True)\npayload={'schema':'eira2_transport_v8_handoff_v1','ok':True,'pid':proc.pid,'legacy_pids':legacy,'handoff_delay_seconds':12,'started_unix':time.time(),'v8':str(V8),'log':str(LOG)}\ntmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n'); os.replace(tmp,STATE)\nprint(json.dumps(payload,sort_keys=True))\n",
+      "max_sandbox_attempts": 3,
+      "test_argv": ["python3", "-c", "import os,pathlib; p=pathlib.Path(os.environ['EIRA2_CANDIDATE_PATH']); compile(p.read_text(),str(p),'exec')"],
+      "post_verify_argv": ["python3", "eira_probe/transport_runtime_v8/handoff.py"],
+      "post_verify_timeout_seconds": 60
+    }
+  }
+}
