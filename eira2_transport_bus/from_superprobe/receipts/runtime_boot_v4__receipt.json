@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "runtime_boot_v4",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788828160.3997293,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "9a4ddde00aa414b867369dffbd8b5bb09989b6bc80ce7c0e73173d0858ddfb86"
+}
