@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788827777.6623564,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": {\"error\": \"URLError:<urlopen error [Errno 111] Connection refused>\", \"mutates_live\": false, \"ok\": false, \"schema\": \"eira2_text_path_qualification_v3\"}, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"f003c738a54abe848ab060835ef6a95969a563d7\", \"source_path\": \"EIRA2_TEXT_PATH_QUALIFICATION_V3.py\", \"source_sha256\": \"6a3aee238e2a18b91ed5457c820256717dc1dd2345e805ab3e934dad617df904\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\\"schema\\\":\\\"eira2_text_path_qualification_v3\\\",\\\"mutates_live\\\":false,\\\"ok\\\":false,\\\"error\\\":\\\"URLError:<urlopen error [Errno 111] Connection refused>\\\"}\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "text_path_qualification_v3",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "7bf31894e3e0567336616ae5c159242c1e33a57dd2820f1768f2234ad591f246",
-  "updated_unix": 1788827774.1748364,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "7bf31894e3e0567336616ae5c159242c1e33a57dd2820f1768f2234ad591f246"
 }
