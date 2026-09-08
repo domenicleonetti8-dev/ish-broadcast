@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "generate_neural_live_single_build_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "8b014d4afa63112e7114e610a82772ad1a9d54fb",
+      "path": "EIRA2_GENERATE_NEURAL_LIVE_SINGLE_BUILD_V1.py",
+      "timeout_seconds": 120
+    }
+  }
+}
