@@ -80,6 +80,27 @@ def publish(work:Path,request_id:str,receipt:dict[str,Any])->str:
         if p.returncode: raise RuntimeError("receipt_push_failed:"+p.stderr[-1000:])
     return run(["git","rev-parse","HEAD"],cwd=work,timeout=120).stdout.strip()
 
+def _parse_json_result(stdout:str)->dict[str,Any]|None:
+    text=(stdout or "").strip()
+    if not text: return None
+    try:
+        obj=json.loads(text)
+        if isinstance(obj,dict): return obj
+    except Exception: pass
+    for line in reversed(text.splitlines()):
+        try:
+            obj=json.loads(line)
+            if isinstance(obj,dict): return obj
+        except Exception: pass
+    decoder=json.JSONDecoder()
+    for i,ch in enumerate(text):
+        if ch!="{": continue
+        try:
+            obj,_=decoder.raw_decode(text[i:])
+            if isinstance(obj,dict): return obj
+        except Exception: continue
+    return None
+
 def _qualification_success(parsed:Any,returncode:int)->bool:
     if returncode!=0 or not isinstance(parsed,dict): return False
     return parsed.get("ok") is True or parsed.get("pass") is True
@@ -93,14 +114,8 @@ def _execute_read_only_qualification(root:Path,spec:dict[str,Any])->dict[str,Any
     suffix=Path(repo_path).suffix or ".py"
     with tempfile.TemporaryDirectory(prefix="eira2_qual_",dir=str(runtime)) as td:
         path=Path(td)/("qualification"+suffix); path.write_bytes(raw); cmd=[sys.executable,str(path)] if suffix==".py" else [str(path)]; p=run(cmd,cwd=root,timeout=timeout)
-    stdout=(p.stdout or "").strip(); stderr=(p.stderr or "").strip(); parsed=None
-    if stdout:
-        for line in reversed(stdout.splitlines()):
-            try:
-                obj=json.loads(line)
-                if isinstance(obj,dict): parsed=obj; break
-            except Exception: pass
-    return {"schema":"eira2_transport_read_only_qualification_v2","source_commit":commit,"source_path":repo_path,"source_sha256":actual,"returncode":p.returncode,"stdout_tail":stdout[-12000:],"stderr_tail":stderr[-6000:],"result":parsed,"accepted_success_markers":["ok","pass"],"ok":_qualification_success(parsed,p.returncode),"mutates_live":False}
+    stdout=(p.stdout or "").strip(); stderr=(p.stderr or "").strip(); parsed=_parse_json_result(stdout)
+    return {"schema":"eira2_transport_read_only_qualification_v3","source_commit":commit,"source_path":repo_path,"source_sha256":actual,"returncode":p.returncode,"stdout_tail":stdout[-12000:],"stderr_tail":stderr[-6000:],"result":parsed,"accepted_success_markers":["ok","pass"],"json_parse_modes":["whole_stdout","json_line","embedded_object"],"ok":_qualification_success(parsed,p.returncode),"mutates_live":False}
 
 def inspect_request(root:Path,request:dict[str,Any],auth:dict[str,Any])->dict[str,Any]:
     spec=request.get("inspection") or {}; signatures=[str(x) for x in (spec.get("signatures") or []) if str(x)]; roots=[str(x) for x in (spec.get("roots") or ["eira2","extensions"]) if str(x)]; suffixes=set(spec.get("suffixes") or [".py",".js",".html",".json"]); rows=[]; scanned=0
