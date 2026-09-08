@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "deploy_revamp2_v13_native_apple_ar_index",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788853070.337311,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "8bcd69b32b32225dfd2477e37d9cde0c80d5b7ffc163992a6e3204051f339252"
+}
