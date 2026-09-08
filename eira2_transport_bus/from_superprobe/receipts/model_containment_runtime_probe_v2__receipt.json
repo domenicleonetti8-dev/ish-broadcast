@@ -1,12 +1,129 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788830197.5651083,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "bdb27ab57bdacc5b35b6832a7ba69be53f56f3bf61f647363f5a545639a8504f",
+    "generated_unix": 1788830196.3604572,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "containment": {
+          "all_manifest_referenced_blobs_hash_verified": true,
+          "candidate_only": true,
+          "direct_model_to_delivery_path": false,
+          "direct_model_to_identity_authority": false,
+          "direct_model_to_memory_acceptance": false,
+          "direct_model_to_tools_path": false,
+          "eira1_runtime_delegation": false,
+          "internet_model_pull_allowed_at_runtime": false,
+          "legacy_ollama_service_active": false,
+          "legacy_ollama_service_disabled": true,
+          "legacy_ollama_service_enabled": false,
+          "model_roles": {
+            "gemma3:4b": "vision_private_candidate",
+            "qwen2.5-coder:3b": "engineering_code_private_candidate",
+            "qwen2.5:3b": "general_reasoning_private_candidate"
+          },
+          "model_store": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama",
+          "model_store_under_eira2": true,
+          "model_transport": "unix_domain_socket",
+          "ok": true,
+          "ollama_private_network": true,
+          "outbound_network_allowed": false,
+          "private_model_containment_complete": true,
+          "proxy_private_network": true,
+          "required_models": [
+            "qwen2.5:3b",
+            "qwen2.5-coder:3b",
+            "gemma3:4b"
+          ],
+          "required_models_complete": true,
+          "runtime_root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+          "runtime_user": "domenicleonetti",
+          "schema": "eira2_private_model_containment_v1",
+          "services_active_verified": true,
+          "unit_files": {
+            "eira2-model-proxy.service": "/etc/systemd/system/eira2-model-proxy.service",
+            "eira2-ollama.service": "/etc/systemd/system/eira2-ollama.service"
+          },
+          "unit_sha256": {
+            "eira2-model-proxy.service": "f2bbc5c2d22169800df20db0e4dc1b3f8c1f9088c2ce1d0c08563c6d799e8759",
+            "eira2-ollama.service": "764143026020b926dbbae93299521c8640118e937058265a1e4839451ba42685"
+          },
+          "unix_socket": "/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock",
+          "verified_now": true
+        },
+        "import_seconds": 0.074,
+        "mutates_live": false,
+        "ok": true,
+        "schema": "eira2_model_containment_runtime_probe_v2",
+        "services": {
+          "ollama": {
+            "returncode": 4,
+            "stderr": "Unit eira2-ollama.service could not be found.\n",
+            "stdout": ""
+          },
+          "proxy": {
+            "returncode": 4,
+            "stderr": "Unit eira2-model-proxy.service could not be found.\n",
+            "stdout": ""
+          }
+        },
+        "socket_connect_ok": true,
+        "socket_exists": true,
+        "unix_socket": "/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock",
+        "verify_seconds": 0.042
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "41890273e0d4368e8292561a761f83cbb3330322",
+      "source_path": "EIRA2_MODEL_CONTAINMENT_RUNTIME_PROBE_V2.py",
+      "source_sha256": "1813cd3815e8d0259e2d2cc0180ca50a53b3ede7bf6ef4036a8f2ac31b7402ee",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_model_containment_runtime_probe_v2\",\"ok\":true,\"mutates_live\":false,\"import_seconds\":0.074,\"verify_seconds\":0.042,\"containment\":{\"all_manifest_referenced_blobs_hash_verified\":true,\"candidate_only\":true,\"direct_model_to_delivery_path\":false,\"direct_model_to_identity_authority\":false,\"direct_model_to_memory_acceptance\":false,\"direct_model_to_tools_path\":false,\"eira1_runtime_delegation\":false,\"internet_model_pull_allowed_at_runtime\":false,\"legacy_ollama_service_active\":false,\"legacy_ollama_service_disabled\":true,\"legacy_ollama_service_enabled\":false,\"model_roles\":{\"gemma3:4b\":\"vision_private_candidate\",\"qwen2.5-coder:3b\":\"engineering_code_private_candidate\",\"qwen2.5:3b\":\"general_reasoning_private_candidate\"},\"model_store\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama\",\"model_store_under_eira2\":true,\"model_transport\":\"unix_domain_socket\",\"ok\":true,\"ollama_private_network\":true,\"outbound_network_allowed\":false,\"private_model_containment_complete\":true,\"proxy_private_network\":true,\"required_models\":[\"qwen2.5:3b\",\"qwen2.5-coder:3b\",\"gemma3:4b\"],\"required_models_complete\":true,\"runtime_root\":\"/media/domenicleonetti/easystore/EIRA/LIVE\",\"runtime_user\":\"domenicleonetti\",\"schema\":\"eira2_private_model_containment_v1\",\"services_active_verified\":true,\"unit_files\":{\"eira2-model-proxy.service\":\"/etc/systemd/system/eira2-model-proxy.service\",\"eira2-ollama.service\":\"/etc/systemd/system/eira2-ollama.service\"},\"unit_sha256\":{\"eira2-model-proxy.service\":\"f2bbc5c2d22169800df20db0e4dc1b3f8c1f9088c2ce1d0c08563c6d799e8759\",\"eira2-ollama.service\":\"764143026020b926dbbae93299521c8640118e937058265a1e4839451ba42685\"},\"unix_socket\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock\",\"verified_now\":true},\"unix_socket\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock\",\"socket_exists\":true,\"services\":{\"ollama\":{\"returncode\":4,\"stdout\":\"\",\"stderr\":\"Unit eira2-ollama.service could not be found.\\n\"},\"proxy\":{\"returncode\":4,\"stdout\":\"\",\"stderr\":\"Unit eira2-model-proxy.service could not be found.\\n\"}},\"socket_connect_ok\":true}"
+    },
+    "request_id": "model_containment_runtime_probe_v2",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788830191.3685079,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "model_containment_runtime_probe_v2",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "model_containment_runtime_probe_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "073f92de69ee2422dda692a1066dc03519f8c47d708af1506fb297ad8982f682",
-  "updated_unix": 1788830193.6426716,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788830191.3685079,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "model_containment_runtime_probe_v2",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
