@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "00000000_v7_immediate_receipt_canary_20260908_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788900227.7723165,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "e09497dd2c9300e0d6ec637854e6c4152492a0e2aff6c0b5978a8c4bcbbdc5a4"
+}
