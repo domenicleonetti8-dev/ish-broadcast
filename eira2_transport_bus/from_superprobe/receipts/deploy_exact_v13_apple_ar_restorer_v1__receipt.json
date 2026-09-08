@@ -1,11 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788906424.5303006,
+  "error": "RuntimeError:watcher_unavailable_after_retries:RuntimeError:watcher_rejected:{\"authorized\": false, \"error\": \"RuntimeError:superprobe_rejected:{\\n  \\\"artifact_count\\\": 7,\\n  \\\"bytes\\\": 8256989618,\\n  \\\"discrepancy_count\\\": 1,\\n  \\\"evidence_fingerprint\\\": \\\"b04eec8c135715e841b601997b9496228909d9fe72f3ba2eef9b8cb35b7e7720\\\",\\n  \\\"files\\\": 211,\\n  \\\"impact_index_files\\\": 126,\\n  \\\"listeners\\\": 2,\\n  \\\"ok\\\": false,\\n  \\\"organism_ok\\\": true,\\n  \\\"output\\\": \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_report.json\\\",\\n  \\\"package_identity_ok\\\": false,\\n  \\\"python_files\\\": 126,\\n  \\\"runtime_processes\\\": 14,\\n  \\\"schema\\\": \\\"eira2_superprobe_forensic_v4\\\",\\n  \\\"semantic_edges\\\": 276,\\n  \\\"shared_evidence_fingerprint\\\": \\\"b04eec8c135715e841b601997b9496228909d9fe72f3ba2eef9b8cb35b7e7720\\\",\\n  \\\"unresolved_internal_imports\\\": 0\\n}\\nEIRA2_SUPERPROBE=FAIL\\n\\n\", \"ok\": false, \"status\": \"transport_request_rejected\"}",
+  "ok": false,
   "operation": "deploy",
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 178575,
-  "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b",
-  "updated_unix": 1788905778.9817197
+  "status": "RETRYING",
+  "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b"
 }
