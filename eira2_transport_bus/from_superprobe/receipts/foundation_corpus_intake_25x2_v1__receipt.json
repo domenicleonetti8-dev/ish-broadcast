@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788852889.9038122,
-  "error": "RuntimeError:receipt_push_failed:To https://github.com/domenicleonetti8-dev/ish-broadcast.git\n ! [remote rejected]   master -> master (cannot lock ref 'refs/heads/master': is at a3df0694a022634ed18525018d8c6db9445bb58d but expected 512759bdf5e97a19bf5e5ffb64714145407d1f01)\nerror: failed to push some refs to 'https://github.com/domenicleonetti8-dev/ish-broadcast.git'\n",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "foundation_corpus_intake_25x2_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788853315.2978249,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "2be49da857443bb9df8eca7fef1d42b17a8e8a253f0cd835612181739ad6e46d"
 }
