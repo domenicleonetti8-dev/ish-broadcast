@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "legacy_transport_forensic_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "33386dc9e8bc74c7b94ca6d2fa43e1a2958a432c",
+      "path": "EIRA2_LEGACY_TRANSPORT_FORENSIC_V1.py",
+      "timeout_seconds": 120
+    }
+  }
+}
