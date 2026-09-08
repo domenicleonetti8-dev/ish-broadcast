@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "kernel_lock_forensic_v2",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "9c80aac63147e12dd430f2b20b3e0bc23da6c50c",
+      "path": "EIRA2_KERNEL_LOCK_FORENSIC_V2.py",
+      "timeout_seconds": 120
+    }
+  },
+  "purpose": "Read-only exact forensic of EIRA2 kernel lock implementation, live Eira processes, and lock/PID artifacts. No mutation."
+}
