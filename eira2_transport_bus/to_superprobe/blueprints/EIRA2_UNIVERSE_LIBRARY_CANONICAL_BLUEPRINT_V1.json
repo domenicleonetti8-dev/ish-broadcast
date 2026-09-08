@@ -1,0 +1,111 @@
+{
+  "schema": "eira2_universe_library_blueprint_v1",
+  "purpose": "Canonical factual knowledge library for the observable universe, Solar System, Earth, and Earth history. This is a knowledge substrate for Eira, not an authority bypass and not a claim of exhaustive knowledge.",
+  "organism_contract": {
+    "one_outward_voice": "Eira",
+    "model_is_not_authority": true,
+    "memory_admission_requires_truth_gate": true,
+    "source_documents_are_not_accepted_facts": true,
+    "preserve_historical_versions": true,
+    "never_convert_unknown_to_fact": true
+  },
+  "canonical_zones": [
+    "observable_universe",
+    "cosmology_and_fundamental_physics",
+    "galaxies_stars_and_compact_objects",
+    "exoplanets_and_astrobiology",
+    "solar_system",
+    "sun",
+    "planets_dwarf_planets_moons_rings_small_bodies",
+    "earth_system",
+    "geology_and_deep_time",
+    "oceans_atmosphere_climate_cryosphere",
+    "origin_and_evolution_of_life",
+    "taxonomy_ecology_and_biodiversity",
+    "human_evolution_and_anthropology",
+    "human_history_and_civilizations",
+    "languages_writing_and_knowledge_history",
+    "mathematics_and_equations",
+    "physics_chemistry_biology_and_earth_science",
+    "astronomical_observations_and_mission_archives"
+  ],
+  "record_contract": {
+    "required": [
+      "claim_id",
+      "canonical_subject",
+      "claim",
+      "claim_type",
+      "source_ids",
+      "retrieved_at",
+      "source_published_or_updated_at",
+      "temporal_scope",
+      "evidence_class",
+      "corroboration_state",
+      "contradiction_state",
+      "confidence",
+      "truth_gate_state",
+      "version",
+      "content_hash"
+    ],
+    "truth_gate_states": ["candidate", "accepted", "contested", "superseded", "rejected", "unknown"],
+    "claim_types": ["observation", "measurement", "definition", "historical_record", "derived_result", "model", "consensus", "hypothesis"],
+    "rule": "Only accepted records may be represented by Eira as established factual memory. Other states remain queryable with their epistemic status exposed."
+  },
+  "source_policy": {
+    "preferred": [
+      "primary_government_scientific_agency",
+      "official_space_mission_archive",
+      "official_statistical_or_historical_archive",
+      "standards_body",
+      "peer_reviewed_primary_literature",
+      "university_or_research_institution",
+      "curated_open_reference_work"
+    ],
+    "current_events": "News is time-stamped evidence of reporting, not automatic factual admission. Material claims require corroboration or a primary record when reasonably available.",
+    "copyright": "Archive open, public-domain, licensed, or user-authorized documents. Otherwise retain metadata, citations, permitted excerpts, and derived factual records rather than unauthorized full copies."
+  },
+  "temporal_model": {
+    "knowledge_cutoff": null,
+    "live_revalidation": true,
+    "stable_knowledge_revalidate_by_policy": true,
+    "volatile_knowledge_revalidate_frequently": true,
+    "preserve_superseded_versions": true,
+    "answer_modes": ["current_best_evidence", "as_known_at_time", "history_of_claim"]
+  },
+  "astronomy_contract": {
+    "mission_data_is_evidence_not_direct_lens_control": true,
+    "observation_pipeline": [
+      "mission_archive_or_authorized_interface",
+      "observation_identifier",
+      "instrument_and_filter_metadata",
+      "raw_or_calibrated_product",
+      "calibration_and_quality_flags",
+      "scientific_channel_mapping",
+      "multichannel_composite",
+      "png_render",
+      "provenance_receipt"
+    ],
+    "color_truth": "Eira must distinguish measured spectral/filter data, scientific false-color mappings, and literal human-visible appearance.",
+    "target_missions": ["JWST", "Hubble"]
+  },
+  "storage_layers": {
+    "source_archive": "Immutable/versioned source documents and dataset metadata.",
+    "factual_graph": "Truth-gated atomic claims with provenance and semantic relationships.",
+    "timeline": "Deep-time, planetary, biological, and human historical events with uncertainty ranges.",
+    "equation_registry": "Equations with symbols, units, assumptions, domains of validity, references, and executable solver bindings.",
+    "observation_archive": "Astronomical and planetary observations plus processing provenance.",
+    "frontier": "Unverified, contested, emerging, or hypothetical knowledge isolated from accepted facts."
+  },
+  "anti_exhaustiveness_rule": "The system may continuously expand coverage toward comprehensive knowledge but must never claim literal possession of everything. Coverage is measured and missing knowledge remains explicitly discoverable.",
+  "qualification_rule": {
+    "distinct_tests": 25,
+    "passes_per_test": 2,
+    "required_clean_passes": 50,
+    "failure_resets_unit": true,
+    "promotion_before_50_of_50": false
+  },
+  "first_file_only": {
+    "next_unit": "universe_library_record.py",
+    "scope": "Implement only the immutable knowledge-record schema and validation invariants. No fetching, no Truth Gate scoring, no ingestion, no model calls, no memory writes until this file reaches 50/50."
+  }
+}
