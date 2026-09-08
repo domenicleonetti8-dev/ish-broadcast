@@ -3,9 +3,24 @@
   "operation": "inspect",
   "request_id": "startup_chain_sources_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "a65bee2c293559c65f3d854a5a6a094f4232a25d9926d0eecb9e22572583c3c8",
-  "updated_unix": 1788828410.9190333
+  "updated_unix": 1788828413.1318488,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788828413.1318407,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "startup_chain_sources_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
+  "watcher_authorized": true
 }
