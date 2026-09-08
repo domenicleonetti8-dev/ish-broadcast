@@ -1,0 +1,17 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "inspect_autonomous_engineering_interfaces_20260908_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "roots": ["extensions"],
+    "suffixes": [".py"],
+    "signatures": ["authorize_transport_request", "verified_engineering", "engineering_gateway", "sandbox", "repair_watcher"],
+    "full_source_paths": [
+      "extensions/repair_watcher_ai/plugin.py",
+      "extensions/verified_engineering_ai/plugin.py",
+      "extensions/engineering_gateway_ai/plugin.py"
+    ]
+  },
+  "purpose": "Read-only extraction of the exact LIVE Watcher and isolated engineering interfaces before adding the autonomous sandbox-test-evaluate-approve-execute loop."
+}
