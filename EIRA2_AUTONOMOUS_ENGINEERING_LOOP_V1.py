@@ -51,6 +51,11 @@ def extract_candidate(value:Any)->bytes:
 def generate_candidate(root:Path,sandbox:Path,job:dict[str,Any],before:bytes|None)->tuple[bytes,dict[str,Any]]:
     objective=str(job.get("objective") or "").strip(); target=safe_rel(str(job.get("target_path") or ""))
     if not objective: raise RuntimeError("autonomous_objective_required")
+    if job.get("qualification_canary") is True:
+        value=job.get("canary_candidate_text")
+        if not isinstance(value,str) or not value: raise RuntimeError("qualification_canary_text_required")
+        candidate=value.encode("utf-8")
+        return candidate,{"provider":"deterministic_control_loop_canary","qualification_only":True,"candidate_sha256":sha256_bytes(candidate),"candidate_bytes":len(candidate)}
     ask,provider_path=find_verified_engineering(root)
     req={"schema":"eira2_verified_engineering_autonomous_candidate_v1","objective":objective,"target_path":target,"sandbox_root":str(sandbox),"existing_source":before.decode("utf-8",errors="replace") if before is not None else None,"requirements":job.get("requirements") or [],"constraints":["Return a complete replacement candidate only; never mutate LIVE.","Preserve compatible interfaces unless the objective explicitly requires a change.","Do not claim verification; verification is performed by the autonomous sandbox loop."]}
     try: result=ask(req)
