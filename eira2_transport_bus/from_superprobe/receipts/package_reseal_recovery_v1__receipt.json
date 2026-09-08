@@ -1,12 +1,74 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788828121.5047383,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "07953f5b2c033f4a224b6e6e14ac8b25f282d0294067e0dba540b556abf16a07",
+    "generated_unix": 1788828116.705698,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "changed": [
+          "eira2/operations/doctor.py",
+          "extensions/repair_watcher_ai/plugin.py"
+        ],
+        "file_count": 351,
+        "manifest_after_sha256": "93faefdea9e821e00ac0a0b8ad24af492ac5cfc3bd2817c674ac20544a31de8a",
+        "manifest_before_sha256": "094c90a8b7a18b29c9b0cb62a9f46ab899613136f5b38b123f0a5992e43a6d6b",
+        "mutated_only": "eira2-package-manifest.json",
+        "ok": true,
+        "package_tree_sha256": "7dad45fbf0578a7cd8ef051de613bbf658bc65bf1c5908bfba65d5a22a64cdee",
+        "schema": "eira2_package_reseal_recovery_v1"
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "7014227faafe20bcf42efe4469a3ac3902d4e1d5",
+      "source_path": "EIRA2_PACKAGE_RESEAL_RECOVERY_V1.py",
+      "source_sha256": "a6b5a69cc7b689c627a06f4afd15a317cbd9ec4b4f37bdfee375dc6cf3b41629",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_package_reseal_recovery_v1\",\"ok\":true,\"manifest_before_sha256\":\"094c90a8b7a18b29c9b0cb62a9f46ab899613136f5b38b123f0a5992e43a6d6b\",\"manifest_after_sha256\":\"93faefdea9e821e00ac0a0b8ad24af492ac5cfc3bd2817c674ac20544a31de8a\",\"package_tree_sha256\":\"7dad45fbf0578a7cd8ef051de613bbf658bc65bf1c5908bfba65d5a22a64cdee\",\"file_count\":351,\"changed\":[\"eira2/operations/doctor.py\",\"extensions/repair_watcher_ai/plugin.py\"],\"mutated_only\":\"eira2-package-manifest.json\"}"
+    },
+    "request_id": "package_reseal_recovery_v1",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788828112.3465958,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "package_reseal_recovery_v1",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "package_reseal_recovery_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "fb1b70fd99de91b9b639ffc02a1be74906b4b8d48da10290be6aec926716544c",
-  "updated_unix": 1788828114.445765,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788828112.3465958,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "package_reseal_recovery_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
