@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "generate_model_fast_boot_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "3f5184bfc0a06325afb9f41fd941a9f65476434d",
+      "path": "EIRA2_GENERATE_MODEL_FAST_BOOT_REPLACEMENT_V1.py",
+      "timeout_seconds": 120
+    }
+  }
+}
