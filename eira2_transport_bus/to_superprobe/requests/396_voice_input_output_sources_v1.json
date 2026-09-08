@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "voice_input_output_sources_v1",
+  "operation": "inspect",
+  "inspection": {
+    "full_source_paths": [
+      "eira2/interfaces/native.py",
+      "eira2/interfaces/senses.py",
+      "eira2/delivery/voice.py",
+      "eira2/delivery/native_bluetooth_voice.py",
+      "eira2/delivery/presence.py"
+    ]
+  }
+}
