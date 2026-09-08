@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "generate_model_fast_boot_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788828937.0542479,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "9d99526f41147d9de6e1cc9bca280b936159abbc1760e44e23c9e63b2e240970"
+}
