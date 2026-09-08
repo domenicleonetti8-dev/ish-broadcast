@@ -1,12 +1,270 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788828858.971591,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "c41a05c53c690f5ef6068764c1836ac32b6cde0ce62a6c933241c810a0d0a8da",
+    "generated_unix": 1788828858.0309398,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "asset_receipt": {
+          "all_manifest_referenced_blobs_hash_verified": true,
+          "copied_from_existing_local_assets": true,
+          "destination_root": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama",
+          "destination_under_eira2": true,
+          "eira1_runtime_delegation": false,
+          "models": [
+            {
+              "blob_count": 5,
+              "manifest_sha256": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+              "model": "qwen2.5:3b",
+              "role": "general_reasoning_private_candidate"
+            },
+            {
+              "blob_count": 5,
+              "manifest_sha256": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+              "model": "qwen2.5-coder:3b",
+              "role": "engineering_code_private_candidate"
+            },
+            {
+              "blob_count": 5,
+              "manifest_sha256": "a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a",
+              "model": "gemma3:4b",
+              "role": "vision_private_candidate"
+            }
+          ],
+          "network_download_performed": false,
+          "ok": true,
+          "required_models": [
+            "qwen2.5:3b",
+            "qwen2.5-coder:3b",
+            "gemma3:4b"
+          ],
+          "required_models_complete": true,
+          "runtime_root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+          "schema": "eira2_private_model_asset_takeover_v1",
+          "source_root": "/usr/share/ollama/.ollama/models",
+          "unique_blob_bytes": 7198626794,
+          "unique_blob_count": 14
+        },
+        "containment_receipt": {
+          "all_manifest_referenced_blobs_hash_verified": true,
+          "candidate_only": true,
+          "direct_model_to_delivery_path": false,
+          "direct_model_to_identity_authority": false,
+          "direct_model_to_memory_acceptance": false,
+          "direct_model_to_tools_path": false,
+          "eira1_runtime_delegation": false,
+          "internet_model_pull_allowed_at_runtime": false,
+          "legacy_ollama_service_active": false,
+          "legacy_ollama_service_disabled": true,
+          "legacy_ollama_service_enabled": false,
+          "model_roles": {
+            "gemma3:4b": "vision_private_candidate",
+            "qwen2.5-coder:3b": "engineering_code_private_candidate",
+            "qwen2.5:3b": "general_reasoning_private_candidate"
+          },
+          "model_store": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama",
+          "model_store_under_eira2": true,
+          "model_transport": "unix_domain_socket",
+          "ok": true,
+          "ollama_private_network": true,
+          "outbound_network_allowed": false,
+          "private_model_containment_complete": true,
+          "proxy_private_network": true,
+          "required_models": [
+            "qwen2.5:3b",
+            "qwen2.5-coder:3b",
+            "gemma3:4b"
+          ],
+          "required_models_complete": true,
+          "runtime_root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+          "runtime_user": "domenicleonetti",
+          "schema": "eira2_private_model_containment_v1",
+          "services_active_verified": true,
+          "unit_files": {
+            "eira2-model-proxy.service": "/etc/systemd/system/eira2-model-proxy.service",
+            "eira2-ollama.service": "/etc/systemd/system/eira2-ollama.service"
+          },
+          "unit_sha256": {
+            "eira2-model-proxy.service": "f2bbc5c2d22169800df20db0e4dc1b3f8c1f9088c2ce1d0c08563c6d799e8759",
+            "eira2-ollama.service": "764143026020b926dbbae93299521c8640118e937058265a1e4839451ba42685"
+          },
+          "unix_socket": "/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock"
+        },
+        "model_root": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama",
+        "models": [
+          {
+            "blob_count": 5,
+            "blobs": [
+              {
+                "digest": "sha256:161ddde4c9cd07c9f1ccb4e0167c434bce72caeb3fc1844262fa66bc877b0426",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 487
+              },
+              {
+                "digest": "sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 1929903008
+              },
+              {
+                "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 68
+              },
+              {
+                "digest": "sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 1482
+              },
+              {
+                "digest": "sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 7387
+              }
+            ],
+            "manifest": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5/3b",
+            "manifest_sha256": "357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b",
+            "model": "qwen2.5:3b"
+          },
+          {
+            "blob_count": 5,
+            "blobs": [
+              {
+                "digest": "sha256:bb967eff3bda079d4ee62c09c5ef0b2e71a6a75934a4c92a13c755fcfd655703",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 487
+              },
+              {
+                "digest": "sha256:4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 1929903072
+              },
+              {
+                "digest": "sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 68
+              },
+              {
+                "digest": "sha256:1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 1615
+              },
+              {
+                "digest": "sha256:45fc3ea7579acf3021044fc8c4c5dd5969ebc3ca2a68219b5075662cc949a4f1",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 7384
+              }
+            ],
+            "manifest": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5-coder/3b",
+            "manifest_sha256": "f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225",
+            "model": "qwen2.5-coder:3b"
+          },
+          {
+            "blob_count": 5,
+            "blobs": [
+              {
+                "digest": "sha256:b6ae5839783f2ba248e65e4b960ab15f9c4b7118db285827dba6cba9754759e2",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 489
+              },
+              {
+                "digest": "sha256:aeda25e63ebd698fab8638ffb778e68bed908b960d39d0becc650fa981609d25",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 3338792448
+              },
+              {
+                "digest": "sha256:e0a42594d802e5d31cdc786deb4823edb8adff66094d49de8fffe976d753e348",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 358
+              },
+              {
+                "digest": "sha256:dd084c7d92a3c1c14cc09ae77153b903fd2024b64a100a0cc8ec9316063d2dbc",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 8432
+              },
+              {
+                "digest": "sha256:3116c52250752e00dd06b16382e952bd33c34fd79fc4fe3a5d2c77cf7de1b14b",
+                "is_file": true,
+                "is_symlink": false,
+                "size": 77
+              }
+            ],
+            "manifest": "/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/gemma3/4b",
+            "manifest_sha256": "a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a",
+            "model": "gemma3:4b"
+          }
+        ],
+        "mutates_live": false,
+        "ok": true,
+        "schema": "eira2_model_attestation_fastcheck_forensic_v1",
+        "unique_blob_bytes": 7198626794,
+        "unique_blob_count": 14
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "98410348fc089a81b509c97eef6ee91d2c955138",
+      "source_path": "EIRA2_MODEL_ATTESTATION_FASTCHECK_FORENSIC_V1.py",
+      "source_sha256": "f68eb0a365a9538f68dd9ecfcdf77946c305fe5ac8e9819ed56a1a48a6552ea0",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_model_attestation_fastcheck_forensic_v1\",\"ok\":true,\"mutates_live\":false,\"asset_receipt\":{\"all_manifest_referenced_blobs_hash_verified\":true,\"copied_from_existing_local_assets\":true,\"destination_root\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama\",\"destination_under_eira2\":true,\"eira1_runtime_delegation\":false,\"models\":[{\"blob_count\":5,\"manifest_sha256\":\"357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b\",\"model\":\"qwen2.5:3b\",\"role\":\"general_reasoning_private_candidate\"},{\"blob_count\":5,\"manifest_sha256\":\"f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225\",\"model\":\"qwen2.5-coder:3b\",\"role\":\"engineering_code_private_candidate\"},{\"blob_count\":5,\"manifest_sha256\":\"a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a\",\"model\":\"gemma3:4b\",\"role\":\"vision_private_candidate\"}],\"network_download_performed\":false,\"ok\":true,\"required_models\":[\"qwen2.5:3b\",\"qwen2.5-coder:3b\",\"gemma3:4b\"],\"required_models_complete\":true,\"runtime_root\":\"/media/domenicleonetti/easystore/EIRA/LIVE\",\"schema\":\"eira2_private_model_asset_takeover_v1\",\"source_root\":\"/usr/share/ollama/.ollama/models\",\"unique_blob_bytes\":7198626794,\"unique_blob_count\":14},\"containment_receipt\":{\"all_manifest_referenced_blobs_hash_verified\":true,\"candidate_only\":true,\"direct_model_to_delivery_path\":false,\"direct_model_to_identity_authority\":false,\"direct_model_to_memory_acceptance\":false,\"direct_model_to_tools_path\":false,\"eira1_runtime_delegation\":false,\"internet_model_pull_allowed_at_runtime\":false,\"legacy_ollama_service_active\":false,\"legacy_ollama_service_disabled\":true,\"legacy_ollama_service_enabled\":false,\"model_roles\":{\"gemma3:4b\":\"vision_private_candidate\",\"qwen2.5-coder:3b\":\"engineering_code_private_candidate\",\"qwen2.5:3b\":\"general_reasoning_private_candidate\"},\"model_store\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama\",\"model_store_under_eira2\":true,\"model_transport\":\"unix_domain_socket\",\"ok\":true,\"ollama_private_network\":true,\"outbound_network_allowed\":false,\"private_model_containment_complete\":true,\"proxy_private_network\":true,\"required_models\":[\"qwen2.5:3b\",\"qwen2.5-coder:3b\",\"gemma3:4b\"],\"required_models_complete\":true,\"runtime_root\":\"/media/domenicleonetti/easystore/EIRA/LIVE\",\"runtime_user\":\"domenicleonetti\",\"schema\":\"eira2_private_model_containment_v1\",\"services_active_verified\":true,\"unit_files\":{\"eira2-model-proxy.service\":\"/etc/systemd/system/eira2-model-proxy.service\",\"eira2-ollama.service\":\"/etc/systemd/system/eira2-ollama.service\"},\"unit_sha256\":{\"eira2-model-proxy.service\":\"f2bbc5c2d22169800df20db0e4dc1b3f8c1f9088c2ce1d0c08563c6d799e8759\",\"eira2-ollama.service\":\"764143026020b926dbbae93299521c8640118e937058265a1e4839451ba42685\"},\"unix_socket\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock\"},\"model_root\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama\",\"models\":[{\"model\":\"qwen2.5:3b\",\"manifest\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5/3b\",\"manifest_sha256\":\"357c53fb659c5076de1d65ccb0b397446227b71a42be9d1603d46168015c9e4b\",\"blob_count\":5,\"blobs\":[{\"digest\":\"sha256:161ddde4c9cd07c9f1ccb4e0167c434bce72caeb3fc1844262fa66bc877b0426\",\"size\":487,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:5ee4f07cdb9beadbbb293e85803c569b01bd37ed059d2715faa7bb405f31caa6\",\"size\":1929903008,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e\",\"size\":68,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:eb4402837c7829a690fa845de4d7f3fd842c2adee476d5341da8a46ea9255175\",\"size\":1482,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:b5c0e5cf74cf51af1ecbc4af597cfcd13fd9925611838884a681070838a14a50\",\"size\":7387,\"is_file\":true,\"is_symlink\":false}]},{\"model\":\"qwen2.5-coder:3b\",\"manifest\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/qwen2.5-coder/3b\",\"manifest_sha256\":\"f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225\",\"blob_count\":5,\"blobs\":[{\"digest\":\"sha256:bb967eff3bda079d4ee62c09c5ef0b2e71a6a75934a4c92a13c755fcfd655703\",\"size\":487,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:4a188102020e9c9530b687fd6400f775c45e90a0d7baafe65bd0a36963fbb7ba\",\"size\":1929903072,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:66b9ea09bd5b7099cbb4fc820f31b575c0366fa439b08245566692c6784e281e\",\"size\":68,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:1e65450c30670713aa47fe23e8b9662bdf4065e81cc8e3cbfaa98924fcc0d320\",\"size\":1615,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:45fc3ea7579acf3021044fc8c4c5dd5969ebc3ca2a68219b5075662cc949a4f1\",\"size\":7384,\"is_file\":true,\"is_symlink\":false}]},{\"model\":\"gemma3:4b\",\"manifest\":\"/media/domenicleonetti/easystore/EIRA/LIVE/var/models/ollama/manifests/registry.ollama.ai/library/gemma3/4b\",\"manifest_sha256\":\"a2af6cc3eb7fa8be8504abaf9b04e88f17a119ec3f04a3addf55f92841195f5a\",\"blob_count\":5,\"blobs\":[{\"digest\":\"sha256:b6ae5839783f2ba248e65e4b960ab15f9c4b7118db285827dba6cba9754759e2\",\"size\":489,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:aeda25e63ebd698fab8638ffb778e68bed908b960d39d0becc650fa981609d25\",\"size\":3338792448,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:e0a42594d802e5d31cdc786deb4823edb8adff66094d49de8fffe976d753e348\",\"size\":358,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:dd084c7d92a3c1c14cc09ae77153b903fd2024b64a100a0cc8ec9316063d2dbc\",\"size\":8432,\"is_file\":true,\"is_symlink\":false},{\"digest\":\"sha256:3116c52250752e00dd06b16382e952bd33c34fd79fc4fe3a5d2c77cf7de1b14b\",\"size\":77,\"is_file\":true,\"is_symlink\":false}]}],\"unique_blob_count\":14,\"unique_blob_bytes\":7198626794}"
+    },
+    "request_id": "model_attestation_fastcheck_v1",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788828853.5334232,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "model_attestation_fastcheck_v1",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "model_attestation_fastcheck_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "a01faa9029ba69bc5de93c51ac52790aad3bde7957a2d5989d59b0dfedee1ad6",
-  "updated_unix": 1788828855.7163086,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788828853.5334232,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "model_attestation_fastcheck_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
