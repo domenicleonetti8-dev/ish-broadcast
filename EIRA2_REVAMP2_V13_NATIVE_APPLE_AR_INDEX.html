@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>EIRA 2.0 — Live Neural Organism</title>
+<link rel="stylesheet" href="/reference.css">
+<style>
+:root{--c:#55efff;--g:#ffd166;--v:#b98cff;--ok:#8dffd1;--bad:#ff667b;--txt:#f8fcff;--mut:#8ea7bd}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",Segoe UI,sans-serif;background:#010205}
+button,input{font:inherit}
+.btn{appearance:none;border:1px solid #70e5ff55;border-radius:14px;padding:11px 14px;color:white;font-weight:800;background:linear-gradient(#1c4e6cdd,#091e2ddd);box-shadow:inset 0 1px #ffffff12,0 10px 28px #0005;text-decoration:none;display:inline-flex;align-items:center;justify-content:center}
+.gold{border-color:#ffd16677;background:linear-gradient(#7d5419dd,#331f0bdd)}
+.violet{border-color:#b98cff77;background:linear-gradient(#543480dd,#221437e6)}
+.arQuickLookMarker{width:1px;height:1px;opacity:.001;position:absolute;pointer-events:none}
+</style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="brand">
+      <h1>EIRA 2.0</h1>
+      <small><span id="statusDot" class="dot"></span><span id="headline">QUALIFYING SERVER</span></small>
+    </div>
+    <div class="actions">
+      <a class="btn gold" id="arBtn" rel="ar"
+         href="/inventions/usdz/eira2_brain.usdz"
+         aria-label="Place EIRA V13 neural organism in Apple AR">
+        <img class="arQuickLookMarker"
+             src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+             alt="">
+        APPLE AR
+      </a>
+      <button class="btn violet" id="inventBtn">INVENTION LAB</button>
+    </div>
+  </div>
+
+  <div class="grid">
+    <section class="brainCard" id="brainCard">
+      <div class="orbGlow"></div>
+      <div class="brainHeader">
+        <div>
+          <div class="eyebrow">FREE-HOVERING 360° NEURAL TOPOLOGY</div>
+          <div id="brainState">WAITING FOR CANONICAL INVENTORY</div>
+        </div>
+        <div class="metric">
+          <span id="neurons">0</span> NEURONS<br>
+          <strong><span id="fibers">0</span> EVIDENCED FIBERS</strong>
+        </div>
+      </div>
+      <canvas id="brain"></canvas>
+      <div id="nodeLabel" class="nodeLabel"></div>
+    </section>
+
+    <aside class="card side">
+      <div class="title">
+        <h2>Live Conversation</h2>
+        <span id="activePill" class="pill">INACTIVE</span>
+      </div>
+      <div class="actions">
+        <button id="activateBtn" class="btn">ACTIVATE EIRA</button>
+        <button id="muteBtn" class="btn">MUTE</button>
+      </div>
+      <div id="log" class="log"><p class="msg eira"><span class="who">Eira</span>I’m here.</p></div>
+      <form id="form" class="compose"><input id="input" autocomplete="off" placeholder="Ask Eira anything…"><button class="btn" type="submit">SEND</button></form>
+      <form id="findForm" class="finder"><input id="nodeFind" autocomplete="off" placeholder="Find any canonical neuron…"><button class="btn" type="submit">FIND NEURON</button></form>
+      <div><div class="eyebrow">BRIDGE MATRIX</div><div id="runtime" class="runtime"></div></div>
+      <div class="notice">One conversation authority. Voice and text converge. Every canonical neuron is searchable; only explicit real activity events illuminate nodes, and electrons travel only across evidenced fibers from an explicit canonical core.</div>
+    </aside>
+  </div>
+</div>
+<script src="/reference.js"></script>
+<script>
+(() => {
+  const ar = document.getElementById('arBtn');
+  if (!ar) return;
+  ar.onclick = null;
+  ar.setAttribute('rel', 'ar');
+  ar.setAttribute('href', '/inventions/usdz/eira2_brain.usdz');
+})();
+</script>
+</body>
+</html>
