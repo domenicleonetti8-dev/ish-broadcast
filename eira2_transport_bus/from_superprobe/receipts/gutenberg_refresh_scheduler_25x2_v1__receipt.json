@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788850948.4793463,
-  "error": "RuntimeError:receipt_rebase_failed:Committer identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'domenicleonetti@eira.(none)')\nRebasing (1/1)\nCommitter identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'domenicleonetti@eira.(none)')\n",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "gutenberg_refresh_scheduler_25x2_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788851156.7504942,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "a0d19edf68807fca820f472cacecb769cc6c09c482872952a1f14e8a051295e3"
 }
