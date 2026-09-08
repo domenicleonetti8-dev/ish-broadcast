@@ -1,0 +1,28 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "ar_button_exact_inspect_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2/neural"],
+    "suffixes": [".py", ".js", ".html"],
+    "signatures": [
+      "rel=\"ar\"",
+      "rel='ar'",
+      "apple_ar_brain",
+      "eira2_brain.usdz",
+      "Quick Look",
+      "AR",
+      "onclick",
+      "addEventListener",
+      "inventions/usdz"
+    ],
+    "served_urls": [
+      "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz"
+    ],
+    "full_source_paths": [
+      "eira2/neural/web/index.html",
+      "eira2/neural/web/app.js",
+      "eira2/neural/server.py"
+    ]
+  }
+}
