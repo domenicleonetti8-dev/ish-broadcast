@@ -1,0 +1,27 @@
+{
+  "schema": "eira2_living_neural_organism_apple_ar_v9_flesh_contract",
+  "inherits": "V8 optimized mesh neural organism geometry",
+  "apple_ar": {
+    "format": "USDZ",
+    "packaging": "single root USDA, ZIP_STORED, no external asset indirection",
+    "preserve_v7_v8_load_profile": true
+  },
+  "cosmetics": {
+    "outer_neural_flesh_membrane": {"radius": 0.992, "opacity": 0.075, "tone": "deep blue living tissue"},
+    "inner_living_veil": {"radius": 0.865, "opacity": 0.045, "tone": "violet-magenta biological veil"},
+    "deep_synaptic_medium": {"radius": 0.735, "opacity": 0.032, "tone": "cyan synaptic mist"},
+    "breathing_pulse": true,
+    "preserve_visible_neurons": true,
+    "preserve_visible_dendrites": true,
+    "preserve_corpus_bridges": true,
+    "preserve_radiant_core": true,
+    "preserve_spinal_helices": true,
+    "preserve_hall_of_records": true
+  },
+  "runtime_activity_contract": {
+    "authority": "canonical EIRA2 runtime NeuralActivity/evidenced execution trace only",
+    "regions": ["conversation_spine", "memory", "evidence", "reasoning", "identity", "universe_library", "extensions", "watcher", "superprobe", "delivery"],
+    "behavior": "activity brightens the corresponding membrane region, somas and evidenced pathways; cosmetic idle animation must never be represented as runtime truth"
+  },
+  "organism_invariant": "one Eira organism, one runtime, one HTTP server, one outward voice"
+}
