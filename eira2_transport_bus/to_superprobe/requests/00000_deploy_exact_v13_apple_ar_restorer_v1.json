@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "897b23d93b8684bdba32ad17df2a919876e8cff6",
+      "path": "EIRA2_EXACT_V13_APPLE_AR_RESTORER_V1.py"
+    },
+    "target": {
+      "path": "eira2/neural/apple_ar.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
