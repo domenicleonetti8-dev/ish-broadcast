@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_library_stock_gutenberg_fresh_after_watcher_v3_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "target": {
+      "path": "eira_probe/universe_library/mass_stock_runner_v3.py"
+    },
+    "autonomous_job": {
+      "objective": "Launch Project Gutenberg sanctioned catalog and bulk full-text stocking after the ingest V2 repair is deployed. Preserve provenance, deduplication, rights metadata, source-is-not-fact boundaries, and detached execution.",
+      "target_path": "eira_probe/universe_library/mass_stock_runner_v3.py",
+      "qualification_canary": true,
+      "canary_candidate_text": "#!/usr/bin/env python3\nfrom __future__ import annotations\nimport json, os, subprocess, sys, time\nfrom pathlib import Path\nROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\nSTATE=ROOT/'eira_probe'/'universe_library'/'mass_stock_process_v3.json'\nLOG=ROOT/'eira_probe'/'universe_library'/'mass_stock_gutenberg_v3.log'\nSTATE.parent.mkdir(parents=True,exist_ok=True)\ncmd=[sys.executable,'-m','eira2.evidence.universe_library_mass_expansion','--stock-gutenberg']\nwith LOG.open('ab',buffering=0) as log:\n    p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\npayload={'schema':'eira2_universe_library_mass_stock_process_v3','ok':True,'source':'project_gutenberg','pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'state_result':str(ROOT/'eira_probe'/'universe_library'/'mass_expansion_state.json'),'source_is_not_fact':True}\ntmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\nprint(json.dumps(payload,sort_keys=True))\n",
+      "max_sandbox_attempts": 3,
+      "test_argv": ["python3", "-c", "import os,pathlib; p=pathlib.Path(os.environ['EIRA2_CANDIDATE_PATH']); compile(p.read_text(),str(p),'exec')"],
+      "post_verify_argv": ["python3", "eira_probe/universe_library/mass_stock_runner_v3.py"],
+      "post_verify_timeout_seconds": 60
+    }
+  }
+}
