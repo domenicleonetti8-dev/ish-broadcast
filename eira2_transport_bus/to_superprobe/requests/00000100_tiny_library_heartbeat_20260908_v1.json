@@ -1,0 +1,18 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "tiny_library_heartbeat_20260908_v1",
+  "operation": "deploy",
+  "deployment": {
+    "target": {"path": "eira_probe/universe_library/tiny_library_heartbeat_runner.py"},
+    "autonomous_job": {
+      "objective": "Deploy a tiny read-only LIVE universe-library heartbeat that samples the existing bookstore SQLite vault and Gutenberg extraction state every two seconds and atomically publishes the latest local evidence without altering library content.",
+      "target_path": "eira_probe/universe_library/tiny_library_heartbeat_runner.py",
+      "qualification_canary": true,
+      "canary_candidate_text": "#!/usr/bin/env python3\nfrom __future__ import annotations\nimport json, os, sqlite3, subprocess, sys, time\nfrom pathlib import Path\nROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\nBASE=ROOT/'eira_probe'/'universe_library'\nVAULT=BASE/'source_vault'\nDB=VAULT/'source_index.sqlite3'\nOUT=BASE/'tiny_library_heartbeat.json'\nPROC=BASE/'tiny_library_heartbeat_process.json'\nLOG=BASE/'tiny_library_heartbeat.log'\ndef snap():\n out={'schema':'eira2_tiny_library_heartbeat_v1','ts':time.time(),'ok':True,'mutates_library':False}\n try:\n  db=sqlite3.connect(f'file:{DB}?mode=ro',uri=True,timeout=3)\n  out['works']=int(db.execute('SELECT COUNT(*) FROM works').fetchone()[0])\n  out['documents']=int(db.execute('SELECT COUNT(*) FROM documents').fetchone()[0])\n  out['works_by_source']={str(a):int(b) for a,b in db.execute('SELECT source_name,COUNT(*) FROM works GROUP BY source_name')}\n  db.close()\n except Exception as e: out['ok']=False; out['db_error']=f'{type(e).__name__}:{e}'\n texts=VAULT/'project_gutenberg'/'texts'\n out['gutenberg_extracted_text_files']=sum(1 for _ in texts.rglob('*.txt')) if texts.is_dir() else 0\n return out\ndef worker():\n BASE.mkdir(parents=True,exist_ok=True)\n while True:\n  d=snap(); t=OUT.with_suffix('.tmp'); t.write_text(json.dumps(d,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(t,OUT); print(json.dumps(d,sort_keys=True),flush=True); time.sleep(2)\ndef launch():\n BASE.mkdir(parents=True,exist_ok=True)\n with LOG.open('ab',buffering=0) as log:\n  p=subprocess.Popen([sys.executable,__file__,'--worker'],cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT)})\n d={'schema':'eira2_tiny_library_heartbeat_process_v1','ok':True,'pid':p.pid,'interval_seconds':2,'started_unix':time.time(),'output':str(OUT),'mutates_library':False}\n t=PROC.with_suffix('.tmp'); t.write_text(json.dumps(d,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(t,PROC); print(json.dumps(d,sort_keys=True))\nif __name__=='__main__':\n worker() if '--worker' in sys.argv else launch()\n",
+      "max_sandbox_attempts": 3,
+      "test_argv": ["python3", "-c", "import os,pathlib; p=pathlib.Path(os.environ['EIRA2_CANDIDATE_PATH']); compile(p.read_text(),str(p),'exec')"],
+      "post_verify_argv": ["python3", "eira_probe/universe_library/tiny_library_heartbeat_runner.py"],
+      "post_verify_timeout_seconds": 30
+    }
+  }
+}
