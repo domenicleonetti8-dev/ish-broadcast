@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "runtime_constructor_profile_v2",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "3a38e734795f03b667b3f7c77f33e098f483bdeb",
+      "path": "EIRA2_RUNTIME_CONSTRUCTOR_PROFILE_V2.py",
+      "timeout_seconds": 180
+    }
+  }
+}
