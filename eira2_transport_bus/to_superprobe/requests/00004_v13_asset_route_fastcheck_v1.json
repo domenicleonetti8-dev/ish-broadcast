@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "v13_asset_route_fastcheck_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["var/inventions/usdz"],
+    "signatures": ["eira2_brain.usdz"],
+    "suffixes": [".usdz", ".usda"],
+    "served_urls": [
+      "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz",
+      "http://127.0.0.1:8782/api/inventions/usdz"
+    ]
+  }
+}
