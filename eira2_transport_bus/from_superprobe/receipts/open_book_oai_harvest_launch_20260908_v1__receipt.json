@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "open_book_oai_harvest_launch_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788902314.1259286,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 114917,
-  "transport_request_sha256": "282e4dc32e5d2068dea1ad30efd5bbb7db100ffc4f6b17ceb4a517f65e3c7da5"
+  "transport_request_sha256": "282e4dc32e5d2068dea1ad30efd5bbb7db100ffc4f6b17ceb4a517f65e3c7da5",
+  "updated_unix": 1788902317.118019
 }
