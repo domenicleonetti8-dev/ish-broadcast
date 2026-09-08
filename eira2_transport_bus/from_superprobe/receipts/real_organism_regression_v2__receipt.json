@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "real_organism_regression_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788831430.2078526,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "49df026a5273a626fc3548c0f120b20c01057e05d52de10641ba59775ba0e1cb"
+  "transport_request_sha256": "49df026a5273a626fc3548c0f120b20c01057e05d52de10641ba59775ba0e1cb",
+  "updated_unix": 1788831433.251129
 }
