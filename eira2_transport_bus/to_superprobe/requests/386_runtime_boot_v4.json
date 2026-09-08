@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "runtime_boot_v4",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "e15bf43547ad4236b88ffc7227c8d5eeb8135f60",
+      "path": "EIRA2_RUNTIME_BOOT_V4.py",
+      "timeout_seconds": 120
+    }
+  }
+}
