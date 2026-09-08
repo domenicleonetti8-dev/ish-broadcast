@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788890083.0565975,
-  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 0, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"51a03060f0b97d8debbad0cdf7e13abd89e9287a\", \"source_path\": \"EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V4.py\", \"source_sha256\": \"5bdeccecde683a648959806b0533fa576ae566d5dd3d2f737bb1f23c4975fa35\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\n  \\\"mutates_live\\\": false,\\n  \\\"pass\\\": true,\\n  \\\"payload_sha256\\\": \\\"5063630727e686a454aa3b0ac0f0086c12f4edaf176f5d6211df052c87aabe7f\\\",\\n  \\\"qualification\\\": {\\n    \\\"clean_passes\\\": 50,\\n    \\\"distinct_tests\\\": 25,\\n    \\\"failed\\\": [],\\n    \\\"pass\\\": true,\\n    \\\"rounds\\\": 2,\\n    \\\"schema\\\": \\\"eira2_universe_library_qualification_v3\\\",\\n    \\\"total\\\": 50\\n  },\\n  \\\"schema\\\": \\\"eira2_universe_library_exact_checkout_25x2_v4\\\",\\n  \\\"target\\\": \\\"eira2/evidence/universe_library.py\\\",\\n  \\\"wrapper_sha256\\\": \\\"b2d60972f6664bdd7173ffd504835dc647fbfa2b06c7acdaec593be4f6ec38bc\\\"\\n}\"}",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "407_universe_library_exact_checkout_25x2_v4",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788890300.4636698,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "ebe4ed8f17c3ff0562b0c7ee9186c5979dfa7c751f2d910df7d91eb50d479061"
 }
