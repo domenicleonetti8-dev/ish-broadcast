@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "v13_walkable_ar_forensic_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788853512.118622,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "8244c3b05d10bf4a88dedbd8df1e4c0d0322b8819c386b5aa98b31714d41d3e1"
+  "transport_request_sha256": "8244c3b05d10bf4a88dedbd8df1e4c0d0322b8819c386b5aa98b31714d41d3e1",
+  "updated_unix": 1788853515.1917045
 }
