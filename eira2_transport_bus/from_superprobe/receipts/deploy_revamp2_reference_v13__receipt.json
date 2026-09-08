@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "deploy_revamp2_reference_v13",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788852655.097813,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "dd90f417820dfa93585ddf6495fac3d2723450c37e745f3eb6712480868b10f5"
+  "transport_request_sha256": "dd90f417820dfa93585ddf6495fac3d2723450c37e745f3eb6712480868b10f5",
+  "updated_unix": 1788852658.2280188
 }
