@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "package_reseal_recovery_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "7014227faafe20bcf42efe4469a3ac3902d4e1d5",
+      "path": "EIRA2_PACKAGE_RESEAL_RECOVERY_V1.py",
+      "timeout_seconds": 180
+    }
+  }
+}
