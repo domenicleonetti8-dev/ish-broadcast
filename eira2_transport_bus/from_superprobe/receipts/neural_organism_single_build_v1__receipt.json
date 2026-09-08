@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "neural_organism_single_build_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788830913.6543863,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "c758472e34dd1fe68c273ec9c9b373887377fee5c556914f9af18445cc70ad0f"
+}
