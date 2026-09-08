@@ -1,0 +1,81 @@
+{
+  "schema": "eira2_universe_library_domain_batch_v1",
+  "batch_id": "science_engineering_earth_history_realtime_v1",
+  "purpose": "Define a large first-class seed batch for Eira's Universe Library covering real-time updating science, engineering, architecture, physics, biology, botany, mathematics, oceanic exploration, chemistry, medicine, rocket physics, equations and all Earth history.",
+  "duplicate_policy": "No duplicate canonical seeds. Equivalent claims merge provenance/evidence into the existing seed; changed knowledge becomes a versioned successor.",
+  "realtime_policy": {
+    "volatile_domains": [
+      "medicine",
+      "biomedical_science",
+      "spaceflight_and_missions",
+      "engineering_standards",
+      "architecture_codes_and_standards",
+      "emerging_physics_results",
+      "chemistry_research",
+      "biology_and_biotechnology",
+      "botany_and_agriculture",
+      "oceanic_exploration",
+      "climate_and_earth_observation",
+      "new_companies_and_innovations",
+      "scientific_consensus_updates"
+    ],
+    "stable_domains": [
+      "foundational_mathematics",
+      "classical_mechanics",
+      "established_chemistry_constants",
+      "historical_events_with_stable_primary_sources"
+    ],
+    "rule": "Volatile seeds carry freshness metadata and revalidation schedules. Stable seeds revalidate less frequently unless contradicted by new evidence."
+  },
+  "domain_batches": {
+    "complex_mathematics": [
+      "arithmetic", "algebra", "geometry", "trigonometry", "calculus", "multivariable_calculus", "linear_algebra", "abstract_algebra", "number_theory", "real_analysis", "complex_analysis", "topology", "differential_geometry", "tensor_calculus", "probability", "statistics", "stochastic_processes", "optimization", "numerical_methods", "ordinary_differential_equations", "partial_differential_equations", "dynamical_systems", "information_theory", "graph_theory", "discrete_mathematics", "mathematical_logic", "set_theory", "category_theory"
+    ],
+    "complex_physics": [
+      "classical_mechanics", "continuum_mechanics", "fluid_dynamics", "thermodynamics", "statistical_mechanics", "electromagnetism", "optics", "acoustics", "special_relativity", "general_relativity", "quantum_mechanics", "quantum_field_theory", "particle_physics", "nuclear_physics", "atomic_molecular_optical_physics", "condensed_matter", "plasma_physics", "astrophysics", "cosmology", "geophysics", "biophysics", "computational_physics"
+    ],
+    "equations": [
+      "algebraic_equations", "systems_of_equations", "differential_equations", "integral_equations", "tensor_equations", "field_equations", "conservation_laws", "transport_equations", "wave_equations", "heat_equations", "navier_stokes", "maxwell_equations", "einstein_field_equations", "schrodinger_equation", "dirac_equation", "lagrangian_and_hamiltonian_formalisms", "orbital_mechanics_equations", "rocket_equation", "reaction_kinetics", "pharmacokinetic_models", "population_models"
+    ],
+    "complex_chemistry": [
+      "physical_chemistry", "organic_chemistry", "inorganic_chemistry", "analytical_chemistry", "biochemistry", "electrochemistry", "photochemistry", "quantum_chemistry", "thermochemistry", "chemical_kinetics", "surface_chemistry", "polymer_chemistry", "materials_chemistry", "computational_chemistry", "medicinal_chemistry", "environmental_chemistry", "astrochemistry"
+    ],
+    "complex_medicine": [
+      "anatomy", "physiology", "pathophysiology", "internal_medicine", "emergency_medicine", "surgery", "neurology", "cardiology", "pulmonology", "gastroenterology", "nephrology", "endocrinology", "hematology", "oncology", "infectious_disease", "immunology", "rheumatology", "dermatology", "psychiatry", "pediatrics", "geriatrics", "obstetrics_gynecology", "radiology", "pathology", "genetics", "genomics", "pharmacology", "toxicology", "epidemiology", "public_health", "evidence_based_medicine", "biomedical_engineering", "regenerative_medicine", "precision_medicine"
+    ],
+    "biology": [
+      "molecular_biology", "cell_biology", "genetics", "genomics", "epigenetics", "evolution", "developmental_biology", "microbiology", "virology", "immunology", "neuroscience", "ecology", "zoology", "marine_biology", "systems_biology", "synthetic_biology", "bioinformatics"
+    ],
+    "botany": [
+      "plant_anatomy", "plant_physiology", "plant_genetics", "plant_evolution", "plant_taxonomy", "plant_pathology", "plant_ecology", "crop_science", "soil_plant_interactions", "horticulture", "forestry", "ethnobotany", "algae", "aquatic_plants", "controlled_environment_agriculture"
+    ],
+    "engineering": [
+      "mechanical", "electrical", "electronics", "computer", "software", "civil", "structural", "chemical", "materials", "aerospace", "marine", "ocean", "biomedical", "environmental", "nuclear", "industrial", "manufacturing", "robotics", "controls", "systems", "geotechnical", "energy", "renewable_energy", "thermal", "fluid", "optical", "acoustical", "reliability", "safety", "forensic_engineering"
+    ],
+    "architecture": [
+      "architectural_history", "building_science", "structural_systems", "materials", "environmental_design", "passive_design", "urban_design", "landscape_architecture", "accessibility", "building_codes", "fire_safety", "resilient_design", "sustainable_design", "computational_design", "construction_methods", "historic_preservation"
+    ],
+    "rocket_and_spaceflight_physics": [
+      "rocket_propulsion", "chemical_propulsion", "electric_propulsion", "nuclear_propulsion", "orbital_mechanics", "astrodynamics", "guidance_navigation_control", "reentry_physics", "aerothermodynamics", "staging", "mass_fraction", "specific_impulse", "thrust", "delta_v", "launch_windows", "gravity_assists", "spacecraft_attitude_dynamics", "space_environment", "radiation", "thermal_control", "life_support", "mission_design"
+    ],
+    "oceanic_exploration": [
+      "physical_oceanography", "chemical_oceanography", "biological_oceanography", "geological_oceanography", "deep_sea_ecology", "hydrothermal_vents", "marine_geology", "seafloor_mapping", "sonar", "bathymetry", "submersibles", "rov", "auv", "deep_sea_materials", "ocean_currents", "tides", "waves", "thermohaline_circulation", "marine_chemistry", "ocean_climate_interactions", "underwater_archaeology"
+    ],
+    "earth_history": [
+      "earth_formation", "hadean", "archean", "proterozoic", "phanerozoic", "plate_tectonics", "supercontinents", "major_impact_events", "oxygenation_events", "snowball_earth", "origin_of_life", "evolutionary_transitions", "mass_extinctions", "paleoclimate", "paleogeography", "fossil_record", "human_evolution", "prehistory", "ancient_civilizations", "classical_history", "medieval_history", "early_modern_history", "industrial_revolution", "modern_history", "world_wars", "cold_war", "post_cold_war", "science_history", "technology_history", "medical_history", "economic_history", "cultural_history", "religious_history", "political_history", "environmental_history", "history_of_exploration", "history_of_spaceflight", "history_of_ocean_exploration"
+    ]
+  },
+  "earth_history_batch_rule": "Earth history seeds must preserve chronology, geography, source provenance, historiographic disputes, archaeological uncertainty, superseded interpretations and links between natural history and human history.",
+  "medical_safety_rule": "Medical seeds require stricter evidence grading, date sensitivity, consensus tracking, guideline provenance and explicit uncertainty. Library storage is not a substitute for clinical judgment.",
+  "equation_rule": "Equation seeds must carry symbols, units, assumptions, dimensional constraints, derivation/source, applicable regime, solver metadata and related equations.",
+  "source_strategy": [
+    "primary_scientific_agencies",
+    "official_government_datasets",
+    "peer_reviewed_primary_literature",
+    "standards_bodies",
+    "major_universities_and_research_institutions",
+    "official_mission_and_observatory_archives",
+    "curated_historical_archives",
+    "reputable_current_news_for_discovery_only_then_corroboration"
+  ]
+}
