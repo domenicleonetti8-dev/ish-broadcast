@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "gutenberg_refresh_scheduler_25x2_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788841512.4627333,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "a0d19edf68807fca820f472cacecb769cc6c09c482872952a1f14e8a051295e3"
+  "transport_request_sha256": "a0d19edf68807fca820f472cacecb769cc6c09c482872952a1f14e8a051295e3",
+  "updated_unix": 1788841515.9108107
 }
