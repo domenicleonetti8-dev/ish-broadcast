@@ -4,8 +4,8 @@
   "request_id": "universe_public_library_ingest_v2_repair_20260908",
   "schema": "eira2_transport_terminal_receipt_v6",
   "stage": "single_checkout_execution",
-  "started_unix": 1788905107.6905365,
+  "started_unix": 1788905125.576198,
   "status": "STARTED",
-  "supervisor_pid": 178575,
+  "supervisor_pid": 86297,
   "transport_request_sha256": "0cde374c4f60368d7d80e789b09f48efca0a0ec4a9b80c19c65ca7eb8a61525c"
 }
