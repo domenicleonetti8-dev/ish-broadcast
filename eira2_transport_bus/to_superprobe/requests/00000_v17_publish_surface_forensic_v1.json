@@ -1,0 +1,38 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "v17_publish_surface_forensic_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2/neural", "eira2_server_revamp", "extensions/eira_inventor_holographic_lab"],
+    "suffixes": [".py", ".js", ".html", ".json", ".css"],
+    "signatures": [
+      "eira2_brain.usdz",
+      "/inventions/usdz",
+      "/api/inventions/usdz",
+      "build_brain_usdz",
+      "apple_ar.py",
+      "invention",
+      "models",
+      "APPLE AR",
+      "rel=\"ar\"",
+      "reference.js",
+      "revamp=2"
+    ],
+    "served_urls": [
+      "http://127.0.0.1:8782/?revamp=2",
+      "http://127.0.0.1:8782/inventions/",
+      "http://127.0.0.1:8782/api/inventions/usdz",
+      "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz"
+    ],
+    "full_source_paths": [
+      "eira2/neural/apple_ar.py",
+      "eira2/neural/server.py",
+      "eira2/neural/web/index.html",
+      "eira2/neural/web/app.js",
+      "eira2_server_revamp/server.py",
+      "eira2_server_revamp/static/index.html",
+      "eira2_server_revamp/static/reference.js",
+      "extensions/eira_inventor_holographic_lab/server.py"
+    ]
+  }
+}
