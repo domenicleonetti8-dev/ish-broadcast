@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "00000_qualification_contract_fix_20260908_v2",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788899894.6776483,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "3a6ecfc8173eb9062ebaf33a42ec9b972878ed39b84e169b9587f394e4ca5729"
+}
