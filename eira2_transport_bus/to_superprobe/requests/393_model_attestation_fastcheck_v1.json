@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "model_attestation_fastcheck_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "98410348fc089a81b509c97eef6ee91d2c955138",
+      "path": "EIRA2_MODEL_ATTESTATION_FASTCHECK_FORENSIC_V1.py",
+      "timeout_seconds": 120
+    }
+  }
+}
