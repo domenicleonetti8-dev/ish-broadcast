@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "00000_inspect_autonomous_repair_authorities_20260908_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["extensions/repair_watcher_ai", "extensions/verified_engineering_ai"],
+    "suffixes": [".py", ".json"],
+    "signatures": ["authorize_transport_request", "def ask", "sandbox", "candidate", "repair", "promote", "rollback"],
+    "full_source_paths": [
+      "extensions/repair_watcher_ai/plugin.py",
+      "extensions/verified_engineering_ai/plugin.py"
+    ]
+  }
+}
