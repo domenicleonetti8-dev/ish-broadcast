@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "upgrade_watcher_v6_fast_readonly",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788826715.5819073,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2600829,
-  "transport_request_sha256": "bb44048351e09b49eb2616f25a202cdc2ab5eea819e58f56221b85486c5cc737"
+  "transport_request_sha256": "bb44048351e09b49eb2616f25a202cdc2ab5eea819e58f56221b85486c5cc737",
+  "updated_unix": 1788826718.4584994
 }
