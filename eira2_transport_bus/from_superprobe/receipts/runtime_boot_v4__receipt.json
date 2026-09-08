@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788828248.8310726,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": {\"action\": \"startup_failed\", \"file_count\": 351, \"health\": {}, \"log_tail\": \"\", \"ok\": false, \"package_tree_sha256\": \"7dad45fbf0578a7cd8ef051de613bbf658bc65bf1c5908bfba65d5a22a64cdee\", \"pid\": 2702069, \"port_open\": false, \"returncode\": null, \"schema\": \"eira2_runtime_boot_v4\"}, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"e15bf43547ad4236b88ffc7227c8d5eeb8135f60\", \"source_path\": \"EIRA2_RUNTIME_BOOT_V4.py\", \"source_sha256\": \"7c440801e2c902a8630947d6ae8c2548892823f1a566e6ee3804f098f24f6304\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\\"schema\\\":\\\"eira2_runtime_boot_v4\\\",\\\"ok\\\":false,\\\"package_tree_sha256\\\":\\\"7dad45fbf0578a7cd8ef051de613bbf658bc65bf1c5908bfba65d5a22a64cdee\\\",\\\"file_count\\\":351,\\\"action\\\":\\\"startup_failed\\\",\\\"pid\\\":2702069,\\\"returncode\\\":null,\\\"health\\\":{},\\\"log_tail\\\":\\\"\\\",\\\"port_open\\\":false}\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "runtime_boot_v4",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "9a4ddde00aa414b867369dffbd8b5bb09989b6bc80ce7c0e73173d0858ddfb86",
-  "updated_unix": 1788828168.2022073,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "9a4ddde00aa414b867369dffbd8b5bb09989b6bc80ce7c0e73173d0858ddfb86"
 }
