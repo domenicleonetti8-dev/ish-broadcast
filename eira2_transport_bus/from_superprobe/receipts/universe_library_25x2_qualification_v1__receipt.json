@@ -3,24 +3,10 @@
   "operation": "inspect",
   "request_id": "universe_library_25x2_qualification_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZED",
+  "stage": "QUALIFYING",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "7b391d168e2e495a7fc5a257141422e3806b3e3832440a61ca4572f68333b2d4",
-  "updated_unix": 1788846346.265661,
-  "watcher_authorization": {
-    "authorized": true,
-    "authorized_by": "repair_watcher_ai",
-    "builder_required": false,
-    "fast_read_only_authorization": true,
-    "generated_unix": 1788846346.2656527,
-    "ok": true,
-    "operation": "inspect",
-    "read_only": true,
-    "request_id": "universe_library_25x2_qualification_v1",
-    "superprobe_required_for_authorization": false,
-    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
-    "write_authority_granted": false
-  },
+  "updated_unix": 1788846348.3339393,
   "watcher_authorized": true
 }
