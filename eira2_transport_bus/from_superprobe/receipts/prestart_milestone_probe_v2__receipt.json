@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788830454.9663358,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": {\"error\": \"ModuleNotFoundError:No module named 'eira2.package'\", \"milestones\": [], \"mutates_live\": false, \"ok\": false, \"schema\": \"eira2_prestart_milestone_probe_v1\"}, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"82f5479c9a98a1d48a0ad38847c6d1638c21554c\", \"source_path\": \"EIRA2_PRESTART_MILESTONE_PROBE_V1.py\", \"source_sha256\": \"bc118bc0eddf421cba9dd231a1ce6222bb44257b175e5c8510aad68fd897aee2\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\\"schema\\\":\\\"eira2_prestart_milestone_probe_v1\\\",\\\"ok\\\":false,\\\"mutates_live\\\":false,\\\"milestones\\\":[],\\\"error\\\":\\\"ModuleNotFoundError:No module named 'eira2.package'\\\"}\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "prestart_milestone_probe_v2",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "e9df9809e7cb6dd4e0954ec92f23d410166bc5a36834c23911c93ec24b417101",
-  "updated_unix": 1788830451.730018,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "e9df9809e7cb6dd4e0954ec92f23d410166bc5a36834c23911c93ec24b417101"
 }
