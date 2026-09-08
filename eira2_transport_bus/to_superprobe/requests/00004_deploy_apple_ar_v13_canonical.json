@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_apple_ar_v13_canonical",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "7fcff9dcc856f97d6209a6430e1032daeaa7e87a",
+      "path": "EIRA2_APPLE_AR_V13_CANONICAL_FULL_REPLACEMENT.py"
+    },
+    "target": {
+      "path": "eira2/neural/apple_ar.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
