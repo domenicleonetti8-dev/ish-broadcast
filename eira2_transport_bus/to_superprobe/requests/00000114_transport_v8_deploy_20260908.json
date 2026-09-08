@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "transport_v8_deploy_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "bfe2941cd6d2185d5916fc8ff346c940cd204f52",
+      "path": "EIRA2_AUTONOMOUS_TRANSPORT_V8.py"
+    },
+    "target": {
+      "path": "eira_probe/transport_runtime_v8/EIRA2_AUTONOMOUS_TRANSPORT_V8.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
