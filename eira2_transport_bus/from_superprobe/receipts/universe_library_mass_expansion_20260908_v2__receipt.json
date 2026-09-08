@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "universe_library_mass_expansion_20260908_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788901596.8235598,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 114917,
-  "transport_request_sha256": "abed6f6898ca68f19ac186086d28b4d2e5149beaaa9bd1110b0efb97391d0000"
+  "transport_request_sha256": "abed6f6898ca68f19ac186086d28b4d2e5149beaaa9bd1110b0efb97391d0000",
+  "updated_unix": 1788901600.247868
 }
