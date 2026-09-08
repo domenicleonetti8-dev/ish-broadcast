@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_library_priority_25x2_v4",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "51a03060f0b97d8debbad0cdf7e13abd89e9287a",
+      "path": "EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V4.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Priority execution of the exact V3 Universe Library payload qualification: 25 distinct tests twice, 50/50 required, no LIVE mutation. This supersedes older Universe qualification attempts only."
+}
