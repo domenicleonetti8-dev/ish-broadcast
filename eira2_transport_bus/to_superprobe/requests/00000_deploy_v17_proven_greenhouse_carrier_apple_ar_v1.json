@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_v17_proven_greenhouse_carrier_apple_ar_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "ff01f2cb6f3ece36f33ff7c215617885763ae360",
+      "path": "EIRA2_V17_PROVEN_GREENHOUSE_CARRIER_RESTORER_V1.py"
+    },
+    "target": {
+      "path": "eira2/neural/apple_ar.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
