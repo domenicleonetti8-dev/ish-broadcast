@@ -1,11 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788901578.0053587,
+  "error": "RuntimeError:receipt_push_failed:To https://github.com/domenicleonetti8-dev/ish-broadcast.git\n ! [rejected]            master -> master (fetch first)\nerror: failed to push some refs to 'https://github.com/domenicleonetti8-dev/ish-broadcast.git'\nhint: Updates were rejected because the remote contains work that you do not\nhint: have locally. This is usually caused by another repository pushing to\nhint: the same ref. If you want to integrate the remote changes, use\nhint: 'git pull' before pushing again.\nhint: See the 'Note about fast-forwards' in 'git push --help' for details.\n",
+  "ok": false,
   "operation": "inspect",
   "request_id": "foundation_corpus_intake_25x2_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788901572.9129388,
-  "status": "STARTED",
-  "supervisor_pid": 114917,
+  "status": "RETRYING",
   "transport_request_sha256": "2be49da857443bb9df8eca7fef1d42b17a8e8a253f0cd835612181739ad6e46d"
 }
