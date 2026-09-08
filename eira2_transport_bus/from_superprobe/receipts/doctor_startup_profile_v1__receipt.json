@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "doctor_startup_profile_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788828500.38571,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "d3fa93ddbff94423c9274419a1eb802e49e6ccb0f2c142c5944c288296300482"
+  "transport_request_sha256": "d3fa93ddbff94423c9274419a1eb802e49e6ccb0f2c142c5944c288296300482",
+  "updated_unix": 1788828503.5501213
 }
