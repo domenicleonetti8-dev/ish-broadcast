@@ -1,0 +1,42 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "v13_walkable_ar_forensic_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": [
+      "eira2/neural",
+      "eira2_server_revamp",
+      "var/inventions/usdz"
+    ],
+    "signatures": [
+      "eira2_brain.usdz",
+      "rel=\"ar\"",
+      "Quick Look",
+      "quick_look",
+      "RealityKit",
+      "ARKit",
+      "WebXR",
+      "walkable",
+      "walkthrough",
+      "apple_ar",
+      "build_brain_usdz",
+      "model/vnd.usdz+zip"
+    ],
+    "suffixes": [".py", ".js", ".html", ".json", ".usda", ".usdz"],
+    "served_urls": [
+      "http://127.0.0.1:8782/?revamp=2",
+      "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz",
+      "http://127.0.0.1:8782/api/inventions/usdz"
+    ],
+    "full_source_paths": [
+      "eira2/neural/apple_ar.py",
+      "eira2/neural/communication.py",
+      "eira2/neural/web/index.html",
+      "eira2/neural/web/app.js",
+      "eira2/neural/web/server.py",
+      "eira2_server_revamp/static/index.html",
+      "eira2_server_revamp/static/reference.js",
+      "eira2_server_revamp/server.py"
+    ]
+  }
+}
