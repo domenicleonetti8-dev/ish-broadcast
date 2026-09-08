@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "inspect_compact_eira2_creator_interfaces_20260908_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "roots": ["eira2", "extensions"],
+    "suffixes": [".py", ".json"],
+    "signatures": ["reasoning.provider", "capability_registry", "provider", "generate", "candidate", "engineering", "sandbox", "qwen", "ollama"],
+    "full_source_paths": []
+  },
+  "purpose": "Locate the current compact EIRA2 candidate-creation/provider interface so autonomous engineering binds to the real architecture rather than retired extension paths. Read-only only."
+}
