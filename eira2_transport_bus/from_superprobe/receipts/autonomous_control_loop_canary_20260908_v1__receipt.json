@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788899249.8103898,
+  "error": "RuntimeError:deployment_lane_failed:Traceback (most recent call last):\n  File \"/tmp/eira2_lane_v4_normal_61621.py\", line 116, in <module>\n    if __name__==\"__main__\": raise SystemExit(main())\n                                              ~~~~^^\n  File \"/tmp/eira2_lane_v4_normal_61621.py\", line 114, in main\n    commit=publish_acceptance(repo,packet_id,payload)\n  File \"/tmp/eira2_lane_v4_normal_61621.py\", line 97, in publish_acceptance\n    if p.returncode: raise RuntimeError(\"acceptance_rebase_failed:\"+p.stderr[-800:])\n                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nRuntimeError: acceptance_rebase_failed:Committer identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'domenicleonetti@eira.(none)')\n\n",
+  "ok": false,
   "operation": "deploy",
   "request_id": "autonomous_control_loop_canary_20260908_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "DEPLOYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "095962d8de647cb51b0004469e3ed89b3aaa1e48b0365be11de41993073b0417",
-  "updated_unix": 1788899041.371149,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "095962d8de647cb51b0004469e3ed89b3aaa1e48b0365be11de41993073b0417"
 }
