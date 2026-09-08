@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_public_library_ingest_v2_repair_after_watcher_v3_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "333bfa10e625e40c394eae527f644d7a30c5cd15",
+      "path": "EIRA2_UNIVERSE_PUBLIC_LIBRARY_INGEST_V2.py"
+    },
+    "target": {
+      "path": "eira2/evidence/universe_public_library.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
