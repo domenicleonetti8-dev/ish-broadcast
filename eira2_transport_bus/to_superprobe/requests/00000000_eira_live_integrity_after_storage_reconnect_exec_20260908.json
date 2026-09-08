@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "eira_live_integrity_after_storage_reconnect_exec_20260908",
+  "operation": "inspect",
+  "read_only": true,
+  "purpose": "Execute the read-only EIRA LIVE integrity inspector after Easystore reconnect and return exact observed filesystem evidence.",
+  "inspection": {
+    "execute_source": {
+      "commit": "4d7391b31bf176fb0d5863c5f56521cdeb457627",
+      "path": "eira2_transport_bus/to_superprobe/artifacts/EIRA2_LIVE_INTEGRITY_READONLY_20260908.py",
+      "timeout_seconds": 45
+    }
+  },
+  "requirements": [
+    "READ ONLY",
+    "DO NOT mutate LIVE",
+    "DO NOT restart processes",
+    "DO NOT mount or unmount storage",
+    "DO NOT invoke Builder"
+  ]
+}
