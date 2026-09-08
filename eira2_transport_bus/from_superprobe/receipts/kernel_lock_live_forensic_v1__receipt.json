@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "kernel_lock_live_forensic_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788840043.2950988,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "563d32fe456a19b5c4bd205aee32bb46384e12c7e52e71bbabecd8c5a78385ba"
+  "transport_request_sha256": "563d32fe456a19b5c4bd205aee32bb46384e12c7e52e71bbabecd8c5a78385ba",
+  "updated_unix": 1788840046.1031325
 }
