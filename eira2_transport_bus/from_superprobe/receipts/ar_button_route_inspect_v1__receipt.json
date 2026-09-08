@@ -3,24 +3,10 @@
   "operation": "inspect",
   "request_id": "ar_button_route_inspect_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZED",
+  "stage": "INSPECTING",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "1754c1f1045ea1dcd074f967c5f34dad0238a887ec7729d178728bab1fd2a057",
-  "updated_unix": 1788851124.2809815,
-  "watcher_authorization": {
-    "authorized": true,
-    "authorized_by": "repair_watcher_ai",
-    "builder_required": false,
-    "fast_read_only_authorization": true,
-    "generated_unix": 1788851124.2809741,
-    "ok": true,
-    "operation": "inspect",
-    "read_only": true,
-    "request_id": "ar_button_route_inspect_v1",
-    "superprobe_required_for_authorization": false,
-    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
-    "write_authority_granted": false
-  },
+  "updated_unix": 1788851126.5817182,
   "watcher_authorized": true
 }
