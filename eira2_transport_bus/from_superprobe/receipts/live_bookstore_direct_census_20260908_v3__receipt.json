@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "live_bookstore_direct_census_20260908_v3",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788902866.9046097,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 86297,
-  "transport_request_sha256": "0bdcbd9e32c3631bdac0c8d2f1c2445ae63f36213c78d071e9f8da021fbaf8bb"
+  "transport_request_sha256": "0bdcbd9e32c3631bdac0c8d2f1c2445ae63f36213c78d071e9f8da021fbaf8bb",
+  "updated_unix": 1788902883.9315581
 }
