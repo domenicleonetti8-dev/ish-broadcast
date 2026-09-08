@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "process_ownership_forensic_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788831730.4220967,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "e16b3fadfd12946433c9d4efae4390ca83a8684c9e7eccb48727e3644d11e120"
+  "transport_request_sha256": "e16b3fadfd12946433c9d4efae4390ca83a8684c9e7eccb48727e3644d11e120",
+  "updated_unix": 1788831733.4324057
 }
