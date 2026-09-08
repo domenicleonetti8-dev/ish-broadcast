@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "live_bookstore_direct_census_20260908_v3",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira_probe/universe_library"],
+    "execute_source": {
+      "commit": "db214c145de5798905b3254903d7d019db7c4bfa",
+      "path": "EIRA2_UNIVERSE_LIBRARY_LIVE_STATUS_V1.py",
+      "timeout_seconds": 120
+    }
+  }
+}
