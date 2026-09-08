@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788905759.7858088,
-  "error": "RuntimeError:watcher_unavailable_after_retries:RuntimeError:watcher_rejected:{\"authorized\": false, \"error\": \"RuntimeError:superprobe_rejected:{\\n  \\\"artifact_count\\\": 7,\\n  \\\"bytes\\\": 8185621774,\\n  \\\"discrepancy_count\\\": 1,\\n  \\\"evidence_fingerprint\\\": \\\"800a047fc2fadb4c908fde6b4f867a68c76f5b8556c02bb64028a0c76e9fc4d5\\\",\\n  \\\"files\\\": 210,\\n  \\\"impact_index_files\\\": 126,\\n  \\\"listeners\\\": 2,\\n  \\\"ok\\\": false,\\n  \\\"organism_ok\\\": true,\\n  \\\"output\\\": \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_report.json\\\",\\n  \\\"package_identity_ok\\\": false,\\n  \\\"python_files\\\": 126,\\n  \\\"runtime_processes\\\": 14,\\n  \\\"schema\\\": \\\"eira2_superprobe_forensic_v4\\\",\\n  \\\"semantic_edges\\\": 276,\\n  \\\"shared_evidence_fingerprint\\\": \\\"800a047fc2fadb4c908fde6b4f867a68c76f5b8556c02bb64028a0c76e9fc4d5\\\",\\n  \\\"unresolved_internal_imports\\\": 0\\n}\\nEIRA2_SUPERPROBE=FAIL\\n\\n\", \"ok\": false, \"status\": \"transport_request_rejected\"}",
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
   "request_id": "universe_public_library_ingest_v2_repair_20260908",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788906195.0165036,
+  "status": "STARTED",
+  "supervisor_pid": 189408,
   "transport_request_sha256": "0cde374c4f60368d7d80e789b09f48efca0a0ec4a9b80c19c65ca7eb8a61525c"
 }
