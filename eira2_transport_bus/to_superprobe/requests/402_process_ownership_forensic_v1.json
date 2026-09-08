@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "process_ownership_forensic_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "a0c48cdb61643148175757e26c4c28c5a996611b",
+      "path": "EIRA2_PROCESS_OWNERSHIP_FORENSIC_V1.py",
+      "timeout_seconds": 120
+    },
+    "full_source_paths": ["tools/eira2_github_transport_agent.py"]
+  }
+}
