@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "neural_postdeploy_verify_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "e021051c468bba3715c44bc0ae03a7a0461345d2",
+      "path": "EIRA2_NEURAL_POSTDEPLOY_VERIFY_V1.py",
+      "timeout_seconds": 180
+    }
+  }
+}
