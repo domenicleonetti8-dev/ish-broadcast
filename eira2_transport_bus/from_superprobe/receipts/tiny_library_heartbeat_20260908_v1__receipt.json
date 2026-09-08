@@ -1,0 +1,12 @@
+{
+  "completed_unix": 1788902842.2058663,
+  "error": "RuntimeError:git_sync_failed:error: cannot lock ref 'refs/remotes/origin/master': is at 8d80f371e38cd39371bd5ee5cd5ea47c2d0e1d66 but expected 5628208c51a07a0a629a5507d6de3ee4184f6c79\n",
+  "ok": false,
+  "operation": "deploy",
+  "request_id": "tiny_library_heartbeat_20260908_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "status": "RETRYING",
+  "transport_request_sha256": "54f93caedddff061b63cdb5223c49a7bf29ec2eb85cadafc32dba747637d7160"
+}
