@@ -1,0 +1,39 @@
+{
+  "schema": "eira2_superprobe_transport_packet_v1",
+  "request_id": "install_two_invention_lab_usdz_20260908_v1",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "mode": "inspect_then_deploy",
+  "intent": "Place both exact existing USDZ artifacts into the live Invention Lab served at https://eira.tail9a0112.ts.net/?revamp=2 without modifying EIRA core or rebuilding either artifact.",
+  "artifacts": [
+    {
+      "label": "uploaded_artifact_1",
+      "filename": "EIRA_Off_World_Greenhouse_V28_DEPRESSURIZATION_STORM_CHAMBER_20260908-095913.usdz",
+      "sha256": "b54e484a8dba2f942eedf252f0149362c07a1bafbd711e8a06c6ade98c0b8ca9",
+      "size_bytes": 5117987
+    },
+    {
+      "label": "uploaded_artifact_2",
+      "filename": "EIRA_Off_World_Greenhouse_V28_DEPRESSURIZATION_STORM_CHAMBER_20260908-100032.usdz",
+      "sha256": "1058eaebe4f419dae5c504e8d909a62c7426bb7f1428a23ac083d4e661e46dc1",
+      "size_bytes": 730948
+    }
+  ],
+  "instructions": [
+    "First locate exact byte-identical copies of both SHA256 values anywhere under EIRA LIVE, existing invention archives, render outputs, staging, or Watcher/Superprobe accessible artifact storage.",
+    "Do not substitute by filename alone; SHA256 and byte size must match.",
+    "For each located artifact, identify the canonical live Invention Lab asset directory and any manifest/index/registry used by revamp=2.",
+    "Install both as separate Invention Lab entries, preserving original USDZ bytes exactly.",
+    "Expose both through the same live Invention Lab UI reached by ?revamp=2 and preserve existing lab entries.",
+    "Do not modify main.py, engine, brain, council, routers, voice, identity, memory, reasoning, speech, or unrelated EIRA2 runtime files.",
+    "If either exact artifact cannot be found locally, do not fabricate or rebuild it; return missing_sha256 with searched paths.",
+    "After deployment, verify each served/downloaded USDZ SHA256 matches the requested hash and verify both entries are discoverable from the revamp=2 Invention Lab."
+  ],
+  "return": {
+    "destination_root": "eira2_transport_bus/from_superprobe/receipts",
+    "filename": "install_two_invention_lab_usdz_20260908_v1__receipt.json",
+    "include_sha256": true,
+    "include_live_paths": true,
+    "include_public_routes": true,
+    "include_verification": true
+  }
+}
