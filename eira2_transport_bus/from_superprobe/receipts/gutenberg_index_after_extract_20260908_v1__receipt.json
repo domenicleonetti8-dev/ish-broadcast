@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "gutenberg_index_after_extract_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788902090.073951,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 86297,
-  "transport_request_sha256": "3c78e2282f250f6ae81b6c3354cf01826cf34bd4995f4443bff6c537d53b4336"
+  "transport_request_sha256": "3c78e2282f250f6ae81b6c3354cf01826cf34bd4995f4443bff6c537d53b4336",
+  "updated_unix": 1788902093.3160875
 }
