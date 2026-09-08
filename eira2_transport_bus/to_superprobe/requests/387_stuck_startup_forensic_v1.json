@@ -1,0 +1,17 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "stuck_startup_forensic_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "d96cb54302b5d9a23816d1e961f99b93a0247f45",
+      "path": "EIRA2_STUCK_STARTUP_PROCESS_FORENSIC_V1.py",
+      "timeout_seconds": 90
+    },
+    "full_source_paths": [
+      "eira2/runtime.py",
+      "eira2/live.py",
+      "eira2/operations/health.py"
+    ]
+  }
+}
