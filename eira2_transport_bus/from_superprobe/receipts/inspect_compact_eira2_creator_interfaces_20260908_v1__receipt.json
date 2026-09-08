@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "inspect_compact_eira2_creator_interfaces_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788899337.2952151,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "508e6867d4a70045cc9be7c800bfb84ad1cfd9df8d1f50b1cd515d4cace093df"
+  "transport_request_sha256": "508e6867d4a70045cc9be7c800bfb84ad1cfd9df8d1f50b1cd515d4cace093df",
+  "updated_unix": 1788899340.0517125
 }
