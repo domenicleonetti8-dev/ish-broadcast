@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "open_book_oai_harvester_20260908_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "d1c4968907669f5dee0bd06ebec012845eb613fd",
+      "path": "EIRA2_OPEN_BOOK_OAI_HARVESTER_V1.py"
+    },
+    "target": {
+      "path": "eira2/evidence/open_book_oai_harvester.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
