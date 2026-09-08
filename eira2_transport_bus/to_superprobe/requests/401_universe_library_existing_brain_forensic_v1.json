@@ -1,0 +1,9 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "401_universe_library_existing_brain_forensic_v1",
+  "mode": "inspect",
+  "read_only": true,
+  "purpose": "Before building the first Universe Library runtime file, inspect LIVE EIRA2 for every existing memory, history, evidence, learning, knowledge, library, archive, research, astronomy, timeline, equation, truth/verification, and provenance implementation or manifest. Return exact paths, service names, manifests, imports, dependencies, public interfaces, hashes, and semantic edges. Identify the single canonical insertion point for an immutable universe knowledge record without creating duplicate authority. Do not mutate LIVE. Do not start/stop services. Do not reseal package. Do not repair anything.",
+  "blueprint": "eira2_transport_bus/to_superprobe/blueprints/EIRA2_UNIVERSE_LIBRARY_CANONICAL_BLUEPRINT_V1.json",
+  "expected_output": "compact_json_evidence"
+}
