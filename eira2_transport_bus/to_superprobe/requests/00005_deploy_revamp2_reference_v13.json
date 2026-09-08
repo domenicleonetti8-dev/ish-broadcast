@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_revamp2_reference_v13",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "b6315071c99ce7d36b96df7f70ec1d63a6a34083",
+      "path": "EIRA2_REVAMP2_REFERENCE_V13_FULL_REPLACEMENT.js"
+    },
+    "target": {
+      "path": "eira2_server_revamp/static/reference.js"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
