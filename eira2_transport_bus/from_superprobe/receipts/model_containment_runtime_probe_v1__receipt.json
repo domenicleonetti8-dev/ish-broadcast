@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "model_containment_runtime_probe_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788830140.9255931,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "71587eb107f819e9c530c2453bb4bcf64d0d882b81691573591937327bdaf453"
+  "transport_request_sha256": "71587eb107f819e9c530c2453bb4bcf64d0d882b81691573591937327bdaf453",
+  "updated_unix": 1788830144.0817459
 }
