@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "prestart_direct_timing_after_single_atlas_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788831548.3624027,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "2c53aac3e18fffb6f95f9dfcae813d6d4edb32acc380ccf0775f38960c3581dd"
+}
