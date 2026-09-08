@@ -1,0 +1,35 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "ar_live_exact_sources_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2/neural"],
+    "suffixes": [".py", ".js", ".html", ".css"],
+    "signatures": [
+      "build_brain_usdz",
+      "apple_ar_brain",
+      "NeuralHTTPService",
+      "NeuralSurface",
+      "/inventions/usdz/eira2_brain.usdz",
+      "activity",
+      "topology",
+      "render",
+      "fetch("
+    ],
+    "served_urls": [
+      "http://127.0.0.1:8782/?revamp=2",
+      "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz"
+    ],
+    "full_source_paths": [
+      "eira2/neural/apple_ar.py",
+      "eira2/neural/communication.py",
+      "eira2/neural/server.py",
+      "eira2/neural/anatomy.py",
+      "eira2/neural/atlas.py",
+      "eira2/neural/activity.py",
+      "eira2/neural/web/app.js",
+      "eira2/neural/web/index.html",
+      "eira2/neural/web/style.css"
+    ]
+  }
+}
