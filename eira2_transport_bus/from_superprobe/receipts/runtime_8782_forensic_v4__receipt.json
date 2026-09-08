@@ -1,12 +1,79 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788827845.375177,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "7a78623fc1d930fb2063597ec46c806c4f19577ed750a7e9913866da860b3a3c",
+    "generated_unix": 1788827844.3910317,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "mutates_live": false,
+        "ok": true,
+        "port_8782_open": false,
+        "processes": {
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "2197106 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15\n2688207 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2\n2695397 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_zyu5vk7o/qualification.py\n"
+        },
+        "recovery_v3_log": "<read_failed:FileNotFoundError:[Errno 2] No such file or directory: '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/canonical_live_recovery_v3.log'>",
+        "recovery_v3_receipt": "{\n  \"action\": \"preserve_existing\",\n  \"doctor_compile_ok\": true,\n  \"doctor_sha256\": \"43ea7281ebb242b6a799849de077a4e18e495dc5c61e06c630f4b8ce685e68e9\",\n  \"generated_unix\": 1788825743.4244244,\n  \"health\": {\n    \"rc\": 28,\n    \"stderr\": \"curl: (28) Operation timed out after 5002 milliseconds with 0 bytes received\\n\",\n    \"stdout\": \"\"\n  },\n  \"port_8782_after\": true,\n  \"port_8782_before\": true,\n  \"processes\": {\n    \"rc\": 0,\n    \"stderr\": \"\",\n    \"stdout\": \"2644391 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/main.py\\n\"\n  },\n  \"schema\": \"eira2_runtime_8782_recovery_v3\",\n  \"spawned_pid\": null\n}\n",
+        "schema": "eira2_runtime_8782_forensic_v4",
+        "systemd_transport": {
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "\u25cf eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6\n     Loaded: loaded (/home/domenicleonetti/.config/systemd/user/eira2-autonomous-transport-v6.service; enabled; preset: enabled)\n     Active: active (running) since Mon 2026-09-07 20:29:02 EDT; 8min ago\n Invocation: fe0d9b0e1ceb43888d0b1ddf7c0354b0\n   Main PID: 2688197 (bash)\n      Tasks: 6 (limit: 9626)\n        CPU: 40.309s\n     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/eira2-autonomous-transport-v6.service\n             \u251c\u25002688197 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh\n             \u251c\u25002688207 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2\n             \u251c\u25002695390 sleep 2\n             \u251c\u25002695397 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_zyu5vk7o/qualification.py\n             \u2514\u25002695399 systemctl --user status eira2-autonomous-transport-v6.service --no-pager -l\n\nSep 07 20:29:02 eira systemd[1013]: Started eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6.\n"
+        }
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "0f6fd661ef5bad9e84ad49434103dc84d84d2eea",
+      "source_path": "EIRA2_RUNTIME_8782_FORENSIC_V4.py",
+      "source_sha256": "56dda0e0d33cc6ec56af171d18deb9baac72f74863f8f186dcb83e7df2be924b",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_runtime_8782_forensic_v4\",\"ok\":true,\"mutates_live\":false,\"port_8782_open\":false,\"recovery_v3_receipt\":\"{\\n  \\\"action\\\": \\\"preserve_existing\\\",\\n  \\\"doctor_compile_ok\\\": true,\\n  \\\"doctor_sha256\\\": \\\"43ea7281ebb242b6a799849de077a4e18e495dc5c61e06c630f4b8ce685e68e9\\\",\\n  \\\"generated_unix\\\": 1788825743.4244244,\\n  \\\"health\\\": {\\n    \\\"rc\\\": 28,\\n    \\\"stderr\\\": \\\"curl: (28) Operation timed out after 5002 milliseconds with 0 bytes received\\\\n\\\",\\n    \\\"stdout\\\": \\\"\\\"\\n  },\\n  \\\"port_8782_after\\\": true,\\n  \\\"port_8782_before\\\": true,\\n  \\\"processes\\\": {\\n    \\\"rc\\\": 0,\\n    \\\"stderr\\\": \\\"\\\",\\n    \\\"stdout\\\": \\\"2644391 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/main.py\\\\n\\\"\\n  },\\n  \\\"schema\\\": \\\"eira2_runtime_8782_recovery_v3\\\",\\n  \\\"spawned_pid\\\": null\\n}\\n\",\"recovery_v3_log\":\"<read_failed:FileNotFoundError:[Errno 2] No such file or directory: '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/canonical_live_recovery_v3.log'>\",\"processes\":{\"returncode\":0,\"stdout\":\"2197106 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15\\n2688207 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2\\n2695397 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_zyu5vk7o/qualification.py\\n\",\"stderr\":\"\"},\"systemd_transport\":{\"returncode\":0,\"stdout\":\"\\u25cf eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6\\n     Loaded: loaded (/home/domenicleonetti/.config/systemd/user/eira2-autonomous-transport-v6.service; enabled; preset: enabled)\\n     Active: active (running) since Mon 2026-09-07 20:29:02 EDT; 8min ago\\n Invocation: fe0d9b0e1ceb43888d0b1ddf7c0354b0\\n   Main PID: 2688197 (bash)\\n      Tasks: 6 (limit: 9626)\\n        CPU: 40.309s\\n     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/eira2-autonomous-transport-v6.service\\n             \\u251c\\u25002688197 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh\\n             \\u251c\\u25002688207 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2\\n             \\u251c\\u25002695390 sleep 2\\n             \\u251c\\u25002695397 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_zyu5vk7o/qualification.py\\n             \\u2514\\u25002695399 systemctl --user status eira2-autonomous-transport-v6.service --no-pager -l\\n\\nSep 07 20:29:02 eira systemd[1013]: Started eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6.\\n\",\"stderr\":\"\"}}"
+    },
+    "request_id": "runtime_8782_forensic_v4",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788827839.935552,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "runtime_8782_forensic_v4",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "runtime_8782_forensic_v4",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "f7c95f7a643eed6c6a725833435ebdf90f97604c2d5e1c68929d0e4ce44054c2",
-  "updated_unix": 1788827842.0731032,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788827839.935552,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "runtime_8782_forensic_v4",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
