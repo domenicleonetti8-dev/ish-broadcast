@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "ar_sphere_library_inspect_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788845284.809503,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "4760759638f21d4213e6dc57b069d0a172dfeb0036a85accb21f136b7430978f"
+  "transport_request_sha256": "4760759638f21d4213e6dc57b069d0a172dfeb0036a85accb21f136b7430978f",
+  "updated_unix": 1788845287.8746107
 }
