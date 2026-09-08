@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Any
 
 SCHEMA = "eira2_living_neural_organism_apple_ar_v8"
+ARTIFACT = "eira2_transport_bus/to_superprobe/artifacts/EIRA2_LIVING_NEURAL_ORGANISM_V8.usdz"
 REGIONS = (
     "conversation_spine","memory","evidence","reasoning","identity",
     "universe_library","extensions","watcher","superprobe","delivery",
@@ -44,6 +45,7 @@ def build_contract(atlas: Any, activity: dict[str, Any] | None = None) -> dict[s
     fibers = [dict(x) for x in ((atlas.fibers_for(limit=30000) or {}).get("fibers") or []) if isinstance(x, dict)]
     return {
         "schema": SCHEMA,
+        "artifact": ARTIFACT,
         "visual_contract": {
             "shape": "full spherical neurological organism",
             "optimized_material_meshes": 8,
