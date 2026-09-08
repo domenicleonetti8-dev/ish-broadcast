@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "doctor_startup_profile_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "abd6f89a8a5225d9125f087b32a9e8219ef8973d",
+      "path": "EIRA2_DOCTOR_STARTUP_PROFILE_V1.py",
+      "timeout_seconds": 60
+    }
+  }
+}
