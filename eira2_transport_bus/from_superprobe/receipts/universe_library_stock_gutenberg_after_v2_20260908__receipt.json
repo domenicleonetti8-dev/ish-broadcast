@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788906872.169201,
-  "error": "RuntimeError:git_sync_failed:fatal: Unable to create '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/.git/index.lock': File exists.\n\nAnother git process seems to be running in this repository, e.g.\nan editor opened by 'git commit'. Please make sure all processes\nare terminated then try again. If it still fails, a git process\nmay have crashed in this repository earlier:\nremove the file manually to continue.\n",
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
   "request_id": "universe_library_stock_gutenberg_after_v2_20260908",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788906968.829945,
+  "status": "STARTED",
+  "supervisor_pid": 191457,
   "transport_request_sha256": "bc571784921b27e4ea0c3038713c8e7ec54f2147f209a0283579c2cc93b1811e"
 }
