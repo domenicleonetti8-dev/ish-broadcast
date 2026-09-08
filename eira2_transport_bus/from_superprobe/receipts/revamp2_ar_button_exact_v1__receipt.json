@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "revamp2_ar_button_exact_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788851916.8758101,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "542e7a88ffa1048eb327958266f6923863604fd983cee427d0f43dfc886621d8"
+}
