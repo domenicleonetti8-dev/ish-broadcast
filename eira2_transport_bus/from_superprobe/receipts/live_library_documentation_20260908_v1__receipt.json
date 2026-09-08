@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "live_library_documentation_20260908_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788902435.9767141,
+  "status": "STARTED",
+  "supervisor_pid": 86297,
+  "transport_request_sha256": "8c2369faf7da60a8db36107d1887386d3d53ba36b6d91b5831701d370a40ab00"
+}
