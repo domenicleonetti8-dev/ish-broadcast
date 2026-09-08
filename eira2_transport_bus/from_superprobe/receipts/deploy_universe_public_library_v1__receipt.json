@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "deploy_universe_public_library_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788839176.4250333,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "9f69670aba37e3fc0287c3100bcb2518347700a6c9a79740578a1380d91c7039"
+  "transport_request_sha256": "9f69670aba37e3fc0287c3100bcb2518347700a6c9a79740578a1380d91c7039",
+  "updated_unix": 1788839179.2359364
 }
