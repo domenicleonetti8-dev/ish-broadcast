@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "constructor_recheck_after_neural_change_v2",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "fc6dbab19c320550440b66abd5a44a9f0939cf2d",
+      "path": "EIRA2_RUNTIME_CONSTRUCTOR_PROFILE_V1.py",
+      "sha256": "a389d802d49509a650749508761150b40ee547b6d0e4be67a61b583e931b3d19",
+      "timeout_seconds": 240
+    }
+  }
+}
