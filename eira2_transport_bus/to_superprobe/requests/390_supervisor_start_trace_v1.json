@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "supervisor_start_trace_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "1ba507c050edc6babb27ea18cd37a47758674ac2",
+      "path": "EIRA2_SUPERVISOR_START_TRACE_V1.py",
+      "timeout_seconds": 60
+    }
+  }
+}
