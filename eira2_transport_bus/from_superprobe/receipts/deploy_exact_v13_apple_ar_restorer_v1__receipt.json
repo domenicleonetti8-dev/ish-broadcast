@@ -3,9 +3,28 @@
   "operation": "deploy",
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b",
-  "updated_unix": 1788900244.249658
+  "updated_unix": 1788900271.530027,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": true,
+    "discrepancy_count": 0,
+    "fast_read_only_authorization": false,
+    "generated_unix": 1788900271.529905,
+    "ok": true,
+    "operation": "deploy",
+    "package_identity_ok": true,
+    "read_only": false,
+    "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
+    "superprobe_evidence_fingerprint_sha256": "08000a1beb42d5cfb71270d77e4803b12e989d7ddbfd507995fb8e3c748fbd6f",
+    "superprobe_required_for_authorization": true,
+    "superprobe_schema": "eira2_superprobe_forensic_v4",
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": true
+  },
+  "watcher_authorized": true
 }
