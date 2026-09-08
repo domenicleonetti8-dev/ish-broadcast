@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "package_reseal_recovery_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788828107.3091357,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "fb1b70fd99de91b9b639ffc02a1be74906b4b8d48da10290be6aec926716544c"
+}
