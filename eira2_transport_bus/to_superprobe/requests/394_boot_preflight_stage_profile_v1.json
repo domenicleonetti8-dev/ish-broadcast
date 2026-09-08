@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "boot_preflight_stage_profile_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "e27c47286587518e9377f57b1f22f15243020931",
+      "path": "EIRA2_BOOT_PREFLIGHT_STAGE_PROFILE_V1.py",
+      "timeout_seconds": 180
+    }
+  }
+}
