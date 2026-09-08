@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788895177.5269296,
-  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 0, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"0cacd231e23b08e4876fc8f16710c18e8c4960f8\", \"source_path\": \"EIRA2_UNIVERSE_LIBRARY_FULL_REPLACEMENT_V4.py\", \"source_sha256\": \"00fddd2cc34806c247be2ef34c8109d09efb299fbaae79258dc31c5ec215cd5c\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\n  \\\"clean_passes\\\": 50,\\n  \\\"distinct_tests\\\": 25,\\n  \\\"failed\\\": [],\\n  \\\"pass\\\": true,\\n  \\\"rounds\\\": 2,\\n  \\\"schema\\\": \\\"eira2_universe_library_qualification_v4\\\",\\n  \\\"total\\\": 50\\n}\"}",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "universe_library_v4_explicit_25x2",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788895461.7611337,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "7b054e294ea1a4b4e9475f582d86935936858299159e118c6fab02e9a2ea6cdc"
 }
