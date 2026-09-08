@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788855382.3982828,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"a1e073ee9e23c9c94155ca25eb8e9c638ac264eb\", \"source_path\": \"EIRA2_UNIVERSE_LIBRARY_FULL_REPLACEMENT_V1.py\", \"source_sha256\": \"b3e435e53bed7350eeacc345efd5dd314633b4da0366eb881469ecd6533bd288\", \"stderr_tail\": \"Traceback (most recent call last):\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_y20gk2we/qualification.py\\\", line 521, in <module>\\n    exec(compile(NEW, TARGET, \\\"exec\\\"), ns, ns)\\n    ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"eira2/evidence/universe_library.py\\\", line 33, in <module>\\n  File \\\"/usr/lib/python3.13/dataclasses.py\\\", line 1295, in wrap\\n    return _process_class(cls, init, repr, eq, order, unsafe_hash,\\n                          frozen, match_args, kw_only, slots,\\n                          weakref_slot)\\n  File \\\"/usr/lib/python3.13/dataclasses.py\\\", line 997, in _process_class\\n    and _is_type(type, cls, dataclasses, dataclasses.KW_ONLY,\\n        ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n                 _is_kw_only))):\\n                 ^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/dataclasses.py\\\", line 757, in _is_type\\n    ns = sys.modules.get(cls.__module__).__dict__\\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nAttributeError: 'NoneType' object has no attribute '__dict__'. Did you mean: '__dir__'?\", \"stdout_tail\": \"\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "universe_library_25x2_qualification_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "7b391d168e2e495a7fc5a257141422e3806b3e3832440a61ca4572f68333b2d4",
-  "updated_unix": 1788855378.2552881,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "7b391d168e2e495a7fc5a257141422e3806b3e3832440a61ca4572f68333b2d4"
 }
