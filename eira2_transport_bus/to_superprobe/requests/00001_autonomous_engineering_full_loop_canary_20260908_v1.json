@@ -1,0 +1,19 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "00001_autonomous_engineering_full_loop_canary_20260908_v1",
+  "operation": "deploy",
+  "deployment": {
+    "target": {
+      "path": "eira_probe/autonomous_engineering/qualification/live_canary.txt"
+    },
+    "autonomous_job": {
+      "objective": "Qualify the autonomous engineering control loop end to end without touching EIRA core.",
+      "target_path": "eira_probe/autonomous_engineering/qualification/live_canary.txt",
+      "qualification_canary": true,
+      "canary_candidate_text": "EIRA2_AUTONOMOUS_ENGINEERING_CANARY=PASS\n",
+      "max_sandbox_attempts": 3,
+      "test_argv": ["python3", "-c", "import os,pathlib; p=pathlib.Path(os.environ['EIRA2_CANDIDATE_PATH']); assert p.read_text()=='EIRA2_AUTONOMOUS_ENGINEERING_CANARY=PASS\\n'"],
+      "post_verify_argv": ["python3", "-c", "from pathlib import Path; assert Path('eira_probe/autonomous_engineering/qualification/live_canary.txt').read_text()=='EIRA2_AUTONOMOUS_ENGINEERING_CANARY=PASS\\n'"]
+    }
+  }
+}
