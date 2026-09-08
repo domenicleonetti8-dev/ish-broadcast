@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "gutenberg_refresh_scheduler_25x2_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "01d9455ee373a9cca7d00d00da89fe5fe351d311",
+      "path": "EIRA2_GUTENBERG_REFRESH_SCHEDULER_V1.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Qualify the Project Gutenberg regular-refresh scheduler: daily catalog refresh, weekly bulk archive refresh, extraction only when archive hash changes, persistent state, retry/backoff, repeated-failure hold, and source-is-not-fact boundary. Require 25 distinct tests twice = 50/50 before deployment."
+}
