@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788852246.5523462,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"d6286cf8ec2362e359cecc360e4228e8d791d441\", \"source_path\": \"EIRA2_FOUNDATION_CORPUS_INTAKE_V1.py\", \"source_sha256\": \"e37b7b38f089d0d48cd64da6f81ddbb81c086334f332e67d1be5a6f5dae836f6\", \"stderr_tail\": \"Traceback (most recent call last):\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_j_5h7fbp/qualification.py\\\", line 262, in <module>\\n    print(json.dumps(result,indent=2,sort_keys=True))\\n          ^^^^\\nNameError: name 'json' is not defined. Did you forget to import 'json'?\", \"stdout_tail\": \"\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "foundation_corpus_intake_25x2_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "2be49da857443bb9df8eca7fef1d42b17a8e8a253f0cd835612181739ad6e46d",
-  "updated_unix": 1788852242.1387196,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "2be49da857443bb9df8eca7fef1d42b17a8e8a253f0cd835612181739ad6e46d"
 }
