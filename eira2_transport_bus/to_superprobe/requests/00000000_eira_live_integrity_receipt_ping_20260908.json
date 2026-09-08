@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "eira_live_integrity_receipt_ping_20260908",
+  "operation": "inspect",
+  "read_only": true,
+  "purpose": "Read-only transport liveness ping after storage reconnect.",
+  "requirements": ["READ ONLY","NO LIVE MUTATION","NO PROCESS RESTART","NO MOUNT CHANGE","NO BUILDER"]
+}
