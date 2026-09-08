@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "404_universe_library_25x2_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "3829f1dbe48d40276521db284755579a7cadd149",
+      "path": "EIRA2_UNIVERSE_LIBRARY_25X2_QUALIFICATION_V1.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Execute the exact Universe Library replacement payload in isolation and require 25 distinct archive invariants twice, 50/50. No LIVE mutation. Return compact JSON evidence including payload SHA and every failure."
+}
