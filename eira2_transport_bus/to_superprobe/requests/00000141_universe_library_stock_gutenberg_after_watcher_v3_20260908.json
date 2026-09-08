@@ -1,0 +1,18 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_library_stock_gutenberg_after_watcher_v3_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "6411af52caf193911610cd1a9d0ec739d5508afc",
+      "path": "eira2_transport_bus/to_superprobe/requests/00000112_universe_library_stock_gutenberg_after_v2_20260908.json"
+    },
+    "target": {
+      "path": "eira_probe/universe_library/requeue_marker_after_watcher_v3.json"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true
+  }
+}
