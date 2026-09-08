@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "v10_fresh_canary_20260908_v1",
+  "operation": "inspect",
+  "inspection_paths": [
+    "eira_probe/system_visibility/live_system.json"
+  ],
+  "read_only": true,
+  "watcher_required": true,
+  "builder_required": false,
+  "purpose": "Fresh V10 end-to-end transport invocation canary after permanent timeout/quarantine hardening"
+}
