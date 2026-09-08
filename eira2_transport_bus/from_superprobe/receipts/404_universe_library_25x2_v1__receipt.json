@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788836810.9752023,
-  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"3829f1dbe48d40276521db284755579a7cadd149\", \"source_path\": \"EIRA2_UNIVERSE_LIBRARY_25X2_QUALIFICATION_V1.py\", \"source_sha256\": \"db5c4edb997b256305b470c2a1ed0ec8f5e5df99e792bb3e257da0916f74c43d\", \"stderr_tail\": \"Traceback (most recent call last):\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_ihr4uys3/qualification.py\\\", line 74, in <module>\\n    if __name__=='__main__': main()\\n                             ~~~~^^\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_ihr4uys3/qualification.py\\\", line 69, in main\\n    code=payload(); compile(code,'universe_library.py','exec'); ns={}; exec(compile(code,'universe_library.py','exec'),ns)\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_ihr4uys3/qualification.py\\\", line 8, in payload\\n    tree=ast.parse(SOURCE.read_text())\\n                   ~~~~~~~~~~~~~~~~^^\\n  File \\\"/usr/lib/python3.13/pathlib/_local.py\\\", line 548, in read_text\\n    return PathBase.read_text(self, encoding, errors, newline)\\n           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/pathlib/_abc.py\\\", line 632, in read_text\\n    with self.open(mode='r', encoding=encoding, errors=errors, newline=newline) as f:\\n         ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\n  File \\\"/usr/lib/python3.13/pathlib/_local.py\\\", line 539, in open\\n    return io.open(self, mode, buffering, encoding, errors, newline)\\n           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\nFileNotFoundError: [Errno 2] No such file or directory: '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_ihr4uys3/EIRA2_UNIVERSE_LIBRARY_FULL_REPLACEMENT_V1.py'\", \"stdout_tail\": \"\"}",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "404_universe_library_25x2_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788836877.3316712,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "c530f2f799c63fb42dca4c3b260cc174d8c265da261a51c7100b4223b16e00a1"
 }
