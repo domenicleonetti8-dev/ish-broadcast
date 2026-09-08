@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_library_v4_explicit_25x2",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "0cacd231e23b08e4876fc8f16710c18e8c4960f8",
+      "path": "EIRA2_UNIVERSE_LIBRARY_FULL_REPLACEMENT_V4.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Execute the exact Universe Library V4 deployment wrapper in isolation. Require 25 distinct invariants twice: schema, deterministic identity, exact duplicate prevention, provenance merging, truth-receipt preservation, source authority validation, domain taxonomy validation, freshness/revalidation queueing, graph edges, regrowth, lineage/supersession, domain retrieval, and invalid-state rejection. Must return 50/50 before deployment. No LIVE mutation."
+}
