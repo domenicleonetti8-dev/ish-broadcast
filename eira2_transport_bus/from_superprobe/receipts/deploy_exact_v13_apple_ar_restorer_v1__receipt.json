@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788899312.3743823,
-  "error": "RuntimeError:receipt_push_failed:To https://github.com/domenicleonetti8-dev/ish-broadcast.git\n ! [remote rejected]     master -> master (cannot lock ref 'refs/heads/master': is at 5cb4025cd0c3bf874d425e4156204b066dadd772 but expected e3e43abc153e1efd6c04ec73e100b3d8c98e159a)\nerror: failed to push some refs to 'https://github.com/domenicleonetti8-dev/ish-broadcast.git'\n",
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788899718.1921678,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b"
 }
