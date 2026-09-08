@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "one_organism_http_native_inspect_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788841442.473712,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "6e5cc7803843ee2528a11bcc56ccd6f3351b99dd3dc90a34a56c769c5a78d22b"
+  "transport_request_sha256": "6e5cc7803843ee2528a11bcc56ccd6f3351b99dd3dc90a34a56c769c5a78d22b",
+  "updated_unix": 1788841445.9533978
 }
