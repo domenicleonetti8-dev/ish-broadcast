@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "inspect_autonomous_engineering_interfaces_20260908_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788898749.5403152,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "9d345e0056f2d0d8ef8c151051f6c9b7a08bdc0b71be15623fecc3430e11a71b"
+}
