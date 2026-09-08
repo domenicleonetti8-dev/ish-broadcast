@@ -1,0 +1,16 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "00000_transport_v3_pass_contract_canary_20260908",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira_probe/transport_runtime_v6"],
+    "suffixes": [".json"],
+    "signatures": [],
+    "execute_source": {
+      "commit": "51a03060f0b97d8debbad0cdf7e13abd89e9287a",
+      "path": "EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V4.py",
+      "sha256": "5bdeccecde683a648959806b0533fa576ae566d5dd3d2f737bb1f23c4975fa35",
+      "timeout_seconds": 480
+    }
+  }
+}
