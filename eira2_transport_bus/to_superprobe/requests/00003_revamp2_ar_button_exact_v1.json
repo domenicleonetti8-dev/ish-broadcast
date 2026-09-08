@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "revamp2_ar_button_exact_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2_server_revamp", "eira2/neural"],
+    "suffixes": [".py", ".js", ".html", ".css"],
+    "signatures": ["arBtn", "APPLE AR", "reference.js", "eira2_brain.usdz", "rel=\"ar\"", "inventions/usdz"],
+    "served_urls": [
+      "http://127.0.0.1:8782/?revamp=2",
+      "http://127.0.0.1:8782/reference.js",
+      "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz"
+    ],
+    "full_source_paths": [
+      "eira2_server_revamp/static/reference.js",
+      "eira2_server_revamp/static/reference.css",
+      "eira2_server_revamp/server.py",
+      "eira2/neural/apple_ar.py"
+    ]
+  }
+}
