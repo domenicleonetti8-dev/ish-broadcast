@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "constructor_recheck_after_neural_change_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788831296.4551823,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "3d6c22ef4832c66a5f47c7e6c4d8aecc75a6fa610706aae606488315419f28ea"
+}
