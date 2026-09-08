@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "package_manifest_delta_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788828039.680474,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "b515091e785c42d997c20f84ff9eba606aee3a2819907d097af9eaf5180b4565"
+}
