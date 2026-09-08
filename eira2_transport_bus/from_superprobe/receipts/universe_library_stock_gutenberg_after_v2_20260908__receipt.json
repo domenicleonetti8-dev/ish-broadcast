@@ -1,14 +1,11 @@
 {
-  "builder_invoked": false,
-  "completed_unix": 1788908228.6966016,
-  "error": "TimeoutError:watcher_authorization_exhausted:watcher_authorization_timeout:30s:attempt=2",
-  "failure_count": 1,
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
-  "queue_blocking": false,
   "request_id": "universe_library_stock_gutenberg_after_v2_20260908",
-  "retryable": false,
-  "schema": "eira2_transport_terminal_receipt_v10",
-  "status": "QUARANTINED_FAILED",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788908707.5440288,
+  "status": "STARTED",
+  "supervisor_pid": 205741,
   "transport_request_sha256": "bc571784921b27e4ea0c3038713c8e7ec54f2147f209a0283579c2cc93b1811e"
 }
