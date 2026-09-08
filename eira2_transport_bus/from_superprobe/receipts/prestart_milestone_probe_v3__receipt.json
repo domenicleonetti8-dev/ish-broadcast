@@ -1,12 +1,99 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788830727.4363275,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "36e658b6d7a6b1eb5d2750bca6deed6b4fc1ed598b497993897e21cd22e2d315",
+    "generated_unix": 1788830664.934204,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "milestones": [
+          {
+            "name": "verified_live_identity",
+            "ok": true,
+            "seconds": 2.009,
+            "type": "tuple"
+          },
+          {
+            "name": "live_config",
+            "ok": true,
+            "seconds": 2.008,
+            "type": "RuntimeConfig"
+          },
+          {
+            "name": "verify_private_model_containment",
+            "ok": true,
+            "seconds": 0.044,
+            "type": "dict"
+          },
+          {
+            "name": "ollama_adapter_construct",
+            "ok": true,
+            "seconds": 0.0,
+            "type": "OllamaCandidateAdapter"
+          },
+          {
+            "name": "eira2_runtime_construct",
+            "ok": true,
+            "seconds": 57.192,
+            "type": "Eira2Runtime"
+          }
+        ],
+        "mutates_live": false,
+        "ok": true,
+        "schema": "eira2_prestart_milestone_probe_v2",
+        "service_count": 42
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "54a8eafb1ee7d33e2a1b038ad15780c8739bb7a5",
+      "source_path": "EIRA2_PRESTART_MILESTONE_PROBE_V2.py",
+      "source_sha256": "dadbf66a95bf4d72aadbd673d0a5290baa5fed7fdaee53ccee6b74f7f72ee80d",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_prestart_milestone_probe_v2\",\"ok\":true,\"mutates_live\":false,\"milestones\":[{\"name\":\"verified_live_identity\",\"ok\":true,\"seconds\":2.009,\"type\":\"tuple\"},{\"name\":\"live_config\",\"ok\":true,\"seconds\":2.008,\"type\":\"RuntimeConfig\"},{\"name\":\"verify_private_model_containment\",\"ok\":true,\"seconds\":0.044,\"type\":\"dict\"},{\"name\":\"ollama_adapter_construct\",\"ok\":true,\"seconds\":0.0,\"type\":\"OllamaCandidateAdapter\"},{\"name\":\"eira2_runtime_construct\",\"ok\":true,\"seconds\":57.192,\"type\":\"Eira2Runtime\"}],\"service_count\":42}"
+    },
+    "request_id": "prestart_milestone_probe_v3",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788830660.4960046,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "prestart_milestone_probe_v3",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "prestart_milestone_probe_v3",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "d2ff9937da1f025feef56c5bc3679af8bf9668b8db613a80666979182c06e022",
-  "updated_unix": 1788830662.7411551,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788830660.4960046,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "prestart_milestone_probe_v3",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
