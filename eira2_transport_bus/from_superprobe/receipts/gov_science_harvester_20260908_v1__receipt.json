@@ -3,8 +3,9 @@
   "operation": "deploy",
   "request_id": "gov_science_harvester_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v10",
-  "started_unix": 1788907830.966638,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 205942,
-  "transport_request_sha256": "b6471609f457af43652f9baa3fbb651284f5b60aa8c590cb9c62cb055776bf89"
+  "transport_request_sha256": "b6471609f457af43652f9baa3fbb651284f5b60aa8c590cb9c62cb055776bf89",
+  "updated_unix": 1788907837.1903813
 }
