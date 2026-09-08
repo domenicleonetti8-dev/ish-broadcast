@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "qualification_legacy_pass_compat_20260908_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788898728.5537333,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "94dbc0e2a7f67cc7489cda13872ac5856998ad7d715e6fd3631b5db13237a146"
+}
