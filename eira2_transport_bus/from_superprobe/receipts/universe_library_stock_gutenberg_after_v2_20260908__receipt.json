@@ -1,11 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788908773.6166477,
+  "error": "RuntimeError:watcher_unavailable_after_retries:RuntimeError:watcher_rejected:{\"authorized\": false, \"authorized_by\": \"repair_watcher_ai\", \"builder_required\": true, \"generated_unix\": 1788908773.6166003, \"ok\": false, \"operation\": \"deploy\", \"read_only\": false, \"reason\": \"deployment_source_or_target_missing\", \"request_id\": \"universe_library_stock_gutenberg_after_v2_20260908\", \"superprobe_required_for_authorization\": false, \"watcher_version\": \"3.0.0-eira2-bounded-transport-authority\", \"write_authority_granted\": false}",
+  "ok": false,
   "operation": "deploy",
   "request_id": "universe_library_stock_gutenberg_after_v2_20260908",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 178575,
-  "transport_request_sha256": "bc571784921b27e4ea0c3038713c8e7ec54f2147f209a0283579c2cc93b1811e",
-  "updated_unix": 1788908739.5943062
+  "status": "RETRYING",
+  "transport_request_sha256": "bc571784921b27e4ea0c3038713c8e7ec54f2147f209a0283579c2cc93b1811e"
 }
