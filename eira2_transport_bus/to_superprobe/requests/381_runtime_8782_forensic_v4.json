@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "runtime_8782_forensic_v4",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "0f6fd661ef5bad9e84ad49434103dc84d84d2eea",
+      "path": "EIRA2_RUNTIME_8782_FORENSIC_V4.py",
+      "timeout_seconds": 90
+    }
+  }
+}
