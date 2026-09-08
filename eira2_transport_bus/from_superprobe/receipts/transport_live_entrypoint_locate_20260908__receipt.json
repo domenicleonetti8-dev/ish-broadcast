@@ -3,9 +3,26 @@
   "operation": "inspect",
   "request_id": "transport_live_entrypoint_locate_20260908",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 205741,
   "transport_request_sha256": "68cde4a6956d084e03708e3f94ed5b8bf71e1d7b39d2c1461502ba5e0ff3cd40",
-  "updated_unix": 1788908793.0642729
+  "updated_unix": 1788908797.331628,
+  "watcher_authorization": {
+    "authorization_elapsed_ms": 0.006,
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_deploy_authorization": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788908797.33162,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "transport_live_entrypoint_locate_20260908",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "3.0.0-eira2-bounded-transport-authority",
+    "write_authority_granted": false
+  },
+  "watcher_authorized": true
 }
