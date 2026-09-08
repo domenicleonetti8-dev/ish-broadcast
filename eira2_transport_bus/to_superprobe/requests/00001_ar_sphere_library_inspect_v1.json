@@ -1,0 +1,26 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "ar_sphere_library_inspect_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2", "extensions", "tools", "static", "web"],
+    "suffixes": [".py", ".html", ".js", ".json"],
+    "signatures": [
+      "revamp=2",
+      "WebXR",
+      "XRSession",
+      "three.js",
+      "THREE.",
+      "neural",
+      "hemisphere",
+      "spine",
+      "hologram",
+      "AR",
+      "usdz",
+      "Quick Look"
+    ],
+    "served_urls": [
+      "http://127.0.0.1:8782/?revamp=2"
+    ]
+  }
+}
