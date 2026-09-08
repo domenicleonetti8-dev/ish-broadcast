@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "package_identity_sources_v1",
+  "operation": "inspect",
+  "inspection": {
+    "full_source_paths": [
+      "eira2/operations/package_identity.py",
+      "eira2/package.py",
+      "eira2/__main__.py",
+      "eira2-package-manifest.json"
+    ]
+  }
+}
