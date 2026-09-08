@@ -1,0 +1,1 @@
+Guard: All integrity requests queued in this sequence are read-only and must not invoke Builder, restart processes, mount/unmount storage, or modify LIVE.
