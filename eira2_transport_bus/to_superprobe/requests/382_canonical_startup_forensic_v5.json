@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "canonical_startup_forensic_v5",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "75584e7eb58bbc3e35249d64e2d4217b2357d264",
+      "path": "EIRA2_CANONICAL_STARTUP_FORENSIC_V5.py",
+      "timeout_seconds": 90
+    }
+  }
+}
