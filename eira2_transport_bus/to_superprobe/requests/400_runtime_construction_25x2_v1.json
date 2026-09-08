@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "runtime_construction_25x2_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "1adc2e957652c86ada904818202ee54fee9fbdd2",
+      "path": "EIRA2_RUNTIME_CONSTRUCTION_25X2_QUALIFICATION_V1.py",
+      "timeout_seconds": 300
+    }
+  }
+}
