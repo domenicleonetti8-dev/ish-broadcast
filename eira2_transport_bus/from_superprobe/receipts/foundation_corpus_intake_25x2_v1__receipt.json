@@ -3,24 +3,10 @@
   "operation": "inspect",
   "request_id": "foundation_corpus_intake_25x2_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZED",
+  "stage": "QUALIFYING",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "2be49da857443bb9df8eca7fef1d42b17a8e8a253f0cd835612181739ad6e46d",
-  "updated_unix": 1788843675.2112732,
-  "watcher_authorization": {
-    "authorized": true,
-    "authorized_by": "repair_watcher_ai",
-    "builder_required": false,
-    "fast_read_only_authorization": true,
-    "generated_unix": 1788843675.2112637,
-    "ok": true,
-    "operation": "inspect",
-    "read_only": true,
-    "request_id": "foundation_corpus_intake_25x2_v1",
-    "superprobe_required_for_authorization": false,
-    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
-    "write_authority_granted": false
-  },
+  "updated_unix": 1788843677.3686237,
   "watcher_authorized": true
 }
