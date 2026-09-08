@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788827910.8222847,
-  "error": "RuntimeError:read_only_qualification_failed:37a87765714\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\\"schema\\\":\\\"eira2_canonical_startup_forensic_v5\\\",\\\"ok\\\":false,\\\"controlled_runtime_probe\\\":true,\\\"mutates_source_files\\\":false,\\\"port_before\\\":false,\\\"spawned_pid\\\":2696595,\\\"port_opened\\\":false,\\\"exited_early\\\":true,\\\"returncode\\\":1,\\\"status\\\":\\\"startup_failed\\\",\\\"stdout_tail\\\":\\\"\\\",\\\"stderr_tail\\\":\\\"Traceback (most recent call last):\\\\n  File \\\\\\\"<frozen runpy>\\\\\\\", line 198, in _run_module_as_main\\\\n  File \\\\\\\"<frozen runpy>\\\\\\\", line 88, in _run_code\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\\\\\\\", line 67, in <module>\\\\n    raise SystemExit(main())\\\\n                     ~~~~^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/__main__.py\\\\\\\", line 62, in main\\\\n    asyncio.run(run_live(root, manifest, model=args.model, host=args.host, port=args.port))\\\\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\\\n  File \\\\\\\"/usr/lib/python3.13/asyncio/runners.py\\\\\\\", line 195, in run\\\\n    return runner.run(main)\\\\n           ~~~~~~~~~~^^^^^^\\\\n  File \\\\\\\"/usr/lib/python3.13/asyncio/runners.py\\\\\\\", line 118, in run\\\\n    return self._loop.run_until_complete(task)\\\\n           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^\\\\n  File \\\\\\\"/usr/lib/python3.13/asyncio/base_events.py\\\\\\\", line 725, in run_until_complete\\\\n    return future.result()\\\\n           ~~~~~~~~~~~~~^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/live.py\\\\\\\", line 228, in run_live\\\\n    target, package_tree = _verified_live_identity(root, manifest)\\\\n                           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/live.py\\\\\\\", line 33, in _verified_live_identity\\\\n    payload = verify_package_manifest(root, manifest)\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/operations/package_identity.py\\\\\\\", line 209, in verify_package_manifest\\\\n    _verify_manifest_files(root, rows)\\\\n    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/operations/package_identity.py\\\\\\\", line 97, in _verify_manifest_files\\\\n    raise RuntimeError(\\\\\\\"eira2_package_manifest_file_size_mismatch:\\\\\\\" + relative.as_posix())\\\\nRuntimeError: eira2_package_manifest_file_size_mismatch:eira2/operations/doctor.py\\\\n\\\",\\\"final_returncode\\\":1,\\\"port_after\\\":false}\"}",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "canonical_startup_forensic_v5",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788827924.1634245,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "5a855ff76d3a808d8b0f3c4bceee85dd83a473f264c64cc992b8dce5c07e3684"
 }
