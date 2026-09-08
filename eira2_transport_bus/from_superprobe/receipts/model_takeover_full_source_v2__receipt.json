@@ -3,24 +3,10 @@
   "operation": "inspect",
   "request_id": "model_takeover_full_source_v2",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZED",
+  "stage": "INSPECTING",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "03ae439cc12aae1aad5ff01f7525c2d74af7c57d74e03e67434012b63033aa6f",
-  "updated_unix": 1788828761.2742264,
-  "watcher_authorization": {
-    "authorized": true,
-    "authorized_by": "repair_watcher_ai",
-    "builder_required": false,
-    "fast_read_only_authorization": true,
-    "generated_unix": 1788828761.2742195,
-    "ok": true,
-    "operation": "inspect",
-    "read_only": true,
-    "request_id": "model_takeover_full_source_v2",
-    "superprobe_required_for_authorization": false,
-    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
-    "write_authority_granted": false
-  },
+  "updated_unix": 1788828763.5397263,
   "watcher_authorized": true
 }
