@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788903780.8583157,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 114917,
-  "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b"
+  "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b",
+  "updated_unix": 1788903787.8026693
 }
