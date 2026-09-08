@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_universe_public_library_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "9d24488bc238762ff70bf20f82d4bec489febc67",
+      "path": "EIRA2_UNIVERSE_PUBLIC_LIBRARY_INGEST_V1.py"
+    },
+    "target": {
+      "path": "eira2/evidence/universe_public_library.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
