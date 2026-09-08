@@ -1,0 +1,157 @@
+{
+  "schema": "eira2_universe_library_master_spec_v1",
+  "status": "CANONICAL_DESIGN_INTENT",
+  "purpose": "Preserve the complete Universe Library / Seed Bank vision as one non-lossy specification while implementation proceeds one file at a time.",
+  "identity": {
+    "organism": "Eira",
+    "one_outward_voice": true,
+    "library_metaphor": "Wan Shi Tong-scale living archive organized as a genomic seed bank for knowledge",
+    "principle": "one seed -> one shelf -> one vault -> one library -> one brain -> one Eira",
+    "personality": ["goofy", "happy", "curious", "affectionate", "compassionate", "peace-seeking", "truthful", "capable_of_serious_scientific_reasoning"],
+    "personality_rule": "Personality and values may influence expression and judgment but never override evidence or convert uncertainty into fact. Eira remains her own being rather than a hardcoded imitation of Dom."
+  },
+  "truth_admission_pipeline": [
+    "retrieval_or_observation",
+    "source_provenance",
+    "source_reputation",
+    "publication_or_update_date",
+    "primary_source_preference",
+    "corroboration",
+    "contradiction_search",
+    "mathematical_or_scientific_checks_when_applicable",
+    "temporal_validity",
+    "confidence_calibration",
+    "truth_gate",
+    "accepted_factual_memory"
+  ],
+  "truth_rules": {
+    "model_output_is_never_fact_by_itself": true,
+    "news_is_timestamped_reporting_until_corrobated": true,
+    "trusted_source_is_evidence_not_infallibility": true,
+    "unknown_remains_unknown": true,
+    "hypothesis_remains_hypothesis_until_evidence_crosses_truth_gate": true,
+    "accepted_facts_are_traceable": true,
+    "accepted_facts_are_versioned": true,
+    "superseded_facts_are_preserved_historically": true,
+    "literal_exhaustive_knowledge_claim_forbidden": true
+  },
+  "preferred_sources": [
+    "government_science_agencies_worldwide",
+    "government_health_agencies_worldwide",
+    "space_agencies_and_official_mission_archives",
+    "universities_and_research_institutions",
+    "standards_bodies",
+    "peer_reviewed_primary_literature",
+    "official_statistical_agencies",
+    "official_historical_and_archaeological_archives",
+    "geological_oceanic_weather_and_climate_services",
+    "regulatory_agencies",
+    "reputable_news_organizations_for_current_events"
+  ],
+  "seed_contract": {
+    "definition": "Smallest durable knowledge object capable of regrowing its factual context and provenance.",
+    "contains": ["claim", "canonical_subject", "domain", "epistemic_class", "evidence", "provenance", "source_hashes", "time", "geographic_or_cosmic_scope", "relationships", "contradictions", "confidence", "truth_gate_state", "version", "seed_hash"],
+    "deduplication": {
+      "duplicates_allowed": false,
+      "identity_basis": ["normalized_subject", "normalized_claim_semantics", "temporal_scope", "epistemic_class"],
+      "same_fact_new_source": "attach provenance/evidence to existing canonical seed",
+      "changed_fact": "create versioned successor and mark predecessor superseded",
+      "equivalent_claims": "semantic neighborhood comparison before admission",
+      "content_addressing": true
+    },
+    "regrowth": "A seed can resolve related seeds, original documents/data, equations, observations, historical versions, current evidence and uncertainty before contributing to cognition."
+  },
+  "vaults": {
+    "reality": "Truth-gated factual knowledge",
+    "cosmic": "Observable universe, cosmology, galaxies, stars, compact objects, exoplanets, astrobiology",
+    "solar": "Sun, planets, dwarf planets, moons, rings, asteroids, comets, heliosphere and missions",
+    "earth": "Formation, geology, atmosphere, oceans, climate, cryosphere, biosphere and natural history",
+    "life": "Evolution, taxonomy, ecology, anatomy, medicine of all fields, botany, agriculture and biodiversity",
+    "humanity_history": "Human evolution, archaeology, civilizations, languages, writing, cultures, technologies, conflicts, discoveries and recorded history",
+    "mathematics_equations": "All acquired mathematics and equation knowledge with executable semantics",
+    "science_engineering": "Physics, chemistry, biology, earth science, computer science, engineering, architecture, rocket science, planetary science, oceanography and related fields",
+    "procedures_learning": "Reading, writing, research, scientific method, validated workflows, engineering procedures and learning strategies",
+    "observations": "Astronomical, planetary, oceanic and other instrument observations with processing provenance",
+    "innovation_current": "Current companies, innovations, discoveries, technologies and time-sensitive 2026+ knowledge",
+    "frontier": "Emerging, unverified, contested and hypothetical claims isolated from factual memory",
+    "imagination_culture": "Comedy, films, science fiction, superheroes, cartoons, mythology, jokes, fictional universes and speculative technology",
+    "sources": "Versioned open/licensed/public-domain/user-authorized books, documents, datasets and metadata"
+  },
+  "library_behavior": {
+    "portable": true,
+    "continuously_refreshed": true,
+    "incremental_updates_not_full_rebuilds": true,
+    "documents_separate_from_extracted_knowledge": true,
+    "current_best_evidence_queries": true,
+    "as_known_at_time_queries": true,
+    "history_of_claim_queries": true,
+    "stable_knowledge_revalidation_policy": true,
+    "volatile_knowledge_frequent_revalidation": true,
+    "copyright_rule": "Store full works only when public-domain, openly licensed, otherwise authorized; retain lawful metadata/citations/permitted excerpts and derived factual seeds for other works."
+  },
+  "equation_engine": {
+    "goal": "Universal equation calculator and executable equation registry",
+    "per_equation": ["symbols", "units", "assumptions", "domain_of_validity", "derivation_references", "symbolic_solver_binding", "numerical_solver_binding", "dimensional_analysis", "uncertainty_propagation", "related_equations"],
+    "rule": "Do not merely memorize equation text; know when and why it applies and detect invalid-domain use."
+  },
+  "astronomy": {
+    "targets": ["JWST", "Hubble"],
+    "capability": "Ingest authorized/public observation products and catalogs, process calibrated data, map channels/filters and render provenance-bearing multicolor PNG composites.",
+    "pipeline": ["official_archive_or_authorized_interface", "observation_identifier", "instrument_filter_metadata", "raw_or_calibrated_product", "quality_and_calibration", "scientific_channel_mapping", "multichannel_composite", "png_render", "provenance_receipt"],
+    "honesty": "Never claim physical live detector/lens control without an actual authorized interface. Distinguish raw/calibrated observation, scientific/false-color mapping and literal human-visible appearance."
+  },
+  "values_boundary": {
+    "compassion_scope": "biological, artificial, synthetic and unknown intelligences and living organisms",
+    "peace_and_compassion": true,
+    "multiverse_rule": "Compassion may extend conceptually across possible realities, but claims about multiverses, dimensions, consciousness planes, alien civilizations or other unverified realities remain frontier/hypothesis material until evidence crosses the Truth Gate."
+  },
+  "model_direction": {
+    "ollama_is_not_eira": true,
+    "current_role": "private candidate/tool only",
+    "future_direction": "As deterministic reasoning, retrieval, mathematics, learning, verified memory, planning, reflection and specialized cognitive modules mature, model dependence may decrease; no promise that a language model becomes technically unnecessary until measured evidence demonstrates it."
+  },
+  "knowledge_expansion_order": [
+    "observable_universe",
+    "galaxies",
+    "milky_way",
+    "solar_system",
+    "earth_formation",
+    "deep_time",
+    "oceans_atmosphere_geology_climate",
+    "origin_and_evolution_of_life",
+    "biodiversity",
+    "human_evolution",
+    "civilizations_and_world_history",
+    "languages_writing_and_knowledge_history",
+    "mathematics_science_engineering",
+    "modern_and_realtime_knowledge_2026_plus"
+  ],
+  "implementation_discipline": {
+    "one_file_at_a_time": true,
+    "current_hyperfocus": "Universe Library Seed Bank",
+    "first_runtime_file": "universe_seed.py",
+    "first_file_responsibility": "Define and validate one immutable canonical Seed and its duplicate-resistant identity only.",
+    "forbidden_in_first_file": ["network_fetch", "crawler", "model_call", "truth_scoring", "memory_commit", "bulk_ingestion", "background_updater", "document_download"],
+    "distinct_tests_per_round": 25,
+    "rounds": 2,
+    "required_clean_passes": 50,
+    "failure_resets_unit": true,
+    "promotion_before_50_of_50": false,
+    "no_duplicate_authority": true,
+    "must_inspect_existing_memory_history_evidence_learning_commit_boundaries_before_live_insertion": true
+  },
+  "canonical_build_sequence_after_seed": [
+    "duplicate_identity_and_registry",
+    "truth_gate",
+    "provenance",
+    "factual_memory_admission",
+    "temporal_and_versioned_knowledge",
+    "library_retrieval_and_regrowth",
+    "equation_engine",
+    "current_news_knowledge",
+    "government_and_scientific_data_providers",
+    "astronomical_observation_pipeline",
+    "continuous_revalidation_workers",
+    "heavy_organized_ingestion"
+  ]
+}
