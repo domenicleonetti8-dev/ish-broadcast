@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "foundation_corpus_intake_25x2_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "d6286cf8ec2362e359cecc360e4228e8d791d441",
+      "path": "EIRA2_FOUNDATION_CORPUS_INTAKE_V1.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Run the exact Foundation Corpus intake payload self-test: 25 distinct tests twice, 50/50 required. No network harvest and no LIVE mutation during qualification."
+}
