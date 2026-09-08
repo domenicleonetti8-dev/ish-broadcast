@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788831307.0686762,
-  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_RUNTIME_CONSTRUCTOR_PROFILE_V1.py' exists on disk, but not in '82f5479c9a98a1d48a0ad38847c6d1638c21554c'\n",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "constructor_recheck_after_neural_change_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788831328.43893,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "3d6c22ef4832c66a5f47c7e6c4d8aecc75a6fa610706aae606488315419f28ea"
 }
