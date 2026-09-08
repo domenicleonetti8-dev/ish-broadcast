@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "universe_public_library_ingest_v2_repair_20260908",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788906195.0165036,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 189408,
-  "transport_request_sha256": "0cde374c4f60368d7d80e789b09f48efca0a0ec4a9b80c19c65ca7eb8a61525c"
+  "transport_request_sha256": "0cde374c4f60368d7d80e789b09f48efca0a0ec4a9b80c19c65ca7eb8a61525c",
+  "updated_unix": 1788906201.2773643
 }
