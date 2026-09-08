@@ -1,12 +1,372 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788902452.499451,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 142,
+    "evidence_sha256": "bc495129b6b632e6a21d4607beb583ab0d84ed599539d659b5952ed71495a987",
+    "generated_unix": 1788902451.9277496,
+    "matching_files": [
+      {
+        "bytes": 4930,
+        "contexts": [
+          {
+            "end_line": 53,
+            "source": "00001: from __future__ import annotations\n00002: \n00003: import hashlib\n00004: import json\n00005: import os\n00006: import re\n00007: import time\n00008: from pathlib import Path\n00009: from typing import Any\n00010: \n00011: SCHEMA = \"eira2_gutenberg_document_indexer_v1\"\n00012: ROOT = Path(os.environ.get(\"EIRA_LIVE_ROOT\", \"/media/domenicleonetti/easystore/EIRA/LIVE\")).resolve()\n00013: STATE = ROOT / \"eira_probe\" / \"universe_library\" / \"gutenberg_document_index_state.json\"\n00014: \n00015: \n00016: def _sha(path: Path) -> str:\n00017:     h = hashlib.sha256()\n00018:     with path.open(\"rb\") as f:\n00019:         for b in iter(lambda: f.read(1024 * 1024), b\"\"):\n00020:             h.update(b)\n00021:     return h.hexdigest()\n00022: \n00023: \n00024: def _work_id(path: Path) -> str:\n00025:     # Gutenberg bulk text names normally contain the numeric ebook id.\n00026:     nums = re.findall(r\"\\d+\", path.stem)\n00027:     return nums[-1] if nums else \"file_\" + hashlib.sha256(path.name.encode()).hexdigest()[:24]\n00028: \n00029: \n00030: def _atomic(obj: dict[str, Any]) -> None:\n00031:     STATE.parent.mkdir(parents=True, exist_ok=True)\n00032:     tmp = STATE.with_name(STATE.name + f\".tmp.{os.getpid()}\")\n00033:     tmp.write_text(json.dumps(obj, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n00034:     os.replace(tmp, STATE)\n00035: \n00036: \n00037: def index_all() -> dict[str, Any]:\n00038:     from eira2.evidence.universe_public_library import PublicLibraryVault\n00039: \n00040:     started = time.time()\n00041:     with PublicLibraryVault() as vault:\n00042:         text_root = vault.root / \"project_gutenberg\" / \"texts\"\n00043:         if not text_root.is_dir():\n00044:             raise RuntimeError(f\"gutenberg_text_root_missing:{text_root}\")\n00045:         files = sorted(p for p in text_root.rglob(\"*.txt\") if p.is_file())\n00046:         indexed = duplicates = errors = 0\n00047:         error_samples: list[str] = []\n00048:         now = time.time()\n00049:         for n, p in enumerate(files, 1):\n00050:             try:\n00051:                 digest = _sha(p)\n00052:                 wid = _work_id(p)\n00053:                 rel = p.relative_to(vault.root).as_posix()",
+            "start_line": 1
+          },
+          {
+            "end_line": 134,
+            "source": "00073:                     \"indexed\": indexed,\n00074:                     \"duplicates\": duplicates,\n00075:                     \"errors\": errors,\n00076:                     \"updated_unix\": time.time(),\n00077:                 })\n00078:         stats = vault.stats()\n00079:     result = {\n00080:         \"schema\": SCHEMA,\n00081:         \"status\": \"INDEX_COMPLETE\",\n00082:         \"ok\": errors == 0,\n00083:         \"files_total\": len(files),\n00084:         \"indexed\": indexed,\n00085:         \"duplicates\": duplicates,\n00086:         \"errors\": errors,\n00087:         \"error_samples\": error_samples,\n00088:         \"vault_stats\": stats,\n00089:         \"started_unix\": started,\n00090:         \"completed_unix\": time.time(),\n00091:         \"source_is_not_fact\": True,\n00092:     }\n00093:     _atomic(result)\n00094:     return result\n00095: \n00096: \n00097: def wait_for_extract_and_index(timeout_seconds: int = 86400) -> dict[str, Any]:\n00098:     from eira2.evidence.universe_public_library import PublicLibraryVault\n00099:     started = time.time()\n00100:     while time.time() - started < timeout_seconds:\n00101:         with PublicLibraryVault() as vault:\n00102:             text_root = vault.root / \"project_gutenberg\" / \"texts\"\n00103:             if text_root.is_dir() and any(text_root.glob(\"*.txt\")):\n00104:                 return index_all()\n00105:         _atomic({\"schema\": SCHEMA, \"status\": \"WAITING_FOR_GUTENBERG_EXTRACT\", \"ok\": None, \"updated_unix\": time.time()})\n00106:         time.sleep(30)\n00107:     raise TimeoutError(\"gutenberg_extract_wait_timeout\")\n00108: \n00109: \n00110: def self_test() -> dict[str, Any]:\n00111:     checks = {\n00112:         \"schema\": SCHEMA.endswith(\"_v1\"),\n00113:         \"state_under_universe_library\": \"universe_library\" in STATE.parts,\n00114:         \"numeric_id\": _work_id(Path(\"pg12345.txt\")) == \"12345\",\n00115:         \"fallback_id\": _work_id(Path(\"alpha.txt\")).startswith(\"file_\"),\n00116:     }\n00117:     return {\"schema\": SCHEMA + \"_self_test\", \"ok\": all(checks.values()), \"checks\": checks}\n00118: \n00119: \n00120: if __name__ == \"__main__\":\n00121:     import argparse\n00122:     ap = argparse.ArgumentParser()\n00123:     ap.add_argument(\"--index\", action=\"store_true\")\n00124:     ap.add_argument(\"--wait-index\", action=\"store_true\")\n00125:     ap.add_argument(\"--timeout\", type=int, default=86400)\n00126:     a = ap.parse_args()\n00127:     if a.wait_index:\n00128:         out = wait_for_extract_and_index(a.timeout)\n00129:     elif a.index:\n00130:         out = index_all()\n00131:     else:\n00132:         out = self_test()\n00133:     print(json.dumps(out, indent=2, sort_keys=True))\n00134:     raise SystemExit(0 if out.get(\"ok\") is not False else 1)",
+            "start_line": 73
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira2/evidence/gutenberg_document_indexer.py",
+        "sha256": "3800f4d0e189165e713ce7b901c8bb62472113ccd790dcfbf476fb84c3a12237"
+      },
+      {
+        "bytes": 11143,
+        "contexts": [
+          {
+            "end_line": 52,
+            "source": "00001: from __future__ import annotations\n00002: \n00003: import json\n00004: import os\n00005: import tempfile\n00006: import time\n00007: from pathlib import Path\n00008: from typing import Any, Callable\n00009: \n00010: SCHEMA_VERSION = 1\n00011: DEFAULT_ROOT = Path(os.environ.get(\"EIRA_LIVE_ROOT\", \"/media/domenicleonetti/easystore/EIRA/LIVE\")).resolve()\n00012: DEFAULT_STATE = DEFAULT_ROOT / \"eira_probe\" / \"universe_library\" / \"gutenberg_refresh_state.json\"\n00013: \n00014: POLICY = {\n00015:     \"catalog_refresh_seconds\": 24 * 60 * 60,\n00016:     \"bulk_archive_refresh_seconds\": 7 * 24 * 60 * 60,\n00017:     \"extract_after_bulk_change\": True,\n00018:     \"source_is_not_fact\": True,\n00019:     \"failure_backoff_seconds\": 6 * 60 * 60,\n00020:     \"max_consecutive_failures_before_hold\": 8,\n00021: }\n00022: \n00023: class GutenbergRefreshError(RuntimeError):\n00024:     pass\n00025: \n00026: \n00027: def _atomic_json(path: Path, value: dict[str, Any]) -> None:\n00028:     path.parent.mkdir(parents=True, exist_ok=True)\n00029:     tmp = path.with_name(path.name + f\".tmp.{os.getpid()}\")\n00030:     tmp.write_text(json.dumps(value, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n00031:     os.replace(tmp, path)\n00032: \n00033: \n00034: def _load(path: Path) -> dict[str, Any]:\n00035:     try:\n00036:         value = json.loads(path.read_text(encoding=\"utf-8\"))\n00037:         return value if isinstance(value, dict) else {}\n00038:     except Exception:\n00039:         return {}\n00040: \n00041: \n00042: def _due(last_success: float | int | None, interval: int, now: float) -> bool:\n00043:     if not last_success:\n00044:         return True\n00045:     return now - float(last_success) >= int(interval)\n00046: \n00047: \n00048: class GutenbergRefreshScheduler:\n00049:     \"\"\"Schedules Project Gutenberg refreshes without granting Gutenberg truth authority.\"\"\"\n00050: \n00051:     def __init__(\n00052:         self,",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira2/evidence/gutenberg_refresh.py",
+        "sha256": "840ff3542c8fb83dc80ae7a02e2f9c67d733d3909669e09d63b76b70c171ed34"
+      },
+      {
+        "bytes": 5784,
+        "contexts": [
+          {
+            "end_line": 49,
+            "source": "00001: from __future__ import annotations\n00002: \n00003: import hashlib, json, os, time, urllib.parse, urllib.request, xml.etree.ElementTree as ET\n00004: from pathlib import Path\n00005: from typing import Any\n00006: \n00007: SCHEMA=\"eira2_open_book_oai_harvester_v1\"\n00008: ROOT=Path(os.environ.get(\"EIRA_LIVE_ROOT\",\"/media/domenicleonetti/easystore/EIRA/LIVE\")).resolve()\n00009: STATE=ROOT/\"eira_probe\"/\"universe_library\"/\"open_book_oai_state.json\"\n00010: UA=\"EIRA2-Universe-Library/2.0 lawful OAI harvester\"\n00011: SOURCES={\n00012:  \"doab\":{\"base\":\"https://directory.doabooks.org/oai/request\",\"prefix\":\"oai_dc\",\"kind\":\"peer_reviewed_open_access_books\"},\n00013:  \"bhl\":{\"base\":\"https://www.biodiversitylibrary.org/oai\",\"prefix\":\"oai_dc\",\"kind\":\"biodiversity_literature\"},\n00014: }\n00015: NS={\"oai\":\"http://www.openarchives.org/OAI/2.0/\",\"dc\":\"http://purl.org/dc/elements/1.1/\",\"oai_dc\":\"http://www.openarchives.org/OAI/2.0/oai_dc/\"}\n00016: \n00017: def _atomic(obj:dict[str,Any])->None:\n00018:  STATE.parent.mkdir(parents=True,exist_ok=True); t=STATE.with_name(STATE.name+f\".tmp.{os.getpid()}\"); t.write_text(json.dumps(obj,indent=2,sort_keys=True)+\"\\n\"); os.replace(t,STATE)\n00019: \n00020: def _get(url:str,timeout:int=120)->bytes:\n00021:  req=urllib.request.Request(url,headers={\"User-Agent\":UA,\"Accept\":\"application/xml\"})\n00022:  with urllib.request.urlopen(req,timeout=timeout) as r:return r.read()\n00023: \n00024: def _vals(meta:ET.Element,tag:str)->list[str]:\n00025:  return [str(x.text or \"\").strip() for x in meta.findall(f\".//dc:{tag}\",NS) if str(x.text or \"\").strip()]\n00026: \n00027: def harvest(source_name:str,max_pages:int|None=None)->dict[str,Any]:\n00028:  if source_name not in SOURCES:raise ValueError(\"unknown_source\")\n00029:  from eira2.evidence.universe_public_library import PublicLibraryVault\n00030:  cfg=SOURCES[source_name]; token=\"\"; pages=records=inserted=updated=unchanged=deleted=0; started=time.time()\n00031:  with PublicLibraryVault() as vault:\n00032:   while True:\n00033:    if token:\n00034:     q=urllib.parse.urlencode({\"verb\":\"ListRecords\",\"resumptionToken\":token})\n00035:    else:\n00036:     q=urllib.parse.urlencode({\"verb\":\"ListRecords\",\"metadataPrefix\":cfg[\"prefix\"]})\n00037:    root=ET.fromstring(_get(cfg[\"base\"]+\"?\"+q)); pages+=1; now=time.time()\n00038:    for rec in root.findall(\".//oai:record\",NS):\n00039:     header=rec.find(\"oai:header\",NS)\n00040:     if header is None:continue\n00041:     ident=(header.findtext(\"oai:identifier\",default=\"\",namespaces=NS) or \"\").strip()\n00042:     if not ident:continue\n00043:     if header.get(\"status\")==\"deleted\":deleted+=1;continue\n00044:     meta=rec.find(\"oai:metadata\",NS)\n00045:     if meta is None:continue\n00046:     titles=_vals(meta,\"title\"); creators=_vals(meta,\"creator\"); subjects=_vals(meta,\"subject\"); langs=_vals(meta,\"language\"); rights=_vals(meta,\"rights\"); ids=_vals(meta,\"identifier\"); dates=_vals(meta,\"date\")\n00047:     obj={\"oai_identifier\":ident,\"titles\":titles,\"creators\":creators,\"subjects\":subjects,\"languages\":langs,\"rights\":rights,\"identifiers\":ids,\"dates\":dates}\n00048:     mj=json.dumps(obj,sort_keys=True,ensure_ascii=False,separators=(\",\",\":\")); mh=hashlib.sha256(mj.encode()).hexdigest(); url=next((x for x in ids if x.startswith(\"http\")),\"\")\n00049:     old=vault.db.execute(\"SELECT metadata_hash FROM works WHERE source_name=? AND source_work_id=?\",(source_name,ident)).fetchone()",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira2/evidence/open_book_oai_harvester.py",
+        "sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec"
+      },
+      {
+        "bytes": 9359,
+        "contexts": [
+          {
+            "end_line": 56,
+            "source": "00001: from __future__ import annotations\n00002: \n00003: \"\"\"EIRA2 Universe Library mass lawful-source expansion.\n00004: \n00005: This module extends the existing universe_public_library vault. It never grants\n00006: source material truth authority and never treats 'free to read' as permission to\n00007: redistribute/store full text.\n00008: \"\"\"\n00009: \n00010: import json\n00011: import os\n00012: import time\n00013: from pathlib import Path\n00014: from typing import Any\n00015: \n00016: SCHEMA = \"eira2_universe_library_mass_expansion_v2\"\n00017: DEFAULT_ROOT = Path(os.environ.get(\"EIRA_LIVE_ROOT\", \"/media/domenicleonetti/easystore/EIRA/LIVE\")).resolve()\n00018: STATE_PATH = DEFAULT_ROOT / \"eira_probe\" / \"universe_library\" / \"mass_expansion_state.json\"\n00019: \n00020: SUBJECT_TAXONOMY = (\n00021:     \"history\", \"world_history\", \"ancient_history\", \"modern_history\", \"military_history\",\n00022:     \"science\", \"technology\", \"engineering\", \"mechanical_engineering\", \"electrical_engineering\",\n00023:     \"civil_engineering\", \"aerospace_engineering\", \"chemical_engineering\", \"materials_science\",\n00024:     \"mathematics\", \"algebra\", \"geometry\", \"calculus\", \"statistics\", \"number_theory\",\n00025:     \"computer_science\", \"physics\", \"astronomy\", \"chemistry\", \"geology\", \"earth_science\",\n00026:     \"biology\", \"microbiology\", \"genetics\", \"evolution\", \"biochemistry\", \"neuroscience\",\n00027:     \"oceanography\", \"marine_biology\", \"marine_ecology\", \"fisheries\", \"hydrology\",\n00028:     \"zoology\", \"mammalogy\", \"ornithology\", \"herpetology\", \"ichthyology\", \"entomology\",\n00029:     \"botany\", \"mycology\", \"plant_science\", \"forestry\", \"agriculture\", \"ecology\",\n00030:     \"environment\", \"climate\", \"conservation\", \"biodiversity\", \"architecture\",\n00031:     \"construction\", \"urban_planning\", \"geography\", \"medicine\", \"public_health\",\n00032:     \"pharmacology\", \"psychology\", \"anthropology\", \"archaeology\", \"economics\",\n00033:     \"philosophy\", \"linguistics\", \"education\", \"law\", \"reference\"\n00034: )\n00035: \n00036: # full_text_policy values:\n00037: # public_domain_bulk = sanctioned bulk public-domain corpus\n00038: # open_license_only = retain full text only when item-level license permits\n00039: # oa_subset_only = only the provider's explicit open-access subset\n00040: # metadata_discovery = retain metadata/link unless rights are independently proven\n00041: SOURCES: dict[str, dict[str, Any]] = {\n00042:     \"project_gutenberg\": {\n00043:         \"authority_class\": \"curated_public_domain_library\",\n00044:         \"full_text_policy\": \"public_domain_bulk\",\n00045:         \"catalog\": \"https://dev.gutenberg.org/cache/epub/feeds/pg_catalog.csv.gz\",\n00046:         \"bulk\": \"https://dev.gutenberg.org/cache/epub/feeds/txt-files.tar.zip\",\n00047:         \"refresh\": \"catalog_daily_bulk_weekly\",\n00048:         \"subjects\": \"all\",\n00049:     },\n00050:     \"doab\": {\n00051:         \"authority_class\": \"open_access_book_directory\",\n00052:         \"full_text_policy\": \"open_license_only\",\n00053:         \"homepage\": \"https://www.doabooks.org/\",\n00054:         \"metadata\": \"https://directory.doabooks.org/oai/request\",\n00055:         \"subjects\": \"all_academic\",\n00056:     },",
+            "start_line": 1
+          },
+          {
+            "end_line": 58,
+            "source": "00001: from __future__ import annotations\n00002: \n00003: \"\"\"EIRA2 Universe Library mass lawful-source expansion.\n00004: \n00005: This module extends the existing universe_public_library vault. It never grants\n00006: source material truth authority and never treats 'free to read' as permission to\n00007: redistribute/store full text.\n00008: \"\"\"\n00009: \n00010: import json\n00011: import os\n00012: import time\n00013: from pathlib import Path\n00014: from typing import Any\n00015: \n00016: SCHEMA = \"eira2_universe_library_mass_expansion_v2\"\n00017: DEFAULT_ROOT = Path(os.environ.get(\"EIRA_LIVE_ROOT\", \"/media/domenicleonetti/easystore/EIRA/LIVE\")).resolve()\n00018: STATE_PATH = DEFAULT_ROOT / \"eira_probe\" / \"universe_library\" / \"mass_expansion_state.json\"\n00019: \n00020: SUBJECT_TAXONOMY = (\n00021:     \"history\", \"world_history\", \"ancient_history\", \"modern_history\", \"military_history\",\n00022:     \"science\", \"technology\", \"engineering\", \"mechanical_engineering\", \"electrical_engineering\",\n00023:     \"civil_engineering\", \"aerospace_engineering\", \"chemical_engineering\", \"materials_science\",\n00024:     \"mathematics\", \"algebra\", \"geometry\", \"calculus\", \"statistics\", \"number_theory\",\n00025:     \"computer_science\", \"physics\", \"astronomy\", \"chemistry\", \"geology\", \"earth_science\",\n00026:     \"biology\", \"microbiology\", \"genetics\", \"evolution\", \"biochemistry\", \"neuroscience\",\n00027:     \"oceanography\", \"marine_biology\", \"marine_ecology\", \"fisheries\", \"hydrology\",\n00028:     \"zoology\", \"mammalogy\", \"ornithology\", \"herpetology\", \"ichthyology\", \"entomology\",\n00029:     \"botany\", \"mycology\", \"plant_science\", \"forestry\", \"agriculture\", \"ecology\",\n00030:     \"environment\", \"climate\", \"conservation\", \"biodiversity\", \"architecture\",\n00031:     \"construction\", \"urban_planning\", \"geography\", \"medicine\", \"public_health\",\n00032:     \"pharmacology\", \"psychology\", \"anthropology\", \"archaeology\", \"economics\",\n00033:     \"philosophy\", \"linguistics\", \"education\", \"law\", \"reference\"\n00034: )\n00035: \n00036: # full_text_policy values:\n00037: # public_domain_bulk = sanctioned bulk public-domain corpus\n00038: # open_license_only = retain full text only when item-level license permits\n00039: # oa_subset_only = only the provider's explicit open-access subset\n00040: # metadata_discovery = retain metadata/link unless rights are independently proven\n00041: SOURCES: dict[str, dict[str, Any]] = {\n00042:     \"project_gutenberg\": {\n00043:         \"authority_class\": \"curated_public_domain_library\",\n00044:         \"full_text_policy\": \"public_domain_bulk\",\n00045:         \"catalog\": \"https://dev.gutenberg.org/cache/epub/feeds/pg_catalog.csv.gz\",\n00046:         \"bulk\": \"https://dev.gutenberg.org/cache/epub/feeds/txt-files.tar.zip\",\n00047:         \"refresh\": \"catalog_daily_bulk_weekly\",\n00048:         \"subjects\": \"all\",\n00049:     },\n00050:     \"doab\": {\n00051:         \"authority_class\": \"open_access_book_directory\",\n00052:         \"full_text_policy\": \"open_license_only\",\n00053:         \"homepage\": \"https://www.doabooks.org/\",\n00054:         \"metadata\": \"https://directory.doabooks.org/oai/request\",\n00055:         \"subjects\": \"all_academic\",\n00056:     },\n00057:     \"wikisource\": {\n00058:         \"authority_class\": \"community_curated_source_archive\",",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira2/evidence/universe_library_mass_expansion.py",
+        "sha256": "657826f889437d9fa27e6cfbd4ebf9cfba05c2b0d3c37f7584266c52ccf1ccba"
+      },
+      {
+        "bytes": 17170,
+        "contexts": [
+          {
+            "end_line": 61,
+            "source": "00001: from __future__ import annotations\n00002: \n00003: import csv\n00004: import gzip\n00005: import hashlib\n00006: import io\n00007: import json\n00008: import os\n00009: import shutil\n00010: import sqlite3\n00011: import tarfile\n00012: import tempfile\n00013: import time\n00014: import urllib.request\n00015: import zipfile\n00016: from pathlib import Path\n00017: from typing import Any, Iterable\n00018: \n00019: SCHEMA_VERSION = 1\n00020: DEFAULT_ROOT = Path(os.environ.get(\"EIRA_LIVE_ROOT\", \"/media/domenicleonetti/easystore/EIRA/LIVE\")).resolve()\n00021: DEFAULT_VAULT = DEFAULT_ROOT / \"eira_probe\" / \"universe_library\" / \"source_vault\"\n00022: CATALOG_URL = \"https://dev.gutenberg.org/cache/epub/feeds/pg_catalog.csv.gz\"\n00023: CORPUS_URL = \"https://dev.gutenberg.org/cache/epub/feeds/txt-files.tar.zip\"\n00024: USER_AGENT = \"EIRA2-Universe-Library/1.0 (+local research archive; sanctioned bulk endpoints only)\"\n00025: \n00026: PUBLIC_LIBRARY_SOURCES = {\n00027:     \"project_gutenberg\": {\n00028:         \"name\": \"Project Gutenberg\",\n00029:         \"kind\": \"public_domain_library\",\n00030:         \"authority_class\": \"curated_public_library\",\n00031:         \"jurisdiction\": \"United States\",\n00032:         \"catalog_url\": CATALOG_URL,\n00033:         \"full_text_bulk_url\": CORPUS_URL,\n00034:         \"catalog_refresh\": \"daily_or_weekly\",\n00035:         \"full_text_refresh\": \"weekly\",\n00036:         \"full_text_storage_allowed\": True,\n00037:         \"copyright_rule\": \"Only treat individual works as unrestricted when Gutenberg metadata/license permits; preserve source license metadata.\",\n00038:         \"truth_rule\": \"Books are source material, never automatically accepted factual memory.\",\n00039:     },\n00040:     \"wikisource\": {\n00041:         \"name\": \"Wikisource\",\n00042:         \"kind\": \"free_source_text_library\",\n00043:         \"authority_class\": \"community_curated_source_archive\",\n00044:         \"jurisdiction\": \"global\",\n00045:         \"homepage\": \"https://wikisource.org/\",\n00046:         \"full_text_storage_allowed\": \"license_dependent\",\n00047:         \"copyright_rule\": \"Preserve per-work license/public-domain status and Wikimedia attribution requirements.\",\n00048:         \"truth_rule\": \"Primary/historical texts remain evidence; extracted factual claims require independent Truth Gate evaluation.\",\n00049:     },\n00050:     \"openstax\": {\n00051:         \"name\": \"OpenStax\",\n00052:         \"kind\": \"open_textbook_library\",\n00053:         \"authority_class\": \"peer_reviewed_educational\",\n00054:         \"jurisdiction\": \"United States\",\n00055:         \"homepage\": \"https://openstax.org/\",\n00056:         \"full_text_storage_allowed\": \"license_dependent\",\n00057:         \"license_family\": \"Creative Commons; preserve title-specific terms and attribution\",\n00058:         \"truth_rule\": \"Textbook claims are strong educational evidence but still versioned and revalidated in fast-moving fields.\",\n00059:     },\n00060:     \"ncbi_bookshelf_oa\": {\n00061:         \"name\": \"NCBI Bookshelf Open Access Subset\",",
+            "start_line": 1
+          },
+          {
+            "end_line": 162,
+            "source": "00082: \n00083: def _download(url: str, dest: Path, *, min_free_bytes: int = 2_000_000_000, timeout: int = 120) -> dict[str, Any]:\n00084:     dest.parent.mkdir(parents=True, exist_ok=True)\n00085:     free = shutil.disk_usage(dest.parent).free\n00086:     if free < min_free_bytes:\n00087:         raise PublicLibraryError(f\"insufficient_free_space:{free}\")\n00088:     part = dest.with_suffix(dest.suffix + \".part\")\n00089:     headers = {\"User-Agent\": USER_AGENT}\n00090:     mode = \"wb\"\n00091:     existing = part.stat().st_size if part.exists() else 0\n00092:     if existing:\n00093:         headers[\"Range\"] = f\"bytes={existing}-\"\n00094:         mode = \"ab\"\n00095:     req = urllib.request.Request(url, headers=headers)\n00096:     with urllib.request.urlopen(req, timeout=timeout) as r:\n00097:         status = getattr(r, \"status\", 200)\n00098:         if existing and status != 206:\n00099:             existing = 0\n00100:             mode = \"wb\"\n00101:         with part.open(mode) as out:\n00102:             while True:\n00103:                 chunk = r.read(1024 * 1024)\n00104:                 if not chunk:\n00105:                     break\n00106:                 out.write(chunk)\n00107:     os.replace(part, dest)\n00108:     return {\"path\": str(dest), \"bytes\": dest.stat().st_size, \"sha256\": _sha_file(dest), \"url\": url}\n00109: \n00110: \n00111: def _safe_member_name(name: str) -> str:\n00112:     p = Path(name)\n00113:     if p.is_absolute() or \"..\" in p.parts:\n00114:         raise PublicLibraryError(f\"unsafe_archive_member:{name}\")\n00115:     return p.as_posix()\n00116: \n00117: \n00118: class PublicLibraryVault:\n00119:     def __init__(self, root: str | Path = DEFAULT_VAULT):\n00120:         self.root = Path(root).resolve()\n00121:         self.root.mkdir(parents=True, exist_ok=True)\n00122:         self.db_path = self.root / \"source_index.sqlite3\"\n00123:         self.db = sqlite3.connect(str(self.db_path), timeout=60.0, isolation_level=None)\n00124:         self.db.row_factory = sqlite3.Row\n00125:         self.db.execute(\"PRAGMA journal_mode=WAL\")\n00126:         self.db.execute(\"PRAGMA synchronous=NORMAL\")\n00127:         self._schema()\n00128: \n00129:     def close(self): self.db.close()\n00130:     def __enter__(self): return self\n00131:     def __exit__(self, *_): self.close()\n00132: \n00133:     def _schema(self):\n00134:         self.db.executescript(\"\"\"\n00135:         CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY,value TEXT NOT NULL);\n00136:         CREATE TABLE IF NOT EXISTS works(\n00137:           source_name TEXT NOT NULL,\n00138:           source_work_id TEXT NOT NULL,\n00139:           title TEXT NOT NULL DEFAULT '',\n00140:           authors TEXT NOT NULL DEFAULT '',\n00141:           subjects TEXT NOT NULL DEFAULT '',\n00142:           language TEXT NOT NULL DEFAULT '',\n00143:           source_url TEXT NOT NULL DEFAULT '',\n00144:           source_release_date TEXT NOT NULL DEFAULT '',\n00145:           rights TEXT NOT NULL DEFAULT '',\n00146:           metadata_json TEXT NOT NULL DEFAULT '{}',\n00147:           metadata_hash TEXT NOT NULL,\n00148:           first_seen_unix REAL NOT NULL,\n00149:           last_seen_unix REAL NOT NULL,\n00150:           PRIMARY KEY(source_name,source_work_id)\n00151:         );\n00152:         CREATE TABLE IF NOT EXISTS documents(\n00153:           document_hash TEXT PRIMARY KEY,\n00154:           source_name TEXT NOT NULL,\n00155:           source_work_id TEXT NOT NULL,\n00156:           relative_path TEXT NOT NULL,\n00157:           bytes INTEGER NOT NULL,\n00158:           indexed_unix REAL NOT NULL,\n00159:           UNIQUE(source_name,source_work_id,relative_path)\n00160:         );\n00161:         CREATE TABLE IF NOT EXISTS ingest_receipts(\n00162:           receipt_id TEXT PRIMARY KEY,",
+            "start_line": 82
+          }
+        ],
+        "matched_signatures": [
+          "universe_library",
+          "source_index.sqlite3"
+        ],
+        "path": "eira2/evidence/universe_public_library.py",
+        "sha256": "2230858386e4f8887202efe6b0d3a40b208304d30f0099d37a304a065e93d5fc"
+      },
+      {
+        "bytes": 503,
+        "contexts": [
+          {
+            "end_line": 16,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.gutenberg_document_indexer\",\n00006:     \"--wait-index\",\n00007:     \"--timeout\",\n00008:     \"86400\"\n00009:   ],\n00010:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_index.log\",\n00011:   \"ok\": true,\n00012:   \"pid\": 131925,\n00013:   \"result_state\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_document_index_state.json\",\n00014:   \"schema\": \"eira2_gutenberg_index_process_v1\",\n00015:   \"started_unix\": 1788902205.6692674\n00016: }",
+            "start_line": 1
+          },
+          {
+            "end_line": 16,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.gutenberg_document_indexer\",\n00006:     \"--wait-index\",\n00007:     \"--timeout\",\n00008:     \"86400\"\n00009:   ],\n00010:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_index.log\",\n00011:   \"ok\": true,\n00012:   \"pid\": 131925,\n00013:   \"result_state\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_document_index_state.json\",\n00014:   \"schema\": \"eira2_gutenberg_index_process_v1\",\n00015:   \"started_unix\": 1788902205.6692674\n00016: }",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/gutenberg_index_process.json",
+        "sha256": "cecfe9363f9cb7aabd9e763cd3efa71d85c53474fd03bc99a854006fb16e1787"
+      },
+      {
+        "bytes": 1174,
+        "contexts": [
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'gutenberg_index_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'gutenberg_index.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.gutenberg_document_indexer','--wait-index','--timeout','86400']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_gutenberg_index_process_v1','ok':True,'pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'result_state':str(ROOT/'eira_probe'/'universe_library'/'gutenberg_document_index_state.json')}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'gutenberg_index_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'gutenberg_index.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.gutenberg_document_indexer','--wait-index','--timeout','86400']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_gutenberg_index_process_v1','ok':True,'pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'result_state':str(ROOT/'eira_probe'/'universe_library'/'gutenberg_document_index_state.json')}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'gutenberg_index_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'gutenberg_index.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.gutenberg_document_indexer','--wait-index','--timeout','86400']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_gutenberg_index_process_v1','ok':True,'pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'result_state':str(ROOT/'eira_probe'/'universe_library'/'gutenberg_document_index_state.json')}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/index_after_extract.py",
+        "sha256": "e47b104b7c67eb9a3ae97ea1ecf372cf0bc25636b7ae463071f96f793c365004"
+      },
+      {
+        "bytes": 432,
+        "contexts": [
+          {
+            "end_line": 15,
+            "source": "00001: {\n00002:   \"completed_unix\": 1788901990.9591713,\n00003:   \"ok\": false,\n00004:   \"operation\": \"gutenberg_stock\",\n00005:   \"result\": {\n00006:     \"error\": \"OperationalError:table ingest_receipts has 7 columns but 6 values were supplied\",\n00007:     \"ok\": false,\n00008:     \"operations\": [],\n00009:     \"source_is_not_fact\": true,\n00010:     \"status\": \"CATALOG_FAILED\"\n00011:   },\n00012:   \"schema\": \"eira2_universe_library_mass_expansion_v2\",\n00013:   \"source_is_not_fact\": true,\n00014:   \"started_unix\": 1788901821.402725\n00015: }",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/mass_expansion_state.json",
+        "sha256": "963161d3daf046f155d661416e10b178acdbf028ff7158b4dc7792aa3cc3259d"
+      },
+      {
+        "bytes": 553,
+        "contexts": [
+          {
+            "end_line": 16,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.universe_library_mass_expansion\",\n00006:     \"--stock-gutenberg\"\n00007:   ],\n00008:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log\",\n00009:   \"ok\": true,\n00010:   \"pid\": 126366,\n00011:   \"schema\": \"eira2_universe_library_mass_stock_process_v1\",\n00012:   \"source\": \"project_gutenberg\",\n00013:   \"source_is_not_fact\": true,\n00014:   \"started_unix\": 1788901821.3385036,\n00015:   \"state_result\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json\"\n00016: }",
+            "start_line": 1
+          },
+          {
+            "end_line": 16,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.universe_library_mass_expansion\",\n00006:     \"--stock-gutenberg\"\n00007:   ],\n00008:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log\",\n00009:   \"ok\": true,\n00010:   \"pid\": 126366,\n00011:   \"schema\": \"eira2_universe_library_mass_stock_process_v1\",\n00012:   \"source\": \"project_gutenberg\",\n00013:   \"source_is_not_fact\": true,\n00014:   \"started_unix\": 1788901821.3385036,\n00015:   \"state_result\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json\"\n00016: }",
+            "start_line": 1
+          },
+          {
+            "end_line": 16,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.universe_library_mass_expansion\",\n00006:     \"--stock-gutenberg\"\n00007:   ],\n00008:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log\",\n00009:   \"ok\": true,\n00010:   \"pid\": 126366,\n00011:   \"schema\": \"eira2_universe_library_mass_stock_process_v1\",\n00012:   \"source\": \"project_gutenberg\",\n00013:   \"source_is_not_fact\": true,\n00014:   \"started_unix\": 1788901821.3385036,\n00015:   \"state_result\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json\"\n00016: }",
+            "start_line": 1
+          },
+          {
+            "end_line": 16,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.universe_library_mass_expansion\",\n00006:     \"--stock-gutenberg\"\n00007:   ],\n00008:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log\",\n00009:   \"ok\": true,\n00010:   \"pid\": 126366,\n00011:   \"schema\": \"eira2_universe_library_mass_stock_process_v1\",\n00012:   \"source\": \"project_gutenberg\",\n00013:   \"source_is_not_fact\": true,\n00014:   \"started_unix\": 1788901821.3385036,\n00015:   \"state_result\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json\"\n00016: }",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/mass_stock_process.json",
+        "sha256": "b51830e64374a33d223516584392b30a63f46323bd6b463a92e938e0722474f3"
+      },
+      {
+        "bytes": 1221,
+        "contexts": [
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'mass_stock_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'mass_stock_gutenberg.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.universe_library_mass_expansion','--stock-gutenberg']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_universe_library_mass_stock_process_v1','ok':True,'source':'project_gutenberg','pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'state_result':str(ROOT/'eira_probe'/'universe_library'/'mass_expansion_state.json'),'source_is_not_fact':True}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'mass_stock_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'mass_stock_gutenberg.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.universe_library_mass_expansion','--stock-gutenberg']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_universe_library_mass_stock_process_v1','ok':True,'source':'project_gutenberg','pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'state_result':str(ROOT/'eira_probe'/'universe_library'/'mass_expansion_state.json'),'source_is_not_fact':True}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'mass_stock_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'mass_stock_gutenberg.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.universe_library_mass_expansion','--stock-gutenberg']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_universe_library_mass_stock_process_v1','ok':True,'source':'project_gutenberg','pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'state_result':str(ROOT/'eira_probe'/'universe_library'/'mass_expansion_state.json'),'source_is_not_fact':True}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'mass_stock_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'mass_stock_gutenberg.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.universe_library_mass_expansion','--stock-gutenberg']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_universe_library_mass_stock_process_v1','ok':True,'source':'project_gutenberg','pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'state_result':str(ROOT/'eira_probe'/'universe_library'/'mass_expansion_state.json'),'source_is_not_fact':True}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/mass_stock_runner.py",
+        "sha256": "d912d83bca51bc309ffcdc85e2712ec86891e7dae513b89b47da8431cde85956"
+      },
+      {
+        "bytes": 1136,
+        "contexts": [
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'open_book_oai_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'open_book_oai_harvest.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.open_book_oai_harvester','--all']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_open_book_oai_process_v1','ok':True,'pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'harvest_state':str(ROOT/'eira_probe'/'universe_library'/'open_book_oai_state.json')}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'open_book_oai_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'open_book_oai_harvest.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.open_book_oai_harvester','--all']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_open_book_oai_process_v1','ok':True,'pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'harvest_state':str(ROOT/'eira_probe'/'universe_library'/'open_book_oai_state.json')}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: #!/usr/bin/env python3\n00002: from __future__ import annotations\n00003: import json, os, subprocess, sys, time\n00004: from pathlib import Path\n00005: ROOT=Path(os.environ.get('EIRA_LIVE_ROOT','/media/domenicleonetti/easystore/EIRA/LIVE')).resolve()\n00006: STATE=ROOT/'eira_probe'/'universe_library'/'open_book_oai_process.json'\n00007: LOG=ROOT/'eira_probe'/'universe_library'/'open_book_oai_harvest.log'\n00008: STATE.parent.mkdir(parents=True,exist_ok=True)\n00009: cmd=[sys.executable,'-m','eira2.evidence.open_book_oai_harvester','--all']\n00010: with LOG.open('ab',buffering=0) as log:\n00011:     p=subprocess.Popen(cmd,cwd=str(ROOT),stdin=subprocess.DEVNULL,stdout=log,stderr=subprocess.STDOUT,start_new_session=True,env={**os.environ,'EIRA_LIVE_ROOT':str(ROOT),'PYTHONPATH':str(ROOT)})\n00012: payload={'schema':'eira2_open_book_oai_process_v1','ok':True,'pid':p.pid,'started_unix':time.time(),'command':cmd,'log':str(LOG),'harvest_state':str(ROOT/'eira_probe'/'universe_library'/'open_book_oai_state.json')}\n00013: tmp=STATE.with_name(STATE.name+f'.tmp.{os.getpid()}'); tmp.write_text(json.dumps(payload,indent=2,sort_keys=True)+'\\n',encoding='utf-8'); os.replace(tmp,STATE)\n00014: print(json.dumps(payload,sort_keys=True))",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/open_book_oai_harvest_runner.py",
+        "sha256": "0bbce97f1aa1d88d50bd128f620a17b5cddf1495d64783dbe3455163c6e26c39"
+      },
+      {
+        "bytes": 457,
+        "contexts": [
+          {
+            "end_line": 14,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.open_book_oai_harvester\",\n00006:     \"--all\"\n00007:   ],\n00008:   \"harvest_state\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_state.json\",\n00009:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_harvest.log\",\n00010:   \"ok\": true,\n00011:   \"pid\": 135309,\n00012:   \"schema\": \"eira2_open_book_oai_process_v1\",\n00013:   \"started_unix\": 1788902433.0059934\n00014: }",
+            "start_line": 1
+          },
+          {
+            "end_line": 14,
+            "source": "00001: {\n00002:   \"command\": [\n00003:     \"/usr/bin/python3\",\n00004:     \"-m\",\n00005:     \"eira2.evidence.open_book_oai_harvester\",\n00006:     \"--all\"\n00007:   ],\n00008:   \"harvest_state\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_state.json\",\n00009:   \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_harvest.log\",\n00010:   \"ok\": true,\n00011:   \"pid\": 135309,\n00012:   \"schema\": \"eira2_open_book_oai_process_v1\",\n00013:   \"started_unix\": 1788902433.0059934\n00014: }",
+            "start_line": 1
+          }
+        ],
+        "matched_signatures": [
+          "universe_library"
+        ],
+        "path": "eira_probe/universe_library/open_book_oai_process.json",
+        "sha256": "8f2009b1066a17c08d72c03febb16fa7959d981e262f6dbb30eb1c5a37fa3a7d"
+      }
+    ],
+    "mutates_live": false,
+    "qualification": {
+      "accepted_success_contract": "ok_true",
+      "mutates_live": false,
+      "ok": true,
+      "qualification_contract_normalized": true,
+      "result": {
+        "db_exists": true,
+        "documents": 0,
+        "generated_unix": 1788902452.486809,
+        "gutenberg_bulk_archive_bytes": 0,
+        "gutenberg_bulk_archive_exists": false,
+        "gutenberg_extracted_text_bytes": 0,
+        "gutenberg_extracted_text_files": 0,
+        "ingest_receipts": 0,
+        "library_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library",
+        "mass_expansion_state": {
+          "completed_unix": 1788901990.9591713,
+          "ok": false,
+          "operation": "gutenberg_stock",
+          "result": {
+            "error": "OperationalError:table ingest_receipts has 7 columns but 6 values were supplied",
+            "ok": false,
+            "operations": [],
+            "source_is_not_fact": true,
+            "status": "CATALOG_FAILED"
+          },
+          "schema": "eira2_universe_library_mass_expansion_v2",
+          "source_is_not_fact": true,
+          "started_unix": 1788901821.402725
+        },
+        "mass_stock_process": {
+          "command": [
+            "/usr/bin/python3",
+            "-m",
+            "eira2.evidence.universe_library_mass_expansion",
+            "--stock-gutenberg"
+          ],
+          "log": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log",
+          "ok": true,
+          "pid": 126366,
+          "schema": "eira2_universe_library_mass_stock_process_v1",
+          "source": "project_gutenberg",
+          "source_is_not_fact": true,
+          "started_unix": 1788901821.3385036,
+          "state_result": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json"
+        },
+        "mutates_live": false,
+        "ok": true,
+        "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+        "schema": "eira2_live_library_documentation_v1",
+        "vault": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/source_vault",
+        "works": 82487,
+        "works_by_source": {
+          "doab": 3150,
+          "project_gutenberg": 79337
+        }
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v2",
+      "source_commit": "975a6e483dbd804e3435b76717699a9d4a316d12",
+      "source_path": "EIRA2_LIVE_LIBRARY_DOCUMENTATION_PROBE_V1.py",
+      "source_sha256": "74b660039606fa0c62c7feb953aea4033e47e1cdbf2041e984bfa1577c7a265b",
+      "stderr_tail": "",
+      "stdout_tail": "{\"db_exists\": true, \"documents\": 0, \"generated_unix\": 1788902452.486809, \"gutenberg_bulk_archive_bytes\": 0, \"gutenberg_bulk_archive_exists\": false, \"gutenberg_extracted_text_bytes\": 0, \"gutenberg_extracted_text_files\": 0, \"ingest_receipts\": 0, \"library_root\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library\", \"mass_expansion_state\": {\"completed_unix\": 1788901990.9591713, \"ok\": false, \"operation\": \"gutenberg_stock\", \"result\": {\"error\": \"OperationalError:table ingest_receipts has 7 columns but 6 values were supplied\", \"ok\": false, \"operations\": [], \"source_is_not_fact\": true, \"status\": \"CATALOG_FAILED\"}, \"schema\": \"eira2_universe_library_mass_expansion_v2\", \"source_is_not_fact\": true, \"started_unix\": 1788901821.402725}, \"mass_stock_process\": {\"command\": [\"/usr/bin/python3\", \"-m\", \"eira2.evidence.universe_library_mass_expansion\", \"--stock-gutenberg\"], \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log\", \"ok\": true, \"pid\": 126366, \"schema\": \"eira2_universe_library_mass_stock_process_v1\", \"source\": \"project_gutenberg\", \"source_is_not_fact\": true, \"started_unix\": 1788901821.3385036, \"state_result\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json\"}, \"mutates_live\": false, \"ok\": true, \"root\": \"/media/domenicleonetti/easystore/EIRA/LIVE\", \"schema\": \"eira2_live_library_documentation_v1\", \"vault\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/source_vault\", \"works\": 82487, \"works_by_source\": {\"doab\": 3150, \"project_gutenberg\": 79337}}"
+    },
+    "request_id": "live_library_documentation_20260908_v1",
+    "schema": "eira2_transport_inspection_evidence_v3",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788902444.397687,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "live_library_documentation_20260908_v1",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "live_library_documentation_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 86297,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "8c2369faf7da60a8db36107d1887386d3d53ba36b6d91b5831701d370a40ab00",
-  "updated_unix": 1788902447.1414785,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788902444.397687,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "live_library_documentation_20260908_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
