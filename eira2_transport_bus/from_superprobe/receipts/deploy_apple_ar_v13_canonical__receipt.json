@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "deploy_apple_ar_v13_canonical",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788852003.060493,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "20cef459f6f84530c313eb229ecd29e13389f27b149239d8383cfabffc846946"
+  "transport_request_sha256": "20cef459f6f84530c313eb229ecd29e13389f27b149239d8383cfabffc846946",
+  "updated_unix": 1788852006.317555
 }
