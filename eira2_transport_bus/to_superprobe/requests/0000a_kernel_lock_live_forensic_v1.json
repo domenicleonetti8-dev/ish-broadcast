@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "kernel_lock_live_forensic_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "roots": ["eira2", "eira_probe"],
+    "suffixes": [".py", ".json", ".lock", ".pid"],
+    "signatures": ["eira2_instance_already_running", "kernel.lock", "flock", "pid", "instance"],
+    "full_source_paths": ["eira2/kernel/lock.py", "eira2/kernel/supervisor.py"]
+  },
+  "purpose": "Determine whether current startup failure is a live competing EIRA2 process or stale lock state. Return exact current lock.py and supervisor.py source, lock/pid artifacts visible under eira_probe, and relevant ownership evidence. No mutation, no process termination, no restart."
+}
