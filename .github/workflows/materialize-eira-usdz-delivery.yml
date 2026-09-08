@@ -1,0 +1,62 @@
+name: Materialize EIRA USDZ delivery
+
+on:
+  push:
+    branches:
+      - eira-usdz-delivery-20260908
+    paths:
+      - 'eira2_transport_bus/to_superprobe/artifacts/**'
+      - 'eira2_transport_bus/to_superprobe/materialize_eira_usdz.trigger'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    if: ${{ !contains(github.event.head_commit.message, '[materialized-usdz]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: eira-usdz-delivery-20260908
+          fetch-depth: 0
+      - name: Reconstruct and verify exact USDZ binaries
+        shell: python
+        run: |
+          import base64, hashlib, lzma, pathlib, zipfile
+          root = pathlib.Path('.')
+          out = root/'eira2_transport_bus/to_superprobe/artifacts/materialized'
+          out.mkdir(parents=True, exist_ok=True)
+          jobs = [
+            ('v17_binary_payload/artifact1.part*.b64', 'EIRA_V17_PROVEN_GREENHOUSE_CARRIER.usdz', 5117987, 'b54e484a8dba2f942eedf252f0149362c07a1bafbd711e8a06c6ade98c0b8ca9'),
+            ('greenhouse_binary_payload/artifact2.part*.b64', 'EIRA_OFF_WORLD_GREENHOUSE_V28.usdz', 730948, '1058eaebe4f419dae5c504e8d909a62c7426bb7f1428a23ac083d4e661e46dc1'),
+          ]
+          base = root/'eira2_transport_bus/to_superprobe/artifacts'
+          for pattern, name, size, expected in jobs:
+              files = sorted(base.glob(pattern))
+              if not files:
+                  raise SystemExit(f'missing chunks: {pattern}')
+              text = ''.join(p.read_text().strip() for p in files)
+              raw = lzma.decompress(base64.b64decode(text, validate=True))
+              got = hashlib.sha256(raw).hexdigest()
+              if len(raw) != size or got != expected:
+                  raise SystemExit(f'verification failed {name}: size={len(raw)} sha={got}')
+              target = out/name
+              target.write_bytes(raw)
+              with zipfile.ZipFile(target) as z:
+                  bad = z.testzip()
+                  if bad is not None:
+                      raise SystemExit(f'zip integrity failed {name}: {bad}')
+              print(f'VERIFIED {name} size={len(raw)} sha256={got}')
+      - name: Commit exact binary artifacts
+        run: |
+          git config user.name 'EIRA USDZ Materializer'
+          git config user.email 'eira-usdz-materializer@localhost'
+          git add eira2_transport_bus/to_superprobe/artifacts/materialized/*.usdz
+          if git diff --cached --quiet; then
+            echo 'Binary artifacts already materialized identically.'
+            exit 0
+          fi
+          git commit -m '[materialized-usdz] Materialize exact EIRA Invention Lab USDZ binaries'
+          git push origin HEAD:eira-usdz-delivery-20260908
