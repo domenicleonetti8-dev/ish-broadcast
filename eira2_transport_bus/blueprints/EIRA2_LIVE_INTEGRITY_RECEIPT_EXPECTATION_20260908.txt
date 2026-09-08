@@ -1,0 +1,1 @@
+Expected terminal receipt path pattern: eira2_transport_bus/from_superprobe/receipts/eira_live_integrity_after_storage_reconnect_exec_20260908__receipt.json
