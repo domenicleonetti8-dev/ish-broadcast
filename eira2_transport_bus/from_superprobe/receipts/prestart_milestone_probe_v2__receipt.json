@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "prestart_milestone_probe_v2",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788830444.3430305,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "e9df9809e7cb6dd4e0954ec92f23d410166bc5a36834c23911c93ec24b417101"
+}
