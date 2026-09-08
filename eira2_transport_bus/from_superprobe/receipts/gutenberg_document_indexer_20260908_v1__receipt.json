@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "gutenberg_document_indexer_20260908_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788901847.836852,
+  "status": "STARTED",
+  "supervisor_pid": 114917,
+  "transport_request_sha256": "f5c2f26a71701925fb14b13e6e116abb11d6fd48a586d7b091e3c50f98e81e46"
+}
