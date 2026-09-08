@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_library_mass_expansion_20260908_v2",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "3dd599498a16b4e191e23ab687d643e98ded75a7",
+      "path": "EIRA2_UNIVERSE_LIBRARY_MASS_EXPANSION_V2.py"
+    },
+    "target": {
+      "path": "eira2/evidence/universe_library_mass_expansion.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
