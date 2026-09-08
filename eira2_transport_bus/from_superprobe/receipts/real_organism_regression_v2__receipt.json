@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788831517.6639833,
+  "error": "RuntimeError:read_only_qualification_failed:\"stderr_tail\": \"\", \"stdout_tail\": \"{\\\"schema\\\":\\\"eira2_real_organism_regression_v2\\\",\\\"ok\\\":false,\\\"mutates_source_files\\\":false,\\\"runtime_state_activity_expected\\\":true,\\\"construct_seconds\\\":18.042,\\\"error\\\":\\\"RuntimeError:required_service_failed:kernel.lock\\\",\\\"traceback\\\":\\\"Traceback (most recent call last):\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/lock.py\\\\\\\", line 22, in start\\\\n    fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)\\\\n    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\\\nBlockingIOError: [Errno 11] Resource temporarily unavailable\\\\n\\\\nThe above exception was the direct cause of the following exception:\\\\n\\\\nTraceback (most recent call last):\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\\\\\\\", line 96, in start\\\\n    await self._start_record(name, record)\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\\\\\\\", line 76, in _start_record\\\\n    await asyncio.wait_for(\\\\n    ...<2 lines>...\\\\n    )\\\\n  File \\\\\\\"/usr/lib/python3.13/asyncio/tasks.py\\\\\\\", line 507, in wait_for\\\\n    return await fut\\\\n           ^^^^^^^^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/lock.py\\\\\\\", line 25, in start\\\\n    raise RuntimeError(\\\\\\\"eira2_instance_already_running\\\\\\\") from error\\\\nRuntimeError: eira2_instance_already_running\\\\n\\\\nThe above exception was the direct cause of the following exception:\\\\n\\\\nTraceback (most recent call last):\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_x84pttf6/qualification.py\\\\\\\", line 29, in main\\\\n    t=time.perf_counter(); await asyncio.wait_for(runtime.start(),timeout=180); out['start_seconds']=round(time.perf_counter()-t,3); started=True\\\\n                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\\\\n  File \\\\\\\"/usr/lib/python3.13/asyncio/tasks.py\\\\\\\", line 507, in wait_for\\\\n    return await fut\\\\n           ^^^^^^^^^\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/runtime.py\\\\\\\", line 202, in start\\\\n    await self.supervisor.start()\\\\n  File \\\\\\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira2/kernel/supervisor.py\\\\\\\", line 100, in start\\\\n    raise RuntimeError(f\\\\\\\"required_service_failed:{name}\\\\\\\") from error\\\\nRuntimeError: required_service_failed:kernel.lock\\\\n\\\",\\\"responses\\\":[]}\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "real_organism_regression_v2",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "49df026a5273a626fc3548c0f120b20c01057e05d52de10641ba59775ba0e1cb",
-  "updated_unix": 1788831491.9788961,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "49df026a5273a626fc3548c0f120b20c01057e05d52de10641ba59775ba0e1cb"
 }
