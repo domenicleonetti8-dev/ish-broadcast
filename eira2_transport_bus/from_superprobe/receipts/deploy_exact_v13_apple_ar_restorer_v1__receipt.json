@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788898255.631026,
-  "error": "RuntimeError:deployment_lane_failed:{\n  \"EIRA2_BLUEPRINT_DEPLOYMENT_V4\": \"FAIL\",\n  \"packet_id\": \"deploy_exact_v13_apple_ar_restorer_v1\",\n  \"rollback_performed\": false,\n  \"error\": \"RuntimeError:payload_python_compile_failed:eira2/neural/apple_ar.py:  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/offsystem_inbox/stage/000_apple_ar.py\\\", line 16\\n    _V13_LZMA_B64 = \\\"\\\"\\\"\\\"+b64+\\\"\\\"\\\"\\\"\\n                                ^\\nSyntaxError: unterminated string literal (detected at line 16)\\n\"\n}\n",
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788898453.9355597,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b"
 }
