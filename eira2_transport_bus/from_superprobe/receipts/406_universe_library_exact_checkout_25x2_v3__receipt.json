@@ -1,12 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788837391.4886107,
+  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 1, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"108201b12ea98a6f2d0b24a501d0ef2ef026b918\", \"source_path\": \"EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V3.py\", \"source_sha256\": \"212a8f0afe9d4bada41bf69218fdf513503a51374d2592b06b4d40d6d7fab60f\", \"stderr_tail\": \"Traceback (most recent call last):\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_twpdpd5g/qualification.py\\\", line 36, in <module>\\n    if __name__=='__main__': main()\\n                             ~~~~^^\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_twpdpd5g/qualification.py\\\", line 18, in main\\n    target=literal('TARGET'); payload=literal('NEW')\\n  File \\\"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_twpdpd5g/qualification.py\\\", line 10, in literal\\n    tree=ast.parse(SOURCE.read_text(encoding='utf-8'))\\n  File \\\"/usr/lib/python3.13/ast.py\\\", line 50, in parse\\n    return compile(source, filename, mode, flags,\\n                   _feature_version=feature_version, optimize=optimize)\\n  File \\\"<unknown>\\\", line 90\\n    CREATE TABLE IF NOT EXISTS meta(key TEXT PRIMARY KEY,value TEXT NOT NULL);\\nIndentationError: unexpected indent\", \"stdout_tail\": \"\"}",
+  "ok": false,
   "operation": "inspect",
   "request_id": "406_universe_library_exact_checkout_25x2_v3",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "48346a59b31ef58bdc9f0510ef347ec6103831c47ab99e99e2460009218ed9f1",
-  "updated_unix": 1788837388.6862266,
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "48346a59b31ef58bdc9f0510ef347ec6103831c47ab99e99e2460009218ed9f1"
 }
