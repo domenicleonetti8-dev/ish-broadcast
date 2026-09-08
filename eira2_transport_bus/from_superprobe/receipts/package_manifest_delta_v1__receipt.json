@@ -1,12 +1,99 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788828052.8619194,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "20ecd96c34b88219bbb1cc5abb8e99ee08643e05b6dbcfc4ed2573fcfeb664c6",
+    "generated_unix": 1788828049.3683517,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "changed": [
+          {
+            "after": {
+              "path": "eira2/operations/doctor.py",
+              "sha256": "43ea7281ebb242b6a799849de077a4e18e495dc5c61e06c630f4b8ce685e68e9",
+              "size": 15186
+            },
+            "before": {
+              "path": "eira2/operations/doctor.py",
+              "sha256": "0932c00b6e8bf99e085bf2ece878db23a1fbc569a0db789345061afa98f317db",
+              "size": 13284
+            },
+            "path": "eira2/operations/doctor.py"
+          },
+          {
+            "after": {
+              "path": "extensions/repair_watcher_ai/plugin.py",
+              "sha256": "9a754d434ca3c1ce638a4810ddfd756159a30b77992050b9e7893ed5f6c962ec",
+              "size": 12786
+            },
+            "before": {
+              "path": "extensions/repair_watcher_ai/plugin.py",
+              "sha256": "65fcc14c34ec8fcdf394cd702b3cd1a13ae46f51e7698af69a2437b5ae9c6d17",
+              "size": 11845
+            },
+            "path": "extensions/repair_watcher_ai/plugin.py"
+          }
+        ],
+        "changed_count": 2,
+        "mutates_live": false,
+        "new_file_count": 351,
+        "new_package_tree_sha256": "7dad45fbf0578a7cd8ef051de613bbf658bc65bf1c5908bfba65d5a22a64cdee",
+        "ok": true,
+        "old_file_count": 351,
+        "schema": "eira2_package_manifest_delta_v1",
+        "source_commit_sha": "d45797f72f11723593e0d7f2b9cde971cf1208d6"
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "846f6ec208483140af3096d7301f3c45f3c1436e",
+      "source_path": "EIRA2_PACKAGE_MANIFEST_DELTA_V1.py",
+      "source_sha256": "c521cfd3cd6c3579dcd1daaffa12f42c6a4b80b0650c6d1b7cc53be9028c96f5",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_package_manifest_delta_v1\",\"ok\":true,\"mutates_live\":false,\"old_file_count\":351,\"new_file_count\":351,\"changed_count\":2,\"changed\":[{\"path\":\"eira2/operations/doctor.py\",\"before\":{\"path\":\"eira2/operations/doctor.py\",\"sha256\":\"0932c00b6e8bf99e085bf2ece878db23a1fbc569a0db789345061afa98f317db\",\"size\":13284},\"after\":{\"path\":\"eira2/operations/doctor.py\",\"size\":15186,\"sha256\":\"43ea7281ebb242b6a799849de077a4e18e495dc5c61e06c630f4b8ce685e68e9\"}},{\"path\":\"extensions/repair_watcher_ai/plugin.py\",\"before\":{\"path\":\"extensions/repair_watcher_ai/plugin.py\",\"sha256\":\"65fcc14c34ec8fcdf394cd702b3cd1a13ae46f51e7698af69a2437b5ae9c6d17\",\"size\":11845},\"after\":{\"path\":\"extensions/repair_watcher_ai/plugin.py\",\"size\":12786,\"sha256\":\"9a754d434ca3c1ce638a4810ddfd756159a30b77992050b9e7893ed5f6c962ec\"}}],\"source_commit_sha\":\"d45797f72f11723593e0d7f2b9cde971cf1208d6\",\"new_package_tree_sha256\":\"7dad45fbf0578a7cd8ef051de613bbf658bc65bf1c5908bfba65d5a22a64cdee\"}"
+    },
+    "request_id": "package_manifest_delta_v1",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788828044.9023051,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "package_manifest_delta_v1",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "package_manifest_delta_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "b515091e785c42d997c20f84ff9eba606aee3a2819907d097af9eaf5180b4565",
-  "updated_unix": 1788828047.120673,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788828044.9023051,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "package_manifest_delta_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
