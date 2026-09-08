@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_v13_walkthrough_wrapper_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "2e62dfedf9a771cbe6813283037703c07d5f14c4",
+      "path": "EIRA2_APPLE_AR_V13_WALKTHROUGH_WRAPPER.py"
+    },
+    "target": {
+      "path": "eira2/neural/apple_ar.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
