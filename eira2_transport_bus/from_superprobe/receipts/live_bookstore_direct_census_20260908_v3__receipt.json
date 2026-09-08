@@ -1,12 +1,167 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788907188.270896,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 13,
+    "evidence_sha256": "40fcd7cc0003affb198fee68f4c84c8706227a7e478f393e94b6b3f4cfa0ad7a",
+    "generated_unix": 1788907185.7021039,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "accepted_success_contract": "ok_true",
+      "mutates_live": false,
+      "ok": true,
+      "qualification_contract_normalized": true,
+      "result": {
+        "base": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library",
+        "documents": 0,
+        "gutenberg_bulk_archive_bytes": 0,
+        "gutenberg_document_index_state": {
+          "ok": null,
+          "schema": "eira2_gutenberg_document_indexer_v1",
+          "status": "WAITING_FOR_GUTENBERG_EXTRACT",
+          "updated_unix": 1788907187.0916498
+        },
+        "gutenberg_extracted_text_files": 0,
+        "gutenberg_index_process": {
+          "command": [
+            "/usr/bin/python3",
+            "-m",
+            "eira2.evidence.gutenberg_document_indexer",
+            "--wait-index",
+            "--timeout",
+            "86400"
+          ],
+          "log": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_index.log",
+          "ok": true,
+          "pid": 131925,
+          "pid_alive": true,
+          "result_state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_document_index_state.json",
+          "schema": "eira2_gutenberg_index_process_v1",
+          "started_unix": 1788902205.6692674
+        },
+        "gutenberg_refresh_state": {
+          "consecutive_failures": 1,
+          "last_error": "OperationalError:table ingest_receipts has 7 columns but 6 values were supplied",
+          "last_failed_operation": "catalog",
+          "last_failure_unix": 1788901821.4027317,
+          "updated_unix": 1788901821.4027317
+        },
+        "mass_expansion_state": {
+          "completed_unix": 1788905445.2436519,
+          "ok": true,
+          "operation": "gutenberg_stock",
+          "result": {
+            "ok": true,
+            "retry_after_seconds": 17976,
+            "source_is_not_fact": true,
+            "status": "BACKOFF"
+          },
+          "schema": "eira2_universe_library_mass_expansion_v2",
+          "source_is_not_fact": true,
+          "started_unix": 1788905445.2428744
+        },
+        "mass_stock_process": {
+          "command": [
+            "/usr/bin/python3",
+            "-m",
+            "eira2.evidence.universe_library_mass_expansion",
+            "--stock-gutenberg"
+          ],
+          "log": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log",
+          "ok": true,
+          "pid": 126366,
+          "pid_alive": false,
+          "schema": "eira2_universe_library_mass_stock_process_v1",
+          "source": "project_gutenberg",
+          "source_is_not_fact": true,
+          "started_unix": 1788901821.3385036,
+          "state_result": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json"
+        },
+        "mutates_live": false,
+        "ok": true,
+        "open_book_oai_process": {
+          "command": [
+            "/usr/bin/python3",
+            "-m",
+            "eira2.evidence.open_book_oai_harvester",
+            "--all"
+          ],
+          "harvest_state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_state.json",
+          "log": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_harvest.log",
+          "ok": true,
+          "pid": 135309,
+          "pid_alive": true,
+          "schema": "eira2_open_book_oai_process_v1",
+          "started_unix": 1788902433.0059934
+        },
+        "open_book_oai_state": {
+          "deleted_seen": 0,
+          "inserted": 0,
+          "pages": 1866,
+          "records": 186600,
+          "resumption_token": "|||oai_dc|item:210809|2026-09-08T22:39:47Z",
+          "schema": "eira2_open_book_oai_harvester_v1",
+          "source": "bhl",
+          "status": "HARVESTING",
+          "unchanged": 186600,
+          "updated": 0,
+          "updated_unix": 1788907187.9625099
+        },
+        "schema": "eira2_universe_library_live_status_v1",
+        "works": 456827,
+        "works_by_source": {
+          "bhl": 267507,
+          "doab": 109990,
+          "project_gutenberg": 79337
+        }
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v2",
+      "source_commit": "db214c145de5798905b3254903d7d019db7c4bfa",
+      "source_path": "EIRA2_UNIVERSE_LIBRARY_LIVE_STATUS_V1.py",
+      "source_sha256": "42a578fca54a598ce1f68d40dbcf587a14d4808e5b7dd4e15c659a4fbbb74dc9",
+      "stderr_tail": "",
+      "stdout_tail": "{\"base\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library\", \"documents\": 0, \"gutenberg_bulk_archive_bytes\": 0, \"gutenberg_document_index_state\": {\"ok\": null, \"schema\": \"eira2_gutenberg_document_indexer_v1\", \"status\": \"WAITING_FOR_GUTENBERG_EXTRACT\", \"updated_unix\": 1788907187.0916498}, \"gutenberg_extracted_text_files\": 0, \"gutenberg_index_process\": {\"command\": [\"/usr/bin/python3\", \"-m\", \"eira2.evidence.gutenberg_document_indexer\", \"--wait-index\", \"--timeout\", \"86400\"], \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_index.log\", \"ok\": true, \"pid\": 131925, \"pid_alive\": true, \"result_state\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/gutenberg_document_index_state.json\", \"schema\": \"eira2_gutenberg_index_process_v1\", \"started_unix\": 1788902205.6692674}, \"gutenberg_refresh_state\": {\"consecutive_failures\": 1, \"last_error\": \"OperationalError:table ingest_receipts has 7 columns but 6 values were supplied\", \"last_failed_operation\": \"catalog\", \"last_failure_unix\": 1788901821.4027317, \"updated_unix\": 1788901821.4027317}, \"mass_expansion_state\": {\"completed_unix\": 1788905445.2436519, \"ok\": true, \"operation\": \"gutenberg_stock\", \"result\": {\"ok\": true, \"retry_after_seconds\": 17976, \"source_is_not_fact\": true, \"status\": \"BACKOFF\"}, \"schema\": \"eira2_universe_library_mass_expansion_v2\", \"source_is_not_fact\": true, \"started_unix\": 1788905445.2428744}, \"mass_stock_process\": {\"command\": [\"/usr/bin/python3\", \"-m\", \"eira2.evidence.universe_library_mass_expansion\", \"--stock-gutenberg\"], \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_stock_gutenberg.log\", \"ok\": true, \"pid\": 126366, \"pid_alive\": false, \"schema\": \"eira2_universe_library_mass_stock_process_v1\", \"source\": \"project_gutenberg\", \"source_is_not_fact\": true, \"started_unix\": 1788901821.3385036, \"state_result\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/mass_expansion_state.json\"}, \"mutates_live\": false, \"ok\": true, \"open_book_oai_process\": {\"command\": [\"/usr/bin/python3\", \"-m\", \"eira2.evidence.open_book_oai_harvester\", \"--all\"], \"harvest_state\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_state.json\", \"log\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/open_book_oai_harvest.log\", \"ok\": true, \"pid\": 135309, \"pid_alive\": true, \"schema\": \"eira2_open_book_oai_process_v1\", \"started_unix\": 1788902433.0059934}, \"open_book_oai_state\": {\"deleted_seen\": 0, \"inserted\": 0, \"pages\": 1866, \"records\": 186600, \"resumption_token\": \"|||oai_dc|item:210809|2026-09-08T22:39:47Z\", \"schema\": \"eira2_open_book_oai_harvester_v1\", \"source\": \"bhl\", \"status\": \"HARVESTING\", \"unchanged\": 186600, \"updated\": 0, \"updated_unix\": 1788907187.9625099}, \"schema\": \"eira2_universe_library_live_status_v1\", \"works\": 456827, \"works_by_source\": {\"bhl\": 267507, \"doab\": 109990, \"project_gutenberg\": 79337}}"
+    },
+    "request_id": "live_bookstore_direct_census_20260908_v3",
+    "schema": "eira2_transport_inspection_evidence_v3",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788907176.0394483,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "live_bookstore_direct_census_20260908_v3",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "live_bookstore_direct_census_20260908_v3",
   "schema": "eira2_transport_terminal_receipt_v10",
-  "stage": "INSPECTING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 205942,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "0bdcbd9e32c3631bdac0c8d2f1c2445ae63f36213c78d071e9f8da021fbaf8bb",
-  "updated_unix": 1788907180.0165844,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788907176.0394483,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "live_bookstore_direct_census_20260908_v3",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
