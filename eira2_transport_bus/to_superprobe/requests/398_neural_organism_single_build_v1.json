@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "neural_organism_single_build_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "a19ae49ec3e372f0b7c7396f819d78fcc7ce7fc1",
+      "path": "EIRA2_NEURAL_ORGANISM_SINGLE_BUILD_FULL_REPLACEMENT_V1.py"
+    },
+    "target": {
+      "path": "eira2/neural/organism.py",
+      "expected_before_sha256": "fbe4ab42e1a2ecc4bd45a01da548d340312dcdf29f54124ef659d424a0392b01"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
