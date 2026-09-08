@@ -1,0 +1,1 @@
+sentinel only; no LIVE mutation; request receipts expected under from_superprobe/receipts for eira_live_integrity_after_storage_reconnect_exec_20260908
