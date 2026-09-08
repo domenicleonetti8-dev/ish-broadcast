@@ -1,13 +1,13 @@
 {
   "builder_invoked": true,
-  "completed_unix": 1788902297.7817297,
+  "completed_unix": 1788902311.393945,
   "completion_sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec",
   "deployment": {
     "after_sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec",
     "before_sha256": null,
     "builder_invoked": true,
     "completion_sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec",
-    "generated_unix": 1788902297.7817228,
+    "generated_unix": 1788902311.3939388,
     "lane_receipt": {
       "builder_direct": true,
       "builder_plan_schema_accepted": "eira2_watcher_builder_plan_v1",
@@ -15,16 +15,16 @@
         "applied_files": [
           {
             "after_sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec",
-            "before_sha256": null,
+            "before_sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec",
             "target_path": "eira2/evidence/open_book_oai_harvester.py"
           }
         ],
         "authorized_by": "repair_watcher_ai",
-        "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260908T171748",
+        "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260908T171801",
         "builder_probe_made_no_change_decisions": true,
         "constructed_bridges": [],
         "eira2_only": true,
-        "generated_unix": 1788902268.9423559,
+        "generated_unix": 1788902281.3343203,
         "mode": "watcher_authorized_write_transport",
         "ok": true,
         "requires_post_superprobe_verification": true,
@@ -32,9 +32,9 @@
         "schema": "eira2_builder_probe_v1",
         "superprobe_remained_read_only": true
       },
-      "generated_unix": 1788902297.7081816,
+      "generated_unix": 1788902311.3336012,
       "off_live_builder_stage": "/tmp/eira2_builder_stage/open_book_oai_harvester_20260908_v1",
-      "package_fingerprint_sha256": "a75928fa822d7c85af4f791b67285b4bbd66351b29f5d48824084b762ed7f2ed",
+      "package_fingerprint_sha256": "3676c547b1af95f3a9749abe8e798e4f65d8512889460297b32ad7572971b82a",
       "package_identity": {
         "eira1_runtime_delegation": false,
         "eira1_runtime_files_required": false,
@@ -1849,9 +1849,9 @@
       "superprobe": {
         "artifacts": {
           "execution_truth": {
-            "bytes": 3681,
+            "bytes": 2859,
             "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/execution_truth.json",
-            "sha256": "4e3f1f5ce6f7ea169f31d118e3418bc026e7dd1958ee3b2a37b96951edd5a502"
+            "sha256": "23b5bce49bda0b6f53dfcc3028ee46d63b23e1d82b83fad7af8186d03fe6bd2e"
           },
           "extension_truth": {
             "bytes": 931,
@@ -1861,12 +1861,12 @@
           "forensic_map": {
             "bytes": 25060,
             "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/forensic_map.json",
-            "sha256": "0a5047583808845d9f9bd188f10489744bdcfafb658ea984a846a3748aa73b1e"
+            "sha256": "5e2adab504faaf816cdaffd7fe0643ee1481a7ad27bee7460807bb3922831f1b"
           },
           "organism_truth": {
             "bytes": 9972,
             "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/organism_truth.json",
-            "sha256": "5eb5f32c4c34eb37359b3d4eac4e21483f74911ece9a866d08678cb38a86b5d3"
+            "sha256": "c16ab09c666be8790657ac64038037ec171f046fc150d137b28ada29f6b17d70"
           },
           "package_truth": {
             "bytes": 379,
@@ -1888,8 +1888,8 @@
         "base": "/media/domenicleonetti/easystore/EIRA/LIVE",
         "declared_vs_observed_discrepancies": [],
         "eira2_only": true,
-        "elapsed_seconds": 23.846639,
-        "evidence_bundle_fingerprint_sha256": "5e37e06b1d8351634ac1a1990802a824c01902e1cceaebbf8b6bd8668e27a7f4",
+        "elapsed_seconds": 25.119486,
+        "evidence_bundle_fingerprint_sha256": "a3912c356e719b47e45b74558f901674a5a5112d98dda66b1381187f96eac2ee",
         "evidence_schema": "eira2_superprobe_evidence_v4",
         "execution_truth": {
           "hostname": "eira",
@@ -1903,21 +1903,19 @@
           "process_command_ok": true,
           "process_error": "",
           "processes": [
-            "86297 2538085    1882 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_AUTONOMOUS_TRANSPORT_V7.py --root /media/domenicleonetti/easystore/EIRA/LIVE",
-            "114917 2688197     886 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
-            "131925       1      91 /usr/bin/python3 -m eira2.evidence.gutenberg_document_indexer --wait-index --timeout 86400",
-            "132731   86297      53 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/open_book_oai_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "132733  132731      53 /usr/bin/python3 /tmp/eira2_lane_v4_core_132731.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/open_book_oai_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "132891  114917      41 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/open_book_oai_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "132897  132891      41 /usr/bin/python3 /tmp/eira2_lane_v4_core_132891.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/open_book_oai_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "133037  132733      23 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-            "133141  132897      11 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-            "2177880       1  242214 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
-            "2197106       1  135951 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15",
-            "2688197    1013   74954 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
-            "2702069    1013   74124 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE"
+            "86297 2538085    1895 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_AUTONOMOUS_TRANSPORT_V7.py --root /media/domenicleonetti/easystore/EIRA/LIVE",
+            "114917 2688197     900 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
+            "131925       1     105 /usr/bin/python3 -m eira2.evidence.gutenberg_document_indexer --wait-index --timeout 86400",
+            "132891  114917      54 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/open_book_oai_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
+            "132897  132891      54 /usr/bin/python3 /tmp/eira2_lane_v4_core_132891.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/open_book_oai_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
+            "133141  132897      25 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+            "133470   86297       4 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+            "2177880       1  242227 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+            "2197106       1  135964 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15",
+            "2688197    1013   74968 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
+            "2702069    1013   74137 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE"
           ],
-          "runtime_processes": 13,
+          "runtime_processes": 11,
           "socket_error": ""
         },
         "extension_truth": {
@@ -1958,16 +1956,16 @@
           ],
           "ok": true
         },
-        "generated_unix": 1788902297.6454144,
+        "generated_unix": 1788902311.31179,
         "mode": "read_only_forensic",
         "mutates_live": false,
         "ok": true,
         "organism_truth": {
-          "addressable_node_count": 15609,
+          "addressable_node_count": 15611,
           "authority": "eira2.neural.atlas.NeuralAtlas",
           "conductive_road_count": 0,
           "duplicate_road_count": 0,
-          "inventory_neuron_count": 15587,
+          "inventory_neuron_count": 15589,
           "inventory_source": "filesystem_scan_fallback",
           "layout_identity_status": "not_asserted_without_canonical_shared_layout_contract",
           "layout_identity_verified": false,
@@ -2154,18 +2152,18 @@
               },
               {
                 "activity_classes": {
-                  "other": 15144
+                  "other": 15146
                 },
-                "bytes": 464838771,
+                "bytes": 464841047,
                 "cluster": "root:eira_probe",
-                "code_count": 5170,
+                "code_count": 5171,
                 "dispositions": {
-                  "runtime_scan_fallback": 15144
+                  "runtime_scan_fallback": 15146
                 },
-                "file_count": 11751,
+                "file_count": 11752,
                 "hemisphere": "left",
                 "id": "neuron:7827f44531faf9ea11f8ff4e",
-                "neuron_count": 15144,
+                "neuron_count": 15146,
                 "spine": false
               },
               {
@@ -2331,16 +2329,16 @@
             ],
             "conductive_fiber_count": 842,
             "conductive_fibers_require_evidence": true,
-            "fiber_count": 16429,
-            "inventory_neuron_count": 15587,
+            "fiber_count": 16431,
+            "inventory_neuron_count": 15589,
             "inventory_source": "filesystem_scan_fallback",
             "ok": true,
             "schema": "eira2_neural_atlas_v1",
             "structural_fibers_are_conductive": false,
             "synthetic_cluster_count": 22,
-            "total_addressable_nodes": 15609
+            "total_addressable_nodes": 15611
           },
-          "road_count": 16429,
+          "road_count": 16431,
           "schema": "eira2_neural_organism_truth_v4",
           "unresolved_road_endpoint_count": 0
         },
@@ -2354,11 +2352,11 @@
           "status": "verified"
         },
         "physical_truth": {
-          "bytes": 7692853250,
+          "bytes": 7692862120,
           "files": 205,
           "inventory": [
             {
-              "mtime_ns": 1788902271370604800,
+              "mtime_ns": 1788902283727651500,
               "path": "eira2-package-manifest.json",
               "size": 60230
             },
@@ -2528,7 +2526,7 @@
               "size": 3003
             },
             {
-              "mtime_ns": 1788902268903162900,
+              "mtime_ns": 1788902281294782300,
               "path": "eira2/evidence/open_book_oai_harvester.py",
               "size": 5784
             },
@@ -3384,7 +3382,7 @@
             }
           ],
           "ok": true,
-          "python_files": 1466,
+          "python_files": 1467,
           "root": "/media/domenicleonetti/easystore/EIRA/LIVE"
         },
         "privacy": "local_only",
@@ -3400,15 +3398,15 @@
         },
         "shared_evidence": {
           "artifact_count": 7,
-          "fingerprint": "5e37e06b1d8351634ac1a1990802a824c01902e1cceaebbf8b6bd8668e27a7f4",
-          "manifest_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/5e37e06b1d8351634ac1a1990802a824c01902e1cceaebbf8b6bd8668e27a7f4/manifest.json",
-          "manifest_sha256": "1979677a2cb6fbc065fd6847bae120bab5a3ab7e27cde06d034bbdc915eaa5c6",
+          "fingerprint": "a3912c356e719b47e45b74558f901674a5a5112d98dda66b1381187f96eac2ee",
+          "manifest_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/a3912c356e719b47e45b74558f901674a5a5112d98dda66b1381187f96eac2ee/manifest.json",
+          "manifest_sha256": "40572361d92ffd58f25a2da06d77f5d7ac701721c632bd9c068b6e03e4c0e41c",
           "ok": true
         }
       },
       "superprobe_summary": {
         "discrepancy_count": 0,
-        "evidence_fingerprint": "5e37e06b1d8351634ac1a1990802a824c01902e1cceaebbf8b6bd8668e27a7f4",
+        "evidence_fingerprint": "a3912c356e719b47e45b74558f901674a5a5112d98dda66b1381187f96eac2ee",
         "files": 205,
         "listeners": 2,
         "ok": true,
@@ -3416,7 +3414,7 @@
         "package_identity_ok": true,
         "package_tree_sha256": "8e337f4b96577e3cb00d0f53f2f622ecc039cdf33ff7b09315578a39326cfdf4",
         "python_files": 125,
-        "runtime_processes": 13,
+        "runtime_processes": 11,
         "schema": "eira2_superprobe_forensic_v4",
         "unresolved_internal_imports": 0
       },
@@ -3438,13 +3436,13 @@
       "builder_required": true,
       "discrepancy_count": 0,
       "fast_read_only_authorization": false,
-      "generated_unix": 1788902238.8038967,
+      "generated_unix": 1788902251.4050589,
       "ok": true,
       "operation": "deploy",
       "package_identity_ok": true,
       "read_only": false,
       "request_id": "open_book_oai_harvester_20260908_v1",
-      "superprobe_evidence_fingerprint_sha256": "3b858d34c36e367581f57cdb4ad7b5c58d8ba1db7f5229ea3a5651b7810370da",
+      "superprobe_evidence_fingerprint_sha256": "9259dea77d5e4ed99016ae1541217c9a3a0412047449c6eabaa6485a8b814c09",
       "superprobe_required_for_authorization": true,
       "superprobe_schema": "eira2_superprobe_forensic_v4",
       "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
@@ -3464,13 +3462,13 @@
     "builder_required": true,
     "discrepancy_count": 0,
     "fast_read_only_authorization": false,
-    "generated_unix": 1788902238.8038967,
+    "generated_unix": 1788902251.4050589,
     "ok": true,
     "operation": "deploy",
     "package_identity_ok": true,
     "read_only": false,
     "request_id": "open_book_oai_harvester_20260908_v1",
-    "superprobe_evidence_fingerprint_sha256": "3b858d34c36e367581f57cdb4ad7b5c58d8ba1db7f5229ea3a5651b7810370da",
+    "superprobe_evidence_fingerprint_sha256": "9259dea77d5e4ed99016ae1541217c9a3a0412047449c6eabaa6485a8b814c09",
     "superprobe_required_for_authorization": true,
     "superprobe_schema": "eira2_superprobe_forensic_v4",
     "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
