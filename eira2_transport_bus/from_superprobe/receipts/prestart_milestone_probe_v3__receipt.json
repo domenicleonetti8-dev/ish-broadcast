@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "prestart_milestone_probe_v3",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788830655.2085056,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "d2ff9937da1f025feef56c5bc3679af8bf9668b8db613a80666979182c06e022"
+  "transport_request_sha256": "d2ff9937da1f025feef56c5bc3679af8bf9668b8db613a80666979182c06e022",
+  "updated_unix": 1788830658.2865462
 }
