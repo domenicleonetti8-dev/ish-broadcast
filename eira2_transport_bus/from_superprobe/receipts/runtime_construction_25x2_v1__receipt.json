@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788877717.1328988,
-  "error": "RuntimeError:receipt_push_failed:remote: fatal error in commit_refs        \nTo https://github.com/domenicleonetti8-dev/ish-broadcast.git\n ! [remote rejected]     master -> master (failure)\nerror: failed to push some refs to 'https://github.com/domenicleonetti8-dev/ish-broadcast.git'\n",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "runtime_construction_25x2_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788877943.4394467,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "c72905eace6d97324a2deac4352003841a22e5836f9ab89ed68d3608f5ebbc00"
 }
