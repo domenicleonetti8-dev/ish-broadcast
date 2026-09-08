@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "407_universe_library_exact_checkout_25x2_v4",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "51a03060f0b97d8debbad0cdf7e13abd89e9287a",
+      "path": "EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V4.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Extract the exact V3 Universe Library deployment payload from the V6 checkout, compile it, run its embedded 25 distinct tests twice, and require 50/50 before deployment. No LIVE mutation."
+}
