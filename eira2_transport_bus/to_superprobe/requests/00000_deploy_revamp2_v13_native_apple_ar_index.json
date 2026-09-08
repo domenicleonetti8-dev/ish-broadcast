@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_revamp2_v13_native_apple_ar_index",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "6ff6f1ff2e9ef2734092913b6b95bfff48fce628",
+      "path": "EIRA2_REVAMP2_V13_NATIVE_APPLE_AR_INDEX.html"
+    },
+    "target": {
+      "path": "eira2_server_revamp/static/index.html"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
