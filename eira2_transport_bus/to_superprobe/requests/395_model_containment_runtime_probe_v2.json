@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "model_containment_runtime_probe_v2",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "41890273e0d4368e8292561a761f83cbb3330322",
+      "path": "EIRA2_MODEL_CONTAINMENT_RUNTIME_PROBE_V2.py",
+      "timeout_seconds": 120
+    }
+  }
+}
