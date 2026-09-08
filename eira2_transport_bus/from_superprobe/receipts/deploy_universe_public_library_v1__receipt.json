@@ -3,9 +3,28 @@
   "operation": "deploy",
   "request_id": "deploy_universe_public_library_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "9f69670aba37e3fc0287c3100bcb2518347700a6c9a79740578a1380d91c7039",
-  "updated_unix": 1788839809.5388608
+  "updated_unix": 1788839832.95426,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": true,
+    "discrepancy_count": 0,
+    "fast_read_only_authorization": false,
+    "generated_unix": 1788839832.9541779,
+    "ok": true,
+    "operation": "deploy",
+    "package_identity_ok": true,
+    "read_only": false,
+    "request_id": "deploy_universe_public_library_v1",
+    "superprobe_evidence_fingerprint_sha256": "200da77e2b53aba4c1e9aee768ed6fd5d06a40877d6b3c71614cbf15d41f2475",
+    "superprobe_required_for_authorization": true,
+    "superprobe_schema": "eira2_superprobe_forensic_v4",
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": true
+  },
+  "watcher_authorized": true
 }
