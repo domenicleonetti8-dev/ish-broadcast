@@ -1,12 +1,69 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788853536.4778457,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 2,
+    "evidence_sha256": "30962f845a3465fb1bb63acea3d21a9728925efe336e18d8681cd4a82546f0af",
+    "generated_unix": 1788853536.4777567,
+    "matching_files": [],
+    "mutates_live": false,
+    "request_id": "v13_asset_route_fastcheck_v1",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [
+      {
+        "bytes": 12410676,
+        "matched_signatures": [],
+        "sha256": "29dd441279f8b761e3d49a5eba75462fe8828a72aa5cab69b66916eda1da0ae5",
+        "source": null,
+        "status": 200,
+        "url": "http://127.0.0.1:8782/inventions/usdz/eira2_brain.usdz"
+      },
+      {
+        "bytes": 248,
+        "matched_signatures": [
+          "eira2_brain.usdz"
+        ],
+        "sha256": "a8a0ddff017bb3ccbb8808e450925b1c0de2cfb3667c96fa50a35d2efbbabbc3",
+        "source": "{\"ok\":true,\"schema\":\"eira2_invention_usdz_index_v1\",\"count\":1,\"models\":[{\"name\":\"eira2_brain.usdz\",\"size\":12410676,\"modified_ns\":1788852989449325200,\"href\":\"/inventions/usdz/eira2_brain.usdz\",\"quick_look\":true,\"content_type\":\"model/vnd.usdz+zip\"}]}",
+        "status": 200,
+        "url": "http://127.0.0.1:8782/api/inventions/usdz"
+      }
+    ],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788853531.5243745,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "v13_asset_route_fastcheck_v1",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "v13_asset_route_fastcheck_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "INSPECTING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "e43531d935134f56b53f0fcb3363c21e2f0579f8efd417d1c8d42aa595c32a97",
-  "updated_unix": 1788853533.9662888,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788853531.5243745,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "v13_asset_route_fastcheck_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
