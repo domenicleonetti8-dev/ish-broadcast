@@ -1,0 +1,10 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "gutenberg_ingest_receipt_repair_inspect_20260908_v2",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2/evidence", "eira_probe/universe_library"],
+    "suffixes": [".py", ".json"],
+    "signatures": ["ingest_receipts", "INSERT INTO ingest_receipts", "project_gutenberg", "CATALOG_FAILED", "table ingest_receipts has 7 columns but 6 values were supplied"]
+  }
+}
