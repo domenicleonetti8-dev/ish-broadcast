@@ -1,0 +1,15 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "transport_canary_20260908_v1",
+  "operation": "inspect",
+  "inspection": {
+    "paths": [
+      "eira_probe/system_visibility/live_system.json"
+    ]
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": false,
+    "read_only": true
+  }
+}
