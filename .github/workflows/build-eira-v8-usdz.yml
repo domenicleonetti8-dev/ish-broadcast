@@ -14,6 +14,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -25,4 +27,6 @@ jobs:
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
           git add eira2_transport_bus/to_superprobe/artifacts/EIRA2_LIVING_NEURAL_ORGANISM_V8.usdz
           git diff --cached --quiet || git commit -m 'Build EIRA V8 Apple USDZ artifact'
-          git push
+          git fetch origin master
+          git rebase origin/master
+          git push origin HEAD:master
