@@ -5,8 +5,9 @@ import hashlib, importlib.util, json, os, py_compile, subprocess, tempfile, time
 from pathlib import Path
 from typing import Any
 
-SCHEMA="eira2_autonomous_engineering_loop_v1"
+SCHEMA="eira2_autonomous_engineering_loop_v2"
 DENIED_PREFIXES=("main.py","engine/","brain/","council/","routers/","voice/","identity/","memory/","reasoning/","speech/")
+MAX_ATTEMPTS_HARD=5
 
 def sha256_bytes(data:bytes)->str: return hashlib.sha256(data).hexdigest()
 
@@ -42,13 +43,13 @@ def extract_candidate(value:Any)->bytes:
     if isinstance(value,bytes): return value
     if isinstance(value,str): return value.encode()
     if isinstance(value,dict):
-        for key in ("candidate_bytes","candidate","content","code","text","output"):
+        for key in ("candidate_bytes","candidate","content","code","text","output","replacement"):
             v=value.get(key)
             if isinstance(v,bytes): return v
             if isinstance(v,str): return v.encode()
     raise RuntimeError("verified_engineering_result_has_no_candidate")
 
-def generate_candidate(root:Path,sandbox:Path,job:dict[str,Any],before:bytes|None)->tuple[bytes,dict[str,Any]]:
+def generate_candidate(root:Path,sandbox:Path,job:dict[str,Any],before:bytes|None,prior_failures:list[dict[str,Any]])->tuple[bytes,dict[str,Any]]:
     objective=str(job.get("objective") or "").strip(); target=safe_rel(str(job.get("target_path") or ""))
     if not objective: raise RuntimeError("autonomous_objective_required")
     if job.get("qualification_canary") is True:
@@ -57,7 +58,21 @@ def generate_candidate(root:Path,sandbox:Path,job:dict[str,Any],before:bytes|Non
         candidate=value.encode("utf-8")
         return candidate,{"provider":"deterministic_control_loop_canary","qualification_only":True,"candidate_sha256":sha256_bytes(candidate),"candidate_bytes":len(candidate)}
     ask,provider_path=find_verified_engineering(root)
-    req={"schema":"eira2_verified_engineering_autonomous_candidate_v1","objective":objective,"target_path":target,"sandbox_root":str(sandbox),"existing_source":before.decode("utf-8",errors="replace") if before is not None else None,"requirements":job.get("requirements") or [],"constraints":["Return a complete replacement candidate only; never mutate LIVE.","Preserve compatible interfaces unless the objective explicitly requires a change.","Do not claim verification; verification is performed by the autonomous sandbox loop."]}
+    req={
+        "schema":"eira2_verified_engineering_autonomous_candidate_v2",
+        "objective":objective,
+        "target_path":target,
+        "sandbox_root":str(sandbox),
+        "existing_source":before.decode("utf-8",errors="replace") if before is not None else None,
+        "requirements":job.get("requirements") or [],
+        "prior_failed_attempts":prior_failures[-3:],
+        "constraints":[
+            "Return a complete replacement candidate only; never mutate LIVE.",
+            "Preserve compatible interfaces unless the objective explicitly requires a change.",
+            "Use prior_failed_attempts as repair evidence and correct the observed failure.",
+            "Do not claim verification; verification is performed by the autonomous sandbox loop."
+        ]
+    }
     try: result=ask(req)
     except TypeError: result=ask(json.dumps(req,sort_keys=True))
     candidate=extract_candidate(result)
@@ -65,18 +80,22 @@ def generate_candidate(root:Path,sandbox:Path,job:dict[str,Any],before:bytes|Non
     return candidate,{"provider":str(provider_path.resolve().relative_to(root.resolve())),"candidate_sha256":sha256_bytes(candidate),"candidate_bytes":len(candidate)}
 
 def run_checks(sandbox:Path,candidate_path:Path,job:dict[str,Any])->dict[str,Any]:
-    checks=[]
-    if candidate_path.suffix.lower()==".py":
+    checks=[]; suffix=candidate_path.suffix.lower()
+    checks.append({"name":"candidate_nonempty","ok":candidate_path.is_file() and candidate_path.stat().st_size>0})
+    if suffix==".py":
         try: py_compile.compile(str(candidate_path),doraise=True); checks.append({"name":"python_compile","ok":True})
         except Exception as exc: checks.append({"name":"python_compile","ok":False,"error":f"{type(exc).__name__}:{exc}"})
+    elif suffix==".json":
+        try: json.loads(candidate_path.read_text(encoding="utf-8")); checks.append({"name":"json_parse","ok":True})
+        except Exception as exc: checks.append({"name":"json_parse","ok":False,"error":f"{type(exc).__name__}:{exc}"})
     argv=job.get("test_argv")
     if argv is not None:
         if not isinstance(argv,list) or not argv or not all(isinstance(x,str) and x for x in argv): raise RuntimeError("test_argv_must_be_nonempty_string_list")
-        timeout=max(1,min(int(job.get("test_timeout_seconds") or 300),1800)); env={"PATH":os.environ.get("PATH",""),"PYTHONPATH":str(sandbox),"HOME":str(sandbox),"EIRA_AUTONOMOUS_SANDBOX":"1"}
+        timeout=max(1,min(int(job.get("test_timeout_seconds") or 300),1800))
+        env={"PATH":os.environ.get("PATH",""),"PYTHONPATH":str(sandbox),"HOME":str(sandbox),"EIRA_AUTONOMOUS_SANDBOX":"1","EIRA2_CANDIDATE_PATH":str(candidate_path)}
         p=subprocess.run(argv,cwd=str(sandbox),text=True,capture_output=True,timeout=timeout,check=False,env=env)
         checks.append({"name":"requested_tests","ok":p.returncode==0,"returncode":p.returncode,"stdout_tail":(p.stdout or "")[-12000:],"stderr_tail":(p.stderr or "")[-6000:]})
-    if not checks: checks.append({"name":"candidate_nonempty","ok":candidate_path.stat().st_size>0})
-    return {"checks":checks,"ok":all(x.get("ok") is True for x in checks)}
+    return {"checks":checks,"ok":all(x.get("ok") is True for x in checks),"evaluated_unix":time.time()}
 
 def watcher_approve(root:Path,outer_request:dict[str,Any],evidence:dict[str,Any])->dict[str,Any]:
     path=root/"extensions"/"repair_watcher_ai"/"plugin.py"
@@ -93,11 +112,31 @@ def prepare_candidate(root:Path,request:dict[str,Any])->dict[str,Any]:
     if core_denied(target) and job.get("explicit_core_authorization") is not True: raise RuntimeError("autonomous_core_boundary_denied:"+target)
     job_id=str(request.get("request_id") or "autonomous"); sandbox_root=root/"eira_probe"/"autonomous_engineering"/"sandboxes"; sandbox_root.mkdir(parents=True,exist_ok=True); sandbox=Path(tempfile.mkdtemp(prefix=job_id[:48]+"_",dir=str(sandbox_root)))
     live=root/target; before=live.read_bytes() if live.is_file() else None; before_sha=sha256_bytes(before) if before is not None else None; candidate_path=sandbox/Path(target).name; started=time.time()
+    max_attempts=max(1,min(int(job.get("max_sandbox_attempts") or 3),MAX_ATTEMPTS_HARD)); attempts=[]; prior_failures=[]
     try:
-        candidate,producer=generate_candidate(root,sandbox,{**job,"target_path":target},before); candidate_path.write_bytes(candidate); tests=run_checks(sandbox,candidate_path,job)
-        evidence={"schema":SCHEMA,"request_id":job_id,"target_path":target,"sandbox":str(sandbox),"live_mutated_during_creation":False,"before_exists":before is not None,"before_sha256":before_sha,"before_bytes":len(before) if before is not None else 0,"candidate_sha256":sha256_bytes(candidate),"candidate_bytes":len(candidate),"producer":producer,"tests":tests,"objective":str(job.get("objective") or ""),"started_unix":started,"evaluated_unix":time.time()}
-        if tests.get("ok") is not True: raise RuntimeError("autonomous_sandbox_tests_failed:"+json.dumps(evidence,sort_keys=True)[-2400:])
-        approval=watcher_approve(root,request,evidence); evidence["watcher_approval"]=approval; evidence["approved"]=True; receipt=root/"eira_probe"/"autonomous_engineering"/"evidence"/f"{job_id}.json"; atomic_json(receipt,evidence)
-        return {"payload":candidate,"target_path":target,"before_sha256":before_sha,"evidence":evidence,"evidence_path":str(receipt)}
+        final_candidate=None; final_producer=None; final_tests=None
+        for attempt in range(1,max_attempts+1):
+            candidate,producer=generate_candidate(root,sandbox,{**job,"target_path":target},before,prior_failures)
+            candidate_path.write_bytes(candidate); tests=run_checks(sandbox,candidate_path,job)
+            row={"attempt":attempt,"candidate_sha256":sha256_bytes(candidate),"candidate_bytes":len(candidate),"producer":producer,"tests":tests}
+            attempts.append(row)
+            if tests.get("ok") is True:
+                final_candidate=candidate; final_producer=producer; final_tests=tests; break
+            prior_failures.append({"attempt":attempt,"tests":tests,"candidate_sha256":sha256_bytes(candidate)})
+        evidence={
+            "schema":SCHEMA,"request_id":job_id,"target_path":target,"sandbox":str(sandbox),"sandbox_isolated":True,"live_mutated_during_creation":False,
+            "before_exists":before is not None,"before_sha256":before_sha,"before_bytes":len(before) if before is not None else 0,
+            "objective":str(job.get("objective") or ""),"attempts":attempts,"max_sandbox_attempts":max_attempts,"started_unix":started,"evaluated_unix":time.time()
+        }
+        if final_candidate is None or final_tests is None or final_tests.get("ok") is not True:
+            evidence["approved"]=False; evidence["failure"]="sandbox_attempts_exhausted"
+            atomic_json(root/"eira_probe"/"autonomous_engineering"/"evidence"/f"{job_id}.failed.json",evidence)
+            raise RuntimeError("autonomous_sandbox_tests_failed:"+json.dumps(evidence,sort_keys=True)[-3200:])
+        evidence.update({"candidate_sha256":sha256_bytes(final_candidate),"candidate_bytes":len(final_candidate),"producer":final_producer,"tests":final_tests,"sandbox_tests_passed":True})
+        approval=watcher_approve(root,request,evidence); evidence["watcher_approval"]=approval; evidence["approved"]=True; evidence["approval_unix"]=time.time()
+        receipt=root/"eira_probe"/"autonomous_engineering"/"evidence"/f"{job_id}.json"; atomic_json(receipt,evidence)
+        return {"payload":final_candidate,"target_path":target,"before_sha256":before_sha,"evidence":evidence,"evidence_path":str(receipt)}
     except Exception:
-        atomic_json(root/"eira_probe"/"autonomous_engineering"/"evidence"/f"{job_id}.failed.json",{"schema":SCHEMA,"request_id":job_id,"target_path":target,"sandbox":str(sandbox),"live_mutated_during_creation":False,"before_sha256":before_sha,"approved":False,"failed_unix":time.time()}); raise
+        fail=root/"eira_probe"/"autonomous_engineering"/"evidence"/f"{job_id}.failed.json"
+        if not fail.exists(): atomic_json(fail,{"schema":SCHEMA,"request_id":job_id,"target_path":target,"sandbox":str(sandbox),"sandbox_isolated":True,"live_mutated_during_creation":False,"before_sha256":before_sha,"approved":False,"attempts":attempts,"failed_unix":time.time()})
+        raise
