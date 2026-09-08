@@ -1,0 +1,18 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "00001_autonomous_engineering_canary_20260908_v1",
+  "operation": "deploy",
+  "deployment": {
+    "target": {
+      "path": "eira_probe/autonomous_engineering/canary_target.py"
+    },
+    "autonomous_job": {
+      "objective": "Prove the canonical autonomous engineering control loop can create a complete candidate in an isolated sandbox, test it, obtain Watcher approval, deploy it through the Builder lane, and verify the landed result without touching EIRA core.",
+      "target_path": "eira_probe/autonomous_engineering/canary_target.py",
+      "qualification_canary": true,
+      "canary_candidate_text": "VALUE = 'EIRA2_AUTONOMOUS_ENGINEERING_CANARY_PASS'\n\ndef self_test():\n    return VALUE == 'EIRA2_AUTONOMOUS_ENGINEERING_CANARY_PASS'\n\nif __name__ == '__main__':\n    assert self_test()\n    print('PASS')\n",
+      "requirements": ["sandbox only before approval", "python compile must pass", "Watcher must authorize candidate after evidence", "Builder lane must perform the live write", "post-deploy SHA verification must pass"],
+      "post_verify_argv": ["python3", "-m", "py_compile", "eira_probe/autonomous_engineering/canary_target.py"]
+    }
+  }
+}
