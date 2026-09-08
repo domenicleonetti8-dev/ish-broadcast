@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "universe_library_stock_gutenberg_after_v2_20260908",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788906594.4161272,
+  "status": "STARTED",
+  "supervisor_pid": 178575,
+  "transport_request_sha256": "bc571784921b27e4ea0c3038713c8e7ec54f2147f209a0283579c2cc93b1811e"
+}
