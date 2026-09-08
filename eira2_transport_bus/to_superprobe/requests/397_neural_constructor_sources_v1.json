@@ -1,0 +1,15 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "neural_constructor_sources_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2/neural"],
+    "signatures": ["class OrganismNeuralHTTPService", "class LiveNeural", "class Communication", "class NeuralAtlas"],
+    "full_source_paths": [
+      "eira2/neural/organism.py",
+      "eira2/neural/live.py",
+      "eira2/neural/communication.py",
+      "eira2/neural/atlas.py"
+    ]
+  }
+}
