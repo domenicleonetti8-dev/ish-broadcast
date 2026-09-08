@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "deploy",
+  "request_id": "deploy_luminous_neural_organism_apple_ar_v6",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788848892.9107883,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "50f56f8cb1e154542bedf7d1eb0a486cc7d450a622d80dc2952778461106111b"
+}
