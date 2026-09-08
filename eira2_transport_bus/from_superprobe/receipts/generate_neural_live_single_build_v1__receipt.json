@@ -3,9 +3,24 @@
   "operation": "inspect",
   "request_id": "generate_neural_live_single_build_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "2f8edc3041e3dc2decdc5db0ce330bf150687e1af0c8e30ee94ff0e5763d0966",
-  "updated_unix": 1788831198.0273638
+  "updated_unix": 1788831200.364647,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788831200.3646386,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "generate_neural_live_single_build_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
+  "watcher_authorized": true
 }
