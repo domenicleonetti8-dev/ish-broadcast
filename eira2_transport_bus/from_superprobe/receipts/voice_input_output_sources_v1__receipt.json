@@ -3,9 +3,24 @@
   "operation": "inspect",
   "request_id": "voice_input_output_sources_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZING",
+  "stage": "WATCHER_AUTHORIZED",
   "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
   "transport_request_sha256": "2b8c72a533166d35b203f53c2480fd6ff71fed3234126a659c36b476b06a626c",
-  "updated_unix": 1788830211.2044451
+  "updated_unix": 1788830213.462267,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788830213.462259,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "voice_input_output_sources_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
+  "watcher_authorized": true
 }
