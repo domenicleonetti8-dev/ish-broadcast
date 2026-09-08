@@ -4,8 +4,8 @@
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
   "stage": "single_checkout_execution",
-  "started_unix": 1788905035.4055247,
+  "started_unix": 1788905773.3413694,
   "status": "STARTED",
-  "supervisor_pid": 86297,
+  "supervisor_pid": 178575,
   "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b"
 }
