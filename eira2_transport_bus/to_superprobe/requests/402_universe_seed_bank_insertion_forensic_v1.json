@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "402_universe_seed_bank_insertion_forensic_v1",
+  "mode": "inspect",
+  "read_only": true,
+  "purpose": "Hyperfocus Universe Seed Bank. Inspect LIVE EIRA2 and identify the exact single canonical file/module boundary where universe_seed.py belongs without creating a second memory/evidence/learning authority. Trace MemoryService, ConversationHistoryService, evidence, learning, commit, identity and any archive/knowledge implementations. Return exact paths, hashes, manifests, imports, service dependencies and semantic edges required for ONE immutable Seed record file. Also report whether request 401 is pending/blocked/superseded if transport state exposes it. No mutation, no repair, no package reseal, no service restart.",
+  "blueprints": [
+    "eira2_transport_bus/to_superprobe/blueprints/EIRA2_UNIVERSE_LIBRARY_CANONICAL_BLUEPRINT_V1.json",
+    "eira2_transport_bus/to_superprobe/blueprints/EIRA2_UNIVERSE_SEED_BANK_ARCHIVE_V1.json"
+  ],
+  "expected_output": "compact_json_evidence"
+}
