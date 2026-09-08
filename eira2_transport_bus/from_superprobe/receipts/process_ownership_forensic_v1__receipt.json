@@ -1,12 +1,110 @@
 {
-  "ok": null,
+  "builder_invoked": false,
+  "completed_unix": 1788831749.445314,
+  "error": null,
+  "evidence": {
+    "candidate_files_scanned": 133,
+    "evidence_sha256": "878da124fb72378610a1aa43aa236f14c6b31800ee97f81d494998897222e810",
+    "full_sources": [
+      {
+        "bytes": 5981,
+        "path": "tools/eira2_github_transport_agent.py",
+        "sha256": "f0424f17cf02ba22606e62d0e0669426fc8d39d3a87b488f993f3b311ace7f76",
+        "source": "#!/usr/bin/env python3\nfrom __future__ import annotations\n\nimport argparse, importlib.util, json, os, shutil, subprocess, sys, time\nfrom pathlib import Path\nfrom typing import Any\n\nSCHEMA = \"eira2_github_omnidirectional_transport_v1\"\nROOT_DEFAULT = \"/media/domenicleonetti/easystore/EIRA/LIVE\"\nREPO_DEFAULT = \"https://github.com/domenicleonetti8-dev/EIRA-LIVE.git\"\nBRANCH_DEFAULT = \"eira2-probe-transport\"\nWORK_DEFAULT = \"/tmp/eira2_github_transport\"\nBUS = \"eira_probe_bus\"\n\n\ndef _run(argv: list[str], cwd: Path | None = None, timeout: int = 120) -> subprocess.CompletedProcess[str]:\n    return subprocess.run(argv, cwd=str(cwd) if cwd else None, capture_output=True, text=True, timeout=timeout, check=False)\n\n\ndef _git(work: Path, *args: str, timeout: int = 120) -> subprocess.CompletedProcess[str]:\n    return _run([\"git\", *args], work, timeout)\n\n\ndef _load_transport(root: Path):\n    path = root / \"tools\" / \"eira2_transport_probe.py\"\n    spec = importlib.util.spec_from_file_location(\"eira2_local_transport\", path)\n    if spec is None or spec.loader is None: raise RuntimeError(\"local_transport_unloadable\")\n    module = importlib.util.module_from_spec(spec); spec.loader.exec_module(module); return module\n\n\ndef _ensure_repo(work: Path, repo: str, branch: str) -> None:\n    if not (work / \".git\").is_dir():\n        if work.exists(): shutil.rmtree(work)\n        r = _run([\"git\", \"clone\", \"--depth\", \"1\", \"--branch\", branch, repo, str(work)], timeout=300)\n        if r.returncode: raise RuntimeError(\"transport_clone_failed:\" + (r.stderr or r.stdout)[-1200:])\n    r = _git(work, \"pull\", \"--rebase\", \"origin\", branch, timeout=300)\n    if r.returncode: raise RuntimeError(\"transport_pull_failed:\" + (r.stderr or r.stdout)[-1200:])\n\n\ndef _read(path: Path) -> dict[str, Any]:\n    try:\n        v = json.loads(path.read_text(encoding=\"utf-8\")); return v if isinstance(v, dict) else {}\n    except Exception: return {}\n\n\ndef _write(path: Path, value: dict[str, Any]) -> None:\n    path.parent.mkdir(parents=True, exist_ok=True); path.write_text(json.dumps(value, indent=2, sort_keys=True) + \"\\n\", encoding=\"utf-8\")\n\n\ndef process_once(root: Path, work: Path, repo: str, branch: str) -> dict[str, Any]:\n    _ensure_repo(work, repo, branch); transport = _load_transport(root)\n    req_dir, resp_dir, done_dir = work / BUS / \"requests\", work / BUS / \"responses\", work / BUS / \"processed\"\n    req_dir.mkdir(parents=True, exist_ok=True); resp_dir.mkdir(parents=True, exist_ok=True); done_dir.mkdir(parents=True, exist_ok=True)\n    handled = []\n    for request_path in sorted(req_dir.glob(\"*.json\")):\n        request = _read(request_path); request_id = str(request.get(\"request_id\") or request_path.stem)\n        response_path = resp_dir / f\"{request_id}.json\"\n        if response_path.is_file():\n            done = done_dir / request_path.name\n            if not done.exists(): shutil.move(str(request_path), str(done))\n            continue\n        endpoint, action = str(request.get(\"endpoint\") or \"\"), str(request.get(\"action\") or \"\")\n        payload = request.get(\"payload\") if isinstance(request.get(\"payload\"), dict) else {}\n        try:\n            local_req = transport.build_request(endpoint, action, payload)\n            local_in = transport._dirs(root, endpoint)[0] / f\"{local_req['request_id']}.json\"\n            transport._atomic_json(local_in, local_req)\n            local_out = transport.process_one(root, endpoint, local_in)\n            local_response = transport._read_json(local_out)\n            response = {\"schema\": SCHEMA, \"request_id\": request_id, \"ok\": local_response.get(\"ok\") is True, \"endpoint\": endpoint, \"action\": action, \"generated_unix\": time.time(), \"eira2_only\": True, \"evidence\": local_response}\n        except Exception as exc:\n            response = {\"schema\": SCHEMA, \"request_id\": request_id, \"ok\": False, \"endpoint\": endpoint, \"action\": action, \"error\": f\"{type(exc).__name__}:{exc}\"[:2000], \"generated_unix\": time.time(), \"eira2_only\": True}\n        _write(response_path, response); shutil.move(str(request_path), str(done)); handled.append(request_id)\n    latest = {\"schema\": SCHEMA, \"generated_unix\": time.time(), \"pi_online\": True, \"eira2_only\": True, \"handled_this_cycle\": handled, \"handled_count\": len(handled)}\n    _write(work / BUS / \"latest.json\", latest)\n    _git(work, \"add\", BUS)\n    status = _git(work, \"status\", \"--porcelain\")\n    if status.stdout.strip():\n        _git(work, \"-c\", \"user.name=EIRA2-Transport\", \"-c\", \"user.email=eira2-transport@local\", \"commit\", \"-m\", f\"EIRA2 transport responses {int(time.time())}\")\n        push = _git(work, \"push\", \"origin\", branch, timeout=300)\n        if push.returncode: raise RuntimeError(\"transport_push_failed:\" + (push.stderr or push.stdout)[-1200:])\n    return latest\n\n\ndef main() -> None:\n    p = argparse.ArgumentParser(description=\"EIRA2 GitHub omnidirectional request/evidence transport agent.\")\n    p.add_argument(\"--root\", default=os.getenv(\"EIRA2_LIVE_ROOT\", ROOT_DEFAULT)); p.add_argument(\"--repo\", default=os.getenv(\"EIRA2_GITHUB_REPO\", REPO_DEFAULT)); p.add_argument(\"--branch\", default=os.getenv(\"EIRA2_TRANSPORT_BRANCH\", BRANCH_DEFAULT)); p.add_argument(\"--work\", default=os.getenv(\"EIRA2_TRANSPORT_WORK\", WORK_DEFAULT)); p.add_argument(\"--loop\", action=\"store_true\"); p.add_argument(\"--interval\", type=int, default=15)\n    a = p.parse_args(); root, work = Path(a.root).expanduser().resolve(), Path(a.work).expanduser().resolve()\n    if not root.is_dir(): raise SystemExit(f\"EIRA2_GITHUB_TRANSPORT=FAIL:root_missing:{root}\")\n    while True:\n        try:\n            result = process_once(root, work, a.repo, a.branch); print(json.dumps(result, sort_keys=True)); print(\"EIRA2_GITHUB_TRANSPORT=PASS\", flush=True)\n        except Exception as exc:\n            print(f\"EIRA2_GITHUB_TRANSPORT=FAIL:{type(exc).__name__}:{exc}\", file=sys.stderr, flush=True)\n            if not a.loop: raise\n        if not a.loop: break\n        time.sleep(max(5, a.interval))\n\nif __name__ == \"__main__\": main()\n"
+      }
+    ],
+    "generated_unix": 1788831740.5662072,
+    "matching_files": [],
+    "mutates_live": false,
+    "qualification": {
+      "mutates_live": false,
+      "ok": true,
+      "result": {
+        "health": {
+          "returncode": 28,
+          "stderr": "curl: (28) Operation timed out after 8002 milliseconds with 0 bytes received\n",
+          "stdout": ""
+        },
+        "mutates_live": false,
+        "ok": true,
+        "port_8782": {
+          "returncode": 0,
+          "stderr": "",
+          "stdout": "LISTEN 0      5                          0.0.0.0:8782       0.0.0.0:*    users:((\"python3\",pid=2702069,fd=11))\n"
+        },
+        "rows": [
+          {
+            "cgroup": "0::/user.slice/user-1000.slice/session-315.scope\n",
+            "cmdline": "/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15 ",
+            "exists": true,
+            "pid": 2197106,
+            "status": "Name:\tpython3\nUmask:\t0002\nState:\tS (sleeping)\nTgid:\t2197106\nNgid:\t0\nPid:\t2197106\nPPid:\t1\nTracerPid:\t0\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nFDSize:\t64\nGroups:\t4 20 24 27 29 44 46 60 100 102 108 984 986 988 989 992 996 1000 \nNStgid:\t2197106\nNSpid:\t2197106\nNSpgid:\t2197106\nNSsid:\t2197106\nKthread:\t0\nVmPeak:\t   30512 kB\nVmSize:\t   30512 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t   21696 kB\nVmRSS:\t   21696 kB\nRssAnon:\t   12192 kB\nRssFile:\t    9504 kB\nRssShmem:\t       0 kB\nVmData:\t   13008 kB\nVmStk:\t     144 kB\nVmExe:\t    5936 kB\nVmLib:\t    9408 kB\nVmPTE:\t     112 kB\nVmSwap:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t0\nuntag_mask:\t0xffffffffffffff\nThreads:\t1\nSigQ:\t0/32088\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000001001000\nSigCgt:\t0000000000000002\nCapInh:\t0000000000000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t000001ffffffffff\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t0\nSeccomp_filters:\t0\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tunknown\nCpus_allowed:\tf\nCpus_allowed_list:\t0-3\nMems_allowed:\t00ff\nMems_allowed_list:\t0-7\nvoluntary_ctxt_switches:\t150858\nnonvoluntary_ctxt_switches:\t16665\n",
+            "systemctl_user_status": {
+              "returncode": 1,
+              "stderr": "PID 2197106 does not belong to any loaded unit.\n",
+              "stdout": ""
+            }
+          },
+          {
+            "cgroup": "0::/user.slice/user-1000.slice/user@1000.service/app.slice/eira2-autonomous-transport-v6.service\n",
+            "cmdline": "python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE ",
+            "exists": true,
+            "pid": 2702069,
+            "status": "Name:\tpython3\nUmask:\t0002\nState:\tR (running)\nTgid:\t2702069\nNgid:\t0\nPid:\t2702069\nPPid:\t1013\nTracerPid:\t0\nUid:\t1000\t1000\t1000\t1000\nGid:\t1000\t1000\t1000\t1000\nFDSize:\t64\nGroups:\t4 20 24 27 29 44 46 60 100 102 108 984 986 988 989 992 996 1000 \nNStgid:\t2702069\nNSpid:\t2702069\nNSpgid:\t2702069\nNSsid:\t2702069\nKthread:\t0\nVmPeak:\t  834560 kB\nVmSize:\t  768000 kB\nVmLck:\t       0 kB\nVmPin:\t       0 kB\nVmHWM:\t  164432 kB\nVmRSS:\t  121552 kB\nRssAnon:\t  108304 kB\nRssFile:\t   13248 kB\nRssShmem:\t       0 kB\nVmData:\t  217728 kB\nVmStk:\t     144 kB\nVmExe:\t    5936 kB\nVmLib:\t   12720 kB\nVmPTE:\t     352 kB\nVmSwap:\t       0 kB\nCoreDumping:\t0\nTHP_enabled:\t0\nuntag_mask:\t0xffffffffffffff\nThreads:\t9\nSigQ:\t0/32088\nSigPnd:\t0000000000000000\nShdPnd:\t0000000000000000\nSigBlk:\t0000000000000000\nSigIgn:\t0000000001001006\nSigCgt:\t0000000100000000\nCapInh:\t0000000800000000\nCapPrm:\t0000000000000000\nCapEff:\t0000000000000000\nCapBnd:\t000001ffffffffff\nCapAmb:\t0000000000000000\nNoNewPrivs:\t0\nSeccomp:\t0\nSeccomp_filters:\t0\nSpeculation_Store_Bypass:\tthread vulnerable\nSpeculationIndirectBranch:\tunknown\nCpus_allowed:\tf\nCpus_allowed_list:\t0-3\nMems_allowed:\t00ff\nMems_allowed_list:\t0-7\nvoluntary_ctxt_switches:\t33078936\nnonvoluntary_ctxt_switches:\t87987\n",
+            "systemctl_user_status": {
+              "returncode": 0,
+              "stderr": "",
+              "stdout": "\u25cf eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6\n     Loaded: loaded (/home/domenicleonetti/.config/systemd/user/eira2-autonomous-transport-v6.service; enabled; preset: enabled)\n     Active: active (running) since Mon 2026-09-07 20:29:02 EDT; 1h 13min ago\n Invocation: fe0d9b0e1ceb43888d0b1ddf7c0354b0\n   Main PID: 2688197 (bash)\n      Tasks: 15 (limit: 9626)\n        CPU: 1h 4min 37.604s\n     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/eira2-autonomous-transport-v6.service\n             \u251c\u25002688197 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh\n             \u251c\u25002688207 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2\n             \u251c\u25002702069 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE\n             \u251c\u25002776166 sleep 2\n             \u251c\u25002776175 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_d_grjk66/qualification.py\n             \u2514\u25002776177 systemctl --user status 2702069 --no-pager -l\n\nSep 07 20:29:02 eira systemd[1013]: Started eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6.\n"
+            }
+          }
+        ],
+        "schema": "eira2_process_ownership_forensic_v1"
+      },
+      "returncode": 0,
+      "schema": "eira2_transport_read_only_qualification_v1",
+      "source_commit": "a0c48cdb61643148175757e26c4c28c5a996611b",
+      "source_path": "EIRA2_PROCESS_OWNERSHIP_FORENSIC_V1.py",
+      "source_sha256": "bec77e1690bce3d4741efee6c2960cec7ce726a645b760fb6de0e5f15fa24f1f",
+      "stderr_tail": "",
+      "stdout_tail": "{\"schema\":\"eira2_process_ownership_forensic_v1\",\"ok\":true,\"mutates_live\":false,\"rows\":[{\"pid\":2197106,\"exists\":true,\"cmdline\":\"/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15 \",\"cgroup\":\"0::/user.slice/user-1000.slice/session-315.scope\\n\",\"status\":\"Name:\\tpython3\\nUmask:\\t0002\\nState:\\tS (sleeping)\\nTgid:\\t2197106\\nNgid:\\t0\\nPid:\\t2197106\\nPPid:\\t1\\nTracerPid:\\t0\\nUid:\\t1000\\t1000\\t1000\\t1000\\nGid:\\t1000\\t1000\\t1000\\t1000\\nFDSize:\\t64\\nGroups:\\t4 20 24 27 29 44 46 60 100 102 108 984 986 988 989 992 996 1000 \\nNStgid:\\t2197106\\nNSpid:\\t2197106\\nNSpgid:\\t2197106\\nNSsid:\\t2197106\\nKthread:\\t0\\nVmPeak:\\t   30512 kB\\nVmSize:\\t   30512 kB\\nVmLck:\\t       0 kB\\nVmPin:\\t       0 kB\\nVmHWM:\\t   21696 kB\\nVmRSS:\\t   21696 kB\\nRssAnon:\\t   12192 kB\\nRssFile:\\t    9504 kB\\nRssShmem:\\t       0 kB\\nVmData:\\t   13008 kB\\nVmStk:\\t     144 kB\\nVmExe:\\t    5936 kB\\nVmLib:\\t    9408 kB\\nVmPTE:\\t     112 kB\\nVmSwap:\\t       0 kB\\nCoreDumping:\\t0\\nTHP_enabled:\\t0\\nuntag_mask:\\t0xffffffffffffff\\nThreads:\\t1\\nSigQ:\\t0/32088\\nSigPnd:\\t0000000000000000\\nShdPnd:\\t0000000000000000\\nSigBlk:\\t0000000000000000\\nSigIgn:\\t0000000001001000\\nSigCgt:\\t0000000000000002\\nCapInh:\\t0000000000000000\\nCapPrm:\\t0000000000000000\\nCapEff:\\t0000000000000000\\nCapBnd:\\t000001ffffffffff\\nCapAmb:\\t0000000000000000\\nNoNewPrivs:\\t0\\nSeccomp:\\t0\\nSeccomp_filters:\\t0\\nSpeculation_Store_Bypass:\\tthread vulnerable\\nSpeculationIndirectBranch:\\tunknown\\nCpus_allowed:\\tf\\nCpus_allowed_list:\\t0-3\\nMems_allowed:\\t00ff\\nMems_allowed_list:\\t0-7\\nvoluntary_ctxt_switches:\\t150858\\nnonvoluntary_ctxt_switches:\\t16665\\n\",\"systemctl_user_status\":{\"returncode\":1,\"stdout\":\"\",\"stderr\":\"PID 2197106 does not belong to any loaded unit.\\n\"}},{\"pid\":2702069,\"exists\":true,\"cmdline\":\"python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE \",\"cgroup\":\"0::/user.slice/user-1000.slice/user@1000.service/app.slice/eira2-autonomous-transport-v6.service\\n\",\"status\":\"Name:\\tpython3\\nUmask:\\t0002\\nState:\\tR (running)\\nTgid:\\t2702069\\nNgid:\\t0\\nPid:\\t2702069\\nPPid:\\t1013\\nTracerPid:\\t0\\nUid:\\t1000\\t1000\\t1000\\t1000\\nGid:\\t1000\\t1000\\t1000\\t1000\\nFDSize:\\t64\\nGroups:\\t4 20 24 27 29 44 46 60 100 102 108 984 986 988 989 992 996 1000 \\nNStgid:\\t2702069\\nNSpid:\\t2702069\\nNSpgid:\\t2702069\\nNSsid:\\t2702069\\nKthread:\\t0\\nVmPeak:\\t  834560 kB\\nVmSize:\\t  768000 kB\\nVmLck:\\t       0 kB\\nVmPin:\\t       0 kB\\nVmHWM:\\t  164432 kB\\nVmRSS:\\t  121552 kB\\nRssAnon:\\t  108304 kB\\nRssFile:\\t   13248 kB\\nRssShmem:\\t       0 kB\\nVmData:\\t  217728 kB\\nVmStk:\\t     144 kB\\nVmExe:\\t    5936 kB\\nVmLib:\\t   12720 kB\\nVmPTE:\\t     352 kB\\nVmSwap:\\t       0 kB\\nCoreDumping:\\t0\\nTHP_enabled:\\t0\\nuntag_mask:\\t0xffffffffffffff\\nThreads:\\t9\\nSigQ:\\t0/32088\\nSigPnd:\\t0000000000000000\\nShdPnd:\\t0000000000000000\\nSigBlk:\\t0000000000000000\\nSigIgn:\\t0000000001001006\\nSigCgt:\\t0000000100000000\\nCapInh:\\t0000000800000000\\nCapPrm:\\t0000000000000000\\nCapEff:\\t0000000000000000\\nCapBnd:\\t000001ffffffffff\\nCapAmb:\\t0000000000000000\\nNoNewPrivs:\\t0\\nSeccomp:\\t0\\nSeccomp_filters:\\t0\\nSpeculation_Store_Bypass:\\tthread vulnerable\\nSpeculationIndirectBranch:\\tunknown\\nCpus_allowed:\\tf\\nCpus_allowed_list:\\t0-3\\nMems_allowed:\\t00ff\\nMems_allowed_list:\\t0-7\\nvoluntary_ctxt_switches:\\t33078936\\nnonvoluntary_ctxt_switches:\\t87987\\n\",\"systemctl_user_status\":{\"returncode\":0,\"stdout\":\"\\u25cf eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6\\n     Loaded: loaded (/home/domenicleonetti/.config/systemd/user/eira2-autonomous-transport-v6.service; enabled; preset: enabled)\\n     Active: active (running) since Mon 2026-09-07 20:29:02 EDT; 1h 13min ago\\n Invocation: fe0d9b0e1ceb43888d0b1ddf7c0354b0\\n   Main PID: 2688197 (bash)\\n      Tasks: 15 (limit: 9626)\\n        CPU: 1h 4min 37.604s\\n     CGroup: /user.slice/user-1000.slice/user@1000.service/app.slice/eira2-autonomous-transport-v6.service\\n             \\u251c\\u25002688197 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh\\n             \\u251c\\u25002688207 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2\\n             \\u251c\\u25002702069 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE\\n             \\u251c\\u25002776166 sleep 2\\n             \\u251c\\u25002776175 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/qualification_runtime/eira2_qual_d_grjk66/qualification.py\\n             \\u2514\\u25002776177 systemctl --user status 2702069 --no-pager -l\\n\\nSep 07 20:29:02 eira systemd[1013]: Started eira2-autonomous-transport-v6.service - EIRA2 True Single-Checkout Autonomous Transport V6.\\n\",\"stderr\":\"\"}}],\"port_8782\":{\"returncode\":0,\"stdout\":\"LISTEN 0      5                          0.0.0.0:8782       0.0.0.0:*    users:((\\\"python3\\\",pid=2702069,fd=11))\\n\",\"stderr\":\"\"},\"health\":{\"returncode\":28,\"stdout\":\"\",\"stderr\":\"curl: (28) Operation timed out after 8002 milliseconds with 0 bytes received\\n\"}}"
+    },
+    "request_id": "process_ownership_forensic_v1",
+    "schema": "eira2_transport_inspection_evidence_v2",
+    "served": [],
+    "watcher_authorization": {
+      "authorized": true,
+      "authorized_by": "repair_watcher_ai",
+      "builder_required": false,
+      "fast_read_only_authorization": true,
+      "generated_unix": 1788831735.6521327,
+      "ok": true,
+      "operation": "inspect",
+      "read_only": true,
+      "request_id": "process_ownership_forensic_v1",
+      "superprobe_required_for_authorization": false,
+      "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+      "write_authority_granted": false
+    }
+  },
+  "ok": true,
   "operation": "inspect",
   "request_id": "process_ownership_forensic_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "QUALIFYING",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
+  "status": "INSPECTION_COMPLETE",
   "transport_request_sha256": "e16b3fadfd12946433c9d4efae4390ca83a8684c9e7eccb48727e3644d11e120",
-  "updated_unix": 1788831738.2220557,
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "builder_required": false,
+    "fast_read_only_authorization": true,
+    "generated_unix": 1788831735.6521327,
+    "ok": true,
+    "operation": "inspect",
+    "read_only": true,
+    "request_id": "process_ownership_forensic_v1",
+    "superprobe_required_for_authorization": false,
+    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
+    "write_authority_granted": false
+  },
   "watcher_authorized": true
 }
