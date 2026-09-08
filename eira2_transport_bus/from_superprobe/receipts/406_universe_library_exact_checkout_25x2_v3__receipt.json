@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "406_universe_library_exact_checkout_25x2_v3",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788837308.1293635,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "48346a59b31ef58bdc9f0510ef347ec6103831c47ab99e99e2460009218ed9f1"
+}
