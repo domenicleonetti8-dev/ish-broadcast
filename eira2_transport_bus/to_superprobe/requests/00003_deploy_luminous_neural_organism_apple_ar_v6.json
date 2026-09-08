@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_luminous_neural_organism_apple_ar_v6",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "b7814db8590107bbdf2cabfe89ac451b25677736",
+      "path": "EIRA2_LUMINOUS_NEURAL_ORGANISM_APPLE_AR_V6.py"
+    },
+    "target": {
+      "path": "eira2/neural/apple_ar.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
