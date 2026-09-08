@@ -1,26 +1,12 @@
 {
-  "ok": null,
+  "completed_unix": 1788838156.4220433,
+  "error": "RuntimeError:receipt_push_failed:To https://github.com/domenicleonetti8-dev/ish-broadcast.git\n ! [remote rejected]   master -> master (cannot lock ref 'refs/heads/master': is at d6286cf8ec2362e359cecc360e4228e8d791d441 but expected f38c6c1ce83028bdd7dcc29e8453e0b92b876ff3)\nerror: failed to push some refs to 'https://github.com/domenicleonetti8-dev/ish-broadcast.git'\n",
+  "ok": false,
   "operation": "inspect",
   "request_id": "universe_library_25x2_qualification_v1",
+  "retry_after_seconds": 8,
+  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "WATCHER_AUTHORIZED",
-  "status": "IN_PROGRESS",
-  "supervisor_pid": 2688207,
-  "transport_request_sha256": "7b391d168e2e495a7fc5a257141422e3806b3e3832440a61ca4572f68333b2d4",
-  "updated_unix": 1788838152.1315157,
-  "watcher_authorization": {
-    "authorized": true,
-    "authorized_by": "repair_watcher_ai",
-    "builder_required": false,
-    "fast_read_only_authorization": true,
-    "generated_unix": 1788838152.1315074,
-    "ok": true,
-    "operation": "inspect",
-    "read_only": true,
-    "request_id": "universe_library_25x2_qualification_v1",
-    "superprobe_required_for_authorization": false,
-    "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
-    "write_authority_granted": false
-  },
-  "watcher_authorized": true
+  "status": "RETRYING",
+  "transport_request_sha256": "7b391d168e2e495a7fc5a257141422e3806b3e3832440a61ca4572f68333b2d4"
 }
