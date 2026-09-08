@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'tools/build_eira_v8_usdz.py'
+      - 'eira2_transport_bus/to_superprobe/blueprints/EIRA2_LIVING_NEURAL_ORGANISM_APPLE_AR_V8.py'
   workflow_dispatch:
 
 permissions:
