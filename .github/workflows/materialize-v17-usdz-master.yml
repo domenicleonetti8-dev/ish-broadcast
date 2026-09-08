@@ -1,0 +1,37 @@
+name: materialize-v17-usdz-master
+on:
+  push:
+    branches: [master]
+    paths:
+      - '.github/workflows/materialize-v17-usdz-master.yml'
+      - 'EIRA2_V17_PROVEN_GREENHOUSE_CARRIER_RESTORER_V1.py'
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Materialize exact proven V17 USDZ
+        run: |
+          python3 - <<'PY'
+          import importlib.util, hashlib
+          from pathlib import Path
+          src=Path('EIRA2_V17_PROVEN_GREENHOUSE_CARRIER_RESTORER_V1.py')
+          spec=importlib.util.spec_from_file_location('v17',src)
+          mod=importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+          data=mod._exact_usdz_bytes()
+          expected='b54e484a8dba2f942eedf252f0149362c07a1bafbd711e8a06c6ade98c0b8ca9'
+          actual=hashlib.sha256(data).hexdigest()
+          assert actual==expected,(actual,expected)
+          Path('EIRA2_V17_APPLE_AR.usdz').write_bytes(data)
+          print(len(data), actual)
+          PY
+      - name: Commit exact binary
+        run: |
+          git config user.name 'EIRA V17 Materializer'
+          git config user.email 'eira-v17-materializer@localhost'
+          git add EIRA2_V17_APPLE_AR.usdz
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'Materialize exact proven V17 Apple AR USDZ'
+          git push origin HEAD:master
