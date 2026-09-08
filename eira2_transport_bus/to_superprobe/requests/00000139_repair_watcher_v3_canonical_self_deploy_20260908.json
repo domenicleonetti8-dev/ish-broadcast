@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "repair_watcher_v3_canonical_self_deploy_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "d58e350f20de1f1c5dbf21502da978cf207e23cf",
+      "path": "EIRA2_REPAIR_WATCHER_PLUGIN_V3_BOUNDED.py"
+    },
+    "target": {
+      "path": "extensions/repair_watcher_ai/plugin.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
