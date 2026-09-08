@@ -3,9 +3,9 @@
   "operation": "deploy",
   "request_id": "00001_autonomous_engineering_full_loop_canary_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788899907.096131,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "84cbf3bf79f6675076f052f16f0ce541f85e0a029b785063f15230648409c343"
+  "transport_request_sha256": "84cbf3bf79f6675076f052f16f0ce541f85e0a029b785063f15230648409c343",
+  "updated_unix": 1788899909.8876603
 }
