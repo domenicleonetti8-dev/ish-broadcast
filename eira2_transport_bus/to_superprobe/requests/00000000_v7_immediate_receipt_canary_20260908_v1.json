@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "00000000_v7_immediate_receipt_canary_20260908_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2"],
+    "suffixes": [".json"],
+    "signatures": ["__V7_RECEIPT_CANARY_NO_MATCH__"]
+  },
+  "purpose": "Prove V7 publishes terminal receipts immediately and durably before advancing the queue."
+}
