@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "model_attestation_fastcheck_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788828848.3792415,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "a01faa9029ba69bc5de93c51ac52790aad3bde7957a2d5989d59b0dfedee1ad6"
+}
