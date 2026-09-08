@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "startup_chain_sources_v1",
+  "operation": "inspect",
+  "inspection": {
+    "full_source_paths": [
+      "eira2/operations/full_doctor.py",
+      "eira2/kernel/supervisor.py",
+      "eira2/live.py",
+      "eira2/operations/doctor.py"
+    ]
+  }
+}
