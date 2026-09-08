@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "qualification_legacy_pass_compat_20260908_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "51a03060f0b97d8debbad0cdf7e13abd89e9287a",
+      "path": "EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V4.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Regression proof for backward-compatible qualification success: legacy pass=true and canonical ok=true are both accepted only with process returncode zero. No LIVE mutation."
+}
