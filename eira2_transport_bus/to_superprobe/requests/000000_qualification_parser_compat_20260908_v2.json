@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "qualification_parser_compat_20260908_v2",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "51a03060f0b97d8debbad0cdf7e13abd89e9287a",
+      "path": "EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V4.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Prove live V6 consumes the v3 qualification parser: pretty multi-line JSON with legacy pass=true must qualify after 50/50 tests. No LIVE mutation."
+}
