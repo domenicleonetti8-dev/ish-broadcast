@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788854449.3902946,
-  "error": "RuntimeError:receipt_rebase_failed:Committer identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'domenicleonetti@eira.(none)')\nRebasing (1/1)\nCommitter identity unknown\n\n*** Please tell me who you are.\n\nRun\n\n  git config --global user.email \"you@example.com\"\n  git config --global user.name \"Your Name\"\n\nto set your account's default identity.\nOmit --global to set the identity only in this repository.\n\nfatal: unable to auto-detect email address (got 'domenicleonetti@eira.(none)')\n",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "407_universe_library_exact_checkout_25x2_v4",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788855151.594687,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "ebe4ed8f17c3ff0562b0c7ee9186c5979dfa7c751f2d910df7d91eb50d479061"
 }
