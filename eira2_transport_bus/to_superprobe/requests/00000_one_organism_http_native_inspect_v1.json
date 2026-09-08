@@ -1,0 +1,31 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "one_organism_http_native_inspect_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2", "tools", "eira_probe/transport_runtime_v6"],
+    "suffixes": [".py", ".json", ".html", ".js"],
+    "signatures": [
+      "ProcessLock(",
+      "run_live(",
+      "HTTPServer",
+      "ThreadingHTTPServer",
+      "aiohttp",
+      "uvicorn",
+      "8782",
+      "eira2_github_transport_agent",
+      "eira2_autonomous_transport_v6"
+    ],
+    "served_urls": [
+      "http://127.0.0.1:8782/?revamp=2",
+      "http://127.0.0.1:8782/health"
+    ],
+    "full_source_paths": [
+      "eira2/runtime.py",
+      "eira2/live.py",
+      "eira2/__main__.py",
+      "tools/eira2_github_transport_agent.py",
+      "eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py"
+    ]
+  }
+}
