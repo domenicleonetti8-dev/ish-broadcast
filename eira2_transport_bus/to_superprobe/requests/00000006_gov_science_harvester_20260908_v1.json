@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "gov_science_harvester_20260908_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "e50848ef2f4244ad4328a63dc5361f68e639b019",
+      "path": "EIRA2_GOV_SCIENCE_LITERATURE_HARVESTER_V1.py"
+    },
+    "target": {
+      "path": "eira2/evidence/gov_science_literature_harvester.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
