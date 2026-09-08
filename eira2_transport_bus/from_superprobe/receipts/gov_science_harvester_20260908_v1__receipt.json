@@ -1,13 +1,13 @@
 {
   "builder_invoked": true,
-  "completed_unix": 1788902754.787817,
+  "completed_unix": 1788902774.2234995,
   "completion_sha256": "b11ae8b8e06d438e6c01ec666d3f00c36c375605d979fcfd24544097bc93db14",
   "deployment": {
     "after_sha256": "b11ae8b8e06d438e6c01ec666d3f00c36c375605d979fcfd24544097bc93db14",
     "before_sha256": null,
     "builder_invoked": true,
     "completion_sha256": "b11ae8b8e06d438e6c01ec666d3f00c36c375605d979fcfd24544097bc93db14",
-    "generated_unix": 1788902754.7878094,
+    "generated_unix": 1788902774.2234914,
     "lane_receipt": {
       "builder_direct": true,
       "builder_plan_schema_accepted": "eira2_watcher_builder_plan_v1",
@@ -15,16 +15,16 @@
         "applied_files": [
           {
             "after_sha256": "b11ae8b8e06d438e6c01ec666d3f00c36c375605d979fcfd24544097bc93db14",
-            "before_sha256": null,
+            "before_sha256": "b11ae8b8e06d438e6c01ec666d3f00c36c375605d979fcfd24544097bc93db14",
             "target_path": "eira2/evidence/gov_science_literature_harvester.py"
           }
         ],
         "authorized_by": "repair_watcher_ai",
-        "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260908T172427",
+        "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260908T172441",
         "builder_probe_made_no_change_decisions": true,
         "constructed_bridges": [],
         "eira2_only": true,
-        "generated_unix": 1788902668.1537385,
+        "generated_unix": 1788902681.6498213,
         "mode": "watcher_authorized_write_transport",
         "ok": true,
         "requires_post_superprobe_verification": true,
@@ -32,9 +32,9 @@
         "schema": "eira2_builder_probe_v1",
         "superprobe_remained_read_only": true
       },
-      "generated_unix": 1788902754.7055979,
+      "generated_unix": 1788902774.0474505,
       "off_live_builder_stage": "/tmp/eira2_builder_stage/gov_science_harvester_20260908_v1",
-      "package_fingerprint_sha256": "a6ea38e42e1661675f9488188a7f31ecb46b8d68cf827816013073c9db670347",
+      "package_fingerprint_sha256": "f72336141a4be31a51b3977ffe042c343061e5932ad82e8a557dd9464c05e7d9",
       "package_identity": {
         "eira1_runtime_delegation": false,
         "eira1_runtime_files_required": false,
@@ -1854,9 +1854,9 @@
       "superprobe": {
         "artifacts": {
           "execution_truth": {
-            "bytes": 3863,
+            "bytes": 2865,
             "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/execution_truth.json",
-            "sha256": "5d7ea0894cc7bd7eeb9bd4f69f6c709abff6d9d9738bbd3751687d12c578c491"
+            "sha256": "14ecbc068faf31dc5c0c257426151bd46529a94af4e2725eae75bf79d2a5be19"
           },
           "extension_truth": {
             "bytes": 931,
@@ -1866,12 +1866,12 @@
           "forensic_map": {
             "bytes": 25199,
             "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/forensic_map.json",
-            "sha256": "3b399f7f99c8452849790523c5789ae80e326a44b50f19f2f4dfdbef6b1ab2de"
+            "sha256": "6dcffd1a05bb747193a7bb904585c24023232e5eeb436e383dff501168791efa"
           },
           "organism_truth": {
             "bytes": 9972,
             "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/organism_truth.json",
-            "sha256": "69497499acc5a1007899c4af6b649c75a1ecab81443cd9e55d4a7f573c108dcf"
+            "sha256": "b0b7eb08b6621ac922d63c94abcd99c2df8e1b7e99bd26aa6c3ba60bffa69f0c"
           },
           "package_truth": {
             "bytes": 379,
@@ -1893,8 +1893,8 @@
         "base": "/media/domenicleonetti/easystore/EIRA/LIVE",
         "declared_vs_observed_discrepancies": [],
         "eira2_only": true,
-        "elapsed_seconds": 75.748322,
-        "evidence_bundle_fingerprint_sha256": "61c82383e5d182bc3d63dd822f79faf708ce7b7dde456f2a41eb68fbb52047a1",
+        "elapsed_seconds": 80.662695,
+        "evidence_bundle_fingerprint_sha256": "53682b0fc28546bbe4e314c3802d6b2be0f9ea40c9568e3c20ec6688bc1c72ac",
         "evidence_schema": "eira2_superprobe_evidence_v4",
         "execution_truth": {
           "hostname": "eira",
@@ -1908,23 +1908,20 @@
           "process_command_ok": true,
           "process_error": "",
           "processes": [
-            "86297 2538085    2339 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_AUTONOMOUS_TRANSPORT_V7.py --root /media/domenicleonetti/easystore/EIRA/LIVE",
-            "114917 2688197    1343 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
-            "131925       1     548 /usr/bin/python3 -m eira2.evidence.gutenberg_document_indexer --wait-index --timeout 86400",
-            "134788       1     341 /usr/bin/python3 -m eira2.evidence.open_book_oai_harvester --all",
-            "135309    1013     321 /usr/bin/python3 -m eira2.evidence.open_book_oai_harvester --all",
-            "138082  114917     162 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/gov_science_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "138088  138082     160 /usr/bin/python3 /tmp/eira2_lane_v4_core_138082.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/gov_science_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "138327   86297     147 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/gov_science_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "138329  138327     147 /usr/bin/python3 /tmp/eira2_lane_v4_core_138327.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/gov_science_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
-            "138847  138088      75 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-            "138972  138329      61 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-            "2177880       1  242671 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
-            "2197106       1  136408 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15",
-            "2688197    1013   75411 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
-            "2702069    1013   74581 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE"
+            "86297 2538085    2358 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_AUTONOMOUS_TRANSPORT_V7.py --root /media/domenicleonetti/easystore/EIRA/LIVE",
+            "114917 2688197    1362 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
+            "131925       1     568 /usr/bin/python3 -m eira2.evidence.gutenberg_document_indexer --wait-index --timeout 86400",
+            "134788       1     360 /usr/bin/python3 -m eira2.evidence.open_book_oai_harvester --all",
+            "135309    1013     340 /usr/bin/python3 -m eira2.evidence.open_book_oai_harvester --all",
+            "138327   86297     166 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/gov_science_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
+            "138329  138327     166 /usr/bin/python3 /tmp/eira2_lane_v4_core_138327.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/gov_science_harvester_20260908_v1.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo",
+            "138972  138329      81 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+            "2177880       1  242690 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+            "2197106       1  136427 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15",
+            "2688197    1013   75430 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
+            "2702069    1013   74600 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE"
           ],
-          "runtime_processes": 15,
+          "runtime_processes": 12,
           "socket_error": ""
         },
         "extension_truth": {
@@ -1965,7 +1962,7 @@
           ],
           "ok": true
         },
-        "generated_unix": 1788902754.6761522,
+        "generated_unix": 1788902774.0249085,
         "mode": "read_only_forensic",
         "mutates_live": false,
         "ok": true,
@@ -2163,7 +2160,7 @@
                 "activity_classes": {
                   "other": 15249
                 },
-                "bytes": 527690323,
+                "bytes": 529824339,
                 "cluster": "root:eira_probe",
                 "code_count": 5242,
                 "dispositions": {
@@ -2361,11 +2358,11 @@
           "status": "verified"
         },
         "physical_truth": {
-          "bytes": 7754377261,
+          "bytes": 7756735141,
           "files": 206,
           "inventory": [
             {
-              "mtime_ns": 1788902674657529500,
+              "mtime_ns": 1788902687124591300,
               "path": "eira2-package-manifest.json",
               "size": 60414
             },
@@ -2520,7 +2517,7 @@
               "size": 1016
             },
             {
-              "mtime_ns": 1788902667988323800,
+              "mtime_ns": 1788902681623116300,
               "path": "eira2/evidence/gov_science_literature_harvester.py",
               "size": 5702
             },
@@ -3396,7 +3393,7 @@
             }
           ],
           "ok": true,
-          "python_files": 1478,
+          "python_files": 1479,
           "root": "/media/domenicleonetti/easystore/EIRA/LIVE"
         },
         "privacy": "local_only",
@@ -3412,15 +3409,15 @@
         },
         "shared_evidence": {
           "artifact_count": 7,
-          "fingerprint": "61c82383e5d182bc3d63dd822f79faf708ce7b7dde456f2a41eb68fbb52047a1",
-          "manifest_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/61c82383e5d182bc3d63dd822f79faf708ce7b7dde456f2a41eb68fbb52047a1/manifest.json",
-          "manifest_sha256": "46931f12924f68eed9635302e216b2f92a304faac32d220ce14c153849c06d28",
+          "fingerprint": "53682b0fc28546bbe4e314c3802d6b2be0f9ea40c9568e3c20ec6688bc1c72ac",
+          "manifest_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/53682b0fc28546bbe4e314c3802d6b2be0f9ea40c9568e3c20ec6688bc1c72ac/manifest.json",
+          "manifest_sha256": "ce9fba579d96cea587254d0355a90968821189990f903b426a13e5c00978c71f",
           "ok": true
         }
       },
       "superprobe_summary": {
         "discrepancy_count": 0,
-        "evidence_fingerprint": "61c82383e5d182bc3d63dd822f79faf708ce7b7dde456f2a41eb68fbb52047a1",
+        "evidence_fingerprint": "53682b0fc28546bbe4e314c3802d6b2be0f9ea40c9568e3c20ec6688bc1c72ac",
         "files": 206,
         "listeners": 2,
         "ok": true,
@@ -3428,7 +3425,7 @@
         "package_identity_ok": true,
         "package_tree_sha256": "4561ee85a682570d7b499bc84cd905f53e56832765c58a3758a2a11c47a346da",
         "python_files": 126,
-        "runtime_processes": 15,
+        "runtime_processes": 12,
         "schema": "eira2_superprobe_forensic_v4",
         "unresolved_internal_imports": 0
       },
@@ -3450,13 +3447,13 @@
       "builder_required": true,
       "discrepancy_count": 0,
       "fast_read_only_authorization": false,
-      "generated_unix": 1788902576.9267535,
+      "generated_unix": 1788902596.7911499,
       "ok": true,
       "operation": "deploy",
       "package_identity_ok": true,
       "read_only": false,
       "request_id": "gov_science_harvester_20260908_v1",
-      "superprobe_evidence_fingerprint_sha256": "6f1a78d8ebd2a6c86b3c7c7690838cc2110d1768ace24a7075265d5e479b0b84",
+      "superprobe_evidence_fingerprint_sha256": "c1cffc32902259e433741ecb873c4ec305c650a700f7404bd144c2cf8c85bebb",
       "superprobe_required_for_authorization": true,
       "superprobe_schema": "eira2_superprobe_forensic_v4",
       "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
@@ -3476,13 +3473,13 @@
     "builder_required": true,
     "discrepancy_count": 0,
     "fast_read_only_authorization": false,
-    "generated_unix": 1788902576.9267535,
+    "generated_unix": 1788902596.7911499,
     "ok": true,
     "operation": "deploy",
     "package_identity_ok": true,
     "read_only": false,
     "request_id": "gov_science_harvester_20260908_v1",
-    "superprobe_evidence_fingerprint_sha256": "6f1a78d8ebd2a6c86b3c7c7690838cc2110d1768ace24a7075265d5e479b0b84",
+    "superprobe_evidence_fingerprint_sha256": "c1cffc32902259e433741ecb873c4ec305c650a700f7404bd144c2cf8c85bebb",
     "superprobe_required_for_authorization": true,
     "superprobe_schema": "eira2_superprobe_forensic_v4",
     "watcher_version": "2.6.0-eira2-fast-readonly-transport-authority",
