@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "package_manifest_delta_v1",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "846f6ec208483140af3096d7301f3c45f3c1436e",
+      "path": "EIRA2_PACKAGE_MANIFEST_DELTA_V1.py",
+      "timeout_seconds": 120
+    }
+  }
+}
