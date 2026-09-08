@@ -1,0 +1,11 @@
+{
+  "ok": null,
+  "operation": "inspect",
+  "request_id": "generate_neural_live_single_build_v1",
+  "schema": "eira2_transport_terminal_receipt_v6",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788831194.6168196,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
+  "transport_request_sha256": "2f8edc3041e3dc2decdc5db0ce330bf150687e1af0c8e30ee94ff0e5763d0966"
+}
