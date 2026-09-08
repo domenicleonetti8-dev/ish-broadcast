@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "406_universe_library_exact_checkout_25x2_v3",
+  "operation": "inspect",
+  "read_only": true,
+  "inspection": {
+    "execute_source": {
+      "commit": "108201b12ea98a6f2d0b24a501d0ef2ef026b918",
+      "path": "EIRA2_UNIVERSE_LIBRARY_EXACT_CHECKOUT_25X2_V3.py",
+      "timeout_seconds": 180
+    }
+  },
+  "purpose": "Read the exact V2 Universe Library wrapper from the V6 transport checkout, extract TARGET and NEW literals, compile the exact deploy payload, run its embedded 25 distinct tests twice, and require 50/50. No LIVE mutation."
+}
