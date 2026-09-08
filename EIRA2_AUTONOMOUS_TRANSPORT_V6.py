@@ -9,7 +9,7 @@ REPO_URL='https://github.com/domenicleonetti8-dev/ish-broadcast.git'
 REQUEST_ROOT=Path('eira2_transport_bus/to_superprobe/requests')
 RETURN_ROOT=Path('eira2_transport_bus/from_superprobe/receipts')
 REQUEST_SCHEMA='eira2_transport_request_v1'
-BASE_NAME='EIRA2_OMNIDIRECTIONAL_TRANSPORT_CONSUMER_V2.py'
+BASE_NAME='EIRA2_OMNIDIRECTIONAL_TRANSPORT_CONSUMER_V3.py'
 HEARTBEAT_SECONDS=5
 RETRY_SECONDS=8
 
