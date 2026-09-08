@@ -4,8 +4,8 @@
   "request_id": "gutenberg_ingest_receipt_repair_inspect_20260908_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
   "stage": "single_checkout_execution",
-  "started_unix": 1788903649.6223817,
+  "started_unix": 1788903659.3069909,
   "status": "STARTED",
-  "supervisor_pid": 114917,
+  "supervisor_pid": 86297,
   "transport_request_sha256": "8019b0fdfa11f3906a25275d7ab0dec1cbe740bce98e440773029afe56e2fb5a"
 }
