@@ -3,9 +3,9 @@
   "operation": "inspect",
   "request_id": "universe_public_library_ingest_25x2_v1",
   "schema": "eira2_transport_terminal_receipt_v6",
-  "stage": "single_checkout_execution",
-  "started_unix": 1788886683.5255222,
-  "status": "STARTED",
+  "stage": "WATCHER_AUTHORIZING",
+  "status": "IN_PROGRESS",
   "supervisor_pid": 2688207,
-  "transport_request_sha256": "b58a433e7b81e6b8d628cc411b5a54829e4cd68ac53f8788b71ff24d6cfbadb6"
+  "transport_request_sha256": "b58a433e7b81e6b8d628cc411b5a54829e4cd68ac53f8788b71ff24d6cfbadb6",
+  "updated_unix": 1788886686.329163
 }
