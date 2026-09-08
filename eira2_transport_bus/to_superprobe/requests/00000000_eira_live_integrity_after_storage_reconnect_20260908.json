@@ -1,0 +1,32 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "eira_live_integrity_after_storage_reconnect_20260908",
+  "operation": "inspect",
+  "read_only": true,
+  "purpose": "Read-only integrity census after Easystore USB/storage re-enumeration. Verify EIRA LIVE still exists and report compact-system integrity without mutating LIVE.",
+  "inspection": {
+    "checks": [
+      "live_root_exists",
+      "main_py_exists",
+      "compact_file_count",
+      "python_file_count",
+      "critical_entrypoints_present",
+      "eira2_package_present",
+      "extensions_present",
+      "eira_probe_present",
+      "transport_runtime_v10_present",
+      "zero_byte_python_files",
+      "recent_io_errors_visible_to_runtime"
+    ],
+    "expected_live_root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "expected_compact_file_count_reference": 406
+  },
+  "requirements": [
+    "READ ONLY",
+    "DO NOT modify LIVE",
+    "DO NOT restart processes",
+    "DO NOT mount or unmount storage",
+    "DO NOT invoke Builder",
+    "Return exact counts and missing paths only from observed filesystem evidence"
+  ]
+}
