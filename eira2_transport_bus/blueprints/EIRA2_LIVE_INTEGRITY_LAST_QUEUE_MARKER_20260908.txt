@@ -1,0 +1,1 @@
+Last queue marker for read-only EIRA integrity sequence.
