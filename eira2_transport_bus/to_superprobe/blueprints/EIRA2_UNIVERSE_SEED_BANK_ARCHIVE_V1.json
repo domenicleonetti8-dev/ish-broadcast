@@ -1,0 +1,77 @@
+{
+  "schema": "eira2_universe_seed_bank_archive_v1",
+  "name": "Eira Universe Seed Bank",
+  "metaphor": "A vast organized archive inspired by the feeling of an immense knowledge library: every recoverable unit of knowledge is compressed into a provenance-bearing seed that can regrow its context without confusing source material, fact, hypothesis, fiction, or memory.",
+  "nonnegotiable": {
+    "one_organism": true,
+    "one_outward_voice": "Eira",
+    "truth_before_storage_as_fact": true,
+    "never_discard_provenance": true,
+    "never_claim_exhaustive_knowledge": true,
+    "model_candidate_has_no_fact_admission_authority": true
+  },
+  "seed_definition": {
+    "description": "A Seed is the smallest durable knowledge object from which Eira can reconstruct what is claimed, where it came from, when it applied, how strongly it is supported, what it relates to, and whether it is accepted factual memory.",
+    "required_fields": [
+      "seed_id",
+      "subject",
+      "canonical_claim",
+      "domain",
+      "epistemic_class",
+      "source_refs",
+      "source_hashes",
+      "retrieved_at",
+      "source_dates",
+      "temporal_scope",
+      "geographic_or_cosmic_scope",
+      "evidence_strength",
+      "corroboration",
+      "contradictions",
+      "truth_state",
+      "confidence",
+      "relationships",
+      "version",
+      "seed_hash"
+    ],
+    "truth_states": ["candidate", "accepted", "contested", "superseded", "rejected", "unknown"],
+    "epistemic_classes": ["fact", "measurement", "observation", "historical_record", "derived_result", "scientific_model", "consensus", "hypothesis", "procedure", "equation", "fiction_culture"]
+  },
+  "seed_banks": {
+    "reality_vault": "Truth-gated factual seeds.",
+    "cosmic_vault": "Observable universe, cosmology, galaxies, stars, planets, exoplanets, astrobiology and mission observations.",
+    "solar_vault": "Sun, planets, dwarf planets, moons, rings, asteroids, comets, heliosphere and mission history.",
+    "earth_vault": "Earth formation, geology, atmosphere, oceans, climate, cryosphere, biosphere and natural history.",
+    "life_vault": "Origin/evolution of life, taxonomy, ecology, anatomy, medicine, botany, agriculture and biodiversity.",
+    "humanity_vault": "Human evolution, archaeology, civilizations, languages, writing, culture, technology, conflicts, discoveries and recorded history.",
+    "equation_vault": "Mathematical and physical equations plus variables, units, assumptions, derivations, validity domains and solver bindings.",
+    "procedure_vault": "How-to knowledge, scientific methods, engineering procedures, learning strategies and validated workflows.",
+    "observation_vault": "Telescope, planetary, oceanic and other instrument observations with raw/calibrated product provenance.",
+    "frontier_vault": "Emerging, unverified, contested and hypothetical material isolated from factual memory.",
+    "imagination_vault": "Comedy, film, science fiction, superheroes, cartoons, mythology and fictional worlds; searchable but never silently promoted to empirical fact.",
+    "source_vault": "Versioned open/licensed/public-domain source documents, datasets and metadata used to regrow seed context."
+  },
+  "organization": {
+    "primary_indexes": ["domain", "subject", "time", "place", "cosmic_location", "entity", "source", "truth_state", "confidence", "relationship"],
+    "graph_edges": ["is_a", "part_of", "causes", "caused_by", "precedes", "follows", "supports", "contradicts", "derived_from", "measured_by", "located_in", "orbits", "evolved_from", "related_to", "supersedes"],
+    "deduplication": "Content-address seeds and merge equivalent claims without losing independent provenance.",
+    "history": "Never overwrite an accepted seed in place. Supersede by versioned successor so Eira can reconstruct knowledge as-of any supported time."
+  },
+  "regrowth_contract": {
+    "seed_to_answer": "A seed may regrow its surrounding graph, source citations, historical versions, equations, observations and uncertainty before contributing to Eira's answer.",
+    "seed_to_research": "Missing or stale context triggers retrieval and revalidation rather than invention.",
+    "seed_to_memory": "Only Truth-Gate accepted factual seeds enter accepted factual memory. Cultural/fictional seeds remain in their explicit zone."
+  },
+  "scale_strategy": {
+    "hot": "Compact frequently used seed indexes and recent verified facts.",
+    "warm": "Local semantic graph and compressed source metadata.",
+    "cold": "Large versioned documents/datasets retained when licensing/storage policy permits.",
+    "portable": "Seed graph and indexes must be exportable independently of large cold assets and must retain enough provenance to reacquire permitted sources.",
+    "constant_growth": "Update workers add/revalidate seeds incrementally; no full-library rebuild for ordinary updates."
+  },
+  "first_runtime_file": {
+    "name": "universe_seed.py",
+    "responsibility": "Define and validate one immutable Seed only.",
+    "forbidden_until_qualified": ["network_fetch", "truth_scoring", "memory_commit", "bulk_ingestion", "document_download", "model_generation", "background_updater"],
+    "qualification": "25 distinct invariant tests repeated twice; 50/50 required before promotion."
+  }
+}
