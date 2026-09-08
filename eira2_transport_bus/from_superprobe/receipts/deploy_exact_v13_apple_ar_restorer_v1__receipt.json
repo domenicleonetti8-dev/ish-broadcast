@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788903611.6311376,
-  "error": "RuntimeError:git_sync_failed:fatal: Unable to create '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/.git/index.lock': File exists.\n\nAnother git process seems to be running in this repository, e.g.\nan editor opened by 'git commit'. Please make sure all processes\nare terminated then try again. If it still fails, a git process\nmay have crashed in this repository earlier:\nremove the file manually to continue.\n",
-  "ok": false,
+  "ok": null,
   "operation": "deploy",
   "request_id": "deploy_exact_v13_apple_ar_restorer_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788903780.8583157,
+  "status": "STARTED",
+  "supervisor_pid": 114917,
   "transport_request_sha256": "13687e3ac7fc12de1ede310bea185080ca30e2e4aeeaae38626bc19c963e1c4b"
 }
