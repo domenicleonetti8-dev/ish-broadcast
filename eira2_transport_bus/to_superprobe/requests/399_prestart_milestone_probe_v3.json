@@ -1,0 +1,12 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "prestart_milestone_probe_v3",
+  "operation": "inspect",
+  "inspection": {
+    "execute_source": {
+      "commit": "54a8eafb1ee7d33e2a1b038ad15780c8739bb7a5",
+      "path": "EIRA2_PRESTART_MILESTONE_PROBE_V2.py",
+      "timeout_seconds": 120
+    }
+  }
+}
