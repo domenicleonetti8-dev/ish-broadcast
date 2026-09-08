@@ -1,0 +1,17 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "transport_live_entrypoint_locate_20260908",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["tools", "eira2", "eira_probe"],
+    "suffixes": [".py", ".json"],
+    "signatures": [
+      "EIRA2_AUTONOMOUS_TRANSPORT_V7",
+      "durable_publish",
+      "transport_runtime_v7",
+      "Return EIRA2 transport V6 receipt",
+      "eira2_transport_terminal_receipt_v6"
+    ],
+    "full_source_paths": []
+  }
+}
