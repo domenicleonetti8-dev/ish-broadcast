@@ -1,12 +1,11 @@
 {
-  "completed_unix": 1788839027.2588902,
-  "error": "RuntimeError:read_only_qualification_failed:{\"mutates_live\": false, \"ok\": false, \"result\": null, \"returncode\": 0, \"schema\": \"eira2_transport_read_only_qualification_v1\", \"source_commit\": \"01d9455ee373a9cca7d00d00da89fe5fe351d311\", \"source_path\": \"EIRA2_GUTENBERG_REFRESH_SCHEDULER_V1.py\", \"source_sha256\": \"aa3dd0b0d892994687a59fb34eeac12ed88806c2aef15abd5b792691c96b59f4\", \"stderr_tail\": \"\", \"stdout_tail\": \"{\\n  \\\"clean_passes\\\": 50,\\n  \\\"distinct_tests\\\": 25,\\n  \\\"failed\\\": [],\\n  \\\"pass\\\": true,\\n  \\\"rounds\\\": 2,\\n  \\\"schema\\\": \\\"eira2_gutenberg_refresh_qualification_v1\\\",\\n  \\\"total\\\": 50\\n}\"}",
-  "ok": false,
+  "ok": null,
   "operation": "inspect",
   "request_id": "gutenberg_refresh_scheduler_25x2_v1",
-  "retry_after_seconds": 8,
-  "retryable": true,
   "schema": "eira2_transport_terminal_receipt_v6",
-  "status": "RETRYING",
+  "stage": "single_checkout_execution",
+  "started_unix": 1788839651.3316422,
+  "status": "STARTED",
+  "supervisor_pid": 2688207,
   "transport_request_sha256": "a0d19edf68807fca820f472cacecb769cc6c09c482872952a1f14e8a051295e3"
 }
