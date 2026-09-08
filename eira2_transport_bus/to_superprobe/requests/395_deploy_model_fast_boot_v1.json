@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "deploy_model_fast_boot_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "03948be028a398997b9ccade700fa98b6690da6d",
+      "path": ".eira2_generated/model_fast_boot_v1/model_takeover.py"
+    },
+    "target": {
+      "path": "eira2/operations/model_takeover.py",
+      "expected_before_sha256": "a0245e1e13c3c5b62fadec312c887dbd1bc2bf8770ba53957e3d2b1980b6ba7b"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
