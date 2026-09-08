@@ -79,6 +79,10 @@ def publish(work:Path,request_id:str,receipt:dict[str,Any])->str:
         if p.returncode: raise RuntimeError("receipt_push_failed:"+p.stderr[-1000:])
     return run(["git","rev-parse","HEAD"],cwd=work,timeout=120).stdout.strip()
 
+def _qualification_success(parsed:Any,returncode:int)->bool:
+    if returncode!=0 or not isinstance(parsed,dict): return False
+    return parsed.get("ok") is True or parsed.get("pass") is True
+
 def _execute_read_only_qualification(root:Path,spec:dict[str,Any])->dict[str,Any]:
     q=spec.get("execute_source") or {}
     commit=str(q.get("commit") or ""); repo_path=safe_rel(str(q.get("path") or "")); expected=str(q.get("sha256") or "").lower(); timeout=int(q.get("timeout_seconds") or 480)
@@ -98,7 +102,7 @@ def _execute_read_only_qualification(root:Path,spec:dict[str,Any])->dict[str,Any
                 obj=json.loads(line)
                 if isinstance(obj,dict): parsed=obj; break
             except Exception: pass
-    return {"schema":"eira2_transport_read_only_qualification_v1","source_commit":commit,"source_path":repo_path,"source_sha256":actual,"returncode":p.returncode,"stdout_tail":stdout[-12000:],"stderr_tail":stderr[-6000:],"result":parsed,"ok":p.returncode==0 and isinstance(parsed,dict) and parsed.get("ok") is True,"mutates_live":False}
+    return {"schema":"eira2_transport_read_only_qualification_v2","source_commit":commit,"source_path":repo_path,"source_sha256":actual,"returncode":p.returncode,"stdout_tail":stdout[-12000:],"stderr_tail":stderr[-6000:],"result":parsed,"accepted_success_markers":["ok","pass"],"ok":_qualification_success(parsed,p.returncode),"mutates_live":False}
 
 def inspect_request(root:Path,request:dict[str,Any],auth:dict[str,Any])->dict[str,Any]:
     spec=request.get("inspection") or {}; signatures=[str(x) for x in (spec.get("signatures") or []) if str(x)]
