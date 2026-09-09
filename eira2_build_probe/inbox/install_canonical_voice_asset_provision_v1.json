@@ -1,0 +1,1 @@
+{"schema":"eira2_orin_build_probe_v1","id":"install_canonical_voice_asset_provision_v1","op":"deploy","source":{"commit":"fe6410396f153e31135070b619d29ae8ed1db270","path":"EIRA2_PROVISION_CANONICAL_VOICE_ASSET_V1.py"},"target_path":"tools/eira2_provision_canonical_voice_asset.py"}
