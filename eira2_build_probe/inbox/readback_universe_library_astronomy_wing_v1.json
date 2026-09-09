@@ -1,0 +1,6 @@
+{
+  "id": "readback_universe_library_astronomy_wing_v1",
+  "op": "read",
+  "path": "eira2/evidence/universe_library_astronomy_wing.py",
+  "max_bytes": 30000
+}
