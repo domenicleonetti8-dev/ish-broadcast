@@ -1,0 +1,9 @@
+{
+  "error": "ValueError:unsupported_op",
+  "id": "portal_bootstrap_manifest_v1",
+  "ok": false,
+  "op": "manifest",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v2",
+  "unix": 1788949155.7691846
+}
