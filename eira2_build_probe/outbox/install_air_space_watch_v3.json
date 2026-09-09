@@ -1,17 +1,9 @@
 {
   "command_sha256": "ec551343d56df51416b927034612df059e270ee7fa0a95a65987c2b1141bb0d5",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_AIR_SPACE_WATCH_V3.py' exists on disk, but not in '8e82a385094aa1335f6a24c369519f77ed0cea94'\n",
   "id": "install_air_space_watch_v3",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "6398724681fb1afcf8de2d8f5ad75d4208297bd6a631e98ad134f620cbbb83f1",
-    "backup": "eira_probe/orin_build_probe_v1/backups/install_air_space_watch_v3/eira2/evidence/air_space_watch.py",
-    "before_sha256": "5d59ed3b174acc29f89a28b9e63c0cd978f508225bb525b17dc41f5f17a96c18",
-    "compile_ok": true,
-    "payload_sha256": "6398724681fb1afcf8de2d8f5ad75d4208297bd6a631e98ad134f620cbbb83f1",
-    "target_path": "eira2/evidence/air_space_watch.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788957773.2914224
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989947.1052506
 }
