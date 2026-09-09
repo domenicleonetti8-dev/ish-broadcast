@@ -1,0 +1,16 @@
+{
+  "command_sha256": "ce9502009aed48038fd4092d7dacf79cdec3c1485f9bf0db0e89beaf34ef546f",
+  "id": "build_test_canary_20260909_1906",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "615ee9b3483a26805025b7f54991f22317490c3136c5135ef52b20722b5b3b58",
+    "backup": "eira_probe/orin_build_probe_v3/backups/build_test_canary_20260909_1906/eira_probe/build_test/EIRA_BUILD_TEST_CANARY_20260909_1906.txt",
+    "before_sha256": "615ee9b3483a26805025b7f54991f22317490c3136c5135ef52b20722b5b3b58",
+    "compile_ok": false,
+    "target_path": "eira_probe/build_test/EIRA_BUILD_TEST_CANARY_20260909_1906.txt"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995315.989394
+}
