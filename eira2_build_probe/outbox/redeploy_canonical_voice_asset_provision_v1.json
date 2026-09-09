@@ -1,0 +1,17 @@
+{
+  "command_sha256": "3c8a9eb67a2f438953c6ca1e906b40d5a3d867335d5f394598af93ae5cd43bde",
+  "id": "redeploy_canonical_voice_asset_provision_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "1f86568b73a7ef570ef724c8fdfdbe19015bc47cea9d3fc08109e45bd5fd86d5",
+    "backup": "eira_probe/orin_build_probe_v1/backups/redeploy_canonical_voice_asset_provision_v1/tools/eira2_provision_canonical_voice_asset.py",
+    "before_sha256": "77e83415e09a9c4911a684903eb6a857a778242c6d5c374742d82117322044e8",
+    "compile_ok": true,
+    "payload_sha256": "1f86568b73a7ef570ef724c8fdfdbe19015bc47cea9d3fc08109e45bd5fd86d5",
+    "target_path": "tools/eira2_provision_canonical_voice_asset.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788961902.264194
+}
