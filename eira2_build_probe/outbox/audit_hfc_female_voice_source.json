@@ -14,11 +14,21 @@
         "bytes": 14130,
         "path": "eira2/operations/voice_asset_takeover.py",
         "sha256": "2e95dddd17fb831def5a539301282db0c4f4f4a48bd7968af11e65f39247e640"
+      },
+      {
+        "bytes": 3007,
+        "path": "tools/eira2_provision_canonical_voice_asset.py",
+        "sha256": "1f86568b73a7ef570ef724c8fdfdbe19015bc47cea9d3fc08109e45bd5fd86d5"
+      },
+      {
+        "bytes": 4216,
+        "path": "tools/eira2_voice_path_completion.py",
+        "sha256": "f805825f91d61571df26ba004ab58259865b5025987f7b47ddd75cb02e223a9d"
       }
     ],
     "term": "en_US-hfc_female-medium.onnx"
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_baby_recovery_probe_v1",
-  "unix": 1788989904.0106614
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995189.0713305
 }
