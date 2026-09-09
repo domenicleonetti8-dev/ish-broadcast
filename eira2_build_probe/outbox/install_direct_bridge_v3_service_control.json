@@ -1,15 +1,9 @@
 {
   "command_sha256": "e3a77014e332d4d280035cef8a70c14904d8d9b5437ff0ee8406e84a2e2a9a9b",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_ORIN_DIRECT_BRIDGE_V3_SERVICE_CONTROL.py' exists on disk, but not in 'fcbc52927b1c0977324f882d6bfcb35ef82a6bff'\n",
   "id": "install_direct_bridge_v3_service_control",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "5f0fdbbf172d1d7b564858838698213a346b7d0854328cc59c046bdbadedf4eb",
-    "backup": "eira_probe/orin_baby_probe_v1/backups/install_direct_bridge_v3_service_control/tools/eira2_orin_direct_bridge.py",
-    "before_sha256": "95fa096a940defc0eb08d773f46afd9af024833801f5867166fe69d4dd44a16e",
-    "target_path": "tools/eira2_orin_direct_bridge.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_baby_recovery_probe_v1",
-  "unix": 1788994278.3447087
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995266.2206464
 }
