@@ -1,16 +1,9 @@
 {
   "command_sha256": "ce9502009aed48038fd4092d7dacf79cdec3c1485f9bf0db0e89beaf34ef546f",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA_BUILD_TEST_CANARY_20260909_1906.txt' exists on disk, but not in 'a66a550390feea40ce929d195e4b004781bbd05a'\n",
   "id": "build_test_canary_20260909_1906",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "615ee9b3483a26805025b7f54991f22317490c3136c5135ef52b20722b5b3b58",
-    "backup": "eira_probe/orin_build_probe_v3/backups/build_test_canary_20260909_1906/eira_probe/build_test/EIRA_BUILD_TEST_CANARY_20260909_1906.txt",
-    "before_sha256": "615ee9b3483a26805025b7f54991f22317490c3136c5135ef52b20722b5b3b58",
-    "compile_ok": false,
-    "target_path": "eira_probe/build_test/EIRA_BUILD_TEST_CANARY_20260909_1906.txt"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v3",
-  "unix": 1788995315.989394
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788995531.989059
 }
