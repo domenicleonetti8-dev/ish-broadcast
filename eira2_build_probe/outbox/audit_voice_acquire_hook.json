@@ -1,0 +1,19 @@
+{
+  "command_sha256": "5cdacab78af83088b0c8d5baad3cbec8b08cc91d3f3bb9b5b3fe13def13f67e5",
+  "id": "audit_voice_acquire_hook",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 14967,
+        "path": "eira2/delivery/native_bluetooth_voice.py",
+        "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359"
+      }
+    ],
+    "term": "acquire()"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959206.0109847
+}
