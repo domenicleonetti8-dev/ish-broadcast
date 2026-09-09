@@ -1,0 +1,1 @@
+{"schema":"eira2_orin_build_probe_v1","id":"read_live_log_voice_tail","op":"read","path":"var/live.log","max_bytes":20000}
