@@ -59,8 +59,13 @@
       "path": "eira2/evidence/__pycache__/universe_public_library.cpython-313.pyc",
       "size": 27810,
       "type": "file"
+    },
+    {
+      "path": "var/models/ollama/manifests/registry.ollama.ai/library",
+      "size": null,
+      "type": "dir"
     }
   ],
-  "schema": "eira2_probe_library_v1",
-  "unix": 1788950248.2112477
+  "schema": "eira2_probe_library_v2",
+  "unix": 1788950277.367168
 }

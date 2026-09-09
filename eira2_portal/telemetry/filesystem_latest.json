@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "mtime": 1788950250.0115886,
+      "mtime": 1788950273.317214,
       "name": ".orin_relay",
       "size": null,
       "type": "dir"
@@ -85,7 +85,7 @@
       "type": "dir"
     },
     {
-      "mtime": 1788949942.853516,
+      "mtime": 1788950277.2401235,
       "name": "eira_probe",
       "size": null,
       "type": "dir"
@@ -152,6 +152,6 @@
     }
   ],
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_probe_filesystem_v1",
-  "unix": 1788950261.6483505
+  "schema": "eira2_probe_filesystem_v2",
+  "unix": 1788950277.3092318
 }
