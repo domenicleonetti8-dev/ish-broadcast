@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_conversation_response_gate",
+  "op": "search",
+  "term": "response_gate",
+  "roots": ["eira2", "extensions", "brain", "council", "routers", "tools"],
+  "limit": 100
+}
