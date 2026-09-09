@@ -4,6 +4,6 @@
   "id": "install_air_space_watch_v1_final",
   "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788956450.2009695
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989939.610528
 }
