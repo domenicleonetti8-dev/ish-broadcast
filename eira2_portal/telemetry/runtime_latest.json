@@ -1,14 +1,13 @@
 {
-  "loadavg": "1.94 1.81 1.84 1/344 209612",
+  "loadavg": "1.87 1.80 1.84 2/344 209804",
   "processes": [
-    "    707       1 Ss      04:56:40 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
-    "   1055     986 Ss      04:56:38 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
-    "  18382       1 Ss      04:27:31 /usr/bin/python3 /home/domenicleonetti/.local/bin/eira2-transport-v2 --root /media/domenicleonetti/easystore/EIRA/LIVE --state /home/domenicleonetti/.local/state/eira2-transport-v2 daemon --interval 3",
-    " 109367       1 S       02:03:08 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-    " 141297  141294 S       01:12:18 python3 tools/eira2_see_build_receiver.py",
-    " 181444    1810 Sl         20:37 python3 tools/eira2_orin_worker.py",
-    " 209608    1055 Rs         00:00 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2"
+    "    707       1 Ss      04:56:52 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+    "   1055     986 Ss      04:56:50 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
+    "  18382       1 Ss      04:27:42 /usr/bin/python3 /home/domenicleonetti/.local/bin/eira2-transport-v2 --root /media/domenicleonetti/easystore/EIRA/LIVE --state /home/domenicleonetti/.local/state/eira2-transport-v2 daemon --interval 3",
+    " 109367       1 S       02:03:20 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+    " 141297  141294 S       01:12:29 python3 tools/eira2_see_build_receiver.py",
+    " 181444    1810 Sl         20:48 python3 tools/eira2_orin_worker.py"
   ],
   "schema": "eira2_probe_runtime_v2",
-  "unix": 1788951514.7207913
+  "unix": 1788951526.1105688
 }
