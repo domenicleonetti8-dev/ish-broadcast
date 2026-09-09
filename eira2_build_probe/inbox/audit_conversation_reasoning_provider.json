@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_conversation_reasoning_provider",
+  "op": "search",
+  "term": "reasoning.provider",
+  "roots": ["eira2", "extensions", "brain", "council", "routers", "tools"],
+  "limit": 100
+}
