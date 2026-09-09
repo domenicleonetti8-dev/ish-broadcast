@@ -19,6 +19,6 @@
     "term": "en_US-hfc_female-medium.onnx"
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788959686.9467704
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989904.0106614
 }
