@@ -54,6 +54,6 @@
     "term": "delivery.voice"
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_baby_recovery_probe_v1",
-  "unix": 1788989901.3270726
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995186.070949
 }
