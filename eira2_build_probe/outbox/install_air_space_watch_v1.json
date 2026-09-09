@@ -1,0 +1,9 @@
+{
+  "command_sha256": "241950ddee06a49ddfb576b65acc41b0a3e7c085d2cea1e0f5bb6a55d8de3a87",
+  "error": "ValueError:invalid_commit",
+  "id": "install_air_space_watch_v1",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788956421.036984
+}
