@@ -1,0 +1,15 @@
+{
+  "command_sha256": "bf621bfe19642d1140b3b72e53b7abf22c3bcf3df29480eded9ecbe344838626",
+  "id": "orin_health_now_20260909",
+  "ok": true,
+  "op": "health",
+  "result": {
+    "pid": 1258460,
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_baby_probe_v1",
+    "version": "baby-recovery-v1"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788990007.0088212
+}
