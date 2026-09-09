@@ -1,0 +1,9 @@
+{
+  "id": "install_direct_bridge_v3_service_control",
+  "op": "deploy",
+  "source": {
+    "commit": "fcbc52927b1c0977324f882d6bfcb35ef82a6bff",
+    "path": "EIRA2_ORIN_DIRECT_BRIDGE_V3_SERVICE_CONTROL.py"
+  },
+  "target_path": "tools/eira2_orin_direct_bridge.py"
+}
