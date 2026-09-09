@@ -1,0 +1,18 @@
+{
+  "after_sha256": "8ac922999a8130a9aafef2e1ad6ccc0de107b740206e36d7a8691b515b656e66",
+  "backup": "eira_probe/orin_worker_v2/backups/orin_install_worker_v3_multiprobe/tools/eira2_orin_worker.py",
+  "before_sha256": "fee2d8b29b3522b7bd5cc824be2cf36141a30319241005991140eca537739f73",
+  "bytes": 9000,
+  "compile": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "id": "orin_install_worker_v3_multiprobe",
+  "ok": true,
+  "op": "write",
+  "path": "tools/eira2_orin_worker.py",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v2",
+  "unix": 1788949844.5885959
+}
