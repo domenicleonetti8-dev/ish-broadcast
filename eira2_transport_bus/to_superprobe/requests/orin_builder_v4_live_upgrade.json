@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_builder_v4_live_upgrade",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "d3ebe75e7f2c13a693e5c77fec9ba0090d4f8a57",
+      "path": "EIRA2_BUILDER_PROBE_V4_FULL.py"
+    },
+    "target": {
+      "path": "tools/eira2_builder_probe.py"
+    }
+  }
+}
