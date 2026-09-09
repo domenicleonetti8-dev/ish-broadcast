@@ -1,0 +1,7 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "read_native_bluetooth_voice_invoke",
+  "op": "read",
+  "path": "eira2/delivery/native_bluetooth_voice.py",
+  "max_bytes": 50000
+}
