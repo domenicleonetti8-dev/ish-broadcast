@@ -1,0 +1,24 @@
+{
+  "command_sha256": "4c5ad0b5cd52f6388e964fb98dd1b7b9de087e99e6094561afe12e459753e3db",
+  "id": "audit_voice_models_current",
+  "ok": true,
+  "op": "list",
+  "result": {
+    "items": [
+      {
+        "name": "en_US-hfc_female-medium.onnx",
+        "size": 63201294,
+        "type": "file"
+      },
+      {
+        "name": "en_US-hfc_female-medium.onnx.json",
+        "size": 5033,
+        "type": "file"
+      }
+    ],
+    "path": "var/voice/voices"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962688.7966113
+}
