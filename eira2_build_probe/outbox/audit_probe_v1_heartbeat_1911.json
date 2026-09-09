@@ -1,0 +1,16 @@
+{
+  "command_sha256": "940f51098d09490bd49b201cba47ca9ef29fd68918edcc55ff20909899a07fd0",
+  "id": "audit_probe_v1_heartbeat_1911",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 508,
+    "path": "eira_probe/orin_build_probe_v1/heartbeat.json",
+    "sha256": "e52387ad332a89ed00847ff8a29c53c81fbdec12101397bfc8ea5e1126e1486d",
+    "text": "{\n  \"error\": \"RuntimeError:fatal: It seems that there is already a rebase-merge directory, and\\nI wonder if you are in the middle of another rebase.  If that is the\\ncase, please try\\n\\tgit rebase (--continue | --abort | --skip)\\nIf that is not the case, please\\n\\trm -fr \\\".git/rebase-merge\\\"\\nand run me again.  I am stopping in case you still have something\\nvaluable there.\\n\\n\",\n  \"ok\": false,\n  \"phase\": \"error\",\n  \"pid\": 226303,\n  \"schema\": \"eira2_orin_build_probe_v1\",\n  \"unix\": 1788995497.8786585\n}\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995499.6028788
+}
