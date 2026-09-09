@@ -4,13 +4,13 @@
   "ok": true,
   "op": "read",
   "result": {
-    "bytes": 508,
+    "bytes": 222,
     "path": "eira_probe/orin_build_probe_v1/heartbeat.json",
-    "sha256": "e52387ad332a89ed00847ff8a29c53c81fbdec12101397bfc8ea5e1126e1486d",
-    "text": "{\n  \"error\": \"RuntimeError:fatal: It seems that there is already a rebase-merge directory, and\\nI wonder if you are in the middle of another rebase.  If that is the\\ncase, please try\\n\\tgit rebase (--continue | --abort | --skip)\\nIf that is not the case, please\\n\\trm -fr \\\".git/rebase-merge\\\"\\nand run me again.  I am stopping in case you still have something\\nvaluable there.\\n\\n\",\n  \"ok\": false,\n  \"phase\": \"error\",\n  \"pid\": 226303,\n  \"schema\": \"eira2_orin_build_probe_v1\",\n  \"unix\": 1788995497.8786585\n}\n",
+    "sha256": "47f3c50e4f40aa86710bf4f176a2d7e895234b4ce7f26511c85efb568252ca78",
+    "text": "{\n  \"head\": \"7c8c0cdff1851b9917955e7adbf2d769423bbf0a\",\n  \"ok\": true,\n  \"phase\": \"synced\",\n  \"pid\": 1477297,\n  \"schema\": \"eira2_orin_baby_recovery_probe_v1\",\n  \"unix\": 1788995520.9117928,\n  \"version\": \"baby-recovery-v1\"\n}\n",
     "truncated": false
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v3",
-  "unix": 1788995499.6028788
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788995520.9187095
 }
