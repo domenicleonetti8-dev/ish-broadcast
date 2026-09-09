@@ -1,0 +1,17 @@
+{
+  "command_sha256": "eda8f3803eb7ca5bcb0a2a873a19b52844cf7db9722c1e07600714dc4acb19c6",
+  "id": "install_orbital_propagation_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "78314163adbdbb7a2efdfe9504e8207bd2e7296052b8d3f8bb14220e9e77d526",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": true,
+    "payload_sha256": "78314163adbdbb7a2efdfe9504e8207bd2e7296052b8d3f8bb14220e9e77d526",
+    "target_path": "eira2/evidence/orbital_propagation.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958059.6168957
+}
