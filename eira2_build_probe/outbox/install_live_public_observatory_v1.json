@@ -1,0 +1,17 @@
+{
+  "command_sha256": "8dd9ef47b3b6db683538fcc1d7918393fd53ed88082b381791dce6435fbae31a",
+  "id": "install_live_public_observatory_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "8b9f9e904f17540f5d7f370b07363b594d721f9549f99750198098015dcc5e11",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": true,
+    "payload_sha256": "8b9f9e904f17540f5d7f370b07363b594d721f9549f99750198098015dcc5e11",
+    "target_path": "eira2/evidence/live_public_observatory.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788954529.5672772
+}
