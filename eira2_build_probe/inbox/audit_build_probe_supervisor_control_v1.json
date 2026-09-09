@@ -1,0 +1,6 @@
+{
+  "id": "audit_build_probe_supervisor_control_v1",
+  "op": "read",
+  "path": "eira_probe/eira2_orin_build_probe_supervisor_v2.py",
+  "max_bytes": 120000
+}
