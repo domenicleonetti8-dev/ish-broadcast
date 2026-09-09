@@ -1,0 +1,6 @@
+{
+  "id": "read_orin_relay_heartbeat_v1",
+  "op": "read",
+  "path": ".orin_relay/heartbeat.json",
+  "max_bytes": 10000
+}
