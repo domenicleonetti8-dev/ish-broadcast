@@ -1,0 +1,16 @@
+{
+  "command_sha256": "b4010a8cc0253964a2fd448760e89e3a326b95008c1b90ec38746ddb2626e826",
+  "id": "deploy_legacy_v1_isolator_1919",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "5e41d3275b4a31f1cce5a4bffdb6a7518f0efa0f928754e44e59bc666332689c",
+    "backup": "eira_probe/orin_build_probe_v3/backups/deploy_legacy_v1_isolator_1919/eira_probe/isolation/EIRA2_ISOLATE_LEGACY_BUILD_PROBE_V1_ONCE.py",
+    "before_sha256": "5e41d3275b4a31f1cce5a4bffdb6a7518f0efa0f928754e44e59bc666332689c",
+    "compile_ok": true,
+    "target_path": "eira_probe/isolation/EIRA2_ISOLATE_LEGACY_BUILD_PROBE_V1_ONCE.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788996100.505491
+}
