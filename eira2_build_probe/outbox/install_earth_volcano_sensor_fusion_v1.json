@@ -1,17 +1,9 @@
 {
   "command_sha256": "8271951d53ce6758f64831c788ae4b8a273048f8a5a98cad1f7405c48cf87cf7",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_EARTH_VOLCANO_SENSOR_FUSION_V1.py' exists on disk, but not in 'de82a378ca60d1092c29ddca4f1b7644b45bd5c8'\n",
   "id": "install_earth_volcano_sensor_fusion_v1",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "92b5694b4dd9fcd024b94a28769cb45c5c916c3f814d31a005d5b19a0de272f6",
-    "backup": null,
-    "before_sha256": null,
-    "compile_ok": true,
-    "payload_sha256": "92b5694b4dd9fcd024b94a28769cb45c5c916c3f814d31a005d5b19a0de272f6",
-    "target_path": "eira2/evidence/earth_observatory_volcano_monitoring.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788958333.970502
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989967.8767204
 }
