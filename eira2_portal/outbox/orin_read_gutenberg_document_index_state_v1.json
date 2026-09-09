@@ -1,0 +1,13 @@
+{
+  "id": "orin_read_gutenberg_document_index_state_v1",
+  "ok": true,
+  "op": "read",
+  "path": "eira_probe/universe_library/gutenberg_document_index_state.json",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v4",
+  "sha256": "6be1a6be78cd17f6da32d8df41484b6c9bcab414416aa29da64ceb1e781b6490",
+  "size": 550,
+  "text": "{\n  \"completed_unix\": 1788920076.00786,\n  \"duplicates\": 671,\n  \"error_samples\": [],\n  \"errors\": 0,\n  \"files_total\": 77806,\n  \"indexed\": 77135,\n  \"ok\": true,\n  \"schema\": \"eira2_gutenberg_document_indexer_v1\",\n  \"source_is_not_fact\": true,\n  \"started_unix\": 1788918153.670783,\n  \"status\": \"INDEX_COMPLETE\",\n  \"vault_stats\": {\n    \"documents\": 77806,\n    \"receipts\": 2,\n    \"schema_version\": 1,\n    \"source_is_not_fact\": true,\n    \"vault\": \"/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/source_vault\",\n    \"works\": 567127\n  }\n}\n",
+  "truncated": false,
+  "unix": 1788950875.0269208
+}
