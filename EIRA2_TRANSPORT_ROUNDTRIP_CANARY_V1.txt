@@ -1,0 +1,3 @@
+EIRA2_BIDIRECTIONAL_ROUNDTRIP_CANARY_V1
+2026-09-09
+purpose=prove_chatgpt_github_ext4_superprobe_watcher_builder_easystore_return_path
