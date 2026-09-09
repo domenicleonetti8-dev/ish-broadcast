@@ -1,0 +1,9 @@
+{
+  "command_sha256": "9862d394d987d7e300a9dc881bf2ac5d4e13b230e004456df9b5bfb09dff8a64",
+  "error": "ValueError:unsafe_path",
+  "id": "redeploy_package_drift_audit_v1",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788990105.5059524
+}
