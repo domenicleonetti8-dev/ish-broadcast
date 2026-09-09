@@ -1,0 +1,104 @@
+{
+  "command_sha256": "3f2df5fda284dcab1bb7b0c5d1826ca3136ee044ab5434b213724cf510afb581",
+  "id": "audit_voice_asset_tree_current",
+  "ok": true,
+  "op": "list",
+  "result": {
+    "items": [
+      {
+        "name": "activation",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "checkpoints",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "eira2-live-runtime.json",
+        "size": 1188,
+        "type": "file"
+      },
+      {
+        "name": "eira2-private-model-assets.json",
+        "size": 1309,
+        "type": "file"
+      },
+      {
+        "name": "eira2-private-model-containment.json",
+        "size": 1769,
+        "type": "file"
+      },
+      {
+        "name": "eira2.lock",
+        "size": 7,
+        "type": "file"
+      },
+      {
+        "name": "eira2.sqlite3",
+        "size": 241664,
+        "type": "file"
+      },
+      {
+        "name": "eira2.sqlite3-shm",
+        "size": 32768,
+        "type": "file"
+      },
+      {
+        "name": "eira2.sqlite3-wal",
+        "size": 57712,
+        "type": "file"
+      },
+      {
+        "name": "inventions",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "inventions_usdz",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "live.log",
+        "size": 14264,
+        "type": "file"
+      },
+      {
+        "name": "model-home",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "models",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "run",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "selfmod",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "status.json",
+        "size": 222,
+        "type": "file"
+      },
+      {
+        "name": "voice",
+        "size": null,
+        "type": "dir"
+      }
+    ],
+    "path": "var"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962603.990635
+}
