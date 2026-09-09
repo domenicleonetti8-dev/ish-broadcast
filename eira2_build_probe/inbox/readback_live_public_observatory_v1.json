@@ -1,0 +1,5 @@
+{
+  "id": "readback_live_public_observatory_v1",
+  "op": "read",
+  "path": "eira2/evidence/live_public_observatory.py"
+}
