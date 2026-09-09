@@ -1,0 +1,19 @@
+{
+  "command_sha256": "56a704cb7f6878d2541615886072c4fc4d2edcaacd217c12e0917693af01c6cd",
+  "id": "audit_voice_dir_contents_current",
+  "ok": true,
+  "op": "list",
+  "result": {
+    "items": [
+      {
+        "name": "voices",
+        "size": null,
+        "type": "dir"
+      }
+    ],
+    "path": "var/voice"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962638.263335
+}
