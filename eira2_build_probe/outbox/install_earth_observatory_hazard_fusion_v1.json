@@ -1,17 +1,9 @@
 {
   "command_sha256": "60e4a6ffba95e1585743d6a834141e112eb9bae78f07544c765b626754efd5a9",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_EARTH_OBSERVATORY_HAZARD_FUSION_V1.py' exists on disk, but not in '739a5f1f4eb7b0766098e8641376d7c36f2ab018'\n",
   "id": "install_earth_observatory_hazard_fusion_v1",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "8e3fc6f667352d5e8c6c68d1e99a3d498915dbbb483ddc11f66733b3eb1fec4d",
-    "backup": null,
-    "before_sha256": null,
-    "compile_ok": true,
-    "payload_sha256": "8e3fc6f667352d5e8c6c68d1e99a3d498915dbbb483ddc11f66733b3eb1fec4d",
-    "target_path": "eira2/evidence/earth_observatory_hazard_fusion.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788955267.194039
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989952.9189525
 }
