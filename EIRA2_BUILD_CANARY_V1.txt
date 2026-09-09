@@ -1,0 +1,2 @@
+EIRA_BUILD_CANARY_V1
+continuous_probe_v2_write_path_ok
