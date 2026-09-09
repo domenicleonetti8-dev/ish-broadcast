@@ -1,9 +1,19 @@
 {
   "command_sha256": "d794f0c4a6ee073f9c62b25cc9ba370a462289639f58637050aadbfd04723d09",
-  "error": "FileNotFoundError:[Errno 2] No such file or directory: '/media/domenicleonetti/easystore/EIRA/LIVE/var/voice'",
   "id": "list_voice_runtime_tree",
-  "ok": false,
+  "ok": true,
+  "op": "list",
+  "result": {
+    "items": [
+      {
+        "name": "voices",
+        "size": null,
+        "type": "dir"
+      }
+    ],
+    "path": "var/voice"
+  },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788961625.8042524
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788990003.9359982
 }
