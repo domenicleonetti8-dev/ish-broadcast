@@ -1,0 +1,191 @@
+{
+  "id": "orin_locate_library_root_v1",
+  "items": [
+    {
+      "name": "__init__.py",
+      "size": 71,
+      "type": "file"
+    },
+    {
+      "name": "__main__.py",
+      "size": 2347,
+      "type": "file"
+    },
+    {
+      "name": "__pycache__",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "adapters",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "capabilities",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "commands",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "config",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "contracts.py",
+      "size": 1306,
+      "type": "file"
+    },
+    {
+      "name": "conversation",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "delivery",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "evidence",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "extensions",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "interfaces",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "invention",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "kernel",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "launcher.py",
+      "size": 4534,
+      "type": "file"
+    },
+    {
+      "name": "layout.py",
+      "size": 3905,
+      "type": "file"
+    },
+    {
+      "name": "learning",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "live.py",
+      "size": 15449,
+      "type": "file"
+    },
+    {
+      "name": "memory",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "migration",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "neural",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "operations",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "parity",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "preservation.py",
+      "size": 5758,
+      "type": "file"
+    },
+    {
+      "name": "preservation_behavior_parity.py",
+      "size": 7506,
+      "type": "file"
+    },
+    {
+      "name": "preservation_catalog.py",
+      "size": 7657,
+      "type": "file"
+    },
+    {
+      "name": "preservation_qualification.py",
+      "size": 8771,
+      "type": "file"
+    },
+    {
+      "name": "reasoning",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "registry",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "repair",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "runtime.py",
+      "size": 16465,
+      "type": "file"
+    },
+    {
+      "name": "security",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "state",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "transport_canary_v1.json",
+      "size": 203,
+      "type": "file"
+    },
+    {
+      "name": "transport_canary_v2.json",
+      "size": 203,
+      "type": "file"
+    }
+  ],
+  "ok": true,
+  "op": "list",
+  "path": "eira2",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v2",
+  "unix": 1788949542.6848407
+}
