@@ -1,0 +1,31 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "full_book_seed_library_v2_execute_now_20260909",
+  "operation": "deploy",
+  "purpose": "Execute Full Book Seed Library V2 now: deploy pinned artifact into LIVE, then immediately invoke complete full-book seed conversion in background and return execution evidence.",
+  "deployment": {
+    "source": {
+      "commit": "16f6635f2cac6b1ff76268cafc3aff1f5947cefa",
+      "path": "EIRA2_FULL_BOOK_SEED_LIBRARY_V2.py"
+    },
+    "target": {
+      "path": "eira2/evidence/full_book_seed_library_v2.py"
+    },
+    "post_deploy": {
+      "argv": ["python3", "-m", "eira2.evidence.full_book_seed_library_v2", "--root", "/media/domenicleonetti/easystore/EIRA/LIVE", "build-all-books"],
+      "background": true,
+      "status_file": "eira_probe/universe_library/full_book_seed_status.json",
+      "execution_receipt_required": true
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "deploy_before_post_deploy": true,
+    "post_deploy_execution_required": true,
+    "preserve_raw_sources": true,
+    "no_broad_process_kill": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
