@@ -1,0 +1,6 @@
+{
+  "id": "read_package_identity_live_v1",
+  "op": "read",
+  "path": "eira2/operations/package_identity.py",
+  "max_bytes": 20000
+}
