@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "universe_archive_chunk_seeder_v1_deploy_20260909",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "47b41b7fc201ef60413a05025866647bcb200c75",
+      "path": "EIRA2_UNIVERSE_ARCHIVE_CHUNK_SEEDER_V1.py"
+    },
+    "target": {
+      "path": "eira2/evidence/universe_archive_chunk_seeder_v1.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
