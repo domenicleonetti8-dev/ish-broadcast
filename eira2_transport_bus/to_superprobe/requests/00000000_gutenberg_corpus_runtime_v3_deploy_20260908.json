@@ -4,7 +4,7 @@
   "operation": "deploy",
   "deployment": {
     "source": {
-      "commit": "64be3532811ef7c2f8f4e7b18ecfcbdd00393827",
+      "commit": "b3b6348b17975061d154858bc6b8c76ed211b2e7",
       "path": "EIRA2_GUTENBERG_CORPUS_RUNTIME_V3.py"
     },
     "target": {
