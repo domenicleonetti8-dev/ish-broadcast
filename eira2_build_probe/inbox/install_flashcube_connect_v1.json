@@ -1,0 +1,1 @@
+{"schema":"eira2_orin_build_probe_v1","id":"install_flashcube_connect_v1","op":"deploy","source":{"commit":"445f6ca34bae26efe93f844295847adb4472a6f7","path":"EIRA2_FLASHCUBE_CONNECT_V1.py"},"target_path":"tools/eira2_flashcube_connect.py"}
