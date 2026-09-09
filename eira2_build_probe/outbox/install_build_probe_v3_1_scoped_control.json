@@ -1,0 +1,15 @@
+{
+  "command_sha256": "182812c337946f4886787c9f1b563ad670e524c24b11bdce3cd2a7f439b5f449",
+  "id": "install_build_probe_v3_1_scoped_control",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "da18964c086c48277345eea0d74750cd2c7fe6f7d0b1d3e490b74ee66e142a25",
+    "backup": "eira_probe/orin_baby_probe_v1/backups/install_build_probe_v3_1_scoped_control/tools/eira2_orin_build_probe.py",
+    "before_sha256": "7043022f27ca7187dca77f55d4f7cb05ed6f7d795eb01601ca8db24247304deb",
+    "target_path": "tools/eira2_orin_build_probe.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788994885.5034363
+}
