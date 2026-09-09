@@ -1,0 +1,9 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_roundtrip_canary_20260909",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["extensions/repair_watcher_ai", "tools"],
+    "signatures": ["plugin_legacy_v2_6_0.py", "eira2_builder_plan_v4", "eira2_orin_full_duplex_bridge"]
+  }
+}
