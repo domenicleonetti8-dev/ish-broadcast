@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from __future__ import annotations
-import fcntl,json,os,signal,subprocess,sys,time
+import fcntl,json,os,signal,subprocess,sys,time,hashlib
 from pathlib import Path
 
 ROOT=Path('/media/domenicleonetti/easystore/EIRA/LIVE').resolve()
@@ -35,16 +35,22 @@ def valid_candidate(rel,sha):
  try:
   p=(ROOT/rel).resolve()
   if ROOT not in p.parents or p.suffix!='.py' or not p.is_file():return None
-  raw=p.read_bytes(); import hashlib
+  raw=p.read_bytes()
   if hashlib.sha256(raw).hexdigest()!=sha:return None
   compile(raw.decode('utf-8'),str(p),'exec'); return p
  except Exception:return None
 
+def pick_descriptor(desc):
+ if isinstance(desc,dict):
+  p=valid_candidate(desc.get('path',''),desc.get('sha256',''))
+  if p:return p,desc
+ return None
+
 def selected():
- d=readj(ACTIVE)
- if isinstance(d,dict):
-  p=valid_candidate(d.get('path',''),d.get('sha256',''))
-  if p:return p,d
+ chosen=pick_descriptor(readj(ACTIVE))
+ if chosen:return chosen
+ chosen=pick_descriptor(readj(LAST_GOOD))
+ if chosen:return chosen
  return DEFAULT,{'path':str(DEFAULT.relative_to(ROOT)),'sha256':None,'source':'default'}
 
 def main():
@@ -52,7 +58,7 @@ def main():
  try:fcntl.flock(lf,fcntl.LOCK_EX|fcntl.LOCK_NB)
  except BlockingIOError: status(ok=True,phase='already_supervised'); return 0
  if not DEFAULT.is_file(): status(ok=False,phase='default_probe_missing'); return 2
- stopping=False; proc=None; launched=0.0; mode=None
+ stopping=False; proc=None; launched=0.0; mode=None; current_meta=None
  def sig(*_):
   nonlocal stopping; stopping=True
  signal.signal(signal.SIGTERM,sig);signal.signal(signal.SIGINT,sig)
@@ -62,21 +68,32 @@ def main():
    if isinstance(req,dict):
     cand=valid_candidate(req.get('candidate',''),req.get('sha256',''))
     if cand:
-     stop(proc); proc=None; atom(ACTIVE,{'path':str(cand.relative_to(ROOT)),'sha256':req['sha256'],'promoted_unix':time.time(),'request_id':req.get('id')}); REQUEST.unlink(missing_ok=True); mode='candidate'; status(ok=True,phase='candidate_staged',candidate=str(cand.relative_to(ROOT)))
+     previous=readj(ACTIVE)
+     if pick_descriptor(previous): atom(LAST_GOOD,previous)
+     stop(proc); proc=None
+     atom(ACTIVE,{'path':str(cand.relative_to(ROOT)),'sha256':req['sha256'],'promoted_unix':time.time(),'request_id':req.get('id')})
+     REQUEST.unlink(missing_ok=True); mode='candidate'; status(ok=True,phase='candidate_staged',candidate=str(cand.relative_to(ROOT)))
     else:
      REQUEST.rename(STATE/f'rejected_upgrade_{int(time.time())}.json'); status(ok=False,phase='candidate_rejected')
    if proc is None or proc.poll() is not None:
-    path,meta=selected(); proc=subprocess.Popen([sys.executable,str(path)],cwd=str(ROOT),stdout=log,stderr=log,start_new_session=True); launched=time.time(); mode='candidate' if path!=DEFAULT else 'default'; status(ok=True,phase='started',pid=proc.pid,probe=str(path.relative_to(ROOT)),mode=mode)
+    path,current_meta=selected(); proc=subprocess.Popen([sys.executable,str(path)],cwd=str(ROOT),stdout=log,stderr=log,start_new_session=True); launched=time.time(); mode='candidate' if path!=DEFAULT else 'default'; status(ok=True,phase='started',pid=proc.pid,probe=str(path.relative_to(ROOT)),mode=mode)
     time.sleep(CHECK); continue
    h=hb(); now=time.time(); age=(now-float(h[1].get('unix',0))) if h else None; healthy=bool(h and h[1].get('ok') and age<=STALE)
    if healthy:
-    if mode=='candidate': atom(LAST_GOOD,readj(ACTIVE) or {}); status(ok=True,phase='healthy_promoted',pid=proc.pid,heartbeat_age=age,mode=mode)
+    if mode=='candidate':
+     active=readj(ACTIVE)
+     if pick_descriptor(active): atom(LAST_GOOD,active)
+     status(ok=True,phase='healthy_promoted',pid=proc.pid,heartbeat_age=age,mode=mode)
     else: status(ok=True,phase='healthy',pid=proc.pid,heartbeat_age=age,mode=mode)
     time.sleep(CHECK); continue
    if now-launched<=STARTUP_GRACE:
     status(ok=True,phase='starting',pid=proc.pid,heartbeat_age=age,mode=mode); time.sleep(CHECK); continue
    oldmode=mode; stop(proc); proc=None
-   if oldmode=='candidate': ACTIVE.unlink(missing_ok=True); status(ok=False,phase='candidate_failed_rolled_back')
+   if oldmode=='candidate':
+    failed=readj(ACTIVE); last=readj(LAST_GOOD)
+    if failed and last and failed.get('sha256')==last.get('sha256'):
+     LAST_GOOD.unlink(missing_ok=True)
+    ACTIVE.unlink(missing_ok=True); status(ok=False,phase='candidate_failed_rolled_back')
    else: status(ok=False,phase='default_stale_restart')
    time.sleep(2)
  stop(proc); status(ok=True,phase='stopped'); return 0
