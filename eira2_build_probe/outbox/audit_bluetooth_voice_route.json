@@ -1,0 +1,24 @@
+{
+  "command_sha256": "5eb8268e877db7d135d270ab21a46b81b83f5f8975ce3455368338bad9927a09",
+  "id": "audit_bluetooth_voice_route",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 14967,
+        "path": "eira2/delivery/native_bluetooth_voice.py",
+        "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359"
+      },
+      {
+        "bytes": 19550,
+        "path": "eira2/delivery/voice.py",
+        "sha256": "ad24ae376049a72b4d0b0aca2e306cbdc274e685343c2ad0f46e7f142e023bf6"
+      }
+    ],
+    "term": "bluetooth"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959144.685513
+}
