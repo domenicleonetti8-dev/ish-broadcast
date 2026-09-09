@@ -1,0 +1,9 @@
+{
+  "id": "install_live_public_observatory_v1",
+  "op": "deploy",
+  "source": {
+    "commit": "5d595409517329da1ffc0d882a8a7ac5e84c9d10",
+    "path": "EIRA2_LIVE_PUBLIC_OBSERVATORY_V1.py"
+  },
+  "target_path": "eira2/evidence/live_public_observatory.py"
+}
