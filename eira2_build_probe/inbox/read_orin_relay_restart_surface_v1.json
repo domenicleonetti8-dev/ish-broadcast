@@ -1,0 +1,6 @@
+{
+  "id": "read_orin_relay_restart_surface_v1",
+  "op": "read",
+  "path": ".orin_relay.py",
+  "max_bytes": 120000
+}
