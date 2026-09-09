@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "gutenberg_corpus_runtime_v4_deploy_20260908",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "5547f6801f690f79e5d9260f6ac28f472e393219",
+      "path": "EIRA2_GUTENBERG_CORPUS_RUNTIME_V4.py"
+    },
+    "target": {
+      "path": "eira2/evidence/gutenberg_corpus_runtime_v4.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
