@@ -1,0 +1,9 @@
+{
+  "command_sha256": "0f2f5d026780494b86418fc023e03faa622d7935690411dcba0881aaea492d79",
+  "error": "ValueError:unsafe_path",
+  "id": "audit_universe_public_library_manifest_refs",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962810.2228484
+}
