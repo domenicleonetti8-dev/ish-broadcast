@@ -1,0 +1,17 @@
+{
+  "command_sha256": "26070aded15c3f2da10e2f2003f6bed5b325355fe838d2660ac5df35112a7476",
+  "id": "install_earth_observatory_v4_volcanoes",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "ab86a5443af7f9b0a1b7a99f4c4c426ab9ddcfcf74bc57f9023bcba844bc995a",
+    "backup": "eira_probe/orin_build_probe_v1/backups/install_earth_observatory_v4_volcanoes/eira2/evidence/earth_observatory_hazard_fusion.py",
+    "before_sha256": "2b8d86dfd6c00394628fddf6ec54030a02a0da084ad1f70f21dd68bfb5892baa",
+    "compile_ok": true,
+    "payload_sha256": "ab86a5443af7f9b0a1b7a99f4c4c426ab9ddcfcf74bc57f9023bcba844bc995a",
+    "target_path": "eira2/evidence/earth_observatory_hazard_fusion.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958360.5914109
+}
