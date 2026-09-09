@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "recover_build_probe_v3_resilient_20260909",
+  "source": {
+    "commit": "f64a274dfa8424f786b20566e7bb58bc21694762",
+    "path": "EIRA2_ORIN_BUILD_PROBE_V3_RESILIENT.py"
+  },
+  "target": {
+    "path": "tools/eira2_orin_build_probe.py"
+  }
+}
