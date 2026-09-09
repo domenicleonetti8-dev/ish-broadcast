@@ -1,0 +1,17 @@
+{
+  "command_sha256": "a9590e1ffc2576bd2bb841e5a255bd3fbc7d1d67eb5a68b2ee96b17aa762610e",
+  "id": "install_canonical_voice_asset_provision_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "77e83415e09a9c4911a684903eb6a857a778242c6d5c374742d82117322044e8",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": true,
+    "payload_sha256": "77e83415e09a9c4911a684903eb6a857a778242c6d5c374742d82117322044e8",
+    "target_path": "tools/eira2_provision_canonical_voice_asset.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788961701.3106036
+}
