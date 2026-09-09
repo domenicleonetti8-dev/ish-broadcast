@@ -1,17 +1,9 @@
 {
   "command_sha256": "7709e8c1eef0df5dfacb58713f8310059dc7a6876181ee8f9aff899319a69096",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_PACKAGE_DRIFT_AUDIT_V1.py' exists on disk, but not in '8d69d3237fe3a931db163de9a865998a5766fabf'\n",
   "id": "install_package_drift_audit_v1",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "3140159737b9e32e09b08f8b8c224ffc3a5fe359a3d1077c8c5076e0b2a990b8",
-    "backup": null,
-    "before_sha256": null,
-    "compile_ok": true,
-    "payload_sha256": "3140159737b9e32e09b08f8b8c224ffc3a5fe359a3d1077c8c5076e0b2a990b8",
-    "target_path": "eira_probe/package_drift_audit_v1.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788963121.4675446
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989982.867291
 }
