@@ -4,13 +4,13 @@
   "ok": true,
   "op": "read",
   "result": {
-    "bytes": 211,
+    "bytes": 155,
     "path": "eira_probe/orin_build_probe_v3/heartbeat.json",
-    "sha256": "6e28d6473db7a8ca2a53e308d1b3e781977a2c151798c54742b94228ac3644b9",
-    "text": "{\n  \"head\": \"b6a0ddf689d8f60685b562dda875c01e878f931c\",\n  \"ok\": true,\n  \"phase\": \"synced\",\n  \"pid\": 1467692,\n  \"schema\": \"eira2_orin_build_probe_v3\",\n  \"unix\": 1788995514.2097487,\n  \"version\": \"3.0-resilient\"\n}\n",
+    "sha256": "4e9de7daab28840774cebefdffab4af9934eb871a5b01b00d611efda58f10415",
+    "text": "{\n  \"ok\": true,\n  \"phase\": \"idle\",\n  \"pid\": 1467692,\n  \"schema\": \"eira2_orin_build_probe_v3\",\n  \"unix\": 1788995516.9462457,\n  \"version\": \"3.0-resilient\"\n}\n",
     "truncated": false
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v3",
-  "unix": 1788995514.2241342
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788995523.8121543
 }
