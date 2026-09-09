@@ -1,0 +1,9 @@
+{
+  "command_sha256": "a4031321ad0f56e07283b2411f4ea230ea9dfe5ad11cb8917eeab5178cd58640",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_UNIVERSE_LIBRARY_FEDERATION_V1.py' exists on disk, but not in 'f6ad60ff5af1dabed9637abc12ef04e0ce139952'\n",
+  "id": "0001_install_library_federation_wing_v1",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989862.1563406
+}
