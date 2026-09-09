@@ -1,0 +1,13 @@
+{
+  "command_sha256": "0addc5c75f1ac29c0abfcd8a9eee04f04ead3343ad34200334e83e83caf0c8c3",
+  "id": "audit_conversation_response_gate",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [],
+    "term": "response_gate"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958868.3030384
+}
