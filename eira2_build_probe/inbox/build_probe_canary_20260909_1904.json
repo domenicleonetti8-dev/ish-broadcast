@@ -1,0 +1,9 @@
+{
+  "id": "build_probe_canary_20260909_1904",
+  "op": "deploy",
+  "source": {
+    "commit": "dc0c888195744a935d22cbc27014cdbf726fb5f2",
+    "path": "EIRA2_BUILD_PROBE_CANARY_20260909_1904.txt"
+  },
+  "target_path": "eira_probe/build_probe_canary/EIRA2_BUILD_PROBE_CANARY_20260909_1904.txt"
+}
