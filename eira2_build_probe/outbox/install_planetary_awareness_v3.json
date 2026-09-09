@@ -1,17 +1,9 @@
 {
   "command_sha256": "98d52a69ecaf294f7499fe8170d6b80b7a2a8daa75c04d2b177cf56a3b6770d6",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_PLANETARY_AWARENESS_V3.py' exists on disk, but not in '27ab33ab2786d66a0b952b5bacc5adf1c0c09da4'\n",
   "id": "install_planetary_awareness_v3",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "251ff7eaf5a1329ba03269db4403e2b1156a2dc4332128d455885934bb8a2062",
-    "backup": "eira_probe/orin_build_probe_v1/backups/install_planetary_awareness_v3/eira2/evidence/planetary_awareness.py",
-    "before_sha256": "1d33304f2a2a7e3d1e3c41c5e43d2d17d6e96cca6d312dd4c13cb05543a1310f",
-    "compile_ok": true,
-    "payload_sha256": "251ff7eaf5a1329ba03269db4403e2b1156a2dc4332128d455885934bb8a2062",
-    "target_path": "eira2/evidence/planetary_awareness.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788958069.3001325
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989991.7463427
 }
