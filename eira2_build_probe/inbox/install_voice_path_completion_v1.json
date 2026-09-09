@@ -1,0 +1,1 @@
+{"schema":"eira2_orin_build_probe_v1","id":"install_voice_path_completion_v1","op":"deploy","source":{"commit":"ff47fbcd3363b7226dd737203405b40e5f8402ed","path":"EIRA2_VOICE_PATH_COMPLETION_V1.py"},"target_path":"tools/eira2_voice_path_completion.py"}
