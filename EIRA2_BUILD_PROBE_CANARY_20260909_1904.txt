@@ -1,0 +1,2 @@
+EIRA_BUILD_PROBE_CANARY_20260909_1904
+safe_write_verify_only
