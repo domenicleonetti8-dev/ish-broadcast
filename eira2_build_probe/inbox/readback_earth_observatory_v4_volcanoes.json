@@ -1,0 +1,7 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "readback_earth_observatory_v4_volcanoes",
+  "op": "read",
+  "path": "eira2/evidence/earth_observatory_hazard_fusion.py",
+  "max_bytes": 200000
+}
