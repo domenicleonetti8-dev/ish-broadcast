@@ -1,0 +1,6 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "read_voice_asset_takeover",
+  "op": "read",
+  "path": "eira2/operations/voice_asset_takeover.py"
+}
