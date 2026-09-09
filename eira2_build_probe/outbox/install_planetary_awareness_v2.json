@@ -1,0 +1,17 @@
+{
+  "command_sha256": "95b113236d57b0bb2e4725516945903940f26114815c2a6e43136f500c18d1cb",
+  "id": "install_planetary_awareness_v2",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "1d33304f2a2a7e3d1e3c41c5e43d2d17d6e96cca6d312dd4c13cb05543a1310f",
+    "backup": "eira_probe/orin_build_probe_v1/backups/install_planetary_awareness_v2/eira2/evidence/planetary_awareness.py",
+    "before_sha256": "13eda6fa4d996d57817008582fe30f86dfbad33efbfb90892a3774ed4394f72c",
+    "compile_ok": true,
+    "payload_sha256": "1d33304f2a2a7e3d1e3c41c5e43d2d17d6e96cca6d312dd4c13cb05543a1310f",
+    "target_path": "eira2/evidence/planetary_awareness.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788957786.0121207
+}
