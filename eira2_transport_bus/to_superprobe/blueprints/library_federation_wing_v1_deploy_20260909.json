@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "library_federation_wing_v1_deploy_20260909",
+  "source": {
+    "commit": "f6ad60ff5af1dabed9637abc12ef04e0ce139952",
+    "path": "EIRA2_UNIVERSE_LIBRARY_FEDERATION_V1.py"
+  },
+  "target": {
+    "path": "eira2/evidence/universe_library_federation.py"
+  }
+}
