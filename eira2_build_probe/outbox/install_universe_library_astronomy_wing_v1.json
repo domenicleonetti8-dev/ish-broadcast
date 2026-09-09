@@ -1,17 +1,9 @@
 {
   "command_sha256": "58b1e45f4a4b323d8f050ec6e881a26ba87ebf3dd5892f6bf7ac78c1d373cc16",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_UNIVERSE_LIBRARY_ASTRONOMY_WING_V1.py' exists on disk, but not in 'af0f6f7c86972248dac1702250215fb4256d1b66'\n",
   "id": "install_universe_library_astronomy_wing_v1",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "a913bc6b4e0f83a9ea3e8fe53aa482dc519986fa6f7feb0888c86c23d1818d45",
-    "backup": null,
-    "before_sha256": null,
-    "compile_ok": true,
-    "payload_sha256": "a913bc6b4e0f83a9ea3e8fe53aa482dc519986fa6f7feb0888c86c23d1818d45",
-    "target_path": "eira2/evidence/universe_library_astronomy_wing.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788953942.3786106
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989994.8101695
 }
