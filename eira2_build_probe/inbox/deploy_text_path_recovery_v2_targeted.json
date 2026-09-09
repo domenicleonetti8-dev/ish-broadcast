@@ -1,0 +1,10 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "deploy_text_path_recovery_v2_targeted",
+  "op": "deploy",
+  "source": {
+    "commit": "d8800e87c5c5826b3b75750cca4298e2e31239ed",
+    "path": "EIRA2_TEXT_PATH_RECOVERY_V2_TARGETED.py"
+  },
+  "target": "eira_probe/text_path_recovery_v2_targeted.py"
+}
