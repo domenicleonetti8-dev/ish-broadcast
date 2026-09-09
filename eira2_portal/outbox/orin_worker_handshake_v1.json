@@ -1,0 +1,136 @@
+{
+  "id": "orin_worker_handshake_v1",
+  "items": [
+    {
+      "name": ".orin_relay",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": ".orin_relay.log",
+      "size": 22,
+      "type": "file"
+    },
+    {
+      "name": ".orin_relay.py",
+      "size": 3514,
+      "type": "file"
+    },
+    {
+      "name": "AUDIT_SCOPE.md",
+      "size": 2085,
+      "type": "file"
+    },
+    {
+      "name": "CANONICAL_ORDER.md",
+      "size": 15118,
+      "type": "file"
+    },
+    {
+      "name": "FUNCTIONAL_PRESERVATION.md",
+      "size": 6077,
+      "type": "file"
+    },
+    {
+      "name": "REPLACEMENT_CONTRACT.md",
+      "size": 10795,
+      "type": "file"
+    },
+    {
+      "name": "eira2",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "eira2-package-manifest.json",
+      "size": 60414,
+      "type": "file"
+    },
+    {
+      "name": "eira2-package-manifest.json.retired_pre_finalize_20260907_062856",
+      "size": 57859,
+      "type": "file"
+    },
+    {
+      "name": "eira2-package-manifest.json.retired_pre_runtime_boundary_20260907_043440",
+      "size": 54385,
+      "type": "file"
+    },
+    {
+      "name": "eira2-package-manifest.json.retired_pre_watcher_v4_20260907_061641",
+      "size": 57859,
+      "type": "file"
+    },
+    {
+      "name": "eira2_server_revamp",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "eira2_transport_bus",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "eira_probe",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "extensions",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "fraternal_twin_contract.json",
+      "size": 2094,
+      "type": "file"
+    },
+    {
+      "name": "main.py",
+      "size": 199,
+      "type": "file"
+    },
+    {
+      "name": "manifests",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "preservation_contract.json",
+      "size": 15210,
+      "type": "file"
+    },
+    {
+      "name": "private_model_set.json",
+      "size": 829,
+      "type": "file"
+    },
+    {
+      "name": "pyproject.toml",
+      "size": 508,
+      "type": "file"
+    },
+    {
+      "name": "tests",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "tools",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "var",
+      "size": null,
+      "type": "dir"
+    }
+  ],
+  "ok": true,
+  "op": "list",
+  "path": ".",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v2",
+  "unix": 1788949239.6223266
+}
