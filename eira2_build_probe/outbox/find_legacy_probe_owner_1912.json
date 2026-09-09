@@ -1,0 +1,264 @@
+{
+  "command_sha256": "bd117aaaa772d9a55f4ba319d88ae989a9ec705baa23a04c4f19d10df6a0b213",
+  "id": "find_legacy_probe_owner_1912",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 2973,
+        "path": "eira_probe/eira2_orin_build_probe_supervisor.py",
+        "sha256": "e84463709d9da17ab90c3a2abcd59eff87cf3547a1c6e36726208676730de9d1"
+      },
+      {
+        "bytes": 4339,
+        "path": "eira_probe/eira2_orin_build_probe_supervisor_v2.py",
+        "sha256": "aec8ec777e8417f6e0aaedc9d3e89e3e2bcb69ac8ac7cc8806f85e40b960600c"
+      },
+      {
+        "bytes": 4723,
+        "path": "eira_probe/eira2_orin_build_probe_supervisor_v3.py",
+        "sha256": "a306cc568591cf23af127f1894f58275beb1e67467f2786c99c5ee017bb35b6f"
+      },
+      {
+        "bytes": 180,
+        "path": "eira_probe/orin_build_probe_v1/heartbeat.json",
+        "sha256": "492a30f264db99f34eef6125e832ede06ab3770a25886d043a35237a18c700ec"
+      },
+      {
+        "bytes": 6844,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/EIRA2_ORIN_BABY_RECOVERY_PROBE_V1.py",
+        "sha256": "6bbd6e5c948ac12d054f4f560c2aebfc73774226fd194094a78b3fc155e7bd1a"
+      },
+      {
+        "bytes": 2973,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/EIRA2_ORIN_BUILD_PROBE_SUPERVISOR_V1.py",
+        "sha256": "e84463709d9da17ab90c3a2abcd59eff87cf3547a1c6e36726208676730de9d1"
+      },
+      {
+        "bytes": 4339,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/EIRA2_ORIN_BUILD_PROBE_SUPERVISOR_V2.py",
+        "sha256": "aec8ec777e8417f6e0aaedc9d3e89e3e2bcb69ac8ac7cc8806f85e40b960600c"
+      },
+      {
+        "bytes": 4723,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/EIRA2_ORIN_BUILD_PROBE_SUPERVISOR_V3_ROLLBACK.py",
+        "sha256": "a306cc568591cf23af127f1894f58275beb1e67467f2786c99c5ee017bb35b6f"
+      },
+      {
+        "bytes": 9720,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/EIRA2_ORIN_BUILD_PROBE_V1.py",
+        "sha256": "72d94775dde7713e6e31ae51e7d9a406d0e5ef773d8f5f85f7100bab3d6036ae"
+      },
+      {
+        "bytes": 203,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_bluetooth_voice_route.json",
+        "sha256": "5eb8268e877db7d135d270ab21a46b81b83f5f8975ce3455368338bad9927a09"
+      },
+      {
+        "bytes": 225,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_archive_local_first.json",
+        "sha256": "b5dd8f90f3c34372c9e8330d52e3c1f67f05a553ec3bfd6541fbeaf9ffd082be"
+      },
+      {
+        "bytes": 242,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_gutenberg_usage.json",
+        "sha256": "4a78ee1881da6182b5dbbcbed469e9fd2bc3c6cbf594b5703be6fbb1c967f328"
+      },
+      {
+        "bytes": 174,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_library_usage.json",
+        "sha256": "3bef535403f4c2845d8d7255eff5a45bf42d282223e7a7c3572c083a16460e55"
+      },
+      {
+        "bytes": 223,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_outward_gate.json",
+        "sha256": "f6fc328f91934013739dff2848b6cc7c01604c59f524d55b50381650848d0697"
+      },
+      {
+        "bytes": 235,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_reasoning_provider.json",
+        "sha256": "7214907b18e42d6e8582e76a6f4d1004c8d5029ed80062cb7383007ac6a7ddee"
+      },
+      {
+        "bytes": 225,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_response_gate.json",
+        "sha256": "0addc5c75f1ac29c0abfcd8a9eee04f04ead3343ad34200334e83e83caf0c8c3"
+      },
+      {
+        "bytes": 231,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_conversation_unified_identity.json",
+        "sha256": "bfe60beb1b7b3865af2bf501c4543cc1597f2019f5f85a798462dc04a529ca01"
+      },
+      {
+        "bytes": 203,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_flashcube_voice_route.json",
+        "sha256": "d754f63cfe6b703c2fb21bf63ce4287fc9f9545b381212df33d710216e38cda0"
+      },
+      {
+        "bytes": 164,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_general_voice_delivery.json",
+        "sha256": "3fe26d826ddb80c38950324f06d4dac41d229bc198dae6353efb827205cbc35d"
+      },
+      {
+        "bytes": 145,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_hfc_female_voice_source.json",
+        "sha256": "86c9fd668c5c3688a94e7963b9156f2148df933906a730a87651d195cc530ae2"
+      },
+      {
+        "bytes": 163,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_runtime_deliverygate_registration.json",
+        "sha256": "926e92b8d3904091107d1e461f6bcdcefbe882954974510e5b82f9dd0a1b6df1"
+      },
+      {
+        "bytes": 180,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_universe_public_library_manifest_refs.json",
+        "sha256": "0f2f5d026780494b86418fc023e03faa622d7935690411dcba0881aaea492d79"
+      },
+      {
+        "bytes": 214,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_universe_public_library_manifest_refs_v2.json",
+        "sha256": "385fb0430fb32a94c760f1fbc3431930b1ae8f5cbebe97c126219abaa886678d"
+      },
+      {
+        "bytes": 210,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_voice_acquire_hook.json",
+        "sha256": "5cdacab78af83088b0c8d5baad3cbec8b08cc91d3f3bb9b5b3fe13def13f67e5"
+      },
+      {
+        "bytes": 114,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_voice_asset_tree_current.json",
+        "sha256": "3f2df5fda284dcab1bb7b0c5d1826ca3136ee044ab5434b213724cf510afb581"
+      },
+      {
+        "bytes": 122,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_voice_dir_contents_current.json",
+        "sha256": "56a704cb7f6878d2541615886072c4fc4d2edcaacd217c12e0917693af01c6cd"
+      },
+      {
+        "bytes": 122,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_voice_models_current.json",
+        "sha256": "4c5ad0b5cd52f6388e964fb98dd1b7b9de087e99e6094561afe12e459753e3db"
+      },
+      {
+        "bytes": 116,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_voice_models_onnx.json",
+        "sha256": "d5008e251502c2270f174f6c206d6f4f6db7c46497818fd8277f12a428503218"
+      },
+      {
+        "bytes": 149,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_voice_runtime_status_current.json",
+        "sha256": "8ac0b18ce3d6a759ad1dfa19d1f993e9dc45497599630b59b9a74792a908c074"
+      },
+      {
+        "bytes": 302,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/deploy_text_path_recovery_v2_targeted.json",
+        "sha256": "a150f85d74d3bdfe308d60426050d268a2ceb3670771210fe8eae08ea064c279"
+      },
+      {
+        "bytes": 265,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_air_space_watch_v1.json",
+        "sha256": "241950ddee06a49ddfb576b65acc41b0a3e7c085d2cea1e0f5bb6a55d8de3a87"
+      },
+      {
+        "bytes": 271,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_air_space_watch_v1_retry.json",
+        "sha256": "e2344032eb16ccc866e04bb4ee7318ef4caaeadb2917674006c4dbbcbd156400"
+      },
+      {
+        "bytes": 273,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_air_space_watch_v3.json",
+        "sha256": "ec551343d56df51416b927034612df059e270ee7fa0a95a65987c2b1141bb0d5"
+      },
+      {
+        "bytes": 282,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_canonical_voice_asset_provision_v1.json",
+        "sha256": "a9590e1ffc2576bd2bb841e5a255bd3fbc7d1d67eb5a68b2ee96b17aa762610e"
+      },
+      {
+        "bytes": 327,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_earth_observatory_v3_base_for_v4.json",
+        "sha256": "6425fe74fe2d133f5375d349dd2a390c4b5251ee0d56722bb2e833ea936d1fc4"
+      },
+      {
+        "bytes": 317,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_earth_observatory_v4_volcanoes.json",
+        "sha256": "26070aded15c3f2da10e2f2003f6bed5b325355fe838d2660ac5df35112a7476"
+      },
+      {
+        "bytes": 318,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_earth_volcano_sensor_fusion_v1.json",
+        "sha256": "8271951d53ce6758f64831c788ae4b8a273048f8a5a98cad1f7405c48cf87cf7"
+      },
+      {
+        "bytes": 318,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_earth_volcano_sensor_fusion_v2.json",
+        "sha256": "b08b42e3b574615ee24c426f2d4a67426d668ea3311ddf4f826cdea8512eadf0"
+      },
+      {
+        "bytes": 240,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_flashcube_connect_v1.json",
+        "sha256": "fe1c7f436ad41a6489bb64b082997413c37b0f2c8dc4527a49b8bc9157c476ff"
+      },
+      {
+        "bytes": 285,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_orbital_propagation_v1.json",
+        "sha256": "eda8f3803eb7ca5bcb0a2a873a19b52844cf7db9722c1e07600714dc4acb19c6"
+      },
+      {
+        "bytes": 248,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_package_drift_audit_v1.json",
+        "sha256": "7709e8c1eef0df5dfacb58713f8310059dc7a6876181ee8f9aff899319a69096"
+      },
+      {
+        "bytes": 285,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_planetary_awareness_v2.json",
+        "sha256": "95b113236d57b0bb2e4725516945903940f26114815c2a6e43136f500c18d1cb"
+      },
+      {
+        "bytes": 285,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_planetary_awareness_v3.json",
+        "sha256": "98d52a69ecaf294f7499fe8170d6b80b7a2a8daa75c04d2b177cf56a3b6770d6"
+      },
+      {
+        "bytes": 252,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_voice_path_completion_v1.json",
+        "sha256": "99aa01151f6f59f8a2f564617619d048c59052ec5930391925d73d5e92a99afd"
+      },
+      {
+        "bytes": 113,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/list_voice_runtime_tree.json",
+        "sha256": "d794f0c4a6ee073f9c62b25cc9ba370a462289639f58637050aadbfd04723d09"
+      },
+      {
+        "bytes": 98,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/orin_health_now_20260909.json",
+        "sha256": "bf621bfe19642d1140b3b72e53b7abf22c3bcf3df29480eded9ecbe344838626"
+      },
+      {
+        "bytes": 169,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/audit_package_manifest_candidates.json",
+        "sha256": "a319f368134b6d3e7077275cc9a238929fa95a618fafbc1aaa765aebc47f78b1"
+      },
+      {
+        "bytes": 271,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/install_air_space_watch_v1_final.json",
+        "sha256": "998afa80293337eed46208f86cda432163926b6f4e6b96375ee09020d77fb1cf"
+      },
+      {
+        "bytes": 169,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/readback_air_space_watch_v3.json",
+        "sha256": "691fac5961cf2dab253125b9e43927f43cdfc34a6a09863a3a6fed3bfe6a8fff"
+      },
+      {
+        "bytes": 145,
+        "path": "eira_probe/orin_continuous_probe_v2/repo/eira2_build_probe/inbox/read_current_package_manifest.json",
+        "sha256": "6fa1a420b21cb314c9fbfb003ddcffebdde04b199a367118b9e8e899476c4768"
+      }
+    ],
+    "term": "orin_build_probe_v1"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995772.5100236
+}
