@@ -1,1 +1,1 @@
-{"id":"orin_read_open_book_harvester_v1","op":"read","path":"eira2/evidence/open_book_oai_harvester.py","max_bytes":2000000}
+{"id":"orin_list_gutenberg_vault_v1","op":"list","path":"eira_probe/universe_library/source_vault/project_gutenberg","limit":5000}
