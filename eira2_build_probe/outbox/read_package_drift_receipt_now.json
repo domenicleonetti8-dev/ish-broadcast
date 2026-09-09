@@ -1,0 +1,9 @@
+{
+  "command_sha256": "2d6becd6976eda0477a044c83924753f76d83c8dec92d52a1d9d55d23038f9f1",
+  "error": "FileNotFoundError:[Errno 2] No such file or directory: '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/package_drift_audit_v1_receipt.json'",
+  "id": "read_package_drift_receipt_now",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788990037.853254
+}
