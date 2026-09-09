@@ -1,0 +1,10 @@
+{
+  "schema":"eira2_continuous_probe_command_v1",
+  "id":"upgrade_probe_v2_2_canonical_reseal",
+  "op":"deploy",
+  "source":{
+    "commit":"6830a053069358a5938581d3a221a812fbbec66d",
+    "path":"EIRA2_CONTINUOUS_PROBE_V2_2_CANONICAL_RESEAL.py"
+  },
+  "target_path":"eira_probe/eira_continuous_probe.py"
+}
