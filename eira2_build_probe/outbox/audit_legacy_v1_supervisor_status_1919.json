@@ -1,0 +1,16 @@
+{
+  "command_sha256": "480a1968648d3e37037b512d85054499718c70044c95ef41c91b4c57dda0e12e",
+  "id": "audit_legacy_v1_supervisor_status_1919",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 270,
+    "path": "eira_probe/orin_build_probe_supervisor_v2/status.json",
+    "sha256": "af42adf2a7ad3739dafa5fbd051075194a64403c27db5ce9f11081bb0d1e51cf",
+    "text": "{\n  \"heartbeat_age\": 3.579538106918335,\n  \"heartbeat_unix\": 1788995988.4169776,\n  \"ok\": true,\n  \"phase\": \"healthy\",\n  \"pid\": 1482149,\n  \"restarts\": 20,\n  \"schema\": \"eira2_orin_build_probe_supervisor_v2\",\n  \"startup_age\": 220.186017036438,\n  \"unix\": 1788995991.9967668\n}\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995994.2547011
+}
