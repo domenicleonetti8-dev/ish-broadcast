@@ -1,0 +1,10 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "verify_knowledge_seed_vault_v2_live_20260909",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["eira2/evidence"],
+    "suffixes": [".py"],
+    "signatures": ["eira2_knowledge_seed_vault_v2", "class KnowledgeSeedVault", "source_preservation_required", "chunk_fts_v2"]
+  }
+}
