@@ -3,16 +3,20 @@ from __future__ import annotations
 
 import hashlib
 import json
+import sys
 import tempfile
 import urllib.request
 from pathlib import Path
+
+ROOT = Path("/media/domenicleonetti/easystore/EIRA/LIVE").resolve()
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from eira2.operations.voice_asset_takeover import (
     provision_native_voice_asset,
     verify_native_voice_asset,
 )
 
-ROOT = Path("/media/domenicleonetti/easystore/EIRA/LIVE").resolve()
 BASE = "https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/hfc_female/medium"
 MODEL = "en_US-hfc_female-medium.onnx"
 CONFIG = MODEL + ".json"
