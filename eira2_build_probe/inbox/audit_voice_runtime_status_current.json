@@ -1,0 +1,1 @@
+{"schema":"eira2_orin_build_probe_v1","id":"audit_voice_runtime_status_current","op":"read","path":"var/eira2-live-runtime.json","max_bytes":200000}
