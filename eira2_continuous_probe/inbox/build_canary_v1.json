@@ -1,0 +1,9 @@
+{
+  "id": "build_canary_v1",
+  "op": "deploy",
+  "source": {
+    "commit": "db1ee3e078714035250468c78df93f804af6b5f8",
+    "path": "EIRA2_BUILD_CANARY_V1.txt"
+  },
+  "target_path": "eira_probe/build_canary/EIRA2_BUILD_CANARY_V1.txt"
+}
