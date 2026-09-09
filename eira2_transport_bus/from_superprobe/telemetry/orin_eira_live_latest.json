@@ -1660,7 +1660,7 @@
       "sha256": null
     }
   },
-  "generated_unix": 1788943421.0450346,
+  "generated_unix": 1788943483.2775376,
   "kind": "live_telemetry",
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
   "runtime": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_full_duplex_bridge_v1",
