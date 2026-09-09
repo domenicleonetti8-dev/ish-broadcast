@@ -1,0 +1,7 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "read_conversation_analysis_final_audit",
+  "op": "read",
+  "path": "eira2/conversation/analysis.py",
+  "max_bytes": 100000
+}
