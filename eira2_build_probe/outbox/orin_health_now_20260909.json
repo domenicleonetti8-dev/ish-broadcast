@@ -4,12 +4,13 @@
   "ok": true,
   "op": "health",
   "result": {
-    "pid": 1258460,
+    "pid": 1467692,
+    "repo": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3/repo",
     "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_baby_probe_v1",
-    "version": "baby-recovery-v1"
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3",
+    "version": "3.0-resilient"
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_baby_recovery_probe_v1",
-  "unix": 1788990007.0088212
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995337.543479
 }
