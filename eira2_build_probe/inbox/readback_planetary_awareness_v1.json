@@ -1,0 +1,6 @@
+{
+  "id": "readback_planetary_awareness_v1",
+  "op": "read",
+  "path": "eira2/evidence/planetary_awareness.py",
+  "max_bytes": 200000
+}
