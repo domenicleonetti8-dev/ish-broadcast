@@ -1,9 +1,9 @@
 {
   "command_sha256": "4e2e803c2a239260d98251a28c959c86c2fbdc2dda74414902689df5453a60ee",
-  "error": "ValueError:unsupported_op",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_ORIN_BUILD_PROBE_V3_1_SCOPED_CONTROL.py' exists on disk, but not in 'a0b731ccb0f486b56eeb7956b81fd355128d6315'\n",
   "id": "handoff_build_probe_v3_1_scoped_control",
   "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_baby_recovery_probe_v1",
-  "unix": 1788994921.9758759
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995235.8316636
 }
