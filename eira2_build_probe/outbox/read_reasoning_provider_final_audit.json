@@ -1,0 +1,16 @@
+{
+  "command_sha256": "63137eef41d619875a040bc7bb112b7b11553c163328737d4e0f849ae9a341f3",
+  "id": "read_reasoning_provider_final_audit",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 2062,
+    "path": "eira2/reasoning/provider.py",
+    "sha256": "25a705d261b586508014037654b021a422ff0e9d83038e9bd490c2238186d8aa",
+    "text": "from __future__ import annotations\n\nfrom collections.abc import AsyncIterator, Awaitable, Callable\n\nfrom ..contracts import Health, RuntimeContext, ServiceSpec, ServiceState\n\n\nGenerate = Callable[[str], Awaitable[str]]\nStreamGenerate = Callable[[str], AsyncIterator[str]]\n\n\nclass ReasoningProvider:\n    \"\"\"Candidate generation only; never an outward-response authority.\"\"\"\n\n    spec = ServiceSpec(\"reasoning.provider\", required=True, dependencies=(\"evidence.gate\",))\n\n    def __init__(self, generate: Generate, *, stream_generate: StreamGenerate | None = None) -> None:\n        self._generate = generate\n        if stream_generate is None:\n            owner = getattr(generate, \"__self__\", None)\n            discovered = getattr(owner, \"stream\", None) if owner is not None else None\n            stream_generate = discovered if callable(discovered) else None\n        self._stream_generate = stream_generate\n        self._state = ServiceState.DECLARED\n\n    async def start(self, context: RuntimeContext) -> None:\n        self._state = ServiceState.READY\n\n    async def stop(self) -> None:\n        self._state = ServiceState.STOPPED\n\n    async def health(self) -> Health:\n        mode = \"candidate_only_stream_capable\" if self._stream_generate is not None else \"candidate_only\"\n        return Health(self._state, mode)\n\n    @property\n    def streaming_available(self) -> bool:\n        return self._stream_generate is not None\n\n    async def candidate(self, text: str) -> str:\n        if self._state != ServiceState.READY:\n            raise RuntimeError(\"reasoning_provider_not_ready\")\n        return await self._generate(text)\n\n    async def stream_candidate(self, text: str) -> AsyncIterator[str]:\n        if self._state != ServiceState.READY:\n            raise RuntimeError(\"reasoning_provider_not_ready\")\n        if self._stream_generate is None:\n            raise RuntimeError(\"reasoning_stream_unavailable\")\n        async for chunk in self._stream_generate(text):\n            rendered = str(chunk or \"\")\n            if rendered:\n                yield rendered\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958990.4211514
+}
