@@ -1,0 +1,10 @@
+{
+  "schema": "eira2_continuous_probe_v2",
+  "id": "upgrade_probe_v2_1_surgical_reseal",
+  "op": "deploy",
+  "source": {
+    "commit": "c6f14af7ed346c3d77279af4f523169e2bc9877e",
+    "path": "EIRA2_CONTINUOUS_PROBE_V2_1_SURGICAL_RESEAL.py"
+  },
+  "target_path": "eira_probe/eira_continuous_probe.py"
+}
