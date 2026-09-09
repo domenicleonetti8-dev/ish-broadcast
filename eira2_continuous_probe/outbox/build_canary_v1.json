@@ -1,0 +1,16 @@
+{
+  "command_sha256": "4a1b50dbdd20fa34894cba7e7fbe125384fd2443577c4159a04ae6b21bb3c1c6",
+  "id": "build_canary_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "c4bc367bb69c9a7977d29b139dfc5024b7c4738a4b3531ffe7957b8dd21c0d4b",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": null,
+    "payload_sha256": "c4bc367bb69c9a7977d29b139dfc5024b7c4738a4b3531ffe7957b8dd21c0d4b",
+    "target_path": "eira_probe/build_canary/EIRA2_BUILD_CANARY_V1.txt"
+  },
+  "schema": "eira2_continuous_probe_v2",
+  "unix": 1788991103.8339863
+}
