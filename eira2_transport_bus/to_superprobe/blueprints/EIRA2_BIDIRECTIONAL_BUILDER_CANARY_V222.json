@@ -1,0 +1,19 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "eira2_bidirectional_builder_canary_v222",
+  "purpose": "Isolated end-to-end transport canary proving GitHub to ext4 control plane to Watcher/Builder to Easystore and returned deployment receipt.",
+  "source": {
+    "commit": "78f2e9de7c1ff4c0b952725d4468556a4db0769a",
+    "path": "eira2_transport_bus/to_superprobe/artifacts/EIRA2_BIDIRECTIONAL_BUILDER_CANARY_V222.py",
+    "sha256": "eb024cd78bba60c46e30c6e5990499e204b0c23c01cc7dc0789c94023270a408"
+  },
+  "target": {
+    "path": "eira_probe/transport_canary/EIRA2_BIDIRECTIONAL_BUILDER_CANARY_V222.py",
+    "expected_before_sha256": ""
+  },
+  "safety": {
+    "isolated_target": true,
+    "touch_core": false,
+    "destructive": false
+  }
+}
