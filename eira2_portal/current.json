@@ -1,0 +1,5 @@
+{
+  "id": "portal_bootstrap_manifest_v1",
+  "op": "manifest",
+  "limit": 10000
+}
