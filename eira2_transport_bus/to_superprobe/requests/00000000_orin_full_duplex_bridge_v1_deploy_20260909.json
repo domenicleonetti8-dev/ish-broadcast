@@ -1,0 +1,25 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_full_duplex_bridge_v1_deploy_20260909",
+  "operation": "deploy",
+  "purpose": "Install the full-duplex Orin-GitHub-Pi-EIRA bridge supervisor into EIRA LIVE using the existing Watcher/Builder deployment lane.",
+  "deployment": {
+    "source": {
+      "commit": "85257a429537d6f15825d85593b696b65fdfa7fb",
+      "path": "EIRA2_ORIN_FULL_DUPLEX_BRIDGE_V1.py"
+    },
+    "target": {
+      "path": "tools/eira2_orin_full_duplex_bridge.py"
+    }
+  },
+  "requirements": [
+    "WATCHER AUTHORIZATION REQUIRED",
+    "BUILDER DEPLOYMENT REQUIRED",
+    "OFF-LIVE STAGING REQUIRED",
+    "EXACT TARGET SHA256 VERIFICATION REQUIRED",
+    "ROLLBACK ON FAILURE",
+    "BOUNDED SUPERPROBE VERIFICATION",
+    "NO DIRECT LIVE WRITE",
+    "NO MASTER RUNTIME REPLACEMENT"
+  ]
+}
