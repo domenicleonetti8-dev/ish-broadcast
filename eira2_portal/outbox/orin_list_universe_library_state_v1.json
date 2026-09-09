@@ -1,0 +1,161 @@
+{
+  "id": "orin_list_universe_library_state_v1",
+  "items": [
+    {
+      "name": "__pycache__",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "bhl_extract.log",
+      "size": 22,
+      "type": "file"
+    },
+    {
+      "name": "bhl_fulltext_download.log",
+      "size": 254879,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_corpus_runtime_v3_state.json",
+      "size": 226,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_corpus_runtime_v4_state.json",
+      "size": 230,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_corpus_v3.log",
+      "size": 1053,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_corpus_v4.log",
+      "size": 16753,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_document_index_state.json",
+      "size": 550,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_index.log",
+      "size": 1117,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_index_process.json",
+      "size": 503,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_refresh_state.json",
+      "size": 1257,
+      "type": "file"
+    },
+    {
+      "name": "gutenberg_refresh_state.json.bak_20260908_204539",
+      "size": 1330,
+      "type": "file"
+    },
+    {
+      "name": "index_after_extract.py",
+      "size": 1174,
+      "type": "file"
+    },
+    {
+      "name": "mass_expansion_state.json",
+      "size": 339,
+      "type": "file"
+    },
+    {
+      "name": "mass_expansion_state.json.bak_20260908_201841",
+      "size": 340,
+      "type": "file"
+    },
+    {
+      "name": "mass_stock.pid",
+      "size": 7,
+      "type": "file"
+    },
+    {
+      "name": "mass_stock_gutenberg.log",
+      "size": 22,
+      "type": "file"
+    },
+    {
+      "name": "mass_stock_process.json",
+      "size": 553,
+      "type": "file"
+    },
+    {
+      "name": "mass_stock_runner.py",
+      "size": 1435,
+      "type": "file"
+    },
+    {
+      "name": "mass_stock_runner.py.pre_guard",
+      "size": 1221,
+      "type": "file"
+    },
+    {
+      "name": "open_book_oai_harvest.log",
+      "size": 0,
+      "type": "file"
+    },
+    {
+      "name": "open_book_oai_harvest_runner.py",
+      "size": 1136,
+      "type": "file"
+    },
+    {
+      "name": "open_book_oai_process.json",
+      "size": 457,
+      "type": "file"
+    },
+    {
+      "name": "open_book_oai_state.json",
+      "size": 281886,
+      "type": "file"
+    },
+    {
+      "name": "open_book_oai_state.json.tmp.134788",
+      "size": 316,
+      "type": "file"
+    },
+    {
+      "name": "source_vault",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "tiny_library_heartbeat.json",
+      "size": 260,
+      "type": "file"
+    },
+    {
+      "name": "tiny_library_heartbeat.log",
+      "size": 738375,
+      "type": "file"
+    },
+    {
+      "name": "tiny_library_heartbeat_process.json",
+      "size": 278,
+      "type": "file"
+    },
+    {
+      "name": "tiny_library_heartbeat_runner.py",
+      "size": 2115,
+      "type": "file"
+    }
+  ],
+  "ok": true,
+  "op": "list",
+  "path": "eira_probe/universe_library",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v4",
+  "unix": 1788950437.971111
+}
