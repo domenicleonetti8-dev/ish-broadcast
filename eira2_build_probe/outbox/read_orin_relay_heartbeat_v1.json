@@ -1,0 +1,16 @@
+{
+  "command_sha256": "7b5a2cde0a3c42dc7eddfc750706637aa0b91f2b3d5e19ea2f8cfb2850aadeab",
+  "id": "read_orin_relay_heartbeat_v1",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 125,
+    "path": ".orin_relay/heartbeat.json",
+    "sha256": "8cb10e2e76f7796c8fbf61601a6a13da209ee949fd412a8b0a3735ab11bf58e3",
+    "text": "{\n  \"error\": \"HTTPError:HTTP Error 403: rate limit exceeded\",\n  \"ok\": false,\n  \"pid\": 130712,\n  \"unix\": 1788994365.3760452\n}\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788994371.3713698
+}
