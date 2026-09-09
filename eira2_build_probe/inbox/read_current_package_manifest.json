@@ -1,0 +1,1 @@
+{"schema":"eira2_orin_build_probe_v1","id":"read_current_package_manifest","op":"read","path":"eira2-package-manifest.json","max_bytes":2000000}
