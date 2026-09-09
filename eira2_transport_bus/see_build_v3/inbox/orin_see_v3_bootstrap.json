@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_see_build_command_v3",
+  "request_id": "orin_see_v3_bootstrap",
+  "operation": "see",
+  "see": {
+    "paths": [
+      "extensions/repair_watcher_ai/plugin.py",
+      "tools/eira2_builder_probe.py",
+      "tools/eira2_see_build.py"
+    ],
+    "max_bytes": 120000
+  }
+}
