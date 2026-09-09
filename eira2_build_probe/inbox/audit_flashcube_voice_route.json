@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_flashcube_voice_route",
+  "op": "search",
+  "term": "FlashCube",
+  "roots": ["eira2", "extensions", "voice", "audio", "tools"],
+  "limit": 100
+}
