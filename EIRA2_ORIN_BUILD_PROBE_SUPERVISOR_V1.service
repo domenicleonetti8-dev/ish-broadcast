@@ -6,7 +6,7 @@ Wants=network-online.target
 [Service]
 Type=simple
 WorkingDirectory=/media/domenicleonetti/easystore/EIRA/LIVE
-ExecStart=/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_orin_build_probe_supervisor.py
+ExecStart=/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_orin_build_probe_supervisor.py
 Restart=always
 RestartSec=2
 StartLimitIntervalSec=0
