@@ -1,0 +1,13 @@
+{
+  "command_sha256": "926e92b8d3904091107d1e461f6bcdcefbe882954974510e5b82f9dd0a1b6df1",
+  "id": "audit_runtime_deliverygate_registration",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [],
+    "term": "DeliveryGate("
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788961585.3112216
+}
