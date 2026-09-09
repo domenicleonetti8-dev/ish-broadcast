@@ -1,0 +1,26 @@
+{
+  "id": "orin_list_library_vault_v1",
+  "items": [
+    {
+      "name": "bhl",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "project_gutenberg",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "source_index.sqlite3",
+      "size": 845656064,
+      "type": "file"
+    }
+  ],
+  "ok": true,
+  "op": "list",
+  "path": "eira_probe/universe_library/source_vault",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v4",
+  "unix": 1788950360.5446868
+}
