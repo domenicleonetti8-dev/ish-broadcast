@@ -1,0 +1,16 @@
+{
+  "command_sha256": "f19a860dd43e93d22d1eaab1a6338e8e8a1b2570b4a8bb9e11e0747fa53d266b",
+  "id": "upgrade_probe_v2_1_surgical_reseal",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "1ae2036c55078d91f1ef15f244166a1b1effa9a32d65551e34d9bc25444afcba",
+    "backup": "eira_probe/orin_continuous_probe_v2/backups/upgrade_probe_v2_1_surgical_reseal/eira_probe/eira_continuous_probe.py",
+    "before_sha256": "8531cac25e0d511f2ea714d872056eb76826f5d7603369988fda544dfef46c5b",
+    "compile_ok": true,
+    "payload_sha256": "1ae2036c55078d91f1ef15f244166a1b1effa9a32d65551e34d9bc25444afcba",
+    "target_path": "eira_probe/eira_continuous_probe.py"
+  },
+  "schema": "eira2_continuous_probe_v2",
+  "unix": 1788992418.9018857
+}
