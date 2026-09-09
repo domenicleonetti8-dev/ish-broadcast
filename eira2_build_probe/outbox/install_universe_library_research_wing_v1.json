@@ -1,17 +1,9 @@
 {
   "command_sha256": "afff800e36e4af99b8aa0647ef77d4628ad749fee5563e04862a4d1d6317fa17",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_UNIVERSE_LIBRARY_RESEARCH_WING_V1.py' exists on disk, but not in '2d1ac10ca2d85780e886fab74fff0c575de8a0f5'\n",
   "id": "install_universe_library_research_wing_v1",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "3e77a55a48f27589166e7a3cf378598cf7842e9bae1619dec79ccbd401cab4d4",
-    "backup": null,
-    "before_sha256": null,
-    "compile_ok": true,
-    "payload_sha256": "3e77a55a48f27589166e7a3cf378598cf7842e9bae1619dec79ccbd401cab4d4",
-    "target_path": "eira2/evidence/universe_library_research_wing.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788953589.3828526
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989997.856139
 }
