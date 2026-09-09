@@ -1,0 +1,9 @@
+{
+  "id": "install_earth_observatory_hazard_fusion_v3",
+  "op": "deploy",
+  "source": {
+    "commit": "71ca481a6914eeb3c79bf8ddd018ef341c3b4670",
+    "path": "EIRA2_EARTH_OBSERVATORY_HAZARD_FUSION_V3.py"
+  },
+  "target_path": "eira2/evidence/earth_observatory_hazard_fusion.py"
+}
