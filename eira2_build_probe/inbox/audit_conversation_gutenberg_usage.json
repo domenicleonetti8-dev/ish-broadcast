@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_conversation_gutenberg_usage",
+  "op": "search",
+  "term": "gutenberg",
+  "roots": ["eira2/conversation", "eira2/runtime.py", "eira2/capabilities", "eira2/evidence"],
+  "limit": 200
+}
