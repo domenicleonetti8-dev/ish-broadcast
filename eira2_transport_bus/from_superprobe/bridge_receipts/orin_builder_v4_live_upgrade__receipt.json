@@ -1,0 +1,86 @@
+{
+  "completed_unix": 1788944000.7567565,
+  "control_ref": "master",
+  "kind": "exact_request_receipt",
+  "request_id": "orin_builder_v4_live_upgrade",
+  "result": {
+    "deployment": {
+      "after_sha256": "a7d98e421f75def4b1cf80cfa797d4a60a4011ec86949795a81949e87f896747",
+      "before_sha256": "8d9d819aa4fb6c13679b36cd26dadbc747c8988b1be232c7c4be36f98fdce050",
+      "builder_invoked": true,
+      "completion_sha256": "a7d98e421f75def4b1cf80cfa797d4a60a4011ec86949795a81949e87f896747",
+      "generated_unix": 1788944000.7567117,
+      "lane_receipt": {
+        "builder_direct": true,
+        "builder_plan_schema_accepted": "eira2_builder_plan_v3",
+        "builder_receipt": {
+          "applied": [
+            "tools/eira2_builder_probe.py"
+          ],
+          "authorized_by": "repair_watcher_ai",
+          "completed_unix": 1788943880.498869,
+          "ok": true,
+          "rollback_performed": false,
+          "schema": "eira2_builder_receipt_v3",
+          "transaction_id": "1788943880-106695"
+        },
+        "exact_target_verification": {
+          "files": [
+            {
+              "actual_sha256": "a7d98e421f75def4b1cf80cfa797d4a60a4011ec86949795a81949e87f896747",
+              "expected_sha256": "a7d98e421f75def4b1cf80cfa797d4a60a4011ec86949795a81949e87f896747",
+              "ok": true,
+              "target_path": "tools/eira2_builder_probe.py"
+            }
+          ],
+          "ok": true
+        },
+        "generated_unix": 1788944000.614828,
+        "off_live_builder_stage": "/tmp/eira2_builder_stage/orin_builder_v4_live_upgrade",
+        "package_fingerprint_sha256": "24965654fd144022ed05e5cc1b254c090b68a25dbbef97e785b906116460f696",
+        "packet_id": "orin_builder_v4_live_upgrade",
+        "schema": "eira2_blueprint_lane_v4_receipt",
+        "status": "accepted",
+        "superprobe_bounded": {
+          "completed": false,
+          "degraded": true,
+          "ok": false,
+          "reason": "superprobe_timeout_exact_target_verification_preserved",
+          "timeout_seconds": 120
+        },
+        "superprobe_required_for_write": false,
+        "watcher_authorized": true,
+        "watcher_plan_schema_original": "eira2_builder_plan_v4",
+        "watcher_plugin": "/media/domenicleonetti/easystore/EIRA/LIVE/extensions/repair_watcher_ai/plugin.py"
+      },
+      "legacy_contract": true,
+      "payload_sha256": "a7d98e421f75def4b1cf80cfa797d4a60a4011ec86949795a81949e87f896747",
+      "request_id": "orin_builder_v4_live_upgrade",
+      "schema": "eira2_transport_deployment_evidence_v3",
+      "watcher_authorization": {
+        "authorized": true,
+        "authorized_by": "repair_watcher_ai",
+        "deployment_mode": "pinned_source",
+        "operation": "deploy",
+        "policy": "broad_eira_live_write_with_root_containment_staging_backup_rollback",
+        "target_path": "tools/eira2_builder_probe.py",
+        "watcher_version": "7.0.1"
+      }
+    },
+    "ok": true,
+    "operation": "deploy",
+    "status": "DEPLOYED_SUCCESSFULLY"
+  },
+  "schema": "eira2_orin_full_duplex_bridge_v1",
+  "source_file": "orin_builder_v4_live_upgrade.json",
+  "source_sha256": "bbc0a9550f5e4e143f368c395db6a3af8b88d45d5442e30dd5503e1e59a86171",
+  "watcher_authorization": {
+    "authorized": true,
+    "authorized_by": "repair_watcher_ai",
+    "deployment_mode": "pinned_source",
+    "operation": "deploy",
+    "policy": "broad_eira_live_write_with_root_containment_staging_backup_rollback",
+    "target_path": "tools/eira2_builder_probe.py",
+    "watcher_version": "7.0.1"
+  }
+}
