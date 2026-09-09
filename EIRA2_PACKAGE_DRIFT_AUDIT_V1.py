@@ -3,10 +3,12 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 from pathlib import Path
 
 ROOT = Path('/media/domenicleonetti/easystore/EIRA/LIVE').resolve()
 MANIFEST = ROOT / 'eira2-package-manifest.json'
+RECEIPT = ROOT / 'eira_probe' / 'package_drift_audit_v1_receipt.json'
 EXCLUDED_PARTS = {'.git','var','__pycache__','.pytest_cache','.mypy_cache','build','dist','eira_probe'}
 EXCLUDED_SUFFIXES = {'.pyc','.pyo'}
 
@@ -27,6 +29,13 @@ def sha(path: Path) -> str:
         for block in iter(lambda: f.read(1024*1024), b''):
             h.update(block)
     return h.hexdigest()
+
+
+def atomic_json(path: Path, payload: dict) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_name(path.name + '.new')
+    tmp.write_text(json.dumps(payload, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+    os.replace(tmp, path)
 
 
 def main() -> int:
@@ -53,7 +62,9 @@ def main() -> int:
             unsealed.append({'path':rel,**now})
 
     out={'ok':not changed and not missing and not unsealed,'sealed_count':len(sealed),'current_count':len(current),'changed':changed,'missing':missing,'unsealed':unsealed}
+    atomic_json(RECEIPT, out)
     print(json.dumps(out, indent=2, sort_keys=True))
+    print('RECEIPT=' + str(RECEIPT))
     return 0
 
 if __name__ == '__main__':
