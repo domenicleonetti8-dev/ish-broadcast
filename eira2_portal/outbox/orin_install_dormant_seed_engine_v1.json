@@ -1,0 +1,18 @@
+{
+  "after_sha256": "a4b63bce42d0dfdde547f51e1db6a2c51d30b141763cccb5e74d8f4b098f89fe",
+  "backup": null,
+  "before_sha256": null,
+  "bytes": 6374,
+  "compile": {
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "id": "orin_install_dormant_seed_engine_v1",
+  "ok": true,
+  "op": "write",
+  "path": "tools/eira2_dormant_library_seeds.py",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v4",
+  "unix": 1788950656.2496436
+}
