@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_bidirectional_job_v1",
+  "job_id": "v22_roundtrip_canary_20260909",
+  "purpose": "Fresh post-cursor inbound canary for EIRA2 bidirectional transport V2.2.",
+  "created_utc": "2026-09-09T06:20:00Z",
+  "expect": {
+    "mirror_to_ext4_control_plane": true,
+    "historical_replay": false,
+    "return_receipt_required": true
+  }
+}
