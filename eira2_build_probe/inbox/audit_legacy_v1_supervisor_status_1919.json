@@ -1,0 +1,5 @@
+{
+  "id": "audit_legacy_v1_supervisor_status_1919",
+  "op": "read",
+  "path": "eira_probe/orin_build_probe_supervisor_v2/status.json"
+}
