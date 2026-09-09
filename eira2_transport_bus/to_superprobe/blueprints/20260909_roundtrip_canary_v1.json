@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "roundtrip_canary_20260909_v1",
+  "source": {
+    "commit": "db04d8d02430ec88c08567ae2019d31c7723706e",
+    "path": "EIRA2_TRANSPORT_ROUNDTRIP_CANARY_V1.txt"
+  },
+  "target": {
+    "path": "eira_probe/transport_canary/roundtrip_canary_v1.txt"
+  }
+}
