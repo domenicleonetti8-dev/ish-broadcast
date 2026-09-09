@@ -1,0 +1,16 @@
+{
+  "command_sha256": "789d20ed85626def132c4977f95ecc14fc97d9840c825f0a37ab6f59f0f549a3",
+  "id": "upgrade_probe_v2_2_canonical_reseal",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "04b04bd4c7e8817b35e70a80c09bb0909d4024de6a34a31fec26280cb1173d47",
+    "backup": "eira_probe/orin_continuous_probe_v2/backups/upgrade_probe_v2_2_canonical_reseal/eira_probe/eira_continuous_probe.py",
+    "before_sha256": "1ae2036c55078d91f1ef15f244166a1b1effa9a32d65551e34d9bc25444afcba",
+    "compile_ok": true,
+    "payload_sha256": "04b04bd4c7e8817b35e70a80c09bb0909d4024de6a34a31fec26280cb1173d47",
+    "target_path": "eira_probe/eira_continuous_probe.py"
+  },
+  "schema": "eira2_continuous_probe_v2",
+  "unix": 1788992961.247772
+}
