@@ -1,0 +1,5 @@
+{
+  "id": "read_supervisor_status_1912",
+  "op": "read",
+  "path": "eira_probe/orin_build_probe_supervisor_v2/status.json"
+}
