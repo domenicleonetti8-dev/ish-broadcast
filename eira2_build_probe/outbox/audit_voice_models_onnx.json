@@ -1,0 +1,24 @@
+{
+  "command_sha256": "d5008e251502c2270f174f6c206d6f4f6db7c46497818fd8277f12a428503218",
+  "id": "audit_voice_models_onnx",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 14967,
+        "path": "eira2/delivery/native_bluetooth_voice.py",
+        "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359"
+      },
+      {
+        "bytes": 14130,
+        "path": "eira2/operations/voice_asset_takeover.py",
+        "sha256": "2e95dddd17fb831def5a539301282db0c4f4f4a48bd7968af11e65f39247e640"
+      }
+    ],
+    "term": ".onnx"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959626.3151135
+}
