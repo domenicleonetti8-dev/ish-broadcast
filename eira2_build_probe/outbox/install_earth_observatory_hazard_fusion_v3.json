@@ -1,0 +1,17 @@
+{
+  "command_sha256": "8ecc910fa23e4d5579575e8f896e5f0f665ad61c4e9d0afba17f95c16b222880",
+  "id": "install_earth_observatory_hazard_fusion_v3",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "2b8d86dfd6c00394628fddf6ec54030a02a0da084ad1f70f21dd68bfb5892baa",
+    "backup": "eira_probe/orin_build_probe_v1/backups/install_earth_observatory_hazard_fusion_v3/eira2/evidence/earth_observatory_hazard_fusion.py",
+    "before_sha256": "d4df79eff66196c961f54cf1b8bbfab525ab275bc5eacd032677c3d5f5374743",
+    "compile_ok": true,
+    "payload_sha256": "2b8d86dfd6c00394628fddf6ec54030a02a0da084ad1f70f21dd68bfb5892baa",
+    "target_path": "eira2/evidence/earth_observatory_hazard_fusion.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788955686.7243772
+}
