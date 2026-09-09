@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_conversation_archive_local_first",
+  "op": "search",
+  "term": "archive",
+  "roots": ["eira2", "extensions", "brain", "council", "routers", "tools"],
+  "limit": 200
+}
