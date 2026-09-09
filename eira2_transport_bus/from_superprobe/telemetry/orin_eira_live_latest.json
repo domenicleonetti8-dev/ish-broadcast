@@ -1,5 +1,5 @@
 {
-  "bridge_pid": 98336,
+  "bridge_pid": 100080,
   "control_ref": "master",
   "evidence": {
     "builder_receipt": {
@@ -1660,7 +1660,7 @@
       "sha256": null
     }
   },
-  "generated_unix": 1788943368.0861006,
+  "generated_unix": 1788943421.0450346,
   "kind": "live_telemetry",
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
   "runtime": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_full_duplex_bridge_v1",
