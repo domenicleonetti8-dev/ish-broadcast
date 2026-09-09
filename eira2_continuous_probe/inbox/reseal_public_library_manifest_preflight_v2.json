@@ -1,0 +1,10 @@
+{
+  "schema": "eira2_continuous_probe_command_v1",
+  "id": "reseal_public_library_manifest_preflight_v2",
+  "op": "reseal_manifest_row_preflight",
+  "path": "eira2/evidence/universe_public_library.py",
+  "expected_old_size": 17170,
+  "expected_old_sha256": "2230858386e4f8887202efe6b0d3a40b208304d30f0099d37a304a065e93d5fc",
+  "expected_live_size": 17338,
+  "expected_live_sha256": "f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3"
+}
