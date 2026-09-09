@@ -1,0 +1,10 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "install_planetary_awareness_v3",
+  "op": "deploy",
+  "source": {
+    "commit": "27ab33ab2786d66a0b952b5bacc5adf1c0c09da4",
+    "path": "EIRA2_PLANETARY_AWARENESS_V3.py"
+  },
+  "target_path": "eira2/evidence/planetary_awareness.py"
+}
