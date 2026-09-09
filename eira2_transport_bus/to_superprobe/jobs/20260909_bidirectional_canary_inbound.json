@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_bidirectional_canary_v1",
+  "job_id": "bidirectional_canary_20260909",
+  "direction": "github_to_eira",
+  "purpose": "Verify V2.1 control plane mirrors inbound jobs without touching LIVE storage when unnecessary.",
+  "expected": {
+    "control_plane": "/home/domenicleonetti/.local/state/eira2-transport-v2",
+    "inbox_lane": "jobs",
+    "return_lane": "from_superprobe/jobs"
+  }
+}
