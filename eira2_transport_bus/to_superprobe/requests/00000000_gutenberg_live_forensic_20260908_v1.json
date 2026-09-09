@@ -1,0 +1,21 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "gutenberg_live_forensic_20260908_v1",
+  "operation": "inspect",
+  "read_only": true,
+  "purpose": "Read exact LIVE Gutenberg scheduler state, runner implementations, active processes, archive paths and latest logs through Superprobe.",
+  "inspection": {
+    "execute_source": {
+      "commit": "da52bebd3deef7094109a469e319bcb83071f48d",
+      "path": "eira2_transport_bus/to_superprobe/artifacts/EIRA2_GUTENBERG_LIVE_FORENSIC_20260908.py",
+      "timeout_seconds": 45
+    }
+  },
+  "requirements": [
+    "READ ONLY",
+    "DO NOT mutate LIVE",
+    "DO NOT restart processes",
+    "DO NOT mount or unmount storage",
+    "DO NOT invoke Builder"
+  ]
+}
