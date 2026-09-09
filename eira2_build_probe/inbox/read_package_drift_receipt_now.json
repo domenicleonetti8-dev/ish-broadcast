@@ -1,0 +1,6 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "read_package_drift_receipt_now",
+  "op": "read",
+  "path": "eira_probe/package_drift_audit_v1_receipt.json"
+}
