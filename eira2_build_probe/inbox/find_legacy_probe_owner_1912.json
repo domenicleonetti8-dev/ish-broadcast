@@ -1,0 +1,7 @@
+{
+  "id": "find_legacy_probe_owner_1912",
+  "op": "search",
+  "term": "orin_build_probe_v1",
+  "roots": ["eira_probe", "tools"],
+  "limit": 50
+}
