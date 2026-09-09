@@ -1,0 +1,17 @@
+{
+  "command_sha256": "99aa01151f6f59f8a2f564617619d048c59052ec5930391925d73d5e92a99afd",
+  "id": "install_voice_path_completion_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "f805825f91d61571df26ba004ab58259865b5025987f7b47ddd75cb02e223a9d",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": true,
+    "payload_sha256": "f805825f91d61571df26ba004ab58259865b5025987f7b47ddd75cb02e223a9d",
+    "target_path": "tools/eira2_voice_path_completion.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788960600.088476
+}
