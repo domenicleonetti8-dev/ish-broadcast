@@ -1,0 +1,7 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "read_reasoning_provider_final_audit",
+  "op": "read",
+  "path": "eira2/reasoning/provider.py",
+  "max_bytes": 50000
+}
