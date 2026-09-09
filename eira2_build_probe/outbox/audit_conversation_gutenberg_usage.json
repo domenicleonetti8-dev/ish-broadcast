@@ -1,0 +1,44 @@
+{
+  "command_sha256": "4a78ee1881da6182b5dbbcbed469e9fd2bc3c6cbf594b5703be6fbb1c967f328",
+  "id": "audit_conversation_gutenberg_usage",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 6091,
+        "path": "eira2/evidence/gutenberg_corpus_runtime_v3.py",
+        "sha256": "26691a0ae202de33b964c32a9916dfbee3b9a58f93e873f533386d5fb88ff067"
+      },
+      {
+        "bytes": 8090,
+        "path": "eira2/evidence/gutenberg_corpus_runtime_v4.py",
+        "sha256": "a5d9a3c19fafa3e87f582b3fdaca8360acfa1d9787c35258cb8cb104495dabb8"
+      },
+      {
+        "bytes": 4930,
+        "path": "eira2/evidence/gutenberg_document_indexer.py",
+        "sha256": "3800f4d0e189165e713ce7b901c8bb62472113ccd790dcfbf476fb84c3a12237"
+      },
+      {
+        "bytes": 11143,
+        "path": "eira2/evidence/gutenberg_refresh.py",
+        "sha256": "840ff3542c8fb83dc80ae7a02e2f9c67d733d3909669e09d63b76b70c171ed34"
+      },
+      {
+        "bytes": 9359,
+        "path": "eira2/evidence/universe_library_mass_expansion.py",
+        "sha256": "657826f889437d9fa27e6cfbd4ebf9cfba05c2b0d3c37f7584266c52ccf1ccba"
+      },
+      {
+        "bytes": 17338,
+        "path": "eira2/evidence/universe_public_library.py",
+        "sha256": "f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3"
+      }
+    ],
+    "term": "gutenberg"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959060.2360969
+}
