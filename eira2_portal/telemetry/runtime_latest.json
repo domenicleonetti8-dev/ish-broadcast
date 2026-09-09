@@ -1,13 +1,14 @@
 {
-  "loadavg": "1.83 1.82 1.89 3/353 195376",
+  "loadavg": "1.78 1.81 1.89 4/345 195583",
   "processes": [
-    "    707       1 Ss      04:46:00 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
-    "   1055     986 Ss      04:45:58 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
-    "  18382       1 Ss      04:16:51 /usr/bin/python3 /home/domenicleonetti/.local/bin/eira2-transport-v2 --root /media/domenicleonetti/easystore/EIRA/LIVE --state /home/domenicleonetti/.local/state/eira2-transport-v2 daemon --interval 3",
-    " 109367       1 S       01:52:28 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-    " 141297  141294 S       01:01:37 python3 tools/eira2_see_build_receiver.py",
-    " 181444    1810 Sl         09:57 python3 tools/eira2_orin_worker.py"
+    "    707       1 Ss      04:46:10 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+    "   1055     986 Ss      04:46:08 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
+    "  18382       1 Ss      04:17:01 /usr/bin/python3 /home/domenicleonetti/.local/bin/eira2-transport-v2 --root /media/domenicleonetti/easystore/EIRA/LIVE --state /home/domenicleonetti/.local/state/eira2-transport-v2 daemon --interval 3",
+    " 109367       1 S       01:52:38 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+    " 141297  141294 S       01:01:47 python3 tools/eira2_see_build_receiver.py",
+    " 181444    1810 Sl         10:07 python3 tools/eira2_orin_worker.py",
+    " 195582       1 Ss         00:00 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/extensions/eira_xr_reality_ai/runtime/auto_publish_verified.py"
   ],
   "schema": "eira2_probe_runtime_v2",
-  "unix": 1788950874.3740127
+  "unix": 1788950884.4202797
 }
