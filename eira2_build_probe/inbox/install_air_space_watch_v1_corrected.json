@@ -1,0 +1,9 @@
+{
+  "id": "install_air_space_watch_v1_corrected",
+  "op": "deploy",
+  "source": {
+    "commit": "0f98daad2b74b00166e30fbdd4226dfcb3414e27",
+    "path": "EIRA2_AIR_SPACE_WATCH_V1.py"
+  },
+  "target_path": "eira2/evidence/air_space_watch.py"
+}
