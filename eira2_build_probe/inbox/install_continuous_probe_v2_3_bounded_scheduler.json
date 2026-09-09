@@ -1,0 +1,9 @@
+{
+  "id": "install_continuous_probe_v2_3_bounded_scheduler",
+  "op": "deploy",
+  "source": {
+    "commit": "6b43b5441b4da72e23574033b622aad6c86260e3",
+    "path": "EIRA2_CONTINUOUS_PROBE_V2_3_BOUNDED_SCHEDULER.py"
+  },
+  "target_path": "eira_probe/eira_continuous_probe.py"
+}
