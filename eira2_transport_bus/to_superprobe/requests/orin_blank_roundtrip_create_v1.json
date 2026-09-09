@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_blank_roundtrip_create_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "87bd0cfe3fb1d6cd1d659d20c9809b93158f41eb",
+      "path": "EIRA2_BRIDGE_BLANK_ROUNDTRIP_V1.txt"
+    },
+    "target": {
+      "path": "eira_probe/ORIN_BRIDGE_BLANK_ROUNDTRIP.txt"
+    }
+  }
+}
