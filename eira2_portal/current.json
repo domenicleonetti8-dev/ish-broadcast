@@ -1,5 +1,6 @@
 {
-  "id": "portal_bootstrap_manifest_v1",
-  "op": "manifest",
-  "limit": 10000
+  "id": "orin_worker_handshake_v1",
+  "op": "list",
+  "path": ".",
+  "limit": 200
 }
