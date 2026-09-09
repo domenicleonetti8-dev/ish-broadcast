@@ -1,0 +1,17 @@
+{
+  "command_sha256": "6425fe74fe2d133f5375d349dd2a390c4b5251ee0d56722bb2e833ea936d1fc4",
+  "id": "install_earth_observatory_v3_base_for_v4",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "2b8d86dfd6c00394628fddf6ec54030a02a0da084ad1f70f21dd68bfb5892baa",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": true,
+    "payload_sha256": "2b8d86dfd6c00394628fddf6ec54030a02a0da084ad1f70f21dd68bfb5892baa",
+    "target_path": "eira2/evidence/earth_observatory_hazard_fusion_v3_base.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958327.8031528
+}
