@@ -1,0 +1,1681 @@
+{
+  "bridge_pid": 98146,
+  "control_ref": "master",
+  "evidence": {
+    "builder_receipt": {
+      "json": {
+        "applied_files": [
+          {
+            "after_sha256": "26226c7e1f3c4ec01a50edae22fdc8f777c0843973bfbbd08357753f2fac483e",
+            "before_sha256": "26226c7e1f3c4ec01a50edae22fdc8f777c0843973bfbbd08357753f2fac483e",
+            "target_path": "eira_probe/universe_library/tiny_library_heartbeat_runner.py"
+          }
+        ],
+        "authorized_by": "repair_watcher_ai",
+        "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260908T173642",
+        "builder_probe_made_no_change_decisions": true,
+        "constructed_bridges": [],
+        "eira2_only": true,
+        "generated_unix": 1788903402.421738,
+        "mode": "watcher_authorized_write_transport",
+        "ok": true,
+        "requires_post_superprobe_verification": true,
+        "retired_after_acceptance": [],
+        "schema": "eira2_builder_probe_v1",
+        "superprobe_remained_read_only": true
+      },
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_builder_receipt.json",
+      "present": true,
+      "sha256": "571da955a54584cbbfdb22ca763a548322b27503a4c1e69a976474817261da64"
+    },
+    "superprobe": {
+      "json": {
+        "artifacts": {
+          "execution_truth": {
+            "bytes": 3559,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/execution_truth.json",
+            "sha256": "d949346c66ff7e648519bc401bd7d1a7cc512f77b5d0b986175567df2420be17"
+          },
+          "extension_truth": {
+            "bytes": 931,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/extension_truth.json",
+            "sha256": "93d41730a22be6c61f3588184614200f9b4f8b6411141dbd36967b3dd7b7ba7d"
+          },
+          "forensic_map": {
+            "bytes": 25844,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/forensic_map.json",
+            "sha256": "ac99d86e92f3090a8a04e716db2e9469eed1af47c8cb7640d2fcfecab5b485b9"
+          },
+          "organism_truth": {
+            "bytes": 10372,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/organism_truth.json",
+            "sha256": "14ca9d3f1b0a13b26995a2be5f2c14fff1bb317746e121e741b33155e7bb4b91"
+          },
+          "package_truth": {
+            "bytes": 321,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/package_truth.json",
+            "sha256": "914f3acbb229db3eac9d0f970ebba537ffd0518ce5b14627ec533ceff05b2577"
+          },
+          "semantic_graph": {
+            "bytes": 62486,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/semantic_graph.json",
+            "sha256": "ea6080d617cd01395fb7cd034750dd2b01eaf27ff5612e5e2b5bfa3f9a065343"
+          },
+          "semantic_impact_index": {
+            "bytes": 23393,
+            "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_evidence/semantic_impact_index.json",
+            "sha256": "01ab6ad33bd8d21de086d34792a8d001dc4e0e57abdc79836bce5ef29322f63b"
+          }
+        },
+        "authority": "eira2_superprobe_read_only_forensic_authority",
+        "base": "/media/domenicleonetti/easystore/EIRA/LIVE",
+        "declared_vs_observed_discrepancies": [
+          {
+            "error": "RuntimeError:eira2_package_manifest_file_size_mismatch:eira2/evidence/universe_public_library.py",
+            "kind": "package_identity_not_verified",
+            "status": "verification_failed"
+          }
+        ],
+        "eira2_only": true,
+        "elapsed_seconds": 109.273191,
+        "evidence_bundle_fingerprint_sha256": "c06991c5c3907df49984d70ce36a01b82fc46d8dcbff16c78d3bde0eb6e6f16d",
+        "evidence_schema": "eira2_superprobe_evidence_v4",
+        "execution_truth": {
+          "hostname": "eira",
+          "listener_command_ok": true,
+          "listener_count": 2,
+          "listeners": [
+            "LISTEN 0      5                          0.0.0.0:8782       0.0.0.0:*    users:((\"python3\",pid=2702069,fd=11))",
+            "LISTEN 0      5                          0.0.0.0:8787       0.0.0.0:*    users:((\"python3\",pid=1300484,fd=3))"
+          ],
+          "ok": true,
+          "process_command_ok": true,
+          "process_error": "",
+          "processes": [
+            "134788       1    6950 /usr/bin/python3 -m eira2.evidence.open_book_oai_harvester --all",
+            "135309    1013    6930 /usr/bin/python3 -m eira2.evidence.open_book_oai_harvester --all",
+            "149299    1013    5859 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/tiny_library_heartbeat_runner.py --worker",
+            "177203 2538085    4455 python3 tools/eira2_live_visibility.py",
+            "185876 2538085    3632 python3 tools/eira2_transport_circuit_breaker.py",
+            "189407 2538085    3192 python3 tools/eira2_transport_owner_guard.py",
+            "205741  189407    2307 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/repo/EIRA2_AUTONOMOUS_TRANSPORT_V6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
+            "247714 2688197     380 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
+            "255791       1     109 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v10/repo/EIRA2_BLUEPRINT_DEPLOYMENT_LANE_V4.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/deploy_luminous_neural_organism_apple_ar_v6.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v10/repo",
+            "255797  255791     109 /usr/bin/python3 /tmp/eira2_lane_v4_core_255791.py --root /media/domenicleonetti/easystore/EIRA/LIVE --packet /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_inbox/canonical_requests/deploy_luminous_neural_organism_apple_ar_v6.json --source-repo-root /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v10/repo",
+            "255801  255797     109 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+            "257311 2538085      43 python3 -m eira2.evidence.universe_library_mass_expansion --stock-gutenberg",
+            "257391 2538085      31 python3 -m eira2.evidence.gutenberg_document_indexer --wait-index --timeout 86400",
+            "257594 2538085      16 python3 eira_probe/transport_runtime_v10/EIRA2_AUTONOMOUS_TRANSPORT_V10.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
+            "2177880       1  249280 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+            "2197106       1  143017 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_github_transport_agent.py --root /media/domenicleonetti/easystore/EIRA/LIVE --loop --interval 15",
+            "2688197    1013   82020 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
+            "2702069    1013   81190 python3 -m eira2 --live --root /media/domenicleonetti/easystore/EIRA/LIVE"
+          ],
+          "runtime_processes": 18,
+          "socket_error": ""
+        },
+        "extension_truth": {
+          "invalid": [],
+          "invalid_manifest_count": 0,
+          "manifest_count": 5,
+          "manifests": [
+            {
+              "kind": null,
+              "name": "extension.cosmos_reference",
+              "path": "eira2/extensions/manifests/cosmos-reference.json",
+              "status": null
+            },
+            {
+              "kind": null,
+              "name": "extension.jellyfish_defense_coverage",
+              "path": "eira2/extensions/manifests/jellyfish-defense-coverage.json",
+              "status": null
+            },
+            {
+              "kind": null,
+              "name": "extension.local_context",
+              "path": "eira2/extensions/manifests/local-context.json",
+              "status": null
+            },
+            {
+              "kind": null,
+              "name": "extension.self_probe",
+              "path": "eira2/extensions/manifests/self-probe.json",
+              "status": null
+            },
+            {
+              "kind": null,
+              "name": "extension.subjective_state",
+              "path": "eira2/extensions/manifests/subjective-state.json",
+              "status": null
+            }
+          ],
+          "ok": true
+        },
+        "generated_unix": 1788909364.0496085,
+        "mode": "read_only_forensic",
+        "mutates_live": false,
+        "ok": false,
+        "organism_truth": {
+          "addressable_node_count": 17261,
+          "authority": "eira2.neural.atlas.NeuralAtlas",
+          "conductive_road_count": 0,
+          "duplicate_road_count": 0,
+          "inventory_neuron_count": 17238,
+          "inventory_source": "filesystem_scan_fallback",
+          "layout_identity_status": "not_asserted_without_canonical_shared_layout_contract",
+          "layout_identity_verified": false,
+          "ok": true,
+          "overview": {
+            "all_inventory_entries_have_neurons": true,
+            "clusters": [
+              {
+                "activity_classes": {
+                  "runtime": 6
+                },
+                "bytes": 36958,
+                "cluster": "extension:repair_watcher_ai",
+                "code_count": 3,
+                "dispositions": {
+                  "runtime_scan_fallback": 6
+                },
+                "file_count": 5,
+                "hemisphere": "left",
+                "id": "neuron:a060fb0d4a82f9c2a13db3d6",
+                "neuron_count": 6,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 2085,
+                "cluster": "root:AUDIT_SCOPE.md",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:4475ef067af7fa7551ae53c8",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 15118,
+                "cluster": "root:CANONICAL_ORDER.md",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:2b4f6d52b80eecea616ec5ba",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 6077,
+                "cluster": "root:FUNCTIONAL_PRESERVATION.md",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:5a833d299983fbf2b08122c2",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 10795,
+                "cluster": "root:REPLACEMENT_CONTRACT.md",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:cd5216721e557b64ddbeec2a",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1,
+                  "runtime": 169
+                },
+                "bytes": 1225197,
+                "cluster": "root:eira2",
+                "code_count": 140,
+                "dispositions": {
+                  "runtime_scan_fallback": 170
+                },
+                "file_count": 145,
+                "hemisphere": "left",
+                "id": "neuron:ea1f8696f12b3755fc96ae42",
+                "neuron_count": 170,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 60414,
+                "cluster": "root:eira2-package-manifest.json",
+                "code_count": 1,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "right",
+                "id": "neuron:a224e8b178f32e08521a825f",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 57859,
+                "cluster": "root:eira2-package-manifest.json.retired_pre_finalize_20260907_062856",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "right",
+                "id": "neuron:98b1167bc741d6009f596642",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 54385,
+                "cluster": "root:eira2-package-manifest.json.retired_pre_runtime_boundary_20260907_043440",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "right",
+                "id": "neuron:d9ac9102c30e6402e08acaf8",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 57859,
+                "cluster": "root:eira2-package-manifest.json.retired_pre_watcher_v4_20260907_061641",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "right",
+                "id": "neuron:a7a6a2e8542ae33fb69bd816",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 12
+                },
+                "bytes": 112065,
+                "cluster": "root:eira2_server_revamp",
+                "code_count": 9,
+                "dispositions": {
+                  "runtime_scan_fallback": 12
+                },
+                "file_count": 10,
+                "hemisphere": "left",
+                "id": "neuron:1aeffc978d546008cdde02f9",
+                "neuron_count": 12,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 2
+                },
+                "bytes": 0,
+                "cluster": "root:eira2_transport_bus",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 2
+                },
+                "file_count": 0,
+                "hemisphere": "left",
+                "id": "neuron:85e6a4e77c915cdcc9a873a6",
+                "neuron_count": 2,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 16786
+                },
+                "bytes": 1468989786,
+                "cluster": "root:eira_probe",
+                "code_count": 6088,
+                "dispositions": {
+                  "runtime_scan_fallback": 16786
+                },
+                "file_count": 13130,
+                "hemisphere": "left",
+                "id": "neuron:7827f44531faf9ea11f8ff4e",
+                "neuron_count": 16786,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 0,
+                "cluster": "root:extensions",
+                "code_count": 0,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 0,
+                "hemisphere": "right",
+                "id": "neuron:8cde990aacb43415348e84a2",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 2094,
+                "cluster": "root:fraternal_twin_contract.json",
+                "code_count": 1,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:d5febd94b43559e0728b8783",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 199,
+                "cluster": "root:main.py",
+                "code_count": 1,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:8b55add9b9ce836aca3ae8be",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 43
+                },
+                "bytes": 20974,
+                "cluster": "root:manifests",
+                "code_count": 42,
+                "dispositions": {
+                  "runtime_scan_fallback": 43
+                },
+                "file_count": 42,
+                "hemisphere": "left",
+                "id": "neuron:41167bc7707b7f0082e6001a",
+                "neuron_count": 43,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 15210,
+                "cluster": "root:preservation_contract.json",
+                "code_count": 1,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "right",
+                "id": "neuron:92db16e179581b14662313df",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 829,
+                "cluster": "root:private_model_set.json",
+                "code_count": 1,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "right",
+                "id": "neuron:1154f9089a12bf0d83c2fccd",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 1
+                },
+                "bytes": 508,
+                "cluster": "root:pyproject.toml",
+                "code_count": 1,
+                "dispositions": {
+                  "runtime_scan_fallback": 1
+                },
+                "file_count": 1,
+                "hemisphere": "left",
+                "id": "neuron:c9fa40bf365d4cb27bd38199",
+                "neuron_count": 1,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 88
+                },
+                "bytes": 371854,
+                "cluster": "root:tests",
+                "code_count": 87,
+                "dispositions": {
+                  "runtime_scan_fallback": 88
+                },
+                "file_count": 87,
+                "hemisphere": "right",
+                "id": "neuron:d0273b7f3abf5a6a6ef88bd3",
+                "neuron_count": 88,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 65
+                },
+                "bytes": 365919,
+                "cluster": "root:tools",
+                "code_count": 63,
+                "dispositions": {
+                  "runtime_scan_fallback": 65
+                },
+                "file_count": 64,
+                "hemisphere": "right",
+                "id": "neuron:4272876278690260138d501c",
+                "neuron_count": 65,
+                "spine": false
+              },
+              {
+                "activity_classes": {
+                  "other": 52
+                },
+                "bytes": 7226194436,
+                "cluster": "root:var",
+                "code_count": 4,
+                "dispositions": {
+                  "runtime_scan_fallback": 52
+                },
+                "file_count": 33,
+                "hemisphere": "right",
+                "id": "neuron:83e9fcabd536ed7f29e1ced9",
+                "neuron_count": 52,
+                "spine": false
+              }
+            ],
+            "conductive_fiber_count": 896,
+            "conductive_fibers_require_evidence": true,
+            "fiber_count": 18134,
+            "inventory_neuron_count": 17238,
+            "inventory_source": "filesystem_scan_fallback",
+            "ok": true,
+            "schema": "eira2_neural_atlas_v1",
+            "structural_fibers_are_conductive": false,
+            "synthetic_cluster_count": 23,
+            "total_addressable_nodes": 17261
+          },
+          "road_count": 18134,
+          "schema": "eira2_neural_organism_truth_v4",
+          "unresolved_road_endpoint_count": 0
+        },
+        "package_identity": {
+          "error": "RuntimeError:eira2_package_manifest_file_size_mismatch:eira2/evidence/universe_public_library.py",
+          "manifest_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira2-package-manifest.json",
+          "ok": false,
+          "project_root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+          "status": "verification_failed"
+        },
+        "physical_truth": {
+          "bytes": 8697593586,
+          "files": 211,
+          "inventory": [
+            {
+              "mtime_ns": 1788903411993924700,
+              "path": "eira2-package-manifest.json",
+              "size": 60414
+            },
+            {
+              "mtime_ns": 1788645680038713200,
+              "path": "eira2/__init__.py",
+              "size": 71
+            },
+            {
+              "mtime_ns": 1788686693388974600,
+              "path": "eira2/__main__.py",
+              "size": 2347
+            },
+            {
+              "mtime_ns": 1788728392010623300,
+              "path": "eira2/adapters/ollama.py",
+              "size": 7458
+            },
+            {
+              "mtime_ns": 1788645680061171800,
+              "path": "eira2/capabilities/__init__.py",
+              "size": 70
+            },
+            {
+              "mtime_ns": 1788645680083285500,
+              "path": "eira2/capabilities/engineering.py",
+              "size": 6680
+            },
+            {
+              "mtime_ns": 1788645680105505500,
+              "path": "eira2/capabilities/executor.py",
+              "size": 17785
+            },
+            {
+              "mtime_ns": 1788645680139036600,
+              "path": "eira2/capabilities/workers.py",
+              "size": 7110
+            },
+            {
+              "mtime_ns": 1788645680172652100,
+              "path": "eira2/capabilities/worlds.py",
+              "size": 9078
+            },
+            {
+              "mtime_ns": 1788645680206186400,
+              "path": "eira2/commands/registry.py",
+              "size": 1372
+            },
+            {
+              "mtime_ns": 1788686693411330700,
+              "path": "eira2/config/schema.py",
+              "size": 2564
+            },
+            {
+              "mtime_ns": 1788645680273132200,
+              "path": "eira2/contracts.py",
+              "size": 1306
+            },
+            {
+              "mtime_ns": 1788645680273490800,
+              "path": "eira2/conversation/analysis.py",
+              "size": 15864
+            },
+            {
+              "mtime_ns": 1788645680306667400,
+              "path": "eira2/conversation/commit.py",
+              "size": 6151
+            },
+            {
+              "mtime_ns": 1788645680306901400,
+              "path": "eira2/conversation/constellation.py",
+              "size": 13878
+            },
+            {
+              "mtime_ns": 1788645680307078900,
+              "path": "eira2/conversation/expression.py",
+              "size": 5933
+            },
+            {
+              "mtime_ns": 1788645680307276100,
+              "path": "eira2/conversation/history.py",
+              "size": 7512
+            },
+            {
+              "mtime_ns": 1788645680307478900,
+              "path": "eira2/conversation/language.py",
+              "size": 10069
+            },
+            {
+              "mtime_ns": 1788645680340636000,
+              "path": "eira2/conversation/reaction.py",
+              "size": 7099
+            },
+            {
+              "mtime_ns": 1788645680340826500,
+              "path": "eira2/conversation/semantic_matrix.py",
+              "size": 6286
+            },
+            {
+              "mtime_ns": 1788645680374158800,
+              "path": "eira2/conversation/semantic_quality.py",
+              "size": 8454
+            },
+            {
+              "mtime_ns": 1788645680374437300,
+              "path": "eira2/conversation/spine.py",
+              "size": 22400
+            },
+            {
+              "mtime_ns": 1788645680374739100,
+              "path": "eira2/delivery/gate.py",
+              "size": 5117
+            },
+            {
+              "mtime_ns": 1788645680374996700,
+              "path": "eira2/delivery/native_bluetooth_voice.py",
+              "size": 14967
+            },
+            {
+              "mtime_ns": 1788645680375161600,
+              "path": "eira2/delivery/presence.py",
+              "size": 3515
+            },
+            {
+              "mtime_ns": 1788645680375402900,
+              "path": "eira2/delivery/voice.py",
+              "size": 19550
+            },
+            {
+              "mtime_ns": 1788645680409639900,
+              "path": "eira2/delivery/voice_prosody.py",
+              "size": 6072
+            },
+            {
+              "mtime_ns": 1788645680409830000,
+              "path": "eira2/delivery/voice_qualification.py",
+              "size": 5170
+            },
+            {
+              "mtime_ns": 1788899531934828000,
+              "path": "eira2/evidence/autonomous_engineering_canary.txt",
+              "size": 98
+            },
+            {
+              "mtime_ns": 1788645680410103900,
+              "path": "eira2/evidence/deterministic.py",
+              "size": 1106
+            },
+            {
+              "mtime_ns": 1788645680410299100,
+              "path": "eira2/evidence/gate.py",
+              "size": 1016
+            },
+            {
+              "mtime_ns": 1788902681623116300,
+              "path": "eira2/evidence/gov_science_literature_harvester.py",
+              "size": 5702
+            },
+            {
+              "mtime_ns": 1788902144487879000,
+              "path": "eira2/evidence/gutenberg_document_indexer.py",
+              "size": 4930
+            },
+            {
+              "mtime_ns": 1788840156541489600,
+              "path": "eira2/evidence/gutenberg_refresh.py",
+              "size": 11143
+            },
+            {
+              "mtime_ns": 1788645680410458800,
+              "path": "eira2/evidence/identity.py",
+              "size": 3003
+            },
+            {
+              "mtime_ns": 1788902281294782300,
+              "path": "eira2/evidence/open_book_oai_harvester.py",
+              "size": 5784
+            },
+            {
+              "mtime_ns": 1788901659400278400,
+              "path": "eira2/evidence/universe_library_mass_expansion.py",
+              "size": 9359
+            },
+            {
+              "mtime_ns": 1788905444949569400,
+              "path": "eira2/evidence/universe_public_library.py",
+              "size": 17338
+            },
+            {
+              "mtime_ns": 1788839861526112500,
+              "path": "eira2/evidence/universe_public_library.py.bak.1788905444",
+              "size": 17170
+            },
+            {
+              "mtime_ns": 1788645680426558300,
+              "path": "eira2/evidence/web.py",
+              "size": 16416
+            },
+            {
+              "mtime_ns": 1788645680426828600,
+              "path": "eira2/extensions/__init__.py",
+              "size": 130
+            },
+            {
+              "mtime_ns": 1788645680427023400,
+              "path": "eira2/extensions/cosmos_reference.py",
+              "size": 5219
+            },
+            {
+              "mtime_ns": 1788645680453185300,
+              "path": "eira2/extensions/jellyfish_defense_coverage_v4.py",
+              "size": 36007
+            },
+            {
+              "mtime_ns": 1788645680510916600,
+              "path": "eira2/extensions/legacy_static_inventory.py",
+              "size": 10027
+            },
+            {
+              "mtime_ns": 1788645680511157700,
+              "path": "eira2/extensions/local_context.py",
+              "size": 12666
+            },
+            {
+              "mtime_ns": 1788645680511455800,
+              "path": "eira2/extensions/manifests/cosmos-reference.json",
+              "size": 362
+            },
+            {
+              "mtime_ns": 1788645680511650800,
+              "path": "eira2/extensions/manifests/jellyfish-defense-coverage.json",
+              "size": 1530
+            },
+            {
+              "mtime_ns": 1788645680511801000,
+              "path": "eira2/extensions/manifests/local-context.json",
+              "size": 370
+            },
+            {
+              "mtime_ns": 1788645680511978700,
+              "path": "eira2/extensions/manifests/self-probe.json",
+              "size": 341
+            },
+            {
+              "mtime_ns": 1788645680512154000,
+              "path": "eira2/extensions/manifests/subjective-state.json",
+              "size": 433
+            },
+            {
+              "mtime_ns": 1788645680512375700,
+              "path": "eira2/extensions/parity.py",
+              "size": 12753
+            },
+            {
+              "mtime_ns": 1788645680512648200,
+              "path": "eira2/extensions/self_probe.py",
+              "size": 715
+            },
+            {
+              "mtime_ns": 1788645680512854800,
+              "path": "eira2/extensions/subjective_state.py",
+              "size": 6647
+            },
+            {
+              "mtime_ns": 1788645680545076200,
+              "path": "eira2/interfaces/ingress.py",
+              "size": 1745
+            },
+            {
+              "mtime_ns": 1788645680545370100,
+              "path": "eira2/interfaces/native.py",
+              "size": 18696
+            },
+            {
+              "mtime_ns": 1788645680545560200,
+              "path": "eira2/interfaces/neural_graph.py",
+              "size": 8512
+            },
+            {
+              "mtime_ns": 1788645680545801600,
+              "path": "eira2/interfaces/senses.py",
+              "size": 16811
+            },
+            {
+              "mtime_ns": 1788645680545989300,
+              "path": "eira2/interfaces/terminal.py",
+              "size": 4885
+            },
+            {
+              "mtime_ns": 1788645680546251100,
+              "path": "eira2/invention/__init__.py",
+              "size": 339
+            },
+            {
+              "mtime_ns": 1788645680546516800,
+              "path": "eira2/invention/rendering.py",
+              "size": 15903
+            },
+            {
+              "mtime_ns": 1788645680579578300,
+              "path": "eira2/invention/science.py",
+              "size": 19333
+            },
+            {
+              "mtime_ns": 1788645680579908100,
+              "path": "eira2/kernel/bootstrap.py",
+              "size": 8723
+            },
+            {
+              "mtime_ns": 1788645680623684200,
+              "path": "eira2/kernel/events.py",
+              "size": 1330
+            },
+            {
+              "mtime_ns": 1788645680646035200,
+              "path": "eira2/kernel/lock.py",
+              "size": 1328
+            },
+            {
+              "mtime_ns": 1788645680679526700,
+              "path": "eira2/kernel/supervisor.py",
+              "size": 8671
+            },
+            {
+              "mtime_ns": 1788645680679714300,
+              "path": "eira2/launcher.py",
+              "size": 4534
+            },
+            {
+              "mtime_ns": 1788645680701934100,
+              "path": "eira2/layout.py",
+              "size": 3905
+            },
+            {
+              "mtime_ns": 1788645680702196900,
+              "path": "eira2/learning/__init__.py",
+              "size": 136
+            },
+            {
+              "mtime_ns": 1788645680702402300,
+              "path": "eira2/learning/experience.py",
+              "size": 8087
+            },
+            {
+              "mtime_ns": 1788808394045604500,
+              "path": "eira2/live.py",
+              "size": 15449
+            },
+            {
+              "mtime_ns": 1788645680735767400,
+              "path": "eira2/memory/service.py",
+              "size": 1412
+            },
+            {
+              "mtime_ns": 1788645680736092000,
+              "path": "eira2/migration/ledger_builder.py",
+              "size": 5300
+            },
+            {
+              "mtime_ns": 1788645680769491300,
+              "path": "eira2/migration/planner.py",
+              "size": 3729
+            },
+            {
+              "mtime_ns": 1788645680802906900,
+              "path": "eira2/migration/qualification.py",
+              "size": 11183
+            },
+            {
+              "mtime_ns": 1788645680803092900,
+              "path": "eira2/migration/runtime_parity.py",
+              "size": 8077
+            },
+            {
+              "mtime_ns": 1788645680803345900,
+              "path": "eira2/neural/__init__.py",
+              "size": 223
+            },
+            {
+              "mtime_ns": 1788686693445081700,
+              "path": "eira2/neural/activity.py",
+              "size": 6696
+            },
+            {
+              "mtime_ns": 1788858379862320600,
+              "path": "eira2/neural/apple_ar.py",
+              "size": 11632
+            },
+            {
+              "mtime_ns": 1788854565888084900,
+              "path": "eira2/neural/apple_ar_v13_base.py",
+              "size": 13705
+            },
+            {
+              "mtime_ns": 1788645680836712500,
+              "path": "eira2/neural/atlas.py",
+              "size": 20492
+            },
+            {
+              "mtime_ns": 1788686693479250900,
+              "path": "eira2/neural/communication.py",
+              "size": 16133
+            },
+            {
+              "mtime_ns": 1788645680870589000,
+              "path": "eira2/neural/growth.py",
+              "size": 2375
+            },
+            {
+              "mtime_ns": 1788686693503649800,
+              "path": "eira2/neural/live.py",
+              "size": 12344
+            },
+            {
+              "mtime_ns": 1788830965822589000,
+              "path": "eira2/neural/organism.py",
+              "size": 9549
+            },
+            {
+              "mtime_ns": 1788733804539830100,
+              "path": "eira2/neural/server.py",
+              "size": 18927
+            },
+            {
+              "mtime_ns": 1788726654816471900,
+              "path": "eira2/neural/server.py.BAK_REVAMP",
+              "size": 18101
+            },
+            {
+              "mtime_ns": 1788645680971312700,
+              "path": "eira2/neural/sync.py",
+              "size": 5463
+            },
+            {
+              "mtime_ns": 1788686693581827500,
+              "path": "eira2/neural/web/app.js",
+              "size": 20082
+            },
+            {
+              "mtime_ns": 1788686693603800900,
+              "path": "eira2/neural/web/ar-placeholder.svg",
+              "size": 1189
+            },
+            {
+              "mtime_ns": 1788817340159185100,
+              "path": "eira2/neural/web/communication.js",
+              "size": 12127
+            },
+            {
+              "mtime_ns": 1788686693638916900,
+              "path": "eira2/neural/web/index.html",
+              "size": 4017
+            },
+            {
+              "mtime_ns": 1788686693661358800,
+              "path": "eira2/neural/web/invention.css",
+              "size": 4970
+            },
+            {
+              "mtime_ns": 1788686693672603300,
+              "path": "eira2/neural/web/invention.html",
+              "size": 2035
+            },
+            {
+              "mtime_ns": 1788686693695109400,
+              "path": "eira2/neural/web/invention.js",
+              "size": 1993
+            },
+            {
+              "mtime_ns": 1788686693717980900,
+              "path": "eira2/neural/web/style.css",
+              "size": 12536
+            },
+            {
+              "mtime_ns": 1788645681016383300,
+              "path": "eira2/operations/boot_authority.py",
+              "size": 9898
+            },
+            {
+              "mtime_ns": 1788645681049809900,
+              "path": "eira2/operations/coordinator.py",
+              "size": 3983
+            },
+            {
+              "mtime_ns": 1788824349411563200,
+              "path": "eira2/operations/doctor.py",
+              "size": 15186
+            },
+            {
+              "mtime_ns": 1788645681050275600,
+              "path": "eira2/operations/easystore_cutover.py",
+              "size": 13175
+            },
+            {
+              "mtime_ns": 1788645681083733700,
+              "path": "eira2/operations/eira1_preservation.py",
+              "size": 4544
+            },
+            {
+              "mtime_ns": 1788645681102558100,
+              "path": "eira2/operations/final_cutover_qualification.py",
+              "size": 17973
+            },
+            {
+              "mtime_ns": 1788645681139536200,
+              "path": "eira2/operations/full_doctor.py",
+              "size": 5789
+            },
+            {
+              "mtime_ns": 1788645681139758300,
+              "path": "eira2/operations/hardware_qualification.py",
+              "size": 13506
+            },
+            {
+              "mtime_ns": 1788645681173331300,
+              "path": "eira2/operations/health.py",
+              "size": 2248
+            },
+            {
+              "mtime_ns": 1788645681173629200,
+              "path": "eira2/operations/legacy_retirement.py",
+              "size": 29493
+            },
+            {
+              "mtime_ns": 1788829049372331700,
+              "path": "eira2/operations/model_takeover.py",
+              "size": 27653
+            },
+            {
+              "mtime_ns": 1788645681207700200,
+              "path": "eira2/operations/native_only_audit.py",
+              "size": 7964
+            },
+            {
+              "mtime_ns": 1788770080709557800,
+              "path": "eira2/operations/package_identity.py",
+              "size": 8551
+            },
+            {
+              "mtime_ns": 1788686693739972400,
+              "path": "eira2/operations/package_identity.py.retired_pre_runtime_boundary_20260907_043440",
+              "size": 8532
+            },
+            {
+              "mtime_ns": 1788645681208069900,
+              "path": "eira2/operations/post_replacement_boot.py",
+              "size": 7776
+            },
+            {
+              "mtime_ns": 1788645681241232000,
+              "path": "eira2/operations/replacement_boundary.py",
+              "size": 9079
+            },
+            {
+              "mtime_ns": 1788645681241438700,
+              "path": "eira2/operations/replacement_completion.py",
+              "size": 12243
+            },
+            {
+              "mtime_ns": 1788645681241640000,
+              "path": "eira2/operations/resilience.py",
+              "size": 10506
+            },
+            {
+              "mtime_ns": 1788645681241838600,
+              "path": "eira2/operations/runtime_handoff.py",
+              "size": 9754
+            },
+            {
+              "mtime_ns": 1788645681242026300,
+              "path": "eira2/operations/runtime_handoff_probe.py",
+              "size": 6950
+            },
+            {
+              "mtime_ns": 1788645681264627200,
+              "path": "eira2/operations/status.py",
+              "size": 1663
+            },
+            {
+              "mtime_ns": 1788645681276013600,
+              "path": "eira2/operations/storage.py",
+              "size": 4254
+            },
+            {
+              "mtime_ns": 1788645681276229200,
+              "path": "eira2/operations/system_audit.py",
+              "size": 12005
+            },
+            {
+              "mtime_ns": 1788645681276432200,
+              "path": "eira2/operations/voice_asset_takeover.py",
+              "size": 14130
+            },
+            {
+              "mtime_ns": 1788645681276667000,
+              "path": "eira2/operations/work.py",
+              "size": 7757
+            },
+            {
+              "mtime_ns": 1788645681300167300,
+              "path": "eira2/parity/evaluator.py",
+              "size": 1380
+            },
+            {
+              "mtime_ns": 1788645681300343600,
+              "path": "eira2/preservation.py",
+              "size": 5758
+            },
+            {
+              "mtime_ns": 1788645681300517700,
+              "path": "eira2/preservation_behavior_parity.py",
+              "size": 7506
+            },
+            {
+              "mtime_ns": 1788645681322859400,
+              "path": "eira2/preservation_catalog.py",
+              "size": 7657
+            },
+            {
+              "mtime_ns": 1788645681323041700,
+              "path": "eira2/preservation_qualification.py",
+              "size": 8771
+            },
+            {
+              "mtime_ns": 1788645681323314800,
+              "path": "eira2/reasoning/local_candidate.py",
+              "size": 1159
+            },
+            {
+              "mtime_ns": 1788645681356545400,
+              "path": "eira2/reasoning/provider.py",
+              "size": 2062
+            },
+            {
+              "mtime_ns": 1788645681376699200,
+              "path": "eira2/registry/extensions.py",
+              "size": 10269
+            },
+            {
+              "mtime_ns": 1788645681401250700,
+              "path": "eira2/registry/graph.py",
+              "size": 9151
+            },
+            {
+              "mtime_ns": 1788645681434720800,
+              "path": "eira2/registry/manifests.py",
+              "size": 3413
+            },
+            {
+              "mtime_ns": 1788645681435038700,
+              "path": "eira2/repair/activation.py",
+              "size": 6287
+            },
+            {
+              "mtime_ns": 1788645681435230700,
+              "path": "eira2/repair/autonomy.py",
+              "size": 4164
+            },
+            {
+              "mtime_ns": 1788645681435383500,
+              "path": "eira2/repair/coordinator.py",
+              "size": 1707
+            },
+            {
+              "mtime_ns": 1788645681457989500,
+              "path": "eira2/repair/cutover.py",
+              "size": 8712
+            },
+            {
+              "mtime_ns": 1788645681516386800,
+              "path": "eira2/repair/evolution.py",
+              "size": 18758
+            },
+            {
+              "mtime_ns": 1788645681516596200,
+              "path": "eira2/repair/proposal_provider.py",
+              "size": 6198
+            },
+            {
+              "mtime_ns": 1788645681547787900,
+              "path": "eira2/runtime.py",
+              "size": 16465
+            },
+            {
+              "mtime_ns": 1788645681548053400,
+              "path": "eira2/security/__init__.py",
+              "size": 58
+            },
+            {
+              "mtime_ns": 1788645681548269300,
+              "path": "eira2/security/attestation.py",
+              "size": 9806
+            },
+            {
+              "mtime_ns": 1788645681571203200,
+              "path": "eira2/security/jellyfish_immune.py",
+              "size": 26337
+            },
+            {
+              "mtime_ns": 1788645681571395900,
+              "path": "eira2/security/jellyfish_platform.py",
+              "size": 8415
+            },
+            {
+              "mtime_ns": 1788645681616749700,
+              "path": "eira2/security/jellyfish_superimmune.py",
+              "size": 26780
+            },
+            {
+              "mtime_ns": 1788645681637320400,
+              "path": "eira2/state/checkpoints.py",
+              "size": 3274
+            },
+            {
+              "mtime_ns": 1788645681637539200,
+              "path": "eira2/state/store.py",
+              "size": 9272
+            },
+            {
+              "mtime_ns": 1788818053777329900,
+              "path": "eira2/transport_canary_v1.json",
+              "size": 203
+            },
+            {
+              "mtime_ns": 1788818620076175800,
+              "path": "eira2/transport_canary_v2.json",
+              "size": 203
+            },
+            {
+              "mtime_ns": 1788655240679126200,
+              "path": "main.py",
+              "size": 199
+            },
+            {
+              "mtime_ns": 1788655241715616200,
+              "path": "tools/assemble_final_cutover_bundle.py",
+              "size": 2864
+            },
+            {
+              "mtime_ns": 1788655241715787300,
+              "path": "tools/authorize_final_cutover.py",
+              "size": 1032
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/build_eira2_remote_bundle.py",
+              "size": 5756
+            },
+            {
+              "mtime_ns": 1788655241716005200,
+              "path": "tools/build_legacy_behavior_catalog.py",
+              "size": 698
+            },
+            {
+              "mtime_ns": 1788655241716170400,
+              "path": "tools/build_migration_ledger.py",
+              "size": 770
+            },
+            {
+              "mtime_ns": 1788655241716346500,
+              "path": "tools/build_model_vault.py",
+              "size": 6064
+            },
+            {
+              "mtime_ns": 1788655241754167900,
+              "path": "tools/collect_post_replacement_boot.py",
+              "size": 6349
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_builder_probe.py",
+              "size": 9949
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_builder_probe_contract.json",
+              "size": 1966
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_canonical_reader.py",
+              "size": 6627
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_control_plane_qualify.py",
+              "size": 4354
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_forensic_map.py",
+              "size": 10175
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_github_transport_agent.py",
+              "size": 5981
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_https_rebuild_blueprint.json",
+              "size": 7827
+            },
+            {
+              "mtime_ns": 1788905526732180800,
+              "path": "tools/eira2_library_contract_guard.py",
+              "size": 1196
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_live_organism_forensic.py",
+              "size": 8427
+            },
+            {
+              "mtime_ns": 1788904895803912000,
+              "path": "tools/eira2_live_visibility.py",
+              "size": 1038
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_offsystem_control_plane.py",
+              "size": 8835
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_shared_evidence_bus.py",
+              "size": 3874
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_superprobe.py",
+              "size": 3480
+            },
+            {
+              "mtime_ns": 1788769675355662100,
+              "path": "tools/eira2_superprobe_engine.py",
+              "size": 19971
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_superprobe_engine.py.retired_20260907_042751",
+              "size": 25599
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_transaction_executor.py",
+              "size": 8734
+            },
+            {
+              "mtime_ns": 1788905730658378200,
+              "path": "tools/eira2_transport_circuit_breaker.py",
+              "size": 5590
+            },
+            {
+              "mtime_ns": 1788906171053488900,
+              "path": "tools/eira2_transport_owner_guard.py",
+              "size": 3880
+            },
+            {
+              "mtime_ns": 1788766160136024000,
+              "path": "tools/eira2_transport_probe.py",
+              "size": 12886
+            },
+            {
+              "mtime_ns": 1788655241754358400,
+              "path": "tools/emit_foundation_ci_receipt.py",
+              "size": 1235
+            },
+            {
+              "mtime_ns": 1788655241754544100,
+              "path": "tools/handoff_eira2_runtime.py",
+              "size": 1867
+            },
+            {
+              "mtime_ns": 1788655241788728000,
+              "path": "tools/install_local_entrypoints.py",
+              "size": 5993
+            },
+            {
+              "mtime_ns": 1788655241788902600,
+              "path": "tools/integrate_eira2_easystore.py",
+              "size": 3107
+            },
+            {
+              "mtime_ns": 1788655241822476800,
+              "path": "tools/manage_boot_authority.py",
+              "size": 2850
+            },
+            {
+              "mtime_ns": 1788655241822644900,
+              "path": "tools/model_socket_proxy.py",
+              "size": 2694
+            },
+            {
+              "mtime_ns": 1788655241845112300,
+              "path": "tools/prepare_pi_isolated_install.py",
+              "size": 2567
+            },
+            {
+              "mtime_ns": 1788655241845301700,
+              "path": "tools/probe_runtime_handoff.py",
+              "size": 1202
+            },
+            {
+              "mtime_ns": 1788655241845486800,
+              "path": "tools/provision_native_voice_asset.py",
+              "size": 831
+            },
+            {
+              "mtime_ns": 1788655241845706100,
+              "path": "tools/qualify_300_isolated_turns.py",
+              "size": 11926
+            },
+            {
+              "mtime_ns": 1788655241845914300,
+              "path": "tools/qualify_500_conversation_turns.py",
+              "size": 9710
+            },
+            {
+              "mtime_ns": 1788655241846130900,
+              "path": "tools/qualify_500_semantic_simulations.py",
+              "size": 14927
+            },
+            {
+              "mtime_ns": 1788655241846304400,
+              "path": "tools/qualify_eira1_preservation.py",
+              "size": 1293
+            },
+            {
+              "mtime_ns": 1788655241846514100,
+              "path": "tools/qualify_everything_isolated.py",
+              "size": 6297
+            },
+            {
+              "mtime_ns": 1788655241869459000,
+              "path": "tools/qualify_extension_parity.py",
+              "size": 2120
+            },
+            {
+              "mtime_ns": 1788655241869652100,
+              "path": "tools/qualify_final_cutover.py",
+              "size": 1126
+            },
+            {
+              "mtime_ns": 1788655241869831600,
+              "path": "tools/qualify_full_isolated_system.py",
+              "size": 17037
+            },
+            {
+              "mtime_ns": 1788655241904713200,
+              "path": "tools/qualify_full_replacement.py",
+              "size": 2345
+            },
+            {
+              "mtime_ns": 1788655241904904100,
+              "path": "tools/qualify_functional_preservation.py",
+              "size": 2670
+            },
+            {
+              "mtime_ns": 1788655241905043500,
+              "path": "tools/qualify_legacy_behavior_parity.py",
+              "size": 2141
+            },
+            {
+              "mtime_ns": 1788655241905210000,
+              "path": "tools/qualify_migration_76056.py",
+              "size": 2327
+            },
+            {
+              "mtime_ns": 1788655241940095700,
+              "path": "tools/qualify_multilingual_voice_receipt.py",
+              "size": 1404
+            },
+            {
+              "mtime_ns": 1788655241940267500,
+              "path": "tools/qualify_native_only_runtime.py",
+              "size": 946
+            },
+            {
+              "mtime_ns": 1788655241940549200,
+              "path": "tools/qualify_persistent_randomized_conversation_fuzz.py",
+              "size": 9276
+            },
+            {
+              "mtime_ns": 1788655241940690900,
+              "path": "tools/qualify_pi_hardware.py",
+              "size": 2477
+            },
+            {
+              "mtime_ns": 1788655241954773600,
+              "path": "tools/qualify_pi_isolated_install.py",
+              "size": 1952
+            },
+            {
+              "mtime_ns": 1788655241977414400,
+              "path": "tools/qualify_post_replacement_boot.py",
+              "size": 1759
+            },
+            {
+              "mtime_ns": 1788655241977606500,
+              "path": "tools/qualify_randomized_conversation_fuzz.py",
+              "size": 17601
+            },
+            {
+              "mtime_ns": 1788655241989790300,
+              "path": "tools/qualify_real_model_super_gauntlet.py",
+              "size": 24167
+            },
+            {
+              "mtime_ns": 1788655242012207700,
+              "path": "tools/qualify_runtime_file_parity.py",
+              "size": 2302
+            },
+            {
+              "mtime_ns": 1788655242012436200,
+              "path": "tools/qualify_semantic_language_matrix.py",
+              "size": 2413
+            },
+            {
+              "mtime_ns": 1788655242046610400,
+              "path": "tools/real_model_gauntlet.py",
+              "size": 15861
+            },
+            {
+              "mtime_ns": 1788655242046795900,
+              "path": "tools/restore_model_vault.py",
+              "size": 5513
+            },
+            {
+              "mtime_ns": 1788655242046949600,
+              "path": "tools/retire_eira1_runtime.py",
+              "size": 1604
+            },
+            {
+              "mtime_ns": 1788655242047120200,
+              "path": "tools/run_system_audit.py",
+              "size": 167
+            },
+            {
+              "mtime_ns": 1788655242047277400,
+              "path": "tools/seal_eira2_package.py",
+              "size": 811
+            },
+            {
+              "mtime_ns": 1788655242047442100,
+              "path": "tools/stage_migration.py",
+              "size": 4521
+            },
+            {
+              "mtime_ns": 1788655242047623100,
+              "path": "tools/takeover_private_models.py",
+              "size": 2958
+            }
+          ],
+          "ok": true,
+          "python_files": 1615,
+          "root": "/media/domenicleonetti/easystore/EIRA/LIVE"
+        },
+        "privacy": "local_only",
+        "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+        "schema": "eira2_superprobe_forensic_v4",
+        "semantic_truth": {
+          "impact_index_files": 126,
+          "ok": true,
+          "python_files": 126,
+          "semantic_edges": 276,
+          "unresolved_internal_import_count": 0,
+          "unresolved_internal_imports": []
+        },
+        "shared_evidence": {
+          "artifact_count": 7,
+          "fingerprint": "c06991c5c3907df49984d70ce36a01b82fc46d8dcbff16c78d3bde0eb6e6f16d",
+          "manifest_path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/shared_evidence_bus/objects/c06991c5c3907df49984d70ce36a01b82fc46d8dcbff16c78d3bde0eb6e6f16d/manifest.json",
+          "manifest_sha256": "3e074c3408cfcec68c7086c94b25eadd4661882825cad82744ce22cb4d9654f9",
+          "ok": true
+        }
+      },
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_superprobe_report.json",
+      "present": true,
+      "sha256": "7e37a8b78f5f05502b482520650e142afae79a8bc0225490c014e1fbdb1edbb5"
+    },
+    "transport_v6_heartbeat": {
+      "json_error": "JSONDecodeError:Expecting value: line 1 column 1 (char 0)",
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/heartbeat.json",
+      "present": true,
+      "sha256": "7e9f9b78bdef6292e97f46afe1c55f05fe3c5bc1f17a136680afc330675959a1"
+    },
+    "transport_v8_owner": {
+      "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v8/owner.lock",
+      "present": false,
+      "sha256": null
+    }
+  },
+  "generated_unix": 1788943300.7487788,
+  "kind": "live_telemetry",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "runtime": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_full_duplex_bridge_v1",
+  "schema": "eira2_orin_full_duplex_bridge_v1",
+  "watcher": {
+    "inspect_ok": true,
+    "inspect_result": {
+      "builder_plan": null,
+      "ok": true,
+      "status": "idle",
+      "watcher_version": "6.0.0"
+    },
+    "path": "/media/domenicleonetti/easystore/EIRA/LIVE/extensions/repair_watcher_ai/plugin.py",
+    "present": true,
+    "sha256": "81bd5fcca4f1937f6d409eeffc38851843c9e549c2277c7e787b64fcd2aa4914",
+    "version": "6.0.0"
+  }
+}
