@@ -1,0 +1,15 @@
+{
+  "command_sha256": "04ed5ec2b81be029cccf5e589ad5d3d5c44ef345271b973e68bd2f5a251c0764",
+  "id": "install_continuous_probe_v2_3_bounded_scheduler",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "f2ef6f7ad97e058a05c103be0a10251ccdb92e4dff116f9bea8dd10cc05c2661",
+    "backup": "eira_probe/orin_baby_probe_v1/backups/install_continuous_probe_v2_3_bounded_scheduler/eira_probe/eira_continuous_probe.py",
+    "before_sha256": "04b04bd4c7e8817b35e70a80c09bb0909d4024de6a34a31fec26280cb1173d47",
+    "target_path": "eira_probe/eira_continuous_probe.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788993423.4063675
+}
