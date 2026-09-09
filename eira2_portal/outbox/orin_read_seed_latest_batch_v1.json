@@ -1,0 +1,9 @@
+{
+  "error": "FileNotFoundError:[Errno 2] No such file or directory: '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/dormant_seeds/latest_batch.json'",
+  "id": "orin_read_seed_latest_batch_v1",
+  "ok": false,
+  "op": "read",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v4",
+  "unix": 1788951332.7326205
+}
