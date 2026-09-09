@@ -1,0 +1,19 @@
+{
+  "command_sha256": "385fb0430fb32a94c760f1fbc3431930b1ae8f5cbebe97c126219abaa886678d",
+  "id": "audit_universe_public_library_manifest_refs_v2",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 1196,
+        "path": "tools/eira2_library_contract_guard.py",
+        "sha256": "51a444cb42c31322a1940a194d5ac32d9d21f7bc284ffc793e4b1053e0fe54c3"
+      }
+    ],
+    "term": "eira2/evidence/universe_public_library.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962829.9951425
+}
