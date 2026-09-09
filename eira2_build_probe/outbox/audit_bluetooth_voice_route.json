@@ -14,11 +14,21 @@
         "bytes": 19550,
         "path": "eira2/delivery/voice.py",
         "sha256": "ad24ae376049a72b4d0b0aca2e306cbdc274e685343c2ad0f46e7f142e023bf6"
+      },
+      {
+        "bytes": 2016,
+        "path": "tools/eira2_flashcube_connect.py",
+        "sha256": "21b710c0ee802a186ff97b39728209dfa08fb0722ef95a401bcbb06a5b487698"
+      },
+      {
+        "bytes": 4216,
+        "path": "tools/eira2_voice_path_completion.py",
+        "sha256": "f805825f91d61571df26ba004ab58259865b5025987f7b47ddd75cb02e223a9d"
       }
     ],
     "term": "bluetooth"
   },
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788959144.685513
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989867.121962
 }
