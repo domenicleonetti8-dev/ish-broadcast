@@ -1,0 +1,13 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_see_build_selftest_v1",
+  "operation": "see",
+  "see": {
+    "paths": [
+      "extensions/repair_watcher_ai/plugin.py",
+      "tools/eira2_builder_probe.py",
+      "tools/eira2_orin_direct_bridge.py"
+    ],
+    "max_bytes": 120000
+  }
+}
