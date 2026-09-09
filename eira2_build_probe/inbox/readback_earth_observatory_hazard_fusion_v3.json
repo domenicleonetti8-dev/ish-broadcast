@@ -1,0 +1,5 @@
+{
+  "id": "readback_earth_observatory_hazard_fusion_v3",
+  "op": "read",
+  "path": "eira2/evidence/earth_observatory_hazard_fusion.py"
+}
