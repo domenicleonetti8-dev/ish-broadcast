@@ -1,0 +1,19 @@
+[Unit]
+Description=EIRA2 Orin Build Probe Always-On
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=0
+
+[Service]
+Type=notify
+NotifyAccess=main
+WorkingDirectory=/media/domenicleonetti/easystore/EIRA/LIVE
+ExecStart=/usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_orin_build_probe_v2.py
+Restart=always
+RestartSec=2
+WatchdogSec=90
+TimeoutStopSec=15
+KillMode=control-group
+
+[Install]
+WantedBy=default.target
