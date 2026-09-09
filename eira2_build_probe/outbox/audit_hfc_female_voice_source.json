@@ -1,0 +1,24 @@
+{
+  "command_sha256": "86c9fd668c5c3688a94e7963b9156f2148df933906a730a87651d195cc530ae2",
+  "id": "audit_hfc_female_voice_source",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 14967,
+        "path": "eira2/delivery/native_bluetooth_voice.py",
+        "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359"
+      },
+      {
+        "bytes": 14130,
+        "path": "eira2/operations/voice_asset_takeover.py",
+        "sha256": "2e95dddd17fb831def5a539301282db0c4f4f4a48bd7968af11e65f39247e640"
+      }
+    ],
+    "term": "en_US-hfc_female-medium.onnx"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959686.9467704
+}
