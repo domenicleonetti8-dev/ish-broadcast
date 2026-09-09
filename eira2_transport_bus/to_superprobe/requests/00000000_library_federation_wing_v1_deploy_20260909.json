@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "library_federation_wing_v1_deploy_20260909",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "f6ad60ff5af1dabed9637abc12ef04e0ce139952",
+      "path": "EIRA2_UNIVERSE_LIBRARY_FEDERATION_V1.py"
+    },
+    "target": {
+      "path": "eira2/evidence/universe_library_federation.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
