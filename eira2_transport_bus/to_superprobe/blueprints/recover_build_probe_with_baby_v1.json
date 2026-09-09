@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "recover_build_probe_with_baby_v1",
+  "source": {
+    "commit": "5efaa678ad64e62503a1465c8e5593dde8e36d62",
+    "path": "EIRA2_ORIN_BABY_RECOVERY_PROBE_V1.py"
+  },
+  "target": {
+    "path": "tools/eira2_orin_build_probe.py"
+  }
+}
