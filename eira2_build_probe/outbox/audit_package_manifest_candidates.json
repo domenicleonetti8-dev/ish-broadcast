@@ -1,0 +1,59 @@
+{
+  "command_sha256": "a319f368134b6d3e7077275cc9a238929fa95a618fafbc1aaa765aebc47f78b1",
+  "id": "audit_package_manifest_candidates",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 15449,
+        "path": "eira2/live.py",
+        "sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379"
+      },
+      {
+        "bytes": 2564,
+        "path": "eira2/config/schema.py",
+        "sha256": "b85a8d6f612549d43f0942a7641f2cb9f840142b5186082a31601a036706b2e7"
+      },
+      {
+        "bytes": 9898,
+        "path": "eira2/operations/boot_authority.py",
+        "sha256": "06f90fad8367885bb811a1ddb00942339254d060b7b5649250cbdb524a3c5695"
+      },
+      {
+        "bytes": 13175,
+        "path": "eira2/operations/easystore_cutover.py",
+        "sha256": "0f27b8f6509d2f377802bb77748cb744154bb6f75fb956b1649ca9c540ce3a67"
+      },
+      {
+        "bytes": 17973,
+        "path": "eira2/operations/final_cutover_qualification.py",
+        "sha256": "9b41598185fbee4679e051576e932fc09a059067065b3eae8c374f6059aec050"
+      },
+      {
+        "bytes": 29493,
+        "path": "eira2/operations/legacy_retirement.py",
+        "sha256": "b41e94dafa7167981dc7515c812ff242e00bf2fa14ec270849da3e3a65fb3056"
+      },
+      {
+        "bytes": 8551,
+        "path": "eira2/operations/package_identity.py",
+        "sha256": "72256f7ddeb7ffc6119cff66c43fb6dde4d8269dffd09ad7747b609bf363efad"
+      },
+      {
+        "bytes": 9754,
+        "path": "eira2/operations/runtime_handoff.py",
+        "sha256": "1e9aefd6d32adef443c4d0a222fdd5b32a9a5a4d0da5fce3da937dcb069bfab1"
+      },
+      {
+        "bytes": 8712,
+        "path": "eira2/repair/cutover.py",
+        "sha256": "d70c9b4492dd8ec0a5ece61be3cef03daab7aa9bb5522105ddaffce3299b44bb"
+      }
+    ],
+    "term": "source_commit_sha"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962856.392232
+}
