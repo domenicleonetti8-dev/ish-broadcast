@@ -1,0 +1,19 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "eira2_bidirectional_builder_canary_v223",
+  "purpose": "Isolated end-to-end transport canary proving hardened Superprobe to Watcher/Builder to Easystore and returned deployment receipt.",
+  "source": {
+    "commit": "76ba5a9ae28b4ee6fed85f0f2bef301d652ee779",
+    "path": "eira2_transport_bus/to_superprobe/artifacts/EIRA2_BIDIRECTIONAL_BUILDER_CANARY_V223.py",
+    "sha256": "cc23d503f1579f140189c46ff94cef33b6cf655b24db077d8705f6629422ad5c"
+  },
+  "target": {
+    "path": "eira_probe/transport_canary/EIRA2_BIDIRECTIONAL_BUILDER_CANARY_V223.py",
+    "expected_before_sha256": ""
+  },
+  "safety": {
+    "isolated_target": true,
+    "touch_core": false,
+    "destructive": false
+  }
+}
