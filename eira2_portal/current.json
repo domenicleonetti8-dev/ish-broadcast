@@ -1,1 +1,1 @@
-{"id":"orin_read_gutenberg_document_index_state_v1","op":"read","path":"eira_probe/universe_library/gutenberg_document_index_state.json","max_bytes":2000000}
+{"id":"orin_read_seed_latest_batch_v1","op":"read","path":"eira_probe/universe_library/dormant_seeds/latest_batch.json","max_bytes":2000000}
