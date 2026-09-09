@@ -1,0 +1,16 @@
+{
+  "command_sha256": "0b24217bf7298a515005a9623e5333fb389decca2e43239418562421cc9bc09c",
+  "id": "read_eira2_main_manifest_path",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 2347,
+    "path": "eira2/__main__.py",
+    "sha256": "3df01aed7326cc7ef5aa90b3abdd4d00344528370c4874497326750cd4b48f33",
+    "text": "from __future__ import annotations\n\nimport argparse\nimport asyncio\nimport json\nfrom pathlib import Path\n\nfrom .evidence.deterministic import verify_response\nfrom .live import run_live\nfrom .runtime import Eira2Runtime, default_config\n\n\nasync def shadow_smoke(root: Path) -> dict:\n    delivered: list[str] = []\n\n    async def candidate(text: str) -> str:\n        return \"shadow candidate for \" + text\n\n    async def sink(text: str) -> None:\n        delivered.append(text)\n\n    runtime = Eira2Runtime(default_config(root), generate=candidate, verify=verify_response, sinks=[sink])\n    await runtime.start()\n    result = await runtime.process(\"EIRA 2.0 isolated verification\")\n    health = await runtime.health.snapshot()\n    await runtime.stop()\n    return {\n        \"schema\": \"eira2_shadow_smoke_v1\",\n        \"ok\": result.verified and not health[\"required_failures\"],\n        \"shadow_mode\": True,\n        \"outward_deliveries\": len(delivered),\n        \"required_failures\": health[\"required_failures\"],\n        \"service_count\": len(health[\"services\"]),\n        \"response_characters\": len(result.response),\n        \"privacy\": {\"conversation_text\": False, \"source_code\": False, \"audio\": False, \"secrets\": False},\n    }\n\n\ndef main() -> int:\n    parser = argparse.ArgumentParser()\n    parser.add_argument(\"--root\", type=Path, default=Path.cwd())\n    modes = parser.add_mutually_exclusive_group(required=True)\n    modes.add_argument(\"--shadow-smoke\", action=\"store_true\")\n    modes.add_argument(\"--live\", action=\"store_true\")\n    parser.add_argument(\"--package-manifest\", type=Path)\n    parser.add_argument(\"--model\", default=\"\")\n    parser.add_argument(\"--host\", default=\"0.0.0.0\")\n    parser.add_argument(\"--port\", type=int, default=8782)\n    args = parser.parse_args()\n\n    root = args.root.expanduser().resolve()\n    if args.shadow_smoke:\n        result = asyncio.run(shadow_smoke(root))\n        print(json.dumps(result, sort_keys=True))\n        return 0 if result[\"ok\"] and result[\"outward_deliveries\"] == 0 else 1\n\n    manifest = (\n        args.package_manifest.expanduser().resolve()\n        if args.package_manifest is not None\n        else root / \"eira2-package-manifest.json\"\n    )\n    asyncio.run(run_live(root, manifest, model=args.model, host=args.host, port=args.port))\n    return 0\n\n\nif __name__ == \"__main__\":\n    raise SystemExit(main())\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962883.563055
+}
