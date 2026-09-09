@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_voice_acquire_hook",
+  "op": "search",
+  "term": "acquire()",
+  "roots": ["eira2/delivery", "eira2/runtime.py", "eira2/capabilities"],
+  "limit": 100
+}
