@@ -1,0 +1,9 @@
+{
+  "id": "install_build_probe_v3_1_scoped_control",
+  "op": "deploy",
+  "source": {
+    "commit": "a0b731ccb0f486b56eeb7956b81fd355128d6315",
+    "path": "EIRA2_ORIN_BUILD_PROBE_V3_1_SCOPED_CONTROL.py"
+  },
+  "target_path": "tools/eira2_orin_build_probe.py"
+}
