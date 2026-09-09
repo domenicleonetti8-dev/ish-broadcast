@@ -1,0 +1,17 @@
+{
+  "command_sha256": "fe1c7f436ad41a6489bb64b082997413c37b0f2c8dc4527a49b8bc9157c476ff",
+  "id": "install_flashcube_connect_v1",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "21b710c0ee802a186ff97b39728209dfa08fb0722ef95a401bcbb06a5b487698",
+    "backup": null,
+    "before_sha256": null,
+    "compile_ok": true,
+    "payload_sha256": "21b710c0ee802a186ff97b39728209dfa08fb0722ef95a401bcbb06a5b487698",
+    "target_path": "tools/eira2_flashcube_connect.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959405.067921
+}
