@@ -1,17 +1,9 @@
 {
   "command_sha256": "99aa01151f6f59f8a2f564617619d048c59052ec5930391925d73d5e92a99afd",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_VOICE_PATH_COMPLETION_V1.py' exists on disk, but not in 'ff47fbcd3363b7226dd737203405b40e5f8402ed'\n",
   "id": "install_voice_path_completion_v1",
-  "ok": true,
-  "op": "deploy",
-  "result": {
-    "after_sha256": "f805825f91d61571df26ba004ab58259865b5025987f7b47ddd75cb02e223a9d",
-    "backup": null,
-    "before_sha256": null,
-    "compile_ok": true,
-    "payload_sha256": "f805825f91d61571df26ba004ab58259865b5025987f7b47ddd75cb02e223a9d",
-    "target_path": "tools/eira2_voice_path_completion.py"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v1",
-  "unix": 1788960600.088476
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788990001.0505126
 }
