@@ -1,0 +1,66 @@
+{
+  "candidates": [
+    {
+      "path": "eira2/evidence/gutenberg_corpus_runtime_v3.py",
+      "size": 6091,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/gutenberg_corpus_runtime_v4.py",
+      "size": 8090,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/open_book_oai_harvester.py",
+      "size": 5784,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/universe_library_mass_expansion.py",
+      "size": 9359,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/universe_public_library.py",
+      "size": 17338,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/universe_public_library.py.bak.1788905444",
+      "size": 17170,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/universe_public_library.py.bak_gutenberg_sql",
+      "size": 17338,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/__pycache__/gutenberg_corpus_runtime_v3.cpython-313.pyc",
+      "size": 12450,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/__pycache__/gutenberg_corpus_runtime_v4.cpython-313.pyc",
+      "size": 15453,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/__pycache__/open_book_oai_harvester.cpython-313.pyc",
+      "size": 11792,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/__pycache__/universe_library_mass_expansion.cpython-313.pyc",
+      "size": 8937,
+      "type": "file"
+    },
+    {
+      "path": "eira2/evidence/__pycache__/universe_public_library.cpython-313.pyc",
+      "size": 27810,
+      "type": "file"
+    }
+  ],
+  "schema": "eira2_probe_library_v1",
+  "unix": 1788949945.088747
+}

@@ -1,0 +1,157 @@
+{
+  "items": [
+    {
+      "mtime": 1788949935.3460393,
+      "name": ".orin_relay",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788946216.075718,
+      "name": ".orin_relay.log",
+      "size": 22,
+      "type": "file"
+    },
+    {
+      "mtime": 1788946216.0610788,
+      "name": ".orin_relay.py",
+      "size": 3514,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655239.1246872,
+      "name": "AUDIT_SCOPE.md",
+      "size": 2085,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655239.1249373,
+      "name": "CANONICAL_ORDER.md",
+      "size": 15118,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655239.1473243,
+      "name": "FUNCTIONAL_PRESERVATION.md",
+      "size": 6077,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655239.1812537,
+      "name": "REPLACEMENT_CONTRACT.md",
+      "size": 10795,
+      "type": "file"
+    },
+    {
+      "mtime": 1788818620.113425,
+      "name": "eira2",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788903411.9939246,
+      "name": "eira2-package-manifest.json",
+      "size": 60414,
+      "type": "file"
+    },
+    {
+      "mtime": 1788770081.0385802,
+      "name": "eira2-package-manifest.json.retired_pre_finalize_20260907_062856",
+      "size": 57859,
+      "type": "file"
+    },
+    {
+      "mtime": 1788745333.1893237,
+      "name": "eira2-package-manifest.json.retired_pre_runtime_boundary_20260907_043440",
+      "size": 54385,
+      "type": "file"
+    },
+    {
+      "mtime": 1788770081.0385802,
+      "name": "eira2-package-manifest.json.retired_pre_watcher_v4_20260907_061641",
+      "size": 57859,
+      "type": "file"
+    },
+    {
+      "mtime": 1788724434.4201643,
+      "name": "eira2_server_revamp",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788904494.4117446,
+      "name": "eira2_transport_bus",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788949942.853516,
+      "name": "eira_probe",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788766177.687479,
+      "name": "extensions",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788655240.678955,
+      "name": "fraternal_twin_contract.json",
+      "size": 2094,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655240.6791263,
+      "name": "main.py",
+      "size": 199,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655240.791873,
+      "name": "manifests",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788655240.7921157,
+      "name": "preservation_contract.json",
+      "size": 15210,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655240.7922564,
+      "name": "private_model_set.json",
+      "size": 829,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655240.7923796,
+      "name": "pyproject.toml",
+      "size": 508,
+      "type": "file"
+    },
+    {
+      "mtime": 1788655241.6707618,
+      "name": "tests",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788949844.4104953,
+      "name": "tools",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "mtime": 1788828485.3976393,
+      "name": "var",
+      "size": null,
+      "type": "dir"
+    }
+  ],
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_probe_filesystem_v1",
+  "unix": 1788949943.4127076
+}
