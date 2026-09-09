@@ -1,0 +1,9 @@
+{
+  "id": "deploy_legacy_v1_isolator_1919",
+  "op": "deploy",
+  "source": {
+    "commit": "f2734d4f29923c66d4796ec99392dde8a7bbf333",
+    "path": "EIRA2_ISOLATE_LEGACY_BUILD_PROBE_V1_ONCE.py"
+  },
+  "target_path": "eira_probe/isolation/EIRA2_ISOLATE_LEGACY_BUILD_PROBE_V1_ONCE.py"
+}
