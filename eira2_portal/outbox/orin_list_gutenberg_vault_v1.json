@@ -1,0 +1,26 @@
+{
+  "id": "orin_list_gutenberg_vault_v1",
+  "items": [
+    {
+      "name": "bulk",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "catalog",
+      "size": null,
+      "type": "dir"
+    },
+    {
+      "name": "texts",
+      "size": null,
+      "type": "dir"
+    }
+  ],
+  "ok": true,
+  "op": "list",
+  "path": "eira_probe/universe_library/source_vault/project_gutenberg",
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_worker_receipt_v4",
+  "unix": 1788950579.626777
+}
