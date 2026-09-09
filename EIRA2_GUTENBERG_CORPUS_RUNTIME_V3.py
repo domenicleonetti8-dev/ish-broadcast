@@ -98,8 +98,28 @@ def extract():
     stage("EXTRACT_COMPLETE", extracted=extracted, skipped=skipped, text_files=sum(1 for _ in TEXTS.glob("*.txt")))
 
 
-def launch_indexer():
+def live_indexer_pid():
+    proc = Path("/proc")
+    if not proc.is_dir():
+        return None
+    for p in proc.iterdir():
+        if not p.name.isdigit() or int(p.name) == os.getpid():
+            continue
+        try:
+            cmd = (p / "cmdline").read_bytes().replace(b"\0", b" ").decode(errors="replace")
+        except Exception:
+            continue
+        if "eira2.evidence.gutenberg_document_indexer" in cmd:
+            return int(p.name)
+    return None
+
+
+def ensure_indexer():
     import subprocess
+    existing = live_indexer_pid()
+    if existing:
+        stage("INDEXER_REUSED", pid=existing)
+        return existing
     log = LIB / "gutenberg_index.log"
     cmd = [sys.executable, "-m", "eira2.evidence.gutenberg_document_indexer", "--index"]
     with log.open("ab") as out:
@@ -120,7 +140,7 @@ def main():
         else:
             stage("ARCHIVE_VALID", archive=str(ARCHIVE), bytes=ARCHIVE.stat().st_size)
         extract()
-        pid = launch_indexer()
+        pid = ensure_indexer()
         stage("PIPELINE_READY", indexer_pid=pid, archive_bytes=ARCHIVE.stat().st_size, text_files=sum(1 for _ in TEXTS.glob("*.txt")))
         return 0
     except Exception as exc:
