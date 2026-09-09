@@ -1,0 +1,9 @@
+{
+  "command_sha256": "a150f85d74d3bdfe308d60426050d268a2ceb3670771210fe8eae08ea064c279",
+  "error": "ValueError:unsafe_path",
+  "id": "deploy_text_path_recovery_v2_targeted",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788989932.1992636
+}
