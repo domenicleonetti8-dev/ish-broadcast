@@ -1,0 +1,69 @@
+{
+  "command_sha256": "7214907b18e42d6e8582e76a6f4d1004c8d5029ed80062cb7383007ac6a7ddee",
+  "id": "audit_conversation_reasoning_provider",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 16465,
+        "path": "eira2/runtime.py",
+        "sha256": "c16b1535f9105d4d93eaf7473ce18a40e09049638fe86445099e8441f6534fbe"
+      },
+      {
+        "bytes": 15864,
+        "path": "eira2/conversation/analysis.py",
+        "sha256": "2e23ba73e6656db4ac3b6230a1b18631e9cac618e6c75502e85ad93c6245c3c4"
+      },
+      {
+        "bytes": 22400,
+        "path": "eira2/conversation/spine.py",
+        "sha256": "e7e71f8e1963bf477af0eb44f5a9b4e100f018edefe00cc53a074ffe8549cb23"
+      },
+      {
+        "bytes": 2062,
+        "path": "eira2/reasoning/provider.py",
+        "sha256": "25a705d261b586508014037654b021a422ff0e9d83038e9bd490c2238186d8aa"
+      },
+      {
+        "bytes": 4164,
+        "path": "eira2/repair/autonomy.py",
+        "sha256": "e712df445ff7fc15422e3ecd9e6420dcceb855534850d7fd0fa704322c602623"
+      },
+      {
+        "bytes": 6198,
+        "path": "eira2/repair/proposal_provider.py",
+        "sha256": "2b54a99b58c8403d714f9b277aa239daf0beddff57bdd241dda76830575599f9"
+      },
+      {
+        "bytes": 11926,
+        "path": "tools/qualify_300_isolated_turns.py",
+        "sha256": "f4c439ecde0e55c8fbbbcb9e3ad037c4d06e41916fd788be3a96319ecf795479"
+      },
+      {
+        "bytes": 14927,
+        "path": "tools/qualify_500_semantic_simulations.py",
+        "sha256": "78cafedeb6ff51ac15b519e6dd8e66903575c1a3b1c824e8e741660723aee05f"
+      },
+      {
+        "bytes": 17601,
+        "path": "tools/qualify_randomized_conversation_fuzz.py",
+        "sha256": "c407d213e37fd73616d128ad0d50aba643848e77a2e052ecf41d34148ca0d101"
+      },
+      {
+        "bytes": 24167,
+        "path": "tools/qualify_real_model_super_gauntlet.py",
+        "sha256": "0d57ccf23cb45f4e698025ee90b015d1476d7697c15e17ccd70338a528995570"
+      },
+      {
+        "bytes": 15861,
+        "path": "tools/real_model_gauntlet.py",
+        "sha256": "a970b8f567ee477dc292c04bad93ac6a9f844d82492f277424bf807b62aaf983"
+      }
+    ],
+    "term": "reasoning.provider"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958890.1563678
+}
