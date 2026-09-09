@@ -1,0 +1,16 @@
+{
+  "command_sha256": "f878b68feee0049ce3bf4a309cb2d8e0a2975520b035c46e240026ea418fe39d",
+  "id": "read_library_contract_guard",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 1196,
+    "path": "tools/eira2_library_contract_guard.py",
+    "sha256": "51a444cb42c31322a1940a194d5ac32d9d21f7bc284ffc793e4b1053e0fe54c3",
+    "text": "from pathlib import Path\nimport sqlite3,re,sys\n\nROOT=Path(\"/media/domenicleonetti/easystore/EIRA/LIVE\")\nSRC=ROOT/\"eira2/evidence/universe_public_library.py\"\nDB=ROOT/\"eira_probe/universe_library/source_vault/source_index.sqlite3\"\n\nEXPECTED=[\n\"receipt_id\",\"source_name\",\"operation\",\"started_unix\",\n\"completed_unix\",\"status\",\"details_json\"\n]\n\ndef fail(msg):\n    print(\"LIBRARY_CONTRACT_GUARD=FAIL\",msg)\n    raise SystemExit(1)\n\nif not SRC.is_file(): fail(\"source_missing\")\nif not DB.is_file(): fail(\"database_missing\")\n\nwith sqlite3.connect(DB) as db:\n    cols=[r[1] for r in db.execute(\n        \"PRAGMA table_info(ingest_receipts)\"\n    )]\n\nif cols != EXPECTED:\n    fail(\"sqlite_schema=\"+repr(cols))\n\ns=SRC.read_text()\n\nif \"ingest_receipts VALUES(\" in s:\n    fail(\"unsafe_positional_receipt_insert\")\n\npattern=(\n r\"INSERT OR REPLACE INTO ingest_receipts\"\n r\"\\s*\\(receipt_id,source_name,operation,started_unix,\"\n r\"\\s*completed_unix,status,details_json\\)\"\n r\"\\s*VALUES\\(\\?,\\?,\\?,\\?,\\?,\\?,\\?\\)\"\n)\n\nif len(re.findall(pattern,s)) < 2:\n    fail(\"explicit_7_column_writers_missing\")\n\ncompile(s,str(SRC),\"exec\")\n\nprint(\"LIBRARY_CONTRACT_GUARD=PASS\")\nprint(\"SQLITE_COLUMNS=7\")\nprint(\"WRITER_PLACEHOLDERS=7\")\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788962982.1362395
+}
