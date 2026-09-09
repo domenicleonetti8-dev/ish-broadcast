@@ -1,0 +1,6 @@
+{
+  "id": "readback_air_space_watch_v2",
+  "op": "read",
+  "path": "eira2/evidence/air_space_watch.py",
+  "max_bytes": 500000
+}
