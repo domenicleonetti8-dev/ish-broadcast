@@ -1,0 +1,14 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_live_build_canary_v1",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "79b9deb4e99015f513718d9645089f0e5f3c5412",
+      "path": "EIRA2_ORIN_LIVE_BUILD_CANARY_V1.py"
+    },
+    "target": {
+      "path": "eira_probe/orin_live_build_canary_v1.py"
+    }
+  }
+}
