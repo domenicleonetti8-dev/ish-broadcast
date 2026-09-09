@@ -1,0 +1,16 @@
+{
+  "command_sha256": "f0a99140a331ce4cb030dc40357d49d41c7f667a443f89e8c8b1faa3b02d0869",
+  "id": "audit_probe_v3_heartbeat_1911",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 211,
+    "path": "eira_probe/orin_build_probe_v3/heartbeat.json",
+    "sha256": "6e28d6473db7a8ca2a53e308d1b3e781977a2c151798c54742b94228ac3644b9",
+    "text": "{\n  \"head\": \"b6a0ddf689d8f60685b562dda875c01e878f931c\",\n  \"ok\": true,\n  \"phase\": \"synced\",\n  \"pid\": 1467692,\n  \"schema\": \"eira2_orin_build_probe_v3\",\n  \"unix\": 1788995514.2097487,\n  \"version\": \"3.0-resilient\"\n}\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788995514.2241342
+}
