@@ -1,0 +1,13 @@
+{
+  "command_sha256": "d754f63cfe6b703c2fb21bf63ce4287fc9f9545b381212df33d710216e38cda0",
+  "id": "audit_flashcube_voice_route",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [],
+    "term": "FlashCube"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959134.7163842
+}
