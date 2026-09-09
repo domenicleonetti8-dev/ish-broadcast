@@ -1,0 +1,20 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "knowledge_seed_vault_v2_deploy_20260909",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "4c337c4c5f786e27b234d6d64893a041abe2eb53",
+      "path": "EIRA2_KNOWLEDGE_SEED_VAULT_V2.py"
+    },
+    "target": {
+      "path": "eira2/evidence/knowledge_seed_vault.py"
+    }
+  },
+  "requirements": {
+    "watcher_authorizes": true,
+    "builder_invoked": true,
+    "package_identity_ok": true,
+    "declared_vs_observed_discrepancies": 0
+  }
+}
