@@ -1,0 +1,9 @@
+{
+  "id": "build_test_canary_20260909_1906",
+  "op": "deploy",
+  "source": {
+    "commit": "a66a550390feea40ce929d195e4b004781bbd05a",
+    "path": "EIRA_BUILD_TEST_CANARY_20260909_1906.txt"
+  },
+  "target_path": "eira_probe/build_test/EIRA_BUILD_TEST_CANARY_20260909_1906.txt"
+}
