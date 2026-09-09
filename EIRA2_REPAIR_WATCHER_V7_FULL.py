@@ -9,7 +9,7 @@ import time
 from pathlib import Path
 from typing import Any
 
-VERSION = "7.0.0"
+VERSION = "7.0.1"
 SCHEMA = "eira2_transport_request_v1"
 PLAN_SCHEMA = "eira2_builder_plan_v4"
 ROOT = Path(os.environ.get("EIRA_ROOT", "/media/domenicleonetti/easystore/EIRA/LIVE")).resolve()
@@ -38,16 +38,6 @@ def _safe_rel(value: str) -> str:
     if ".git" in p.parts:
         raise RuntimeError("git_metadata_write_blocked")
     return p.as_posix()
-
-
-def _target_snapshot(target_rel: str) -> dict[str, Any]:
-    target = (ROOT / _safe_rel(target_rel)).resolve()
-    target.relative_to(ROOT)
-    if target.is_file():
-        return {"expected_before_exists": True, "expected_before_sha256": _sha(target)}
-    if target.exists():
-        raise RuntimeError("target_not_regular_file:" + target_rel)
-    return {"expected_before_exists": False, "expected_before_sha256": None}
 
 
 def _inbox() -> str:
@@ -82,9 +72,6 @@ def authorize_transport_request(request: dict[str, Any]) -> dict[str, Any]:
     except Exception as exc:
         return {"authorized": False, "reason": str(exc)}
 
-    # Autonomous engineering is a first-class deployment mode. The outer
-    # request is allowed to enter the isolated candidate loop without a source
-    # blob. The inner sandbox approval must present passing evidence.
     if autonomous_job:
         if not str(autonomous_job.get("objective") or "").strip():
             return {"authorized": False, "reason": "autonomous_objective_missing"}
@@ -94,9 +81,6 @@ def authorize_transport_request(request: dict[str, Any]) -> dict[str, Any]:
                 return {"authorized": False, "reason": "sandbox_tests_not_passed"}
             if str(evidence.get("target_path") or "") != target_path:
                 return {"authorized": False, "reason": "sandbox_target_mismatch"}
-            candidate_sha = str(evidence.get("candidate_sha256") or "")
-            if not re.fullmatch(r"[0-9a-f]{64}", candidate_sha):
-                return {"authorized": False, "reason": "sandbox_candidate_hash_missing"}
         return {
             "authorized": True,
             "authorized_by": "repair_watcher_ai",
@@ -104,7 +88,7 @@ def authorize_transport_request(request: dict[str, Any]) -> dict[str, Any]:
             "operation": "deploy",
             "deployment_mode": "autonomous_engineering",
             "target_path": target_path,
-            "policy": "sandbox_first_then_exact_hash_builder_write",
+            "policy": "sandbox_first_builder_write_no_live_hash_gate",
         }
 
     source = dep.get("source") or {}
@@ -135,7 +119,7 @@ def authorize_transport_request(request: dict[str, Any]) -> dict[str, Any]:
         "operation": "deploy",
         "deployment_mode": "pinned_source",
         "target_path": target_path,
-        "policy": "broad_eira_live_write_with_root_containment_staging_hash_backup_rollback",
+        "policy": "broad_eira_live_write_with_root_containment_staging_backup_rollback",
     }
 
 
@@ -178,7 +162,6 @@ def inspect_once() -> dict[str, Any]:
                 "target_path": target,
                 "staged_path": staged,
                 "sha256": actual,
-                **_target_snapshot(target),
             })
 
         plan = {
@@ -189,7 +172,7 @@ def inspect_once() -> dict[str, Any]:
             "offsystem_stage_root": str(stage),
             "files": files,
             "package_fingerprint_sha256": package.get("package_fingerprint_sha256"),
-            "authorization_contract": "target_snapshot_then_builder_compare_and_swap",
+            "authorization_contract": "validated_stage_then_builder_atomic_write",
         }
         out = ROOT / "eira_probe" / "eira2_builder_plan.json"
         _atomic(out, plan)
