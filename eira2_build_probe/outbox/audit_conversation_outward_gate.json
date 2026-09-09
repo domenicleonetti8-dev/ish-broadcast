@@ -1,0 +1,13 @@
+{
+  "command_sha256": "f6fc328f91934013739dff2848b6cc7c01604c59f524d55b50381650848d0697",
+  "id": "audit_conversation_outward_gate",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [],
+    "term": "outward_gate"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788958903.147847
+}
