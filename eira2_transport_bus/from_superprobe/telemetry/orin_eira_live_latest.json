@@ -4,29 +4,19 @@
   "evidence": {
     "builder_receipt": {
       "json": {
-        "applied_files": [
-          {
-            "after_sha256": "26226c7e1f3c4ec01a50edae22fdc8f777c0843973bfbbd08357753f2fac483e",
-            "before_sha256": "26226c7e1f3c4ec01a50edae22fdc8f777c0843973bfbbd08357753f2fac483e",
-            "target_path": "eira_probe/universe_library/tiny_library_heartbeat_runner.py"
-          }
+        "applied": [
+          "extensions/repair_watcher_ai/plugin.py"
         ],
         "authorized_by": "repair_watcher_ai",
-        "backup_root": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/builder_backups/20260908T173642",
-        "builder_probe_made_no_change_decisions": true,
-        "constructed_bridges": [],
-        "eira2_only": true,
-        "generated_unix": 1788903402.421738,
-        "mode": "watcher_authorized_write_transport",
+        "completed_unix": 1788943753.4196603,
         "ok": true,
-        "requires_post_superprobe_verification": true,
-        "retired_after_acceptance": [],
-        "schema": "eira2_builder_probe_v1",
-        "superprobe_remained_read_only": true
+        "rollback_performed": false,
+        "schema": "eira2_builder_receipt_v3",
+        "transaction_id": "1788943753-105311"
       },
       "path": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/eira2_builder_receipt.json",
       "present": true,
-      "sha256": "571da955a54584cbbfdb22ca763a548322b27503a4c1e69a976474817261da64"
+      "sha256": "918b8b4d4486ceb839f3b841c0da846e4001d471dbfc528ab712a5a4c0c81fa2"
     },
     "superprobe": {
       "json": {
@@ -1660,7 +1650,7 @@
       "sha256": null
     }
   },
-  "generated_unix": 1788943734.9049127,
+  "generated_unix": 1788943875.8784235,
   "kind": "live_telemetry",
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
   "runtime": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_full_duplex_bridge_v1",
@@ -1671,11 +1661,11 @@
       "builder_plan": null,
       "ok": true,
       "status": "idle",
-      "watcher_version": "6.0.0"
+      "watcher_version": "7.0.1"
     },
     "path": "/media/domenicleonetti/easystore/EIRA/LIVE/extensions/repair_watcher_ai/plugin.py",
     "present": true,
-    "sha256": "81bd5fcca4f1937f6d409eeffc38851843c9e549c2277c7e787b64fcd2aa4914",
-    "version": "6.0.0"
+    "sha256": "7dfcfe353a71806e89333a1c22c89849d66a88052cfd190597d0ca4bb9044cf4",
+    "version": "7.0.1"
   }
 }
