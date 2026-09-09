@@ -1,0 +1,99 @@
+{
+  "command_sha256": "b5dd8f90f3c34372c9e8330d52e3c1f67f05a553ec3bfd6541fbeaf9ffd082be",
+  "id": "audit_conversation_archive_local_first",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 11632,
+        "path": "eira2/neural/apple_ar.py",
+        "sha256": "884147c11745bf1d0e1ddb1bcfdc41009da228cd369db2ce1af2311fb3947c5a"
+      },
+      {
+        "bytes": 13705,
+        "path": "eira2/neural/apple_ar_v13_base.py",
+        "sha256": "ae0badf9bd32962cb0b177f903b66a4e8f2eacb250217579dec06420efc002e7"
+      },
+      {
+        "bytes": 5702,
+        "path": "eira2/evidence/gov_science_literature_harvester.py",
+        "sha256": "b11ae8b8e06d438e6c01ec666d3f00c36c375605d979fcfd24544097bc93db14"
+      },
+      {
+        "bytes": 6091,
+        "path": "eira2/evidence/gutenberg_corpus_runtime_v3.py",
+        "sha256": "26691a0ae202de33b964c32a9916dfbee3b9a58f93e873f533386d5fb88ff067"
+      },
+      {
+        "bytes": 8090,
+        "path": "eira2/evidence/gutenberg_corpus_runtime_v4.py",
+        "sha256": "a5d9a3c19fafa3e87f582b3fdaca8360acfa1d9787c35258cb8cb104495dabb8"
+      },
+      {
+        "bytes": 11143,
+        "path": "eira2/evidence/gutenberg_refresh.py",
+        "sha256": "840ff3542c8fb83dc80ae7a02e2f9c67d733d3909669e09d63b76b70c171ed34"
+      },
+      {
+        "bytes": 10234,
+        "path": "eira2/evidence/live_public_observatory.py",
+        "sha256": "8b9f9e904f17540f5d7f370b07363b594d721f9549f99750198098015dcc5e11"
+      },
+      {
+        "bytes": 5784,
+        "path": "eira2/evidence/open_book_oai_harvester.py",
+        "sha256": "e1ee29faa8b8f14170121e70c6d4b210081c1e1428034ef0d24832c290bfbbec"
+      },
+      {
+        "bytes": 11038,
+        "path": "eira2/evidence/universe_library_astronomy_wing.py",
+        "sha256": "a913bc6b4e0f83a9ea3e8fe53aa482dc519986fa6f7feb0888c86c23d1818d45"
+      },
+      {
+        "bytes": 15169,
+        "path": "eira2/evidence/universe_library_federation.py",
+        "sha256": "2ee01f65257c35f19bc701983a75f75376246b1bcac1681d7722adf699d4ce38"
+      },
+      {
+        "bytes": 9359,
+        "path": "eira2/evidence/universe_library_mass_expansion.py",
+        "sha256": "657826f889437d9fa27e6cfbd4ebf9cfba05c2b0d3c37f7584266c52ccf1ccba"
+      },
+      {
+        "bytes": 17338,
+        "path": "eira2/evidence/universe_public_library.py",
+        "sha256": "f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3"
+      },
+      {
+        "bytes": 15903,
+        "path": "eira2/invention/rendering.py",
+        "sha256": "5b113cf766c87e00823f36928568fcda9f2d2cd2368eac3b0fe74b2c34879f7c"
+      },
+      {
+        "bytes": 5300,
+        "path": "eira2/migration/ledger_builder.py",
+        "sha256": "1abd74a894a5ce77383c86b2f1ee89bd93f384ebff58e47f83bc5e9b250e4646"
+      },
+      {
+        "bytes": 29493,
+        "path": "eira2/operations/legacy_retirement.py",
+        "sha256": "b41e94dafa7167981dc7515c812ff242e00bf2fa14ec270849da3e3a65fb3056"
+      },
+      {
+        "bytes": 12243,
+        "path": "eira2/operations/replacement_completion.py",
+        "sha256": "4e294954ffae3652bfa167dec2db405cd674dbcf04c8d27349d422aef80ed437"
+      },
+      {
+        "bytes": 6374,
+        "path": "tools/eira2_dormant_library_seeds.py",
+        "sha256": "a4b63bce42d0dfdde547f51e1db6a2c51d30b141763cccb5e74d8f4b098f89fe"
+      }
+    ],
+    "term": "archive"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788959023.6749485
+}
