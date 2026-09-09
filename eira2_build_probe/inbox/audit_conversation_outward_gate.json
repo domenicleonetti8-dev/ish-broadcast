@@ -1,0 +1,8 @@
+{
+  "schema": "eira2_orin_build_probe_v1",
+  "id": "audit_conversation_outward_gate",
+  "op": "search",
+  "term": "outward_gate",
+  "roots": ["eira2", "extensions", "brain", "council", "routers", "tools"],
+  "limit": 100
+}
