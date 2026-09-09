@@ -1,0 +1,6 @@
+{
+  "id": "list_baby_probe_state_v1",
+  "op": "list",
+  "path": "eira_probe/orin_baby_probe_v1",
+  "limit": 200
+}
