@@ -1,0 +1,59 @@
+{
+  "command_sha256": "3fe26d826ddb80c38950324f06d4dac41d229bc198dae6353efb827205cbc35d",
+  "id": "audit_general_voice_delivery",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 15449,
+        "path": "eira2/live.py",
+        "sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379"
+      },
+      {
+        "bytes": 16465,
+        "path": "eira2/runtime.py",
+        "sha256": "c16b1535f9105d4d93eaf7473ce18a40e09049638fe86445099e8441f6534fbe"
+      },
+      {
+        "bytes": 10069,
+        "path": "eira2/conversation/language.py",
+        "sha256": "cf35f232045393898b303abfd4db3f5d3b4db1411824b3058ca791b6e3ebea3d"
+      },
+      {
+        "bytes": 5117,
+        "path": "eira2/delivery/gate.py",
+        "sha256": "df9260ea575ba680e406315a2afe667eb0b530bb7e778020c3689f3505337f33"
+      },
+      {
+        "bytes": 14967,
+        "path": "eira2/delivery/native_bluetooth_voice.py",
+        "sha256": "d9f2994850025fa96f09654c8cbb7716ca89fd51883113256fbe2fbeccc01359"
+      },
+      {
+        "bytes": 19550,
+        "path": "eira2/delivery/voice.py",
+        "sha256": "ad24ae376049a72b4d0b0aca2e306cbdc274e685343c2ad0f46e7f142e023bf6"
+      },
+      {
+        "bytes": 6072,
+        "path": "eira2/delivery/voice_prosody.py",
+        "sha256": "535237bb81ab3b47fd0191f34a2addc988355bdebb38840fe81631c8b9a6b43c"
+      },
+      {
+        "bytes": 2016,
+        "path": "tools/eira2_flashcube_connect.py",
+        "sha256": "21b710c0ee802a186ff97b39728209dfa08fb0722ef95a401bcbb06a5b487698"
+      },
+      {
+        "bytes": 1404,
+        "path": "tools/qualify_multilingual_voice_receipt.py",
+        "sha256": "8a4449849bf58e77a5ff3d101046d7e0c8060db8ebd26a41c3ad0a7f57707fcf"
+      }
+    ],
+    "term": "delivery.voice"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v1",
+  "unix": 1788961510.5117247
+}
