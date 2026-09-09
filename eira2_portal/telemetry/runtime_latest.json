@@ -1,13 +1,15 @@
 {
-  "loadavg": "2.09 1.86 1.85 1/347 210785",
+  "loadavg": "2.06 1.87 1.86 1/345 211161",
   "processes": [
-    "    707       1 Ss      04:57:56 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
-    "   1055     986 Ss      04:57:54 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
-    "  18382       1 Ss      04:28:47 /usr/bin/python3 /home/domenicleonetti/.local/bin/eira2-transport-v2 --root /media/domenicleonetti/easystore/EIRA/LIVE --state /home/domenicleonetti/.local/state/eira2-transport-v2 daemon --interval 3",
-    " 109367       1 S       02:04:24 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
-    " 141297  141294 S       01:13:34 python3 tools/eira2_see_build_receiver.py",
-    " 181444    1810 Sl         21:53 python3 tools/eira2_orin_worker.py"
+    "    707       1 Ss      04:58:18 /usr/bin/python3.13 /media/domenicleonetti/easystore/EIRA/LIVE/tools/model_socket_proxy.py --socket /media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock --target-host 127.0.0.1 --target-port 11434",
+    "   1055     986 Ss      04:58:16 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh",
+    "  18382       1 Ss      04:29:09 /usr/bin/python3 /home/domenicleonetti/.local/bin/eira2-transport-v2 --root /media/domenicleonetti/easystore/EIRA/LIVE --state /home/domenicleonetti/.local/state/eira2-transport-v2 daemon --interval 3",
+    " 109367       1 S       02:04:46 /usr/bin/python3 /media/domenicleonetti/easystore/EIRA/LIVE/tools/eira2_superprobe_engine.py --root /media/domenicleonetti/easystore/EIRA/LIVE --json",
+    " 141297  141294 S       01:13:55 python3 tools/eira2_see_build_receiver.py",
+    " 181444    1810 Sl         22:15 python3 tools/eira2_orin_worker.py",
+    " 211143    1055 Ss         00:00 python3 /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/eira2_autonomous_transport_v6.py --root /media/domenicleonetti/easystore/EIRA/LIVE --interval 2",
+    " 211161    1055 S          00:00 bash /media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/transport_runtime_v6/boot_watchdog.sh"
   ],
   "schema": "eira2_probe_runtime_v2",
-  "unix": 1788951590.5687397
+  "unix": 1788951612.2760909
 }
