@@ -1,0 +1,16 @@
+{
+  "command_sha256": "336df4e0b5d784a7f1f139e58b72b2e32620e10f7afb133dafbda152e9711254",
+  "id": "seed_local_compat_source_20260909_2030",
+  "ok": true,
+  "op": "health",
+  "result": {
+    "pid": 1646464,
+    "repo": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3/repo",
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3",
+    "version": "3.0-resilient"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789002606.106988
+}
