@@ -1,0 +1,6 @@
+{
+  "id":"read_conversation_spine_2012",
+  "op":"read",
+  "path":"eira2/conversation/spine.py",
+  "max_bytes":40000
+}
