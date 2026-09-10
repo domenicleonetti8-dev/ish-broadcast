@@ -1,0 +1,44 @@
+{
+  "command_sha256": "b81e8ce739dce4f71c288b3e208e535dc3db41b2da794ef377d8e853980c4ab9",
+  "id": "list_repair_watcher_dir_2023",
+  "ok": true,
+  "op": "list",
+  "result": {
+    "items": [
+      {
+        "name": "__init__.py",
+        "size": 439,
+        "type": "file"
+      },
+      {
+        "name": "__pycache__",
+        "size": null,
+        "type": "dir"
+      },
+      {
+        "name": "plugin.py",
+        "size": 7096,
+        "type": "file"
+      },
+      {
+        "name": "plugin.py.retired_pre_finalize_20260907_062856",
+        "size": 9079,
+        "type": "file"
+      },
+      {
+        "name": "plugin.py.retired_pre_v4_20260907_061641",
+        "size": 9079,
+        "type": "file"
+      },
+      {
+        "name": "plugin_legacy_v2_6_0.py",
+        "size": 12786,
+        "type": "file"
+      }
+    ],
+    "path": "extensions/repair_watcher_ai"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789000111.358476
+}
