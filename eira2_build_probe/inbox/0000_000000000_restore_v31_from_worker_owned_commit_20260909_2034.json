@@ -1,0 +1,9 @@
+{
+  "id": "restore_v31_from_worker_owned_commit_20260909_2034",
+  "op": "deploy",
+  "source": {
+    "commit": "2fe5fadf3e068b2f31b5597ad481542b65cd506a",
+    "path": "EIRA2_ORIN_BUILD_PROBE_V3_1_RESILIENT_ISOLATION.py"
+  },
+  "target_path": "tools/eira2_orin_build_probe.py"
+}
