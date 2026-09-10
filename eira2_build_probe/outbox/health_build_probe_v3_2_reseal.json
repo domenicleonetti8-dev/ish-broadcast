@@ -1,0 +1,27 @@
+{
+  "command_sha256": "50dc5e0c2d2f0756c05c69838ff548f9fae0f5d3e6dc7a13b1f355e4446642ad",
+  "id": "health_build_probe_v3_2_reseal",
+  "ok": true,
+  "op": "health",
+  "result": {
+    "capabilities": [
+      "read",
+      "list",
+      "search",
+      "compile",
+      "health",
+      "deploy",
+      "upgrade_probe",
+      "isolate_legacy_v1",
+      "reseal_public_library_manifest"
+    ],
+    "pid": 1583399,
+    "repo": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3/repo",
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3",
+    "version": "3.2-resilient-reseal"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788999738.0152347
+}
