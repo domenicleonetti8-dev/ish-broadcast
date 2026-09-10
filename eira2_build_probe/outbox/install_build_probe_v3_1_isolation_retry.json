@@ -1,0 +1,16 @@
+{
+  "command_sha256": "3423586044f84c7790c3f40e3f006953374e3e4779ba342c56002b887e220ea7",
+  "id": "install_build_probe_v3_1_isolation_retry",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b",
+    "backup": "eira_probe/orin_build_probe_v3/backups/install_build_probe_v3_1_isolation_retry/tools/eira2_orin_build_probe.py",
+    "before_sha256": "7043022f27ca7187dca77f55d4f7cb05ed6f7d795eb01601ca8db24247304deb",
+    "compile_ok": true,
+    "target_path": "tools/eira2_orin_build_probe.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788998593.102081
+}
