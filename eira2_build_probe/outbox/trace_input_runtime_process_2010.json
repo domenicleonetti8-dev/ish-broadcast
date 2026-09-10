@@ -1,0 +1,34 @@
+{
+  "command_sha256": "e74a123f3e5ad907a0df96b6aa66c51a0cff4c1f0ce765185bf159a5a411c228",
+  "id": "trace_input_runtime_process_2010",
+  "ok": true,
+  "op": "search",
+  "result": {
+    "hits": [
+      {
+        "bytes": 4534,
+        "path": "eira2/launcher.py",
+        "sha256": "0da62452fb6a334db227648e0ee1ef3be2df2f1e4dc3fe288f4d321e35928765"
+      },
+      {
+        "bytes": 15449,
+        "path": "eira2/live.py",
+        "sha256": "d8aa9a0eef4e15d4aeb6b6143a5e740ee21d483d29153794dba4b16868ce2379"
+      },
+      {
+        "bytes": 2347,
+        "path": "eira2/__main__.py",
+        "sha256": "3df01aed7326cc7ef5aa90b3abdd4d00344528370c4874497326750cd4b48f33"
+      },
+      {
+        "bytes": 12005,
+        "path": "eira2/operations/system_audit.py",
+        "sha256": "dd05df0039639c3ac1ed67919dab07e2f4cc18c1c90cc465c2e2034567bf0a33"
+      }
+    ],
+    "term": "runtime.process"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788999126.440756
+}
