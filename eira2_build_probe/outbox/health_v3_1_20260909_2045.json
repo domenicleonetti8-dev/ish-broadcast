@@ -1,0 +1,16 @@
+{
+  "command_sha256": "9bf3229d397d628b5a35352f59aec5c14469cc54302dd97af93e4ce7b95f1804",
+  "id": "health_v3_1_20260909_2045",
+  "ok": true,
+  "op": "health",
+  "result": {
+    "pid": 1619129,
+    "repo": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3/repo",
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3",
+    "version": "3.0-resilient"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789001353.8720586
+}
