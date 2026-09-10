@@ -1,0 +1,26 @@
+{
+  "command_sha256": "839c42b22d4004c886c07c76fde1bceb7d409cce54a8b47f87b1b3554b05794b",
+  "id": "health_build_probe_v3_1_post_isolation",
+  "ok": true,
+  "op": "health",
+  "result": {
+    "capabilities": [
+      "read",
+      "list",
+      "search",
+      "compile",
+      "health",
+      "deploy",
+      "upgrade_probe",
+      "isolate_legacy_v1"
+    ],
+    "pid": 1556996,
+    "repo": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3/repo",
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3",
+    "version": "3.1-resilient-isolation"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788998671.9870338
+}
