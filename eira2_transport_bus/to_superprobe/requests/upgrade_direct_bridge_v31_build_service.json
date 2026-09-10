@@ -1,0 +1,13 @@
+{
+  "request_id": "upgrade_direct_bridge_v31_build_service",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "65b9a7f7fa55ffe1b465e6110a98f294a5f35eb7",
+      "path": "EIRA2_ORIN_DIRECT_BRIDGE_V3_1_BUILD_SERVICE_CONTROL.py"
+    },
+    "target": {
+      "path": "tools/eira2_orin_direct_bridge.py"
+    }
+  }
+}
