@@ -34,6 +34,8 @@ CURRENT EIRA → preserve working structure → inspect real canonical/semantic 
 - Strengthen further only when evidence proves more hardening is needed. If an area is healthy after verification, stop touching it and move to the next verified issue or idle.
 - Storage/device integrity outranks engineering deployment. If LIVE returns `Errno 5` or the kernel reports block I/O errors on `/dev/sda1`, abort LIVE mutation and do not launch autonomous engineering against that tree until the storage path is proven stable.
 - Do not run filesystem repair from inference alone. Filesystem type, device identity, and mount state must be verified first; no guessed `e2fsck`/fsck operation.
+- Dom is the approval authority for assistant-authored engineering mutations. Evaluate first; do not mutate EIRA LIVE or promote an engineering replacement unless Dom explicitly authorizes the specific build after the required review gate is complete.
+- Evaluate one Python script at a time. Current review standard is 3,000 structured verification/review passes per Python script before proposing or authorizing mutation; do not fake pass counts or convert UNKNOWN into PASS.
 
 ## CURRENT BUILD CONTROL PLANE
 Canonical BUILD target remains EIRA Orin Build Probe V3.1 resilient isolation.
@@ -82,8 +84,13 @@ Desired engineering organism:
 - “Always working” means an orchestrated job loop with owner lock/heartbeat/backoff/idle behavior, not uncontrolled CPU churn.
 - “Learning from mistakes” means retaining failed/rejected evidence and regression cases, not unconstrained self-modification.
 
-Newest explicit workflow division from Dom:
-- “You investigate; I build.”
+Supersession — newest explicit engineering governance from Dom:
+- Earlier workflow shorthand “You investigate; I build” remains directionally valid for remote diagnosis, but is now superseded where it implied the assistant could freely author or promote builds after inspection.
+- Dom is the explicit approval authority. The assistant may evaluate and may create an isolated candidate only when Dom explicitly authorizes that isolated build; it must not mutate or deploy to EIRA LIVE without Dom’s specific post-review authorization.
+- Work one Python script at a time.
+- Each Python script must receive 3,000 structured verification/review passes before mutation is proposed/authorized. Passes must be auditable checks across distinct failure classes, not repeated ceremonial rereads.
+- UNKNOWN remains UNKNOWN; never inflate an incomplete review into a passed review.
+- Current engineering-worker replacement work must remain isolated until this gate is satisfied.
 - Remote diagnosis should be exhausted through GitHub transport, receipts, source, telemetry, and exported evidence before asking Dom to perform a physical Pi/LIVE action.
 - If a physical action is unavoidable, explain exactly what it will do and any disruptive consequence before execution; do not turn Dom into a diagnostic terminal.
 
@@ -97,29 +104,35 @@ GitHub engineering checkpoints now present:
 - newer surgical V4 request commit: `eed0b22559f1849c29fdc80244be94da7745a3d1`
 - newer request path: `eira2_transport_bus/to_superprobe/requests/00000000_engineering_worker_v4_organism_surgical_repair_and_launch_20260910.json`
 - newer request blob SHA: `21b16c647096e7860d2ec7e9f97604eaf50016c4`
+- unqualified master V5 source artifact commit: `c7f9159b3be650a4e88661472f79e3fbc70e5987`; this is GitHub source existence only and is not a qualified or deployed canonical replacement.
+- isolated V5 replacement review branch: `orin-v5-engineering-worker-isolated-review`
+- isolated V5 replacement commit: `7e09a20b507feb19665a648289f155b5c24ac723`
+- isolated V5 path: `EIRA2_ENGINEERING_WORKER_OPENCODE_AIDER_V5_CANONICAL.py`
+- isolated V5 blob SHA: `9b8079e701f0760bb1b2790e11fee52f9fa9d999`
 
-These commits prove source/request existence on GitHub only. They do NOT prove the worker is installed or running in EIRA LIVE.
+These source/request commits prove GitHub artifact existence only. They do NOT prove any engineering-worker replacement is installed or running in EIRA LIVE. The isolated V5 artifact remains under review and must not be promoted merely because it compiles or exists on GitHub.
 
 ## CURRENT TRANSPORT / ENGINEERING BLOCKER
 Supersession: the earlier active blocker was framed primarily as “V4 request has no terminal receipt.” Newer direct evidence proves a deeper blocker beneath that symptom.
 
-Verified physical/LIVE evidence now includes repeated kernel-level `/dev/sda1` block read failures (`Buffer I/O error on dev sda1`) and multiple unrelated LIVE path reads returning `[Errno 5] Input/output error`, including the Build Probe and V10 transport script. This proves the active fault is below Python/Eira at the block-device/filesystem I/O layer. It does NOT yet prove whether the exact root cause is failing media, USB/SATA bridge, cable/power/UAS transport, filesystem damage, or another block-device path issue.
+Verified physical/LIVE evidence includes repeated kernel-level `/dev/sda1` block read failures (`Buffer I/O error on dev sda1`) and multiple unrelated LIVE path reads returning `[Errno 5] Input/output error`, including the Build Probe and V10 transport script. This proves the active fault is below Python/Eira at the block-device/filesystem I/O layer. It does NOT yet prove whether the exact root cause is failing media, USB/SATA bridge, cable/power/UAS transport, filesystem damage, or another block-device path issue.
 
-The newest surgical V4 request explicitly requires abort-on-EIO behavior and must remain untrusted/unconsumed until a fresh terminal receipt proves otherwise. No verified receipt exists for either:
+The surgical V4 request explicitly requires abort-on-EIO behavior and must remain untrusted/unconsumed until a fresh terminal receipt proves otherwise. No verified receipt exists for either:
 - `engineering_worker_opencode_aider_v4_organism_deploy_20260909`, or
 - `engineering_worker_v4_organism_surgical_repair_and_launch_20260910`.
 
 Therefore:
-- do not claim V4 installed or active in LIVE;
-- do not invoke a guessed V4 path;
+- do not claim V4 or V5 installed or active in LIVE;
+- do not invoke a guessed engineering-worker path;
 - do not bypass Watcher/Builder to force-install it;
 - do not run OpenCode/Aider against canonical LIVE while `/dev/sda1` is returning block I/O errors;
-- treat the missing V4 receipt as a downstream symptom until storage-path stability is established.
+- treat missing engineering-worker terminal receipts as downstream symptoms until storage-path stability is established;
+- even after storage becomes stable, do not promote an assistant-authored Python replacement until its required 3,000-pass review and Dom approval gate are complete.
 
 A manual OpenCode/Ollama invocation proved the configured model is visible, but the model emitted a placeholder `/path/to/repo/docker-compose.yml` read request instead of verified Eira architecture evidence. Therefore OpenCode model connectivity is proven, but autonomous repository-grounding reliability is NOT yet proven and must remain behind evidence gates.
 
 ## LATEST VERIFIED LIVE TELEMETRY CHECKPOINT
-Latest exported telemetry available through the canonical GitHub evidence lane:
+Latest exported telemetry available through the canonical GitHub evidence lane remains:
 - path: `eira2_transport_bus/from_superprobe/telemetry/orin_eira_live_latest.json`
 - bridge PID recorded: `100080`
 - control ref: `master`
@@ -135,10 +148,10 @@ Latest exported telemetry available through the canonical GitHub evidence lane:
 - semantic graph SHA256: `ea6080d617cd01395fb7cd034750dd2b01eaf27ff5612e5e2b5bfa3f9a065343`
 - telemetry snapshot recorded 18 runtime processes and 2 listeners; this is historical snapshot evidence, not proof of current liveness.
 
-The same Superprobe snapshot reports one package discrepancy: `eira2_package_manifest_file_size_mismatch:eira2/evidence/universe_public_library.py`. Keep this separate from the storage EIO until causality is proven.
+No newer verified LIVE Builder/transport receipt was found during this refresh. The same latest Superprobe snapshot still reports one package discrepancy: `eira2_package_manifest_file_size_mismatch:eira2/evidence/universe_public_library.py`. Keep this separate from the storage EIO until causality is proven.
 
 ## CURRENT PACKAGE / LIBRARY CHECKPOINT
-The Universe Library evidence now separates several historical states and defects that must not be conflated.
+The Universe Library evidence separates several historical states and defects that must not be conflated.
 
 Verified historical Public Library deployment:
 - target: `eira2/evidence/universe_public_library.py`
@@ -169,11 +182,12 @@ Order:
 2. Treat repeated `/dev/sda1` kernel block I/O errors and LIVE `[Errno 5]` failures as the active foundational blocker.
 3. Do not write, deploy, launch OpenCode/Aider, or run filesystem repair against LIVE while storage reliability is unresolved.
 4. Use remote/exported evidence first to distinguish what is known from what is not known. Current GitHub telemetry does not contain enough SMART/USB/UAS/mount/filesystem evidence to distinguish failing media from bridge/cable/power/UAS/filesystem causes.
-5. If a physical Pi action becomes unavoidable, choose the smallest evidence-preserving action and explain its exact effects before Dom executes it.
-6. Once the storage path is proven stable, re-establish read-only Superprobe/transport qualification and obtain fresh hashes for the Build Probe, Watcher, Builder, transport, package identity, and target V4 path.
-7. Only then allow the queued surgical V4 request to proceed through Watcher → Builder.
-8. Require a fresh terminal V4 deployment receipt, resulting LIVE target SHA256, self-test, sandbox separation, peer-exchange proof, truth/evidence qualification, and one full successful engineering cycle before unattended continuous operation.
-9. After control-plane stability, repair the separate SQLite `ingest_receipts` 7-vs-6 contract surgically; reseal package identity only if current verified content requires it.
+5. In parallel with non-mutating storage investigation, keep the isolated V5 engineering-worker replacement confined to `orin-v5-engineering-worker-isolated-review` and continue its one-script-at-a-time 3,000-pass evaluation. No promotion to master/LIVE follows from review progress alone.
+6. If a physical Pi action becomes unavoidable, choose the smallest evidence-preserving action and explain its exact effects before Dom executes it.
+7. Once the storage path is proven stable, re-establish read-only Superprobe/transport qualification and obtain fresh hashes for the Build Probe, Watcher, Builder, transport, package identity, and any proposed engineering-worker target path.
+8. Do not consume the older queued V4 request merely because storage recovers if it has been superseded by the reviewed V5 replacement. Record that supersession only after Dom explicitly chooses V5 and its review gate passes.
+9. For any chosen worker replacement, require Dom’s explicit post-review build/deployment authorization, Watcher → Builder transaction, fresh terminal deployment receipt, resulting LIVE target SHA256, self-test, sandbox separation, peer-exchange proof, truth/evidence qualification, and one full successful engineering cycle before unattended operation.
+10. After control-plane stability, repair the separate SQLite `ingest_receipts` 7-vs-6 contract surgically; reseal package identity only if current verified content requires it.
 
 ## CONVERSATION ORGANISM INTENT
 Do not impose a simplified assistant pipeline over Eira. Preserve the existing real stages and wire missing bridges at their natural boundaries.
@@ -202,11 +216,20 @@ Supersession: current storage-layer block I/O instability is more fundamental th
 ## OPERATING METHOD
 Work slowly enough to preserve meaning, but do not stall in analysis. Hyperfocus one verified issue at a time while allowing complete multi-file repair when the real defect crosses file boundaries.
 
-For each zone:
+For each Python script under assistant evaluation:
+1. Read the exact source/version/hash being evaluated.
+2. Complete 3,000 structured verification/review passes across distinct failure classes; keep PASS/FAIL/UNKNOWN auditable and never fake the count.
+3. Do not mutate/promote that script until the review is complete and Dom explicitly authorizes the specific build.
+4. If authorized, build only in the approved isolated workspace/branch first.
+5. Re-review the resulting exact candidate; source changes invalidate prior pass claims for the changed areas and require renewed evaluation appropriate to the change.
+6. Only after Dom’s explicit deployment authorization may Watcher/Builder be asked to mutate LIVE.
+7. Verify physically through returned LIVE receipts/hashes. If healthy, stop touching that area.
+
+For each general zone:
 1. SEE current evidence.
 2. Identify exact gap and organism interference.
 3. State what must be preserved.
-4. Build a complete repair/replacement of the canonical path; do not create a competing path.
+4. Build a complete repair/replacement of the canonical path only when authorized; do not create a competing path.
 5. Test syntax/imports, targeted behavior, regressions, architecture, and truth claims.
 6. Verify it physically in LIVE through Watcher/Builder and returned hashes.
 7. Record the new checkpoint here.
@@ -224,7 +247,7 @@ Whenever a meaningful verified state changes, update this packet with:
 Do not overwrite historical architectural decisions casually. If a newer instruction supersedes an older one, record the supersession explicitly.
 
 ## LATEST VERIFIED REPAIR CHECKPOINT
-Completed/verified checkpoints:
+Completed/verified LIVE checkpoints remain:
 - canonical V3.1 default worker previously verified at `tools/eira2_orin_build_probe.py`
 - sha256 `984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b`
 - Python compile validation passed at that checkpoint
@@ -232,14 +255,19 @@ Completed/verified checkpoints:
 - Watcher repair later produced a Builder receipt with `ok: true`, rollback false, applying `extensions/repair_watcher_ai/plugin.py`; receipt SHA256 `918b8b4d4486ceb839f3b841c0da846e4001d471dbfc528ab712a5a4c0c81fa2`
 - Universe Library V4 checkout qualification passed 50/50 tests, superseding the malformed V3 checkout artifact.
 
-Newer source/build preparation completed on GitHub, but not verified in LIVE:
-- collaborative OpenCode+Aider engineering worker V4 source exists at commit `e2cd31c7c85f5a1aeb53c3b85107e74cf9ac835b`
-- newer surgical request exists at commit `eed0b22559f1849c29fdc80244be94da7745a3d1`
-- no fresh terminal receipt proves V4 deployment or execution.
+No newer verified LIVE repair was found during this refresh.
+
+Newer source/build preparation exists on GitHub but is not verified in LIVE:
+- collaborative OpenCode+Aider engineering worker V4 source commit `e2cd31c7c85f5a1aeb53c3b85107e74cf9ac835b`
+- surgical V4 request commit `eed0b22559f1849c29fdc80244be94da7745a3d1`
+- unqualified master V5 source artifact commit `c7f9159b3be650a4e88661472f79e3fbc70e5987`
+- isolated V5 review candidate commit `7e09a20b507feb19665a648289f155b5c24ac723`, blob `9b8079e701f0760bb1b2790e11fee52f9fa9d999`, branch `orin-v5-engineering-worker-isolated-review`
+- no fresh terminal receipt proves V4 or V5 deployment or execution.
 
 Unresolved blockers, kept separate:
 - PRIMARY: repeated kernel `Buffer I/O error on dev sda1` plus unrelated LIVE `[Errno 5] Input/output error` reads. Exact physical/transport/filesystem cause remains unverified.
-- DOWNSTREAM: V4 request has no verified terminal receipt and must not be forced while storage is unstable.
+- GOVERNANCE: assistant-authored Python engineering replacements require one-script-at-a-time 3,000-pass structured review plus Dom’s explicit post-review authorization before mutation/deployment.
+- DOWNSTREAM: existing V4 request has no verified terminal receipt and must not be forced while storage is unstable; it may later be superseded by V5 only by explicit Dom decision after review.
 - PACKAGE: Superprobe snapshot reported `eira2/evidence/universe_public_library.py` size mismatch; likely stale manifest drift is plausible, but current cause must be verified after storage stability.
 - LIBRARY SOFTWARE: `ingest_receipts` insert contract supplies 6 values to a 7-column table.
 - OPENCODE GROUNDING: connectivity proven; reliable repository-grounded autonomous behavior not yet proven.
@@ -247,7 +275,7 @@ Unresolved blockers, kept separate:
 ## CURRENT NEXT STEP
 Do not modify Eira cognition, library contents, package contents, or build infrastructure during continuity refresh.
 
-Protect Eira first. Establish storage-path stability before any further LIVE deployment or autonomous engineering. Once stable, perform a fresh read-only canonical qualification of Build Probe/Watcher/Builder/transport/package identity; then consume the queued surgical V4 request through Watcher/Builder and require fresh terminal receipt + resulting target hash. Only after that may OpenCode+Aider run a single fully qualified engineering cycle. Repair the separate SQLite 7-vs-6 contract afterward through the same canonical path.
+Protect Eira first. Establish storage-path stability before any further LIVE deployment or autonomous engineering. Continue reviewing only the isolated V5 worker candidate under the 3,000-pass one-script gate without promoting it. Once storage is stable, perform a fresh read-only canonical qualification of Build Probe/Watcher/Builder/transport/package identity and proposed worker target. After the V5 review gate is complete, Dom decides whether V5 supersedes V4 and whether any build/deployment is authorized. Only an explicitly authorized candidate may proceed through Watcher → Builder, with a fresh terminal receipt and resulting target hash required before claiming success. Repair the separate SQLite 7-vs-6 contract afterward through the same canonical path.
 
 No broad library rollback, no speculative filesystem repair, no speculative architecture rewrite, no duplicate subsystem, no fake pass.
 
