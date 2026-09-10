@@ -1,0 +1,6 @@
+{
+  "id":"read_current_package_manifest_2014",
+  "op":"read",
+  "path":"eira2-package-manifest.json",
+  "max_bytes":2000000
+}
