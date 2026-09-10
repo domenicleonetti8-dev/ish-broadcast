@@ -1,0 +1,16 @@
+{
+  "command_sha256": "afd5baa2853f99f68dd998caa1fb7fd57faad8b14b51b19c2a822776ba403815",
+  "id": "restore_watcher_v8_current_master_2025",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "b3edf62f7f348d3d2226325d3bdfc4f01083a3ee7109d509ad7348cbc1d8f3d1",
+    "backup": "eira_probe/orin_build_probe_v3/backups/restore_watcher_v8_current_master_2025/extensions/repair_watcher_ai/plugin.py",
+    "before_sha256": "7dfcfe353a71806e89333a1c22c89849d66a88052cfd190597d0ca4bb9044cf4",
+    "compile_ok": true,
+    "target_path": "extensions/repair_watcher_ai/plugin.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789000186.0768428
+}
