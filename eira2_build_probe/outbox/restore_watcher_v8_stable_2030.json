@@ -1,0 +1,9 @@
+{
+  "command_sha256": "392bc870b963de9ac5cbb6cb3902c23b1e997fd36faf7fa9285835feff1b14a1",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_REPAIR_WATCHER_V8_PINNED_RESTORE.py' exists on disk, but not in '22d6ccd2f2af3bdc4b8ed20347f88184837419b8'\n",
+  "id": "restore_watcher_v8_stable_2030",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789000854.857973
+}
