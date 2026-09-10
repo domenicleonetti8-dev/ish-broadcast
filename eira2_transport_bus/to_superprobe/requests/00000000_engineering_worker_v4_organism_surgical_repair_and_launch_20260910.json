@@ -1,0 +1,26 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "engineering_worker_v4_organism_surgical_repair_and_launch_20260910",
+  "operation": "deploy",
+  "source_path": "EIRA2_ENGINEERING_WORKER_OPENCODE_AIDER_V4_ORGANISM.py",
+  "target_path": "extensions/engineering_worker_ai/plugin.py",
+  "objective": "Surgically repair only verified defects, then enable the OpenCode+Aider organism engineering worker with broad EIRA scope. Do not churn healthy subsystems or create parallel capability owners.",
+  "requirements": [
+    "Use Watcher authorization and canonical Builder for every LIVE mutation.",
+    "First preserve and verify the existing canonical target and rollback path.",
+    "Qualify the V4 source before deployment; reject on syntax, import, contract, regression, structural-overlap, truth, or evidence failure.",
+    "Do not treat the historical malformed Universe Library checkout artifact as a reason to rebuild Universe Library; its qualification gate already rejected it.",
+    "Do not claim or attempt filesystem repair from GitHub evidence alone. If LIVE returns Errno 5 during any read or write, abort mutation immediately, publish the exact failing path and operation, and leave LIVE unchanged.",
+    "After V4 deployment, verify resulting target SHA256 and publish a fresh terminal receipt.",
+    "OpenCode and Aider may inspect and engineer across EIRA, but candidate work stays in personal sandboxes until tests, adversarial review, truth/evidence qualification, Watcher approval, and Builder landing pass.",
+    "Repair only evidence-backed defects. If a subsystem is healthy, stop touching it and move on.",
+    "No second conversation authority, no Ollama runtime-truth authority, no bypass of Watcher/Builder, no fake pass, no hidden failures.",
+    "Do not start unattended continuous mutation unless V4 deployment and a single full engineering cycle both pass with fresh receipts."
+  ],
+  "verification": {
+    "require_fresh_terminal_receipt": true,
+    "require_result_sha256": true,
+    "require_single_cycle_before_continuous": true,
+    "abort_on_eio": true
+  }
+}
