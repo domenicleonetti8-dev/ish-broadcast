@@ -1,0 +1,16 @@
+{
+  "command_sha256": "608dc305b93f3b5fe160a2a06bf84529fac0df482980ea04d24243f42e8df8be",
+  "id": "verify_public_library_preserved_20260909_2038",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 17338,
+    "path": "eira2/evidence/universe_public_library.py",
+    "sha256": "f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3",
+    "text": "f",
+    "truncated": true
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789015496.738637
+}
