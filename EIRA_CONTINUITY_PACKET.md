@@ -65,7 +65,7 @@ Latest verified LIVE Build Probe checkpoint:
 
 Legacy V1 remains non-canonical and must not be reactivated unless recovery evidence proves V3.1 unavailable. Stale V3.2 and V3.3 activation packets were removed from the live build inbox and preserved in quarantine so they cannot compete with V3.1.
 
-No newer terminal Builder/build receipt was found during the 2026-09-10 07:37 EDT continuity refresh. Canonical Build Probe therefore remains V3.1.
+No newer terminal Builder/build receipt was found during the 2026-09-10 15:34 EDT continuity refresh. The newest commits under `from_superprobe/deployments` remain from 2026-09-09 and the newest commits under `from_superprobe/receipts` remain from 2026-09-08. Canonical Build Probe therefore remains V3.1.
 
 Supersession note: the earlier packet treated a proposed “Supervisor V3” heartbeat correction as the immediate blocker. That remains superseded. BUILD infrastructure is not Eira’s cognition; it exists only to inspect and surgically work on the organism.
 
@@ -95,7 +95,7 @@ Supersession — engineering governance from Dom:
 - If a physical action is unavoidable, explain exactly what it will do and any disruptive consequence before execution; do not turn Dom into a diagnostic terminal.
 - Newer Glass House decision: continuity inspection starts with passive Glass/GitHub evidence by default. An active probe is fallback only when the required fact is genuinely outside Glass coverage or Glass itself needs diagnosis. This supersedes the prior operational habit of sending a probe first; it does not supersede Build Probe V3.1 as the canonical build lane.
 
-No newer explicit Dom architectural decision was found in the evidence inspected for this refresh; all decisions above remain in force.
+No newer explicit Dom architectural decision was found in the evidence inspected for the 2026-09-10 15:34 EDT refresh; all decisions above remain in force.
 
 Historical GitHub engineering checkpoints retained for provenance:
 - organism-preservation guard source commit: `939cb5e8776d09a4f1fc23aaeaf2f1f1a817b12c`
@@ -168,6 +168,13 @@ Glass V2.2 deployment remains a completed verified LIVE repair:
 - returned `AFTER=5259fd37ebae4896d13b68b1dcd8ae7d0997f0b0abc70efe1d945de275b8bdb0`
 - daemon startup PID at deployment checkpoint: `653044`
 
+Newly verified Glass observation completion evidence:
+- `eira2_transport_bus/from_superprobe/glass/latest.json` is not empty.
+- GitHub blob SHA: `117cc828915ed1e94400125dbfb3f234cb08667c`
+- repository-reported size: `81,349,661` bytes.
+- newest viewport commit observed: `b554a15ec6a5bc21b39166444bb204cbe2224445`, authored `2026-09-10T11:10:22Z` by EIRA Glass.
+- This proves Glass successfully produced a large populated viewport snapshot before publication stopped; it does not prove current liveness or scan completion.
+
 ## CURRENT TRANSPORT / STORAGE STATUS
 Supersession: the earlier packet described repeated `/dev/sda1` EIO as the active foundational blocker. Fresh V6 qualification successfully captured and hashed the 359-file canonical package snapshot, so the earlier EIO condition is not the currently observed execution gate.
 
@@ -175,7 +182,7 @@ However, prior kernel `Buffer I/O error on dev sda1` and `[Errno 5] Input/output
 
 Transport supersession: the prior Glass blocker was the Blueprint Deployment V4 → Watcher → Builder loss of `before_sha256` plus a shared Watcher stage race. Those defects were successfully worked around/fixed for the Glass transaction by preserving the before-hash through the Builder plan and using an isolated Watcher inbox/stage. That produced the verified Glass V2.2 LIVE hash above. This does NOT prove every canonical/default transport copy now contains the final race-safe lane repair.
 
-The canonical Build Probe receipt remains V3.1. The latest legacy exported telemetry checkpoint remains unchanged; Glass had provided newer liveness evidence until its publication stream became stale.
+The canonical Build Probe receipt remains V3.1. No newer terminal build/deployment receipt was found. Glass provides newer observation content than the legacy telemetry snapshot, but its publisher is not currently fresh.
 
 ## LATEST VERIFIED LIVE TELEMETRY CHECKPOINT
 Latest legacy exported telemetry available through the canonical GitHub evidence lane remains:
@@ -210,16 +217,17 @@ Verified deployment identity remains:
 - deployed SHA256: `5259fd37ebae4896d13b68b1dcd8ae7d0997f0b0abc70efe1d945de275b8bdb0`
 - deployment result: Builder invoked and returned exact matching after-hash.
 
-Meaningful freshness supersession recorded 2026-09-10 07:37 EDT:
+Newest verified Glass publication state:
 - heartbeat path: `eira2_transport_bus/from_superprobe/glass/heartbeat.json`
-- newest observed heartbeat payload reports `active=true`, version `2.2.0`, canonical LIVE root, PID `653044`, cycle `113`, phase `deepening`, portal_count `33585`, blind_spot_count `10126`, `scan_complete=false`.
+- heartbeat payload reports `active=true`, version `2.2.0`, canonical LIVE root, PID `653044`, cycle `113`, phase `deepening`, portal_count `33585`, blind_spot_count `10126`, `scan_complete=false`.
 - heartbeat `updated_unix=1789038607.9967208`, equal to 2026-09-10 11:10:07.996721 UTC / 07:10:07 EDT.
 - heartbeat Git blob SHA: `f864fc4252d59e8c37a0671346f76be142801c31`.
-- newest repository Glass viewport commit observed: `b554a15ec6a5bc21b39166444bb204cbe2224445`, authored 2026-09-10 11:10:22 UTC.
-- at the 07:37:45 EDT refresh, this made the Glass publication stream approximately 27 minutes stale.
-- `eira2_transport_bus/from_superprobe/glass/latest.json` still exists but remains empty; current blob SHA `117cc828915ed1e94400125dbfb3f234cb08667c`.
+- `latest.json` Git blob SHA: `117cc828915ed1e94400125dbfb3f234cb08667c`.
+- `latest.json` repository-reported size: `81,349,661` bytes; therefore the earlier “latest.json remains empty” statement is explicitly superseded and was incorrect for the current blob.
+- newest repository Glass viewport commit observed: `b554a15ec6a5bc21b39166444bb204cbe2224445`, authored 2026-09-10 11:10:22 UTC / 07:10:22 EDT.
+- at the 2026-09-10 15:34 EDT refresh, the Glass heartbeat/viewport publication stream is approximately 8 hours 24 minutes stale relative to its last observed update.
 
-Supersession: the prior packet described Glass as actively/currently deepening with cycle 47 and 11,400 portals. The last observed payload later advanced to cycle 113 and 33,585 portals, but the heartbeat/viewport publisher then stopped updating for a materially longer interval than its prior ~30-second cadence. Therefore Glass cannot currently be treated as fresh LIVE liveness evidence. This is a Glass observation-lane freshness failure until proven otherwise; it is NOT evidence that EIRA LIVE itself is down, and the historical `active=true` field is not sufficient to claim current process liveness.
+Supersession: the prior packet correctly downgraded Glass current liveness to UNKNOWN because publication stopped, but incorrectly said `latest.json` was empty. Current repository metadata proves a populated ~81 MB viewport existed at the final publication checkpoint. Glass therefore successfully built a substantial viewport before stalling. Current Glass daemon/publisher liveness still remains UNKNOWN: the historical `active=true` field cannot prove the PID is alive eight hours later, and `scan_complete=false` means the last scan had not completed.
 
 Transport lesson retained:
 1. Blueprint Deployment Lane V4 dropped `before_sha256` when generating Watcher `file_index.json`.
@@ -320,10 +328,11 @@ Completed/verified LIVE checkpoints:
 - Universe Library V4 checkout qualification passed 50/50 tests, superseding malformed V3 checkout
 - `tools/eira2_superprobe_engine.py` manifest row repaired to LIVE sha256 `8476f89f5f6aa7df4eb54d744ac6a204758e4e28e785be6e5ca0f0833f494227`, size `20138`
 - subsequent V6 canonical snapshot stage passed with `359` files and no LIVE mutation during inspection
-- Glass V2.2 verified LIVE at `extensions/glass_viewport_ai/plugin.py`, sha256 `5259fd37ebae4896d13b68b1dcd8ae7d0997f0b0abc70efe1d945de275b8bdb0`; Builder returned matching after-hash.
+- Glass V2.2 verified LIVE at `extensions/glass_viewport_ai/plugin.py`, sha256 `5259fd37ebae4896d13b68b1dcd8ae7d0997f0b0abc70efe1d945de275b8bdb0`; Builder returned matching after-hash
+- Glass successfully produced a populated viewport snapshot at `eira2_transport_bus/from_superprobe/glass/latest.json`, blob `117cc828915ed1e94400125dbfb3f234cb08667c`, repository size `81,349,661` bytes, latest observed viewport commit `b554a15ec6a5bc21b39166444bb204cbe2224445`.
 
 Unresolved blockers, kept separate:
-- ACTIVE OBSERVATION: Glass V2.2 last published at 07:10 EDT, reached cycle 113 / 33,585 portals / 10,126 accounted blind spots, then stopped updating for ~27 minutes by this refresh; `latest.json` remains empty. Current Glass liveness is therefore UNKNOWN despite its last payload saying `active=true`.
+- ACTIVE OBSERVATION: Glass V2.2 last published at 07:10 EDT, reached cycle 113 / 33,585 portals / 10,126 accounted blind spots with `scan_complete=false`, then stopped updating. By the 15:34 EDT refresh the stream is ~8h24m stale. Current Glass liveness is therefore UNKNOWN despite its last payload saying `active=true`. The prior claim that `latest.json` was empty is superseded; it is populated but stale.
 - ACTIVE V6: OpenCode sandbox HOME/config mapping defect; direct synthetic-HOME reproduction returns `EACCES` for `/home/eira` and V6 `opencode_inspect` returns server error `err_11254f49`.
 - TRANSPORT HARDENING: the before-hash preservation and isolated-stage fixes succeeded for the Glass transaction, but the final race-safe lane repair is not yet proven synchronized into every canonical/default transport copy.
 - DEPLOYMENT PROOF: no fresh terminal Builder receipt proves the reviewed V6 HOME-mapping repair is installed or working in LIVE.
@@ -337,12 +346,13 @@ Do not modify Eira cognition, library contents, or unrelated build infrastructur
 
 Next exact engineering sequence after this continuity refresh:
 1. Keep canonical Build Probe V3.1 unchanged.
-2. Treat Glass observation freshness as the immediate continuity blocker: first determine whether the Glass daemon/publisher is still alive and why GitHub heartbeat/viewport commits stopped after 07:10 EDT. Diagnose Glass specifically; do not infer EIRA LIVE failure from a stale window.
-3. Do not start a second Glass daemon or broadly kill EIRA/transport processes. If passive GitHub evidence cannot establish current Glass process state, use the narrowest existing canonical diagnostic path available.
-4. Restore/verify fresh Glass heartbeat publication and require `latest.json` to become genuinely populated before calling the Glass observation lane complete.
-5. Separately synchronize/review the complete `before_sha256` + isolated Watcher-stage race fix into the canonical transport lane before declaring transport infrastructure itself repaired.
-6. After the Glass/transport observation lane is stable, return to the separate reviewed V6 HOME/config mapping candidate and re-run its fresh read-only qualification only after Dom-authorized deployment.
-7. If storage EIO reappears at any point, abort software mutation/qualification and return storage integrity to primary blocker status.
+2. Treat Glass publication freshness as the immediate continuity blocker. A populated ~81 MB viewport proves snapshot generation worked; now determine specifically why the Glass heartbeat and viewport publisher stopped after 07:10 EDT.
+3. First establish whether PID `653044` / the Glass daemon is actually alive using the narrowest existing canonical diagnostic path. Do not infer process liveness from the stale heartbeat and do not infer EIRA LIVE failure from a stale Glass window.
+4. Do not start a second Glass daemon or broadly kill EIRA/transport processes. If the daemon is alive, inspect its publisher/log/commit failure boundary; if it is dead, identify the terminal error before any restart.
+5. Restore/verify fresh Glass publication and require advancing heartbeat/viewport commit evidence. `latest.json` no longer needs to be proven populated; that is complete. The remaining Glass completion criterion is fresh, stable publication plus explicit scan/accounting state.
+6. Separately synchronize/review the complete `before_sha256` + isolated Watcher-stage race fix into the canonical transport lane before declaring transport infrastructure itself repaired.
+7. After the Glass/transport observation lane is stable, return to the separate reviewed V6 HOME/config mapping candidate and re-run its fresh read-only qualification only after Dom-authorized deployment.
+8. If storage EIO reappears at any point, abort software mutation/qualification and return storage integrity to primary blocker status.
 
 No broad library rollback, no speculative filesystem repair, no speculative architecture rewrite, no duplicate subsystem, no fake pass.
 
