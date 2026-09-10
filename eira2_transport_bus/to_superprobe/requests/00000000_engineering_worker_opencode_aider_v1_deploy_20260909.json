@@ -1,0 +1,25 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "engineering_worker_opencode_aider_v1_deploy_20260909",
+  "operation": "deploy",
+  "purpose": "Install an isolated engineering-worker extension that uses OpenCode for inspection/review and Aider for surgical edits inside disposable Git sandboxes only. Preserve EIRA as the sole conversation/runtime authority and preserve Watcher/Builder as the only LIVE deployment authority.",
+  "requirements": [
+    "NO DIRECT LIVE WRITES BY OPENCODE",
+    "NO DIRECT LIVE WRITES BY AIDER",
+    "OLLAMA OR ANY MODEL IS CANDIDATE/ENGINEERING BACKEND ONLY",
+    "NO SECOND CONVERSATION AUTHORITY",
+    "NO CHANGE TO MAIN.PY OR CONVERSATION SPINE",
+    "WATCHER AUTHORIZATION REQUIRED",
+    "CANONICAL BUILDER LANE REQUIRED",
+    "DEPLOY EXACTLY ONE NEW EXTENSION FILE"
+  ],
+  "deployment": {
+    "source": {
+      "commit": "f4785375c9575f44225fddbc176b3cbe2d393875",
+      "path": "EIRA2_ENGINEERING_WORKER_OPENCODE_AIDER_V1.py"
+    },
+    "target": {
+      "path": "extensions/engineering_worker_ai/plugin.py"
+    }
+  }
+}
