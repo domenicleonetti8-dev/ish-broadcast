@@ -1,0 +1,6 @@
+{
+  "id": "build_continue_manifest_preflight_20260909_2025",
+  "op": "read",
+  "path": "eira2-package-manifest.json",
+  "max_bytes": 500000
+}
