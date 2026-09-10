@@ -1,0 +1,11 @@
+{
+  "schema": "eira2_blueprint_transport_v2",
+  "blueprint_id": "restore_build_probe_v31_supervisor_compat_20260909",
+  "source": {
+    "commit": "01727219efc0046e31faffabaa4a9234b0abf1b5",
+    "path": "EIRA2_BUILD_PROBE_V3_1_SUPERVISOR_V2_COMPAT_LAUNCHER.py"
+  },
+  "target": {
+    "path": "tools/eira2_orin_build_probe.py"
+  }
+}
