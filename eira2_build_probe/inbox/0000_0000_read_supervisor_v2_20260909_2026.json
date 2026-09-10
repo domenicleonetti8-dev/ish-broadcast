@@ -1,0 +1,6 @@
+{
+  "id": "read_supervisor_v2_20260909_2026",
+  "op": "read",
+  "path": "eira_probe/eira2_orin_build_probe_supervisor_v2.py",
+  "max_bytes": 100000
+}
