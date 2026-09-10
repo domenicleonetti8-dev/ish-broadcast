@@ -29,9 +29,10 @@ CURRENT EIRA → preserve working structure → inspect real canonical/semantic 
 - Never claim success without returned evidence.
 - Prefer one path, one flow, one canonical road.
 - Build with meaning: every mutation must improve the organism, not merely make a test green.
+- Newer Dom instruction: only fix what really needs fixing. This strengthens the existing surgical-repair rule; no unrelated changes, speculative rewrites, or broad cleanup while resolving an exact blocker.
 
 ## CURRENT BUILD CONTROL PLANE
-Canonical working BUILD lane: EIRA Orin Build Probe V3.1 resilient isolation.
+Canonical BUILD target remains EIRA Orin Build Probe V3.1 resilient isolation.
 
 Verified capabilities that must be preserved:
 - read
@@ -43,8 +44,21 @@ Verified capabilities that must be preserved:
 - upgrade_probe
 - isolate_legacy_v1
 
-V3.1 was verified healthy after activation and after V1 isolation handling.
-Legacy V1 is non-canonical and has a dormant marker under its state path. Do not reactivate V1 or create another competing build consumer unless recovery evidence proves V3.1 is unavailable.
+Latest verified LIVE worker-file state:
+- path: `tools/eira2_orin_build_probe.py`
+- sha256: `984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b`
+- deploy/compile receipt: PASS
+- immediately prior incorrect worker sha256: `02a1287cdf92a940559f2d87cf7ed0d0e61eb77be82cd6f06ee3f07ab40b8e4b`
+- a second restore receipt confirmed the same V3.1 hash was already present afterward, so the V3.1 default worker file is restored and stable on disk.
+
+Legacy V1 remains non-canonical and must not be reactivated unless recovery evidence proves V3.1 unavailable.
+
+Stale V3.2 and V3.3 activation packets were removed from the live build inbox and preserved in quarantine so they cannot compete with V3.1.
+
+Important unresolved infrastructure fact:
+- the older Supervisor V2 watches the V1 heartbeat path even though it launches `tools/eira2_orin_build_probe.py`.
+- a corrected Supervisor V3 source exists in GitHub and is designed to watch V3 first, then V2/V1 only as fallback.
+- do not claim that corrected Supervisor V3 is active in LIVE until a deployment/start/health receipt proves it.
 
 BUILD infrastructure is not Eira’s cognition. It exists only to inspect and surgically work on the organism.
 
@@ -65,17 +79,22 @@ Order:
 Known protected library file:
 `eira2/evidence/universe_public_library.py`
 
-Last verified LIVE content:
+Last verified LIVE content from the established checkpoint:
 - size: 17338 bytes
 - sha256: f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3
 
-Historical sealed manifest row expected:
+Current manifest inspection later showed the manifest row now matches those preserved values:
+- size: 17338 bytes
+- sha256: f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3
+- package_tree_sha256: `4443280bebdfe2967996b681d3efa051e0c040eef0b91a458cc776d97498ea58`
+
+Historical sealed manifest row had expected:
 - size: 17170 bytes
 - sha256: 2230858386e4f8887202efe6b0d3a40b208304d30f0099d37a304a065e93d5fc
 
-Do NOT roll back or edit the public library file to match the stale manifest. The working theory, based on prior inspection, is that the newer 17338-byte file is intentional and should be preserved while package identity is resealed surgically if current evidence still confirms this.
+Do NOT roll back or edit the public library file to match the historical stale row. The newer 17338-byte file is the protected state to preserve unless new direct LIVE evidence proves otherwise.
 
-Do not broad-regenerate the package manifest. Prefer exact targeted reseal with preflight → apply → verify.
+Do not broad-regenerate the package manifest. Prefer exact targeted verification/repair only when current evidence identifies a real mismatch.
 
 ## CONVERSATION ORGANISM INTENT
 Do not impose a simplified assistant pipeline over Eira. Preserve the existing real stages and wire missing bridges at their natural boundaries.
@@ -123,8 +142,23 @@ Whenever a meaningful verified state changes, update this packet with:
 
 Do not overwrite historical architectural decisions casually. If a newer instruction supersedes an older one, record the supersession explicitly.
 
+## LATEST VERIFIED REPAIR CHECKPOINT
+Completed repair:
+- canonical V3.1 default worker restored at `tools/eira2_orin_build_probe.py`
+- sha256 `984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b`
+- Python compile validation passed
+- stale V3.2/V3.3 live activation packets quarantined
+
+Unresolved blocker:
+- corrected Supervisor V3 heartbeat behavior is not yet verified active in LIVE.
+- no current receipt yet proves a running process reports `3.1-resilient-isolation` under the corrected supervisor after the restore.
+
 ## CURRENT NEXT STEP
-Use V3.1 to inspect the current `eira2-package-manifest.json` and current package-identity state. Confirm the protected library file is unchanged. Then perform only the next evidence-supported surgical package repair needed to restore boot. No broad rescans, no library rollback, no architecture rewrite.
+Do not modify Eira cognition, library, or package contents yet.
+
+First obtain one current LIVE health/start receipt proving the running canonical Build Probe is V3.1 and, separately, verify whether corrected Supervisor V3 is actually active and watching the V3 heartbeat. If Supervisor V3 is not active, repair only that supervisor control-plane mismatch. Once BUILD remains stably V3.1, resume package-identity verification using Eira’s existing `verify_package_manifest()` contract and repair only the next exact blocker it returns.
+
+No broad rescans, no library rollback, no architecture rewrite, no unrelated fixes.
 
 ---
 This packet is the continuity anchor. Read it first; verify LIVE second; build third.
