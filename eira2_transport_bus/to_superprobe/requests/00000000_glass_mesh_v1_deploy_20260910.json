@@ -1,0 +1,24 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "glass_mesh_v1_deploy_20260910",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "40ac1c15cd645aaf7ee12ade46c411540e0b3621",
+      "path": "EIRA2_GLASS_MESH_V1.py"
+    },
+    "target": {
+      "path": "extensions/glass_viewport_ai/plugin.py"
+    }
+  },
+  "requirements": [
+    "READ ONLY OBSERVATION OF EIRA LIVE",
+    "NO DIRECT APPLICATION MUTATION",
+    "ONE LOGICAL GLASS PORTAL PER VISIBLE FILE OR RUNTIME PROCESS",
+    "FULL SOURCE EXPORT FOR NON-SECRET TEXT FILES WITHIN SIZE LIMIT",
+    "BINARY AND LARGE FILES EXPOSE METADATA AND HASHES",
+    "SECRET-LIKE CONTENT MUST NOT BE EXPORTED TO GITHUB",
+    "WATCHER AUTHORIZATION REQUIRED",
+    "CANONICAL BUILDER LANE REQUIRED"
+  ]
+}
