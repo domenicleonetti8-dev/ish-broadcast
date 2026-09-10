@@ -1,0 +1,8 @@
+{
+  "id": "activate_v31_20260909_2052",
+  "op": "upgrade_probe",
+  "source": {
+    "commit": "9f177f2540f2e6542a58a3c029c17fcb92cde30b",
+    "path": "EIRA2_ORIN_BUILD_PROBE_V3_1_RESILIENT_ISOLATION.py"
+  }
+}
