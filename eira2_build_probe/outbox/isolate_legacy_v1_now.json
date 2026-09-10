@@ -1,0 +1,15 @@
+{
+  "command_sha256": "194ed3932359ac42bd270613704acbcfa26076f9141ab67b8f39fe6009512b98",
+  "id": "isolate_legacy_v1_now",
+  "ok": true,
+  "op": "isolate_legacy_v1",
+  "result": {
+    "already_dormant": true,
+    "marker": "eira_probe/orin_build_probe_v1/DORMANT.json",
+    "pid": 1552163,
+    "reason": "process_absent"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788998654.4429343
+}
