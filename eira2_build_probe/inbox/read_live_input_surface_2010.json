@@ -1,0 +1,6 @@
+{
+  "id":"read_live_input_surface_2010",
+  "op":"read",
+  "path":"eira2/live.py",
+  "max_bytes":30000
+}
