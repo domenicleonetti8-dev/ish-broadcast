@@ -67,7 +67,7 @@ def prepare_watcher_inbox(root:Path,repo:Path,packet:dict[str,Any],watcher:Any):
         if target_path.endswith(".py"):
             q=subprocess.run([sys.executable,"-m","py_compile",str(staged)],capture_output=True,text=True,timeout=60)
             if q.returncode: raise RuntimeError(f"payload_python_compile_failed:{target_path}:{q.stderr[-800:]}")
-        rows.append({"target_path":target_path,"staged_path":staged_rel,"sha256":sha256_bytes(data)}); targets.append(target_path)
+        rows.append({"target_path":target_path,"staged_path":staged_rel,"sha256":sha256_bytes(data),"before_sha256":before}); targets.append(target_path)
     index={"schema":INDEX_SCHEMA,"files":rows}; index_path=inbox/"file_index.json"; atomic_json(index_path,index)
     core={"schema":PACKAGE_SCHEMA,"built_off_live":True,"writes_live":False,"eira2_only":True,"targets":targets,"file_index_sha256":sha256_file(index_path),"source_commit_sha":str(packet["source_commit"])}
     package=dict(core); package["package_fingerprint_sha256"]=sha256_bytes(json.dumps(core,sort_keys=True,separators=(",",":")).encode()); atomic_json(inbox/"surgery_package.json",package)
