@@ -1,0 +1,6 @@
+{
+  "id":"read_builder_file_current_2016",
+  "op":"read",
+  "path":"tools/eira2_orin_build_probe.py",
+  "max_bytes":20000
+}
