@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import ast, hashlib, json, os, re, subprocess, tempfile, time
+import ast, hashlib, json, os, re, shutil, subprocess, tempfile, time
 from pathlib import Path
 from typing import Any
 
 SCHEMA = "eira2_glass_mesh_v2"
-VERSION = "2.0.0"
-DEFAULT_INTERVAL = 15.0
+VERSION = "2.1.0"
+DEFAULT_INTERVAL = 30.0
 MAX_PORTALS = 100_000
 MAX_TEXT_BYTES = 512_000
+MAX_SNAPSHOT_BYTES = 80_000_000
 HASH_CHUNK = 1024 * 1024
 TEXT_SUFFIXES = {".py",".json",".html",".js",".md",".txt",".toml",".yaml",".yml",".css",".sh"}
 SECRET_NAME_MARKERS = ("secret","token","password","passwd","credential","private_key",".env","id_rsa","id_ed25519")
@@ -23,12 +24,15 @@ SECRET_TOKEN_PATTERNS = (
 EXCLUDE_PREFIXES = (
     ".git/",
     "eira_probe/glass_viewport/",
+    "eira_probe/glass_publisher_repo/",
     "eira_probe/transport_runtime_v6/repo/",
     "eira2_transport_bus/from_superprobe/glass/",
 )
 GITHUB_REL = Path("eira2_transport_bus/from_superprobe/glass/latest.json")
 LOCAL_REL = Path("eira_probe/glass_viewport/latest.json")
-STATE_REL = Path("eira_probe/glass_viewport/state.json")
+SERVICE_REL = Path("eira_probe/glass_viewport/service.json")
+PUBLISH_REPO_REL = Path("eira_probe/glass_publisher_repo")
+REPO_URL = "https://github.com/domenicleonetti8-dev/ish-broadcast.git"
 
 def _sha_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -89,7 +93,7 @@ def _symbol_portals(rel: str, text: str) -> tuple[list[dict[str,Any]], list[dict
     try:
         tree=ast.parse(text)
     except Exception as exc:
-        errs.append({"path":rel,"kind":"python_parse","error":f"{type(exc).__name__}:{exc}"[:500]})
+        errs.append({"path":rel,"kind":"python_parse","reason":f"{type(exc).__name__}:{exc}"[:500]})
         return rows, errs
     for node in ast.walk(tree):
         if isinstance(node,(ast.FunctionDef,ast.AsyncFunctionDef,ast.ClassDef)):
@@ -105,24 +109,22 @@ def _symbol_portals(rel: str, text: str) -> tuple[list[dict[str,Any]], list[dict
 def _file_portal(root: Path,p:Path,cache:dict[str,Any]) -> tuple[dict[str,Any],list[dict[str,Any]],list[dict[str,str]],dict[str,Any]]:
     rel=p.relative_to(root).as_posix()
     st=p.stat()
-    key=rel
     meta={"size":st.st_size,"mtime_ns":st.st_mtime_ns,"inode":st.st_ino}
     row={"portal_id":"file:"+rel,"kind":"file","path":rel,"bytes":st.st_size,"mtime_ns":st.st_mtime_ns,"mode":st.st_mode,"suffix":p.suffix.lower(),"redacted":_secretish_path(rel)}
-    extra=[]; blind=[]; newcache={"meta":meta}
-    old=cache.get(key) if isinstance(cache.get(key),dict) else None
+    extra=[]; blind=[]
+    old=cache.get(rel) if isinstance(cache.get(rel),dict) else None
     if row["redacted"]:
         blind.append({"path":rel,"kind":"redacted_secret_path","reason":"content intentionally not exported"})
-        return row,extra,blind,newcache
+        return row,extra,blind,{"meta":meta,"portal":row,"symbols":[]}
     if old and old.get("meta")==meta and isinstance(old.get("portal"),dict):
         reused=dict(old["portal"])
         reused["reused"]=True
-        return reused, old.get("symbols",[]) or [], [], old
+        return reused, list(old.get("symbols") or []), [], old
     try:
-        digest=_sha_file(p)
-        row["sha256"]=digest
+        row["sha256"]=_sha_file(p)
     except Exception as exc:
         blind.append({"path":rel,"kind":"hash_error","reason":f"{type(exc).__name__}:{exc}"[:500]})
-        return row,extra,blind,newcache
+        return row,extra,blind,{"meta":meta,"portal":row,"symbols":[]}
     if p.suffix.lower() in TEXT_SUFFIXES:
         if st.st_size > MAX_TEXT_BYTES:
             blind.append({"path":rel,"kind":"oversized_text","reason":f"content omitted above {MAX_TEXT_BYTES} bytes"})
@@ -140,8 +142,7 @@ def _file_portal(root: Path,p:Path,cache:dict[str,Any]) -> tuple[dict[str,Any],l
                 blind.append({"path":rel,"kind":"content_read_error","reason":f"{type(exc).__name__}:{exc}"[:500]})
     else:
         blind.append({"path":rel,"kind":"binary_content","reason":"metadata and sha256 visible; binary body not exported"})
-    newcache={"meta":meta,"portal":row,"symbols":extra}
-    return row,extra,blind,newcache
+    return row,extra,blind,{"meta":meta,"portal":row,"symbols":extra}
 
 def _process_portals(limit:int) -> tuple[list[dict[str,Any]],list[dict[str,str]]]:
     rows=[]; blind=[]
@@ -163,10 +164,9 @@ def _process_portals(limit:int) -> tuple[list[dict[str,Any]],list[dict[str,str]]
             blind.append({"path":str(p),"kind":"process_read_error","reason":f"{type(exc).__name__}:{exc}"[:300]})
     return rows,blind
 
-def snapshot(root:str|Path, previous_state:dict[str,Any]|None=None) -> tuple[dict[str,Any],dict[str,Any]]:
+def snapshot(root:str|Path, cache:dict[str,Any]|None=None) -> tuple[dict[str,Any],dict[str,Any]]:
     live=_safe_root(root)
-    cache=(previous_state or {}).get("cache") if isinstance(previous_state,dict) else {}
-    if not isinstance(cache,dict): cache={}
+    cache=cache if isinstance(cache,dict) else {}
     newcache={}
     portals=[]; blind=[]; scanned=0; excluded=0
     for p in live.rglob("*"):
@@ -221,9 +221,10 @@ def snapshot(root:str|Path, previous_state:dict[str,Any]|None=None) -> tuple[dic
     }
     out={"schema":SCHEMA,"version":VERSION,"ok":True,"mutates_observed_live":False,"generated_unix":time.time(),"coverage":coverage,"portals":portals}
     raw=json.dumps(out,sort_keys=True,separators=(",",":")).encode()
+    if len(raw)>MAX_SNAPSHOT_BYTES:
+        raise RuntimeError(f"glass_snapshot_too_large:{len(raw)}")
     out["snapshot_sha256"]=_sha_bytes(raw)
-    state={"schema":SCHEMA,"updated_unix":time.time(),"cache":newcache,"snapshot_sha256":out["snapshot_sha256"]}
-    return out,state
+    return out,newcache
 
 def _atomic_json(path:Path,obj:Any)->None:
     path.parent.mkdir(parents=True,exist_ok=True)
@@ -236,29 +237,126 @@ def _atomic_json(path:Path,obj:Any)->None:
         try: os.unlink(tmp)
         except FileNotFoundError: pass
 
-def _load_state(root:Path)->dict[str,Any]:
-    p=root/STATE_REL
-    if not p.is_file(): return {}
-    try: return json.loads(p.read_text(encoding="utf-8"))
-    except Exception: return {}
-
-def write_local(root:str|Path,snap:dict[str,Any],state:dict[str,Any])->dict[str,str]:
+def write_local(root:str|Path,snap:dict[str,Any])->str:
     live=_safe_root(root)
-    _atomic_json(live/LOCAL_REL,snap)
-    _atomic_json(live/STATE_REL,state)
-    return {"snapshot":str(live/LOCAL_REL),"state":str(live/STATE_REL)}
+    out=live/LOCAL_REL
+    _atomic_json(out,snap)
+    return str(out)
+
+def _run(cmd:list[str],cwd:Path,timeout:int=300)->subprocess.CompletedProcess[str]:
+    return subprocess.run(cmd,cwd=str(cwd),text=True,capture_output=True,timeout=timeout,check=False)
+
+def _publisher_repo(root:Path)->Path:
+    repo=root/PUBLISH_REPO_REL
+    if not (repo/".git").is_dir():
+        if repo.exists():
+            shutil.rmtree(repo)
+        p=subprocess.run(["git","clone","--quiet",REPO_URL,str(repo)],text=True,capture_output=True,timeout=600,check=False)
+        if p.returncode:
+            raise RuntimeError("glass_clone_failed:"+(p.stdout+p.stderr)[-1200:])
+    for cmd in (
+        ["git","fetch","--quiet","origin","master"],
+        ["git","checkout","--quiet","master"],
+        ["git","reset","--hard","origin/master"],
+        ["git","clean","-fd"],
+    ):
+        p=_run(cmd,repo,600)
+        if p.returncode:
+            raise RuntimeError("glass_sync_failed:"+(p.stdout+p.stderr)[-1200:])
+    return repo
+
+def publish_github(root:str|Path,snap:dict[str,Any])->dict[str,Any]:
+    live=_safe_root(root)
+    repo=_publisher_repo(live)
+    rel=GITHUB_REL
+    dest=repo/rel
+    previous=dest.read_bytes() if dest.is_file() else None
+    raw=(json.dumps(snap,indent=2,sort_keys=True)+"\n").encode()
+    if previous==raw:
+        head=_run(["git","rev-parse","HEAD"],repo,60)
+        return {"ok":True,"changed":False,"commit":head.stdout.strip() if head.returncode==0 else None,"path":rel.as_posix()}
+    dest.parent.mkdir(parents=True,exist_ok=True)
+    fd,tmp=tempfile.mkstemp(prefix=dest.name+".tmp.",dir=str(dest.parent))
+    try:
+        with os.fdopen(fd,"wb") as f:
+            f.write(raw); f.flush(); os.fsync(f.fileno())
+        os.replace(tmp,dest)
+    finally:
+        try: os.unlink(tmp)
+        except FileNotFoundError: pass
+    p=_run(["git","add",rel.as_posix()],repo,120)
+    if p.returncode: raise RuntimeError("glass_git_add_failed:"+(p.stdout+p.stderr)[-1000:])
+    p=_run(["git","-c","user.name=EIRA Glass","-c","user.email=eira-glass@localhost","commit","--quiet","-m","Update EIRA Glass viewport"],repo,120)
+    if p.returncode: raise RuntimeError("glass_git_commit_failed:"+(p.stdout+p.stderr)[-1200:])
+    p=_run(["git","pull","--rebase","--quiet","origin","master"],repo,600)
+    if p.returncode: raise RuntimeError("glass_git_rebase_failed:"+(p.stdout+p.stderr)[-1500:])
+    p=_run(["git","push","--quiet","origin","master"],repo,600)
+    if p.returncode: raise RuntimeError("glass_git_push_failed:"+(p.stdout+p.stderr)[-1500:])
+    head=_run(["git","rev-parse","HEAD"],repo,60)
+    return {"ok":True,"changed":True,"commit":head.stdout.strip() if head.returncode==0 else None,"path":rel.as_posix()}
+
+def run_once(root:str|Path, cache:dict[str,Any]|None=None, publish:bool=True)->tuple[dict[str,Any],dict[str,Any]]:
+    snap,newcache=snapshot(root,cache)
+    local=write_local(root,snap)
+    result={"schema":SCHEMA,"ok":True,"portal_count":snap["coverage"]["portal_count"],"blind_spot_count":snap["coverage"]["blind_spot_count"],"snapshot_sha256":snap["snapshot_sha256"],"local_path":local,"published":False}
+    if publish:
+        result["github"]=publish_github(root,snap)
+        result["published"]=True
+    return result,newcache
+
+def run_forever(root:str|Path, interval:float=DEFAULT_INTERVAL)->None:
+    live=_safe_root(root)
+    interval=max(10.0,float(interval))
+    cache={}
+    service=live/SERVICE_REL
+    while True:
+        started=time.time()
+        try:
+            result,cache=run_once(live,cache,publish=True)
+            _atomic_json(service,{"schema":SCHEMA,"ok":True,"pid":os.getpid(),"interval":interval,"last":result,"updated_unix":time.time()})
+        except Exception as exc:
+            _atomic_json(service,{"schema":SCHEMA,"ok":False,"pid":os.getpid(),"interval":interval,"error":f"{type(exc).__name__}:{exc}"[:3000],"updated_unix":time.time()})
+        time.sleep(max(1.0,interval-(time.time()-started)))
+
+def status(root:str|Path)->dict[str,Any]:
+    live=_safe_root(root)
+    p=live/SERVICE_REL
+    if not p.is_file():
+        return {"schema":SCHEMA,"ok":False,"active":False,"reason":"no_service_receipt"}
+    try:
+        data=json.loads(p.read_text(encoding="utf-8"))
+    except Exception as exc:
+        return {"schema":SCHEMA,"ok":False,"active":False,"reason":f"service_receipt_invalid:{type(exc).__name__}:{exc}"}
+    interval=max(10.0,float(data.get("interval") or DEFAULT_INTERVAL))
+    data["active"]=bool(data.get("pid")) and (time.time()-float(data.get("updated_unix") or 0) < interval*4)
+    return data
 
 def capabilities()->dict[str,Any]:
-    return {"schema":SCHEMA,"extension":"eira.glass.viewport","read_only_observation":True,"live_application_write":False,"logical_portals":"files+dirs+python-symbols+processes","blind_spot_accounting":True,"secret_value_redaction":True,"max_portals":MAX_PORTALS}
+    return {"schema":SCHEMA,"extension":"eira.glass.viewport","read_only_observation":True,"live_application_write":False,"logical_portals":"files+dirs+python-symbols+processes","blind_spot_accounting":True,"secret_value_redaction":True,"max_portals":MAX_PORTALS,"publisher_checkout":"dedicated","change_only_publish":True}
 
 def ask(payload:dict[str,Any]|None=None)->dict[str,Any]:
     payload=payload or {}
     root=_safe_root(payload.get("root") or Path.cwd())
-    mode=str(payload.get("mode") or "snapshot").casefold()
+    mode=str(payload.get("mode") or "status").casefold()
     if mode=="snapshot":
-        snap,state=snapshot(root,_load_state(root))
-        paths=write_local(root,snap,state)
-        return {"schema":SCHEMA,"ok":True,"portal_count":snap["coverage"]["portal_count"],"blind_spot_count":snap["coverage"]["blind_spot_count"],"snapshot_sha256":snap["snapshot_sha256"],"paths":paths,"mutates_observed_live":False}
+        result,_=run_once(root,{},publish=bool(payload.get("publish",True)))
+        return result
+    if mode=="status":
+        return status(root)
     if mode=="capabilities":
         return capabilities()
     raise RuntimeError("unsupported_mode:"+mode)
+
+if __name__=="__main__":
+    import argparse
+    ap=argparse.ArgumentParser()
+    ap.add_argument("--root",default=".")
+    ap.add_argument("--once",action="store_true")
+    ap.add_argument("--no-publish",action="store_true")
+    ap.add_argument("--interval",type=float,default=DEFAULT_INTERVAL)
+    args=ap.parse_args()
+    if args.once:
+        result,_=run_once(args.root,{},publish=not args.no_publish)
+        print(json.dumps(result,sort_keys=True))
+    else:
+        run_forever(args.root,args.interval)
