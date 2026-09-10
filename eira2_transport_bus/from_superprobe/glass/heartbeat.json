@@ -1,14 +1,14 @@
 {
   "active": true,
-  "blind_spot_count": 3992,
-  "cycle": 70,
+  "blind_spot_count": 4184,
+  "cycle": 71,
   "ok": true,
   "phase": "deepening",
   "pid": 653044,
-  "portal_count": 23685,
+  "portal_count": 23877,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
   "scan_complete": false,
   "schema": "eira2_glass_mesh_v2",
-  "updated_unix": 1789037312.1498222,
+  "updated_unix": 1789037341.3851843,
   "version": "2.2.0"
 }
