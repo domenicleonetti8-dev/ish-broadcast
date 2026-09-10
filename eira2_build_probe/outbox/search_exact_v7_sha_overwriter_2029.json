@@ -1,0 +1,9 @@
+{
+  "command_sha256": "b59011e50610a028aa6d0b57429363b2fd0503fec470504be263d2d205a32638",
+  "error": "OSError:[Errno 5] Input/output error: '/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/universe_library/source_vault/bhl/ocr/bhl-ocr-20260514/item/item-02/item-027419'",
+  "id": "search_exact_v7_sha_overwriter_2029",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789015492.9932528
+}
