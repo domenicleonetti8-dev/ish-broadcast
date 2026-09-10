@@ -1,0 +1,15 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "orin_live_viewport_v1_20260910",
+  "operation": "inspect",
+  "inspection": {
+    "roots": ["extensions", "eira_probe", "tools", "eira2", "engine", "brain", "council", "routers", "voice", "memory"],
+    "suffixes": [".py", ".json", ".html", ".js", ".md", ".txt", ".toml", ".yaml", ".yml"],
+    "signatures": ["engineering_worker_ai", "repair_watcher_ai", "builder", "superprobe", "autonomous", "transport", "viewport", "neural", "brain", "spine", "hologram", "AR"],
+    "execute_source": {
+      "commit": "f255c041a6ffe63658fb87c30141cb772d82d317",
+      "path": "EIRA2_ORIN_LIVE_VIEWPORT_V1.py",
+      "timeout_seconds": 180
+    }
+  }
+}
