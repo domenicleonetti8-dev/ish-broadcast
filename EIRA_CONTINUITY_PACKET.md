@@ -6,7 +6,7 @@ Repository: domenicleonetti8-dev/ish-broadcast
 EIRA LIVE root: /media/domenicleonetti/easystore/EIRA/LIVE
 
 ## READ THIS FIRST
-Before inspecting, planning, building, repairing, or describing Eira, read this packet first. Then verify current LIVE evidence through the working GitHub ↔ Pi ↔ EIRA transport before making claims or changes. This packet preserves intent and continuity; LIVE evidence decides current state.
+Before inspecting, planning, building, repairing, or describing Eira, read this packet first. Then verify current LIVE evidence through the working GitHub ↔ Pi ↔ EIRA transport and the current canonical LIVE qualification lane before making claims or changes. This packet preserves intent and continuity; fresh LIVE evidence decides current state.
 
 ## THE VISION
 Eira is being built as one cohesive software organism: one identity, one outward voice, one canonical cognitive system, with every existing brain region, extension, evidence system, research wing, observatory, archive/library, tool, watcher, builder, sensory system, registry, neural path, and delivery system connected as discoverable parts of the same organism.
@@ -35,7 +35,7 @@ CURRENT EIRA → preserve working structure → inspect real canonical/semantic 
 - Storage/device integrity outranks engineering deployment. If LIVE returns `Errno 5` or the kernel reports block I/O errors on `/dev/sda1`, abort LIVE mutation and do not launch autonomous engineering against that tree until the storage path is proven stable.
 - Do not run filesystem repair from inference alone. Filesystem type, device identity, and mount state must be verified first; no guessed `e2fsck`/fsck operation.
 - Dom is the approval authority for assistant-authored engineering mutations. Evaluate first; do not mutate EIRA LIVE or promote an engineering replacement unless Dom explicitly authorizes the specific build after the required review gate is complete.
-- Evaluate one Python script at a time. Current review standard is 3,000 structured verification/review passes per Python script before proposing or authorizing mutation; do not fake pass counts or convert UNKNOWN into PASS.
+- Work one Python script at a time. UNKNOWN remains UNKNOWN; never inflate an incomplete review into PASS.
 
 ## CURRENT BUILD CONTROL PLANE
 Canonical BUILD target remains EIRA Orin Build Probe V3.1 resilient isolation.
@@ -50,7 +50,7 @@ Verified capabilities that must be preserved:
 - upgrade_probe
 - isolate_legacy_v1
 
-Latest verified LIVE worker-file state:
+Latest verified LIVE Build Probe checkpoint:
 - path: `tools/eira2_orin_build_probe.py`
 - sha256: `984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b`
 - deploy/compile receipt: PASS
@@ -60,23 +60,17 @@ Latest verified LIVE worker-file state:
 - compile_ok: true
 - immediately prior incorrect worker sha256: `02a1287cdf92a940559f2d87cf7ed0d0e61eb77be82cd6f06ee3f07ab40b8e4b`
 
-Legacy V1 remains non-canonical and must not be reactivated unless recovery evidence proves V3.1 unavailable.
+Legacy V1 remains non-canonical and must not be reactivated unless recovery evidence proves V3.1 unavailable. Stale V3.2 and V3.3 activation packets were removed from the live build inbox and preserved in quarantine so they cannot compete with V3.1.
 
-Stale V3.2 and V3.3 activation packets were removed from the live build inbox and preserved in quarantine so they cannot compete with V3.1.
+Supersession note: the earlier packet treated a proposed “Supervisor V3” heartbeat correction as the immediate blocker. That remains superseded. BUILD infrastructure is not Eira’s cognition; it exists only to inspect and surgically work on the organism.
 
-Supersession note: the earlier packet treated a proposed “Supervisor V3” heartbeat correction as the immediate blocker. That is no longer the canonical active blocker. Current repository/transport evidence does not justify continuing to describe an unverified Supervisor V3 as the next required repair. Do not resurrect that blocker without fresh LIVE evidence.
-
-BUILD infrastructure is not Eira’s cognition. It exists only to inspect and surgically work on the organism.
-
-## AUTONOMOUS ENGINEERING ARCHITECTURE — NEWER DOM DECISION
-Newer explicit Dom direction supersedes the earlier narrow/single-target engineering-worker default while preserving truth, rollback, and canonical deployment boundaries.
-
+## AUTONOMOUS ENGINEERING ARCHITECTURE — DOM DECISIONS
 Desired engineering organism:
 - OpenCode and Aider may inspect and work broadly across Eira when a verified defect or organism-level interference justifies it.
 - Each worker gets its own isolated disposable sandbox/workspace; candidate work must not directly mutate canonical LIVE.
 - OpenCode acts as broad investigator/architect/reviewer.
 - Aider acts as multi-file implementation/code-surgery worker.
-- They should collaborate continuously through an orchestrated peer exchange rather than uncontrolled simultaneous writes.
+- They should collaborate through an orchestrated peer exchange rather than uncontrolled simultaneous writes.
 - They may refactor, replace, create, or remove code when required to repair the canonical organism, but must not create overlapping capability owners or parallel substitute systems.
 - A full candidate must pass syntax/import checks, targeted tests, regressions, architecture invariants, truth/honesty checks, and adversarial review before Watcher/Builder submission.
 - Truth/evidence, Watcher authorization, canonical Builder deployment, rollback, and Dom’s owner authority are protected gates and cannot be disabled merely to make a candidate pass.
@@ -84,17 +78,17 @@ Desired engineering organism:
 - “Always working” means an orchestrated job loop with owner lock/heartbeat/backoff/idle behavior, not uncontrolled CPU churn.
 - “Learning from mistakes” means retaining failed/rejected evidence and regression cases, not unconstrained self-modification.
 
-Supersession — newest explicit engineering governance from Dom:
-- Earlier workflow shorthand “You investigate; I build” remains directionally valid for remote diagnosis, but is now superseded where it implied the assistant could freely author or promote builds after inspection.
-- Dom is the explicit approval authority. The assistant may evaluate and may create an isolated candidate only when Dom explicitly authorizes that isolated build; it must not mutate or deploy to EIRA LIVE without Dom’s specific post-review authorization.
+Supersession — engineering governance from Dom:
+- Earlier workflow shorthand “You investigate; I build” remains directionally valid for remote diagnosis but does not grant free mutation/deployment authority.
+- Dom is the explicit approval authority. Assistant-authored candidates remain isolated until Dom authorizes the specific build/deployment.
 - Work one Python script at a time.
-- Each Python script must receive 3,000 structured verification/review passes before mutation is proposed/authorized. Passes must be auditable checks across distinct failure classes, not repeated ceremonial rereads.
-- UNKNOWN remains UNKNOWN; never inflate an incomplete review into a passed review.
-- Current engineering-worker replacement work must remain isolated until this gate is satisfied.
-- Remote diagnosis should be exhausted through GitHub transport, receipts, source, telemetry, and exported evidence before asking Dom to perform a physical Pi/LIVE action.
+- General prior review baseline was 3,000 structured verification/review passes per Python script.
+- Newer explicit instruction for the current V6 HOME-mapping repair was: “Review 10,000 times over then build.” This supersedes the 3,000-pass baseline for this current candidate only unless Dom explicitly generalizes it later.
+- The current V6 repair artifact was subjected to exactly 10,000 structured assertions with 0 failures before being offered for LIVE replacement. This review count does not itself prove LIVE deployment or runtime success.
+- Remote diagnosis should be exhausted through GitHub transport, receipts, source, telemetry, and exported evidence before asking Dom to perform physical Pi/LIVE actions.
 - If a physical action is unavoidable, explain exactly what it will do and any disruptive consequence before execution; do not turn Dom into a diagnostic terminal.
 
-GitHub engineering checkpoints now present:
+Historical GitHub engineering checkpoints retained for provenance:
 - organism-preservation guard source commit: `939cb5e8776d09a4f1fc23aaeaf2f1f1a817b12c`
 - organism-preservation deployment request commit: `39b5c025359fcf9fff4c1988e4b3823fe14ae138`
 - free-roam V3 worker source commit: `98b2813b30bf464da670f4b356bc2d64af016fe9`
@@ -104,32 +98,69 @@ GitHub engineering checkpoints now present:
 - newer surgical V4 request commit: `eed0b22559f1849c29fdc80244be94da7745a3d1`
 - newer request path: `eira2_transport_bus/to_superprobe/requests/00000000_engineering_worker_v4_organism_surgical_repair_and_launch_20260910.json`
 - newer request blob SHA: `21b16c647096e7860d2ec7e9f97604eaf50016c4`
-- unqualified master V5 source artifact commit: `c7f9159b3be650a4e88661472f79e3fbc70e5987`; this is GitHub source existence only and is not a qualified or deployed canonical replacement.
+- unqualified master V5 source artifact commit: `c7f9159b3be650a4e88661472f79e3fbc70e5987`
 - isolated V5 replacement review branch: `orin-v5-engineering-worker-isolated-review`
 - isolated V5 replacement commit: `7e09a20b507feb19665a648289f155b5c24ac723`
 - isolated V5 path: `EIRA2_ENGINEERING_WORKER_OPENCODE_AIDER_V5_CANONICAL.py`
 - isolated V5 blob SHA: `9b8079e701f0760bb1b2790e11fee52f9fa9d999`
 
-These source/request commits prove GitHub artifact existence only. They do NOT prove any engineering-worker replacement is installed or running in EIRA LIVE. The isolated V5 artifact remains under review and must not be promoted merely because it compiles or exists on GitHub.
+These GitHub commits prove artifact/request existence only. They do not by themselves prove deployment or current LIVE execution.
 
-## CURRENT TRANSPORT / ENGINEERING BLOCKER
-Supersession: the earlier active blocker was framed primarily as “V4 request has no terminal receipt.” Newer direct evidence proves a deeper blocker beneath that symptom.
+## NEWEST VERIFIED LIVE ENGINEERING QUALIFICATION
+Fresh direct LIVE qualification materially changes the active blocker description.
 
-Verified physical/LIVE evidence includes repeated kernel-level `/dev/sda1` block read failures (`Buffer I/O error on dev sda1`) and multiple unrelated LIVE path reads returning `[Errno 5] Input/output error`, including the Build Probe and V10 transport script. This proves the active fault is below Python/Eira at the block-device/filesystem I/O layer. It does NOT yet prove whether the exact root cause is failing media, USB/SATA bridge, cable/power/UAS transport, filesystem damage, or another block-device path issue.
+Current LIVE engineering worker under qualification identifies itself with schema:
+`eira2_engineering_worker_opencode_aider_v6_canonical_hardened`
 
-The surgical V4 request explicitly requires abort-on-EIO behavior and must remain untrusted/unconsumed until a fresh terminal receipt proves otherwise. No verified receipt exists for either:
-- `engineering_worker_opencode_aider_v4_organism_deploy_20260909`, or
-- `engineering_worker_v4_organism_surgical_repair_and_launch_20260910`.
+Fresh V6 read-only inspection evidence:
+- snapshot stage: PASS
+- canonical package file_count: `359`
+- manifest_sha256: `1cf5ddd02555ad3b32362d097601de2763eb04a6e3f5a51ef2c6d3d2178508f1`
+- source_fingerprint: `19bd5851f6b95a8572512d3aea317ff00783126642f1e687fcbafd69c3dbf9b4`
+- OpenCode inspect stage: START then FAIL
+- OpenCode returncode: `1`
+- elapsed_seconds: `3.882`
+- OpenCode stderr: `Unexpected server error. Check server logs for details.` ref `err_11254f49`
+- mutations detected during inspect: `[]`
+- `live_mutated: false`
+- model digest: `f72c60cabf6237b07f6e632b2c48d533cef25eda2efbd34bed21c5e9c01e6225`
 
-Therefore:
-- do not claim V4 or V5 installed or active in LIVE;
-- do not invoke a guessed engineering-worker path;
-- do not bypass Watcher/Builder to force-install it;
-- do not run OpenCode/Aider against canonical LIVE while `/dev/sda1` is returning block I/O errors;
-- treat missing engineering-worker terminal receipts as downstream symptoms until storage-path stability is established;
-- even after storage becomes stable, do not promote an assistant-authored Python replacement until its required 3,000-pass review and Dom approval gate are complete.
+Pinned tool receipts observed in that same qualification:
+- OpenCode path `/home/domenicleonetti/.opencode/bin/opencode`, sha256 `01edb5839aa10d5b09133fedcb335a062ecad6e82552933bb14f71756f2b296b`, size `184330384`
+- Aider path `/home/domenicleonetti/.local/share/uv/tools/aider-chat/bin/aider`, sha256 `0dbe400655868b7953aa7085493c015267355aea2121875d1bfd3eb024698cfe`, size `258`
+- Python path `/usr/bin/python3.13`, sha256 `97ffc360c23df9365e9dafcbae3ef55d044937119284cefca378828dd12a3196`
+- Git path `/usr/bin/git`, sha256 `a0e562e4bd3c4c79379e91d8c07a10104b2cefe8fac966dc6bd4874a57a807f3`
+- Bubblewrap path `/usr/bin/bwrap`, sha256 `ef2316fc741885e6d7b422661ea60c20cbe07ec7eb592a4c2370cbcb90843b59`
 
-A manual OpenCode/Ollama invocation proved the configured model is visible, but the model emitted a placeholder `/path/to/repo/docker-compose.yml` read request instead of verified Eira architecture evidence. Therefore OpenCode model connectivity is proven, but autonomous repository-grounding reliability is NOT yet proven and must remain behind evidence gates.
+A direct reproduction using the same synthetic HOME contract:
+`HOME=/home/eira ~/.opencode/bin/opencode run --model ollama/qwen2.5-coder:3b ...`
+failed immediately with:
+`EACCES: permission denied, mkdir '/home/eira'`
+
+This isolates the current leading defect to the V6 sandbox HOME/config mapping contract, not to a proven Ollama/model identity failure. In the V6 source, `_clean_env()` forces `HOME=/home/eira`, while `_bwrap_prefix()` creates `/home/eira` but mounts OpenCode/Aider/config trees at their host-home locations. Current evidence is sufficient to treat HOME/config mapping as the bounded active defect candidate; runtime success remains unproven until the repaired mapping is installed and re-qualified.
+
+## COMPLETED REPAIR SINCE PRIOR PACKET
+The stale manifest identity for `tools/eira2_superprobe_engine.py` was repaired in LIVE before the successful V6 snapshot gate.
+
+Verified prior mismatch:
+- manifest sha256: `c4aa2d4dbbd5d2b815fe2d5cc80bc30fc577acc8a1b058113e202accdb9b4e4e`
+- manifest size: `19971`
+- actual LIVE sha256: `8476f89f5f6aa7df4eb54d744ac6a204758e4e28e785be6e5ca0f0833f494227`
+- actual LIVE size: `20138`
+
+Verified repair result:
+- `eira2-package-manifest.json` row for `tools/eira2_superprobe_engine.py` now records sha256 `8476f89f5f6aa7df4eb54d744ac6a204758e4e28e785be6e5ca0f0833f494227`
+- size `20138`
+- the next V6 qualification passed the snapshot stage, proving this specific manifest blocker was cleared.
+
+Do not infer from this one repaired row that every package discrepancy is cleared.
+
+## CURRENT TRANSPORT / STORAGE STATUS
+Supersession: the earlier packet described repeated `/dev/sda1` EIO as the active foundational blocker. Fresh V6 qualification now successfully captured and hashed the 359-file canonical package snapshot, so the earlier EIO condition is not the currently observed execution gate.
+
+However, prior kernel `Buffer I/O error on dev sda1` and `[Errno 5] Input/output error` evidence remains historically valid and must not be erased. It is now a storage-integrity risk requiring renewed escalation if it reappears, not the primary blocker for the current V6 qualification run.
+
+No newer verified GitHub Builder/transport deployment receipt was found after continuity commit `083842a1ec52f2afbd212fd8e632cd94d880047f`. The canonical Build Probe receipt remains V3.1. The V6 runtime evidence above is direct LIVE qualification evidence, not a substitute for a terminal Builder deployment receipt.
 
 ## LATEST VERIFIED LIVE TELEMETRY CHECKPOINT
 Latest exported telemetry available through the canonical GitHub evidence lane remains:
@@ -148,46 +179,35 @@ Latest exported telemetry available through the canonical GitHub evidence lane r
 - semantic graph SHA256: `ea6080d617cd01395fb7cd034750dd2b01eaf27ff5612e5e2b5bfa3f9a065343`
 - telemetry snapshot recorded 18 runtime processes and 2 listeners; this is historical snapshot evidence, not proof of current liveness.
 
-No newer verified LIVE Builder/transport receipt was found during this refresh. The same latest Superprobe snapshot still reports one package discrepancy: `eira2_package_manifest_file_size_mismatch:eira2/evidence/universe_public_library.py`. Keep this separate from the storage EIO until causality is proven.
-
 ## CURRENT PACKAGE / LIBRARY CHECKPOINT
-The Universe Library evidence separates several historical states and defects that must not be conflated.
+Keep the Universe Library historical states separate from the newly repaired Superprobe-engine manifest row.
 
 Verified historical Public Library deployment:
 - target: `eira2/evidence/universe_public_library.py`
-- deployed/observed SHA256 at that checkpoint: `2230858386e4f8887202efe6b0d3a40b208304d30f0099d37a304a065e93d5fc`
+- deployed/observed SHA256: `2230858386e4f8887202efe6b0d3a40b208304d30f0099d37a304a065e93d5fc`
 - size: 17170 bytes
-- Builder reported identical before/after hash, so that deployment was effectively a verified no-op against an already matching file.
 
-A later package checkpoint preserved a newer protected Public Library state:
+Later protected Public Library state:
 - size: 17338 bytes
 - sha256: `f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3`
 - package_tree_sha256: `4443280bebdfe2967996b681d3efa051e0c040eef0b91a458cc776d97498ea58`
 
-Do NOT roll back or edit the public library file merely to match the historical 17170-byte row. A Superprobe size mismatch can represent stale manifest drift; it is not proof of file corruption.
-
-Historical malformed Universe Library V3 checkout was rejected by qualification with an `IndentationError`. It was superseded by V4 checkout qualification, which passed 50/50 tests. Do not resurrect the malformed V3 artifact as an active blocker.
+Do NOT roll back or edit the public library merely to match an older manifest row. Historical malformed Universe Library V3 checkout was rejected with `IndentationError` and superseded by V4 checkout qualification, which passed 50/50 tests.
 
 Separate real software defect still evidenced in Universe Library refresh state:
 `OperationalError: table ingest_receipts has 7 columns but 6 values were supplied`
-This is a SQLite schema/write-contract defect and is independent of the `/dev/sda1` block I/O failure unless new evidence proves a causal link.
 
-Do not broad-regenerate the package manifest. Prefer exact targeted verification/repair only after storage is stable and current evidence identifies a real mismatch.
+Do not broad-regenerate the package manifest. Repair exact verified rows/contracts only.
 
-## IMMEDIATE ENGINEERING PRIORITY
-Keep cognition/library contents untouched while protecting Eira and identifying the physical storage-path failure before any autonomous engineering deployment.
+## CURRENT V6 REPAIR CANDIDATE
+An isolated repair artifact was built for the HOME/config mapping defect:
+- artifact: `EIRA2_V6_HOME_MAPPING_REPAIR_V2.py`
+- artifact SHA256: `799de9e6bf2e19c4e3d4788e901eb95be421a131af5ba01b30b6aae5b12fa0bb`
+- intended bounded target: `extensions/engineering_worker_ai/plugin.py`
+- review result: `10000` structured assertions, `0` failures
+- design: preserve `HOME=/home/eira`; expose the required OpenCode config under HOME-relative private paths; keep host tool trees read-only; provide private writable cache/state directories; do not make the real host HOME writable.
 
-Order:
-1. Preserve current canonical V3.1 Build Probe checkpoint and known hash; do not assume the file is currently readable merely because it was previously verified.
-2. Treat repeated `/dev/sda1` kernel block I/O errors and LIVE `[Errno 5]` failures as the active foundational blocker.
-3. Do not write, deploy, launch OpenCode/Aider, or run filesystem repair against LIVE while storage reliability is unresolved.
-4. Use remote/exported evidence first to distinguish what is known from what is not known. Current GitHub telemetry does not contain enough SMART/USB/UAS/mount/filesystem evidence to distinguish failing media from bridge/cable/power/UAS/filesystem causes.
-5. In parallel with non-mutating storage investigation, keep the isolated V5 engineering-worker replacement confined to `orin-v5-engineering-worker-isolated-review` and continue its one-script-at-a-time 3,000-pass evaluation. No promotion to master/LIVE follows from review progress alone.
-6. If a physical Pi action becomes unavoidable, choose the smallest evidence-preserving action and explain its exact effects before Dom executes it.
-7. Once the storage path is proven stable, re-establish read-only Superprobe/transport qualification and obtain fresh hashes for the Build Probe, Watcher, Builder, transport, package identity, and any proposed engineering-worker target path.
-8. Do not consume the older queued V4 request merely because storage recovers if it has been superseded by the reviewed V5 replacement. Record that supersession only after Dom explicitly chooses V5 and its review gate passes.
-9. For any chosen worker replacement, require Dom’s explicit post-review build/deployment authorization, Watcher → Builder transaction, fresh terminal deployment receipt, resulting LIVE target SHA256, self-test, sandbox separation, peer-exchange proof, truth/evidence qualification, and one full successful engineering cycle before unattended operation.
-10. After control-plane stability, repair the separate SQLite `ingest_receipts` 7-vs-6 contract surgically; reseal package identity only if current verified content requires it.
+Important provenance correction: no matching V6 HOME-mapping commit was found in the accessible GitHub commit history during this continuity refresh. Therefore do not rely on any previously stated V6 GitHub commit SHA unless a fresh repository lookup proves it. The artifact/hash above is a reviewed candidate, not a verified GitHub-deployed or LIVE-installed state.
 
 ## CONVERSATION ORGANISM INTENT
 Do not impose a simplified assistant pipeline over Eira. Preserve the existing real stages and wire missing bridges at their natural boundaries.
@@ -209,21 +229,17 @@ Dom’s “roads, bridges, neurons, organism” language maps to real engineerin
 The AR/hologram nervous system should eventually depict actual registered nodes and actual activity, not decorative random geometry.
 
 ## VOICE CONTINUITY
-Text cognition comes first unless newer direct evidence shows a more fundamental organism/control-plane blocker must be resolved first.
-
-Supersession: current storage-layer block I/O instability is more fundamental than text/voice engineering work and must be resolved first. After storage/control-plane qualification passes, return to text cognition and then the existing canonical delivery path into voice/Flash Cube. Do not add canned phrases or a second speech intelligence. Voice/Bluetooth is a delivery layer, not a second mind.
+Text cognition comes first unless newer direct evidence shows a more fundamental organism/control-plane blocker must be resolved first. Voice/Bluetooth is a delivery layer, not a second mind. Do not add canned phrases or a second speech intelligence.
 
 ## OPERATING METHOD
-Work slowly enough to preserve meaning, but do not stall in analysis. Hyperfocus one verified issue at a time while allowing complete multi-file repair when the real defect crosses file boundaries.
-
 For each Python script under assistant evaluation:
 1. Read the exact source/version/hash being evaluated.
-2. Complete 3,000 structured verification/review passes across distinct failure classes; keep PASS/FAIL/UNKNOWN auditable and never fake the count.
-3. Do not mutate/promote that script until the review is complete and Dom explicitly authorizes the specific build.
-4. If authorized, build only in the approved isolated workspace/branch first.
-5. Re-review the resulting exact candidate; source changes invalidate prior pass claims for the changed areas and require renewed evaluation appropriate to the change.
-6. Only after Dom’s explicit deployment authorization may Watcher/Builder be asked to mutate LIVE.
-7. Verify physically through returned LIVE receipts/hashes. If healthy, stop touching that area.
+2. Apply the current applicable structured review gate. For the present V6 HOME-mapping candidate that gate is 10,000 structured assertions by explicit newer Dom instruction.
+3. Keep PASS/FAIL/UNKNOWN auditable and never fake the count.
+4. Do not claim LIVE deployment from candidate review alone.
+5. If Dom authorizes LIVE replacement, mutate only the bounded canonical target, preserve backup/rollback, compile before and after, and verify resulting hashes.
+6. Re-run the exact read-only qualification path after replacement.
+7. Only after fresh runtime evidence shows PASS may that repair be marked complete.
 
 For each general zone:
 1. SEE current evidence.
@@ -231,8 +247,8 @@ For each general zone:
 3. State what must be preserved.
 4. Build a complete repair/replacement of the canonical path only when authorized; do not create a competing path.
 5. Test syntax/imports, targeted behavior, regressions, architecture, and truth claims.
-6. Verify it physically in LIVE through Watcher/Builder and returned hashes.
-7. Record the new checkpoint here.
+6. Verify physically in LIVE through returned evidence/receipts/hashes.
+7. Record the checkpoint here.
 8. If healthy, stop touching that area and move to the next verified issue or idle.
 
 ## CONTINUITY UPDATE RULE
@@ -247,35 +263,31 @@ Whenever a meaningful verified state changes, update this packet with:
 Do not overwrite historical architectural decisions casually. If a newer instruction supersedes an older one, record the supersession explicitly.
 
 ## LATEST VERIFIED REPAIR CHECKPOINT
-Completed/verified LIVE checkpoints remain:
-- canonical V3.1 default worker previously verified at `tools/eira2_orin_build_probe.py`
-- sha256 `984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b`
-- Python compile validation passed at that checkpoint
-- stale V3.2/V3.3 live activation packets quarantined
-- Watcher repair later produced a Builder receipt with `ok: true`, rollback false, applying `extensions/repair_watcher_ai/plugin.py`; receipt SHA256 `918b8b4d4486ceb839f3b841c0da846e4001d471dbfc528ab712a5a4c0c81fa2`
-- Universe Library V4 checkout qualification passed 50/50 tests, superseding the malformed V3 checkout artifact.
-
-No newer verified LIVE repair was found during this refresh.
-
-Newer source/build preparation exists on GitHub but is not verified in LIVE:
-- collaborative OpenCode+Aider engineering worker V4 source commit `e2cd31c7c85f5a1aeb53c3b85107e74cf9ac835b`
-- surgical V4 request commit `eed0b22559f1849c29fdc80244be94da7745a3d1`
-- unqualified master V5 source artifact commit `c7f9159b3be650a4e88661472f79e3fbc70e5987`
-- isolated V5 review candidate commit `7e09a20b507feb19665a648289f155b5c24ac723`, blob `9b8079e701f0760bb1b2790e11fee52f9fa9d999`, branch `orin-v5-engineering-worker-isolated-review`
-- no fresh terminal receipt proves V4 or V5 deployment or execution.
+Completed/verified LIVE checkpoints:
+- canonical V3.1 Build Probe previously verified at `tools/eira2_orin_build_probe.py`, sha256 `984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b`
+- stale V3.2/V3.3 activation packets quarantined
+- Watcher repair Builder receipt: `ok: true`, rollback false, applying `extensions/repair_watcher_ai/plugin.py`; receipt SHA256 `918b8b4d4486ceb839f3b841c0da846e4001d471dbfc528ab712a5a4c0c81fa2`
+- Universe Library V4 checkout qualification passed 50/50 tests, superseding malformed V3 checkout
+- `tools/eira2_superprobe_engine.py` manifest row repaired to LIVE sha256 `8476f89f5f6aa7df4eb54d744ac6a204758e4e28e785be6e5ca0f0833f494227`, size `20138`
+- subsequent V6 canonical snapshot stage passed with `359` files and no LIVE mutation during inspection.
 
 Unresolved blockers, kept separate:
-- PRIMARY: repeated kernel `Buffer I/O error on dev sda1` plus unrelated LIVE `[Errno 5] Input/output error` reads. Exact physical/transport/filesystem cause remains unverified.
-- GOVERNANCE: assistant-authored Python engineering replacements require one-script-at-a-time 3,000-pass structured review plus Dom’s explicit post-review authorization before mutation/deployment.
-- DOWNSTREAM: existing V4 request has no verified terminal receipt and must not be forced while storage is unstable; it may later be superseded by V5 only by explicit Dom decision after review.
-- PACKAGE: Superprobe snapshot reported `eira2/evidence/universe_public_library.py` size mismatch; likely stale manifest drift is plausible, but current cause must be verified after storage stability.
+- ACTIVE V6: OpenCode sandbox HOME/config mapping defect; direct synthetic-HOME reproduction returns `EACCES` for `/home/eira` and V6 `opencode_inspect` returns server error `err_11254f49`.
+- DEPLOYMENT PROOF: no fresh terminal Builder receipt proves the reviewed V6 HOME-mapping repair is installed or working in LIVE.
+- STORAGE RISK: prior `/dev/sda1` EIO remains a historical integrity warning; fresh snapshot PASS means it is not the currently observed qualification gate, but any recurrence immediately re-promotes it above software repair.
+- PACKAGE/LIBRARY: Universe Public Library historical size drift remains separate; do not roll it back blindly.
 - LIBRARY SOFTWARE: `ingest_receipts` insert contract supplies 6 values to a 7-column table.
-- OPENCODE GROUNDING: connectivity proven; reliable repository-grounded autonomous behavior not yet proven.
+- OPENCODE GROUNDING: model/tool connectivity exists; repository-grounded autonomous behavior still requires successful contained qualification.
 
 ## CURRENT NEXT STEP
-Do not modify Eira cognition, library contents, package contents, or build infrastructure during continuity refresh.
+Do not modify Eira cognition, library contents, or unrelated build infrastructure during continuity refresh.
 
-Protect Eira first. Establish storage-path stability before any further LIVE deployment or autonomous engineering. Continue reviewing only the isolated V5 worker candidate under the 3,000-pass one-script gate without promoting it. Once storage is stable, perform a fresh read-only canonical qualification of Build Probe/Watcher/Builder/transport/package identity and proposed worker target. After the V5 review gate is complete, Dom decides whether V5 supersedes V4 and whether any build/deployment is authorized. Only an explicitly authorized candidate may proceed through Watcher → Builder, with a fresh terminal receipt and resulting target hash required before claiming success. Repair the separate SQLite 7-vs-6 contract afterward through the same canonical path.
+Next exact engineering step after this continuity refresh:
+1. Use Dom’s explicitly requested one-Bash-block replacement flow to apply only the reviewed V6 HOME-mapping repair to `extensions/engineering_worker_ai/plugin.py`, with backup and compile checks.
+2. Refresh only the exact package-manifest row for that target if the canonical manifest gate requires the new verified hash/size; do not broad-regenerate the manifest.
+3. Re-run fresh V6 read-only qualification with a new job ID.
+4. Require snapshot PASS, `opencode_inspect` PASS, no mutations, unchanged pinned tool identities/model digest, and `live_mutated: false` before moving further.
+5. If storage EIO reappears at any point, abort software mutation/qualification and return storage integrity to primary blocker status.
 
 No broad library rollback, no speculative filesystem repair, no speculative architecture rewrite, no duplicate subsystem, no fake pass.
 
