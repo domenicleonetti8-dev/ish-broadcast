@@ -1,0 +1,24 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "engineering_worker_autonomy_v2_deploy_20260909",
+  "operation": "deploy",
+  "deployment": {
+    "source": {
+      "commit": "fbf6d713df46650c90f4788f481b8d51f4cc68cc",
+      "path": "EIRA2_ENGINEERING_WORKER_AUTONOMY_POLICY_V2.py"
+    },
+    "target": {
+      "path": "extensions/engineering_worker_ai/autonomy.py"
+    }
+  },
+  "requirements": [
+    "AUTONOMOUS BY DEFAULT",
+    "NO ROUTINE HUMAN PROMPTS",
+    "HUMAN INPUT ONLY FOR GENUINE AMBIGUITY, IRREVERSIBLE ACTION, MISSING CREDENTIAL, UNRECOVERABLE VERIFICATION FAILURE, OR EXPLICIT OWNER APPROVAL BOUNDARY",
+    "OPENCODE AND AIDER REMAIN ENGINEERING WORKERS ONLY",
+    "OLLAMA REMAINS CANDIDATE BACKEND ONLY",
+    "NO DIRECT LIVE WRITES",
+    "WATCHER AND CANONICAL BUILDER REMAIN DEPLOYMENT AUTHORITY",
+    "NO SECOND CONVERSATION AUTHORITY"
+  ]
+}
