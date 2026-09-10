@@ -1,0 +1,27 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "engineering_worker_opencode_aider_v2_hardened_deploy_20260909",
+  "operation": "deploy",
+  "purpose": "Replace the engineering worker with hardened V2. Enforce autonomy and safety inside the actual worker, verify whole-sandbox file hashes before returning a candidate, fail closed on scope/test/review violations, and preserve Watcher/Builder as the only LIVE deployment authority.",
+  "requirements": [
+    "NO DIRECT LIVE WRITES BY OPENCODE OR AIDER",
+    "AUTONOMOUS BY DEFAULT",
+    "OWNER INPUT ONLY FOR TRUE ESCALATION CONDITIONS",
+    "WHOLE-SANDBOX HASH SCOPE VERIFICATION",
+    "FAIL CLOSED ON TOOL FAILURE TIMEOUT SCOPE VIOLATION TEST FAILURE OR REVIEW FAILURE",
+    "OLLAMA AND OTHER MODELS ARE CANDIDATE BACKENDS ONLY",
+    "NO SECOND CONVERSATION AUTHORITY",
+    "WATCHER AUTHORIZATION REQUIRED",
+    "CANONICAL BUILDER LANE REQUIRED",
+    "TARGET ONLY extensions/engineering_worker_ai/plugin.py"
+  ],
+  "deployment": {
+    "source": {
+      "commit": "fa69e4b611125e8d7d312ea7ee85a55949f18f33",
+      "path": "EIRA2_ENGINEERING_WORKER_OPENCODE_AIDER_V2.py"
+    },
+    "target": {
+      "path": "extensions/engineering_worker_ai/plugin.py"
+    }
+  }
+}
