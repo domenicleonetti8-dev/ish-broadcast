@@ -1,0 +1,9 @@
+{
+  "command_sha256": "1c81be1cb41f7cf35b9dccede984673f023a0aed620974dcb5c98376a5da0a06",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_ORIN_BUILD_PROBE_V3_1_RESILIENT_ISOLATION.py' exists on disk, but not in '9f177f2540f2e6542a58a3c029c17fcb92cde30b'\n",
+  "id": "install_build_probe_v3_1_isolation",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788998523.402308
+}
