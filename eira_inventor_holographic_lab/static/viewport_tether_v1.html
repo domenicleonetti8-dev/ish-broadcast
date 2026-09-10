@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#02070b">
+<title>EIRA Viewport Tether V1</title>
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+<style>
+:root{color-scheme:dark;--bg:#02070b;--panel:rgba(8,20,28,.88);--line:#27414d;--txt:#edf8ff;--muted:#8ba3af;--ok:#74e7a8;--warn:#f0ca75;--bad:#ff8d8d}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;background:radial-gradient(circle at 50% 18%,#102b39 0,#06131a 34%,var(--bg) 70%);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display",system-ui,sans-serif;overflow:hidden}
+#shell{position:fixed;inset:0;display:grid;grid-template-rows:auto 1fr auto;padding:max(10px,env(safe-area-inset-top)) 10px max(10px,env(safe-area-inset-bottom));gap:9px}
+.bar{display:flex;align-items:center;gap:9px;padding:10px 12px;border:1px solid var(--line);border-radius:16px;background:var(--panel);backdrop-filter:blur(18px);box-shadow:0 12px 40px rgba(0,0,0,.34)}
+.brand{font-weight:800;letter-spacing:.09em;font-size:13px}.grow{flex:1}.dot{width:9px;height:9px;border-radius:50%;background:var(--warn);box-shadow:0 0 14px currentColor}.dot.ok{background:var(--ok)}.dot.bad{background:var(--bad)}
+#stage{position:relative;min-height:0;border:1px solid var(--line);border-radius:22px;overflow:hidden;background:linear-gradient(180deg,rgba(3,10,14,.55),rgba(0,0,0,.82));box-shadow:inset 0 0 80px rgba(77,184,232,.05)}
+model-viewer{width:100%;height:100%;background:transparent;--poster-color:transparent}
+#empty{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;padding:26px;text-align:center;color:var(--muted);font-size:14px;line-height:1.45}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.controls>*{min-width:0}
+button,input,a{appearance:none;border:1px solid #355562;background:rgba(9,25,33,.96);color:var(--txt);border-radius:14px;padding:12px;font:inherit;font-weight:700;text-decoration:none;text-align:center;outline:none}
+input{grid-column:1/-1;text-align:left;font-weight:600}
+button:active,a:active{transform:scale(.985)}
+.hidden{display:none!important}
+#status{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#meta{font-size:11px;color:var(--muted);max-width:58vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+</style>
+</head>
+<body>
+<div id="shell">
+  <div class="bar">
+    <div class="brand">EIRA VIEWPORT · TETHER V1</div><div class="grow"></div><div id="dot" class="dot"></div><div id="status">connecting</div>
+  </div>
+  <div id="stage">
+    <model-viewer id="viewer" camera-controls touch-action="pan-y" interaction-prompt="auto" shadow-intensity="1" environment-image="neutral" exposure="1" ar ar-modes="quick-look scene-viewer webxr"></model-viewer>
+    <div id="empty">Live viewport is intact and isolated.<br>Attach a model URL or a job ID below.</div>
+  </div>
+  <div class="controls">
+    <input id="source" autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="/archive/models/JOB_ID/assembly.glb  or  JOB_ID">
+    <button id="load">LOAD VIEWPORT</button>
+    <a id="ar" class="hidden" rel="ar">OPEN APPLE AR</a>
+    <div class="bar" style="grid-column:1/-1;padding:9px 11px"><div id="meta">same-origin API tether · no LIVE writes</div></div>
+  </div>
+</div>
+<script>
+const $=id=>document.getElementById(id), V=$('viewer'), E=$('empty'), S=$('source'), A=$('ar'), D=$('dot'), T=$('status'), M=$('meta');
+let timer=null,lastJob=null;
+function state(text,kind=''){T.textContent=text;D.className='dot'+(kind?' '+kind:'')}
+function normalize(v){v=(v||'').trim();if(!v)return null;if(v.startsWith('/'))return {model:v};if(/^https?:\/\//i.test(v))return {model:v};if(/^[A-Za-z0-9._-]+$/.test(v))return {job:v};throw Error('invalid source/job id')}
+function showModel(model,usdz){V.src=model;E.classList.add('hidden');A.classList.toggle('hidden',!usdz);if(usdz)A.href=usdz;M.textContent=model;state('viewport ready','ok')}
+async function jget(path){const r=await fetch(path,{cache:'no-store'});const j=await r.json();if(!r.ok)throw Error(j.error||('HTTP '+r.status));return j}
+async function heartbeat(){try{const h=await jget('/health');state(h.ok?'tether online':'tether degraded',h.ok?'ok':'bad')}catch(e){state('tether offline','bad')}}
+async function poll(job){clearInterval(timer);lastJob=job;const tick=async()=>{try{const q=await jget('/api/jobs/'+encodeURIComponent(job));M.textContent='job '+job+' · '+q.status;state(q.status==='completed'?'build complete':q.status,q.status==='failed'?'bad':'');if(q.model_url)showModel(q.model_url,q.usdz_url||null);if(['completed','failed','cancelled'].includes(q.status))clearInterval(timer)}catch(e){state('job error','bad');M.textContent=e.message;clearInterval(timer)}};await tick();timer=setInterval(tick,1500)}
+$('load').onclick=async()=>{try{const x=normalize(S.value);if(!x)return;if(x.job){await poll(x.job)}else{showModel(x.model,x.model.replace(/\.glb(?:\?.*)?$/i,'.usdz'))}}catch(e){state('load failed','bad');M.textContent=e.message}}
+const p=new URLSearchParams(location.search);const q=p.get('job')||p.get('src');if(q){S.value=q;$('load').click()}
+heartbeat();setInterval(heartbeat,15000);
+</script>
+</body>
+</html>
