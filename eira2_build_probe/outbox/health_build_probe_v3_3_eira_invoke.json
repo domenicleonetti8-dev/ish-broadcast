@@ -1,0 +1,28 @@
+{
+  "command_sha256": "f74e51a351977317c0a30a386415e2ac08da4250f3751d003f29e2a21b6fe7fd",
+  "id": "health_build_probe_v3_3_eira_invoke",
+  "ok": true,
+  "op": "health",
+  "result": {
+    "capabilities": [
+      "read",
+      "list",
+      "search",
+      "compile",
+      "health",
+      "deploy",
+      "upgrade_probe",
+      "isolate_legacy_v1",
+      "reseal_public_library_manifest",
+      "invoke_eira_text_turn"
+    ],
+    "pid": 1587125,
+    "repo": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3/repo",
+    "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+    "state": "/media/domenicleonetti/easystore/EIRA/LIVE/eira_probe/orin_build_probe_v3",
+    "version": "3.3-eira-invoke"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788999868.2985902
+}
