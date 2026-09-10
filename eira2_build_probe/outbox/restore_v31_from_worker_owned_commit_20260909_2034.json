@@ -1,0 +1,16 @@
+{
+  "command_sha256": "4afcd21c13553dd2562c2a9fd9fe1f79c1b26dde1f0802fa6a22f30dc814604d",
+  "id": "restore_v31_from_worker_owned_commit_20260909_2034",
+  "ok": true,
+  "op": "deploy",
+  "result": {
+    "after_sha256": "984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b",
+    "backup": "eira_probe/orin_build_probe_v3/backups/restore_v31_from_worker_owned_commit_20260909_2034/tools/eira2_orin_build_probe.py",
+    "before_sha256": "02a1287cdf92a940559f2d87cf7ed0d0e61eb77be82cd6f06ee3f07ab40b8e4b",
+    "compile_ok": true,
+    "target_path": "tools/eira2_orin_build_probe.py"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789003100.1407986
+}
