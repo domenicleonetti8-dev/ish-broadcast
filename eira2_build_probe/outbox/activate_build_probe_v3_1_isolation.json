@@ -1,14 +1,9 @@
 {
   "command_sha256": "4379931b7ed2752d3fdc90529a821968ef0074d8f3f876d2fe7188abe970a663",
+  "error": "ValueError:unsupported_op",
   "id": "activate_build_probe_v3_1_isolation",
-  "ok": true,
-  "op": "upgrade_probe",
-  "result": {
-    "candidate": "eira_probe/orin_build_probe_versions/probe_984bef79101a2fa2.py",
-    "handoff": "supervisor_v3",
-    "sha256": "984bef79101a2fa238542debe16e668b85e705138d87a54b4c9c33408295802b"
-  },
+  "ok": false,
   "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
-  "schema": "eira2_orin_build_probe_v3",
-  "unix": 1788998617.763418
+  "schema": "eira2_orin_baby_recovery_probe_v1",
+  "unix": 1788998747.5985732
 }
