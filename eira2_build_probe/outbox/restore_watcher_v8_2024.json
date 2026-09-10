@@ -1,0 +1,9 @@
+{
+  "command_sha256": "4a2a257edb84770aeb600c55138973241654f59b99894d33e559a02ae35bcedc",
+  "error": "RuntimeError:source_blob_missing:fatal: path 'EIRA2_REPAIR_WATCHER_V8_MINIMAL.py' does not exist in '8df4c41b8f1c78d10a6ed6f637f47855ae69b10c'\n",
+  "id": "restore_watcher_v8_2024",
+  "ok": false,
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1789000114.409851
+}
