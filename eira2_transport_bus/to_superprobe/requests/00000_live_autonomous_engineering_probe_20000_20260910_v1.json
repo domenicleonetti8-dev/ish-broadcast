@@ -1,0 +1,28 @@
+{
+  "schema": "eira2_transport_request_v1",
+  "request_id": "00000_live_autonomous_engineering_probe_20000_20260910_v1",
+  "operation": "inspect",
+  "inspection": {
+    "roots": [
+      "extensions/engineering_worker_ai",
+      "extensions/repair_watcher_ai"
+    ],
+    "suffixes": [".py", ".json"],
+    "signatures": [
+      "OPENCODE_MODEL",
+      "AIDER_MODEL",
+      "authorize_transport_request",
+      "requires_watcher_builder_deployment",
+      "INSPECT_IDLE_TIMEOUT"
+    ],
+    "full_source_paths": [
+      "extensions/engineering_worker_ai/plugin.py",
+      "extensions/repair_watcher_ai/plugin.py"
+    ],
+    "execute_source": {
+      "commit": "ac0c86fc6331acc792923590e0bcf6d6dab7e266",
+      "path": "EIRA2_LIVE_AUTONOMOUS_ENGINEERING_PROBE_20000_V1.py",
+      "timeout_seconds": 180
+    }
+  }
+}
