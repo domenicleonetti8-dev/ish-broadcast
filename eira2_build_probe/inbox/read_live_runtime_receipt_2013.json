@@ -1,0 +1,6 @@
+{
+  "id":"read_live_runtime_receipt_2013",
+  "op":"read",
+  "path":"var/eira2-live-runtime.json",
+  "max_bytes":20000
+}
