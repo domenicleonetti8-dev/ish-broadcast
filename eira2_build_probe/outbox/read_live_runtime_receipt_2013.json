@@ -1,0 +1,16 @@
+{
+  "command_sha256": "2c607f0e3bec8d46ac271bac4e9f37b4de7fceb977678ca522caf47bc5d2a022",
+  "id": "read_live_runtime_receipt_2013",
+  "ok": true,
+  "op": "read",
+  "result": {
+    "bytes": 1188,
+    "path": "var/eira2-live-runtime.json",
+    "sha256": "d5a3c8e924fcad6764c32261da5e3ed257b6fd9dcf8d9c1707625ebd09ee0630",
+    "text": "{\n  \"active\": false,\n  \"clean_shutdown\": true,\n  \"git_metadata_required_at_runtime\": false,\n  \"model_direct_delivery_authority\": false,\n  \"model_direct_identity_authority\": false,\n  \"model_direct_memory_acceptance\": false,\n  \"model_direct_tool_authority\": false,\n  \"model_name\": \"qwen2.5:3b\",\n  \"model_outbound_network_allowed\": false,\n  \"model_private_network_verified_at_boot\": true,\n  \"model_role\": \"private_candidate_only\",\n  \"model_store_under_eira2\": true,\n  \"model_transport\": \"unix_domain_socket\",\n  \"model_unix_socket\": \"/media/domenicleonetti/easystore/EIRA/LIVE/var/run/ollama.sock\",\n  \"neural_ui_host\": \"0.0.0.0\",\n  \"neural_ui_port\": 8782,\n  \"ok\": true,\n  \"package_identity_verified_at_boot\": true,\n  \"package_tree_sha256\": \"195e5f8eed79c3ea09cb3f08706405dca1315e37822087468b00bb48b3fd94f6\",\n  \"pid\": 2194443,\n  \"repair_enabled\": true,\n  \"required_services_healthy\": true,\n  \"runtime_authority\": \"eira2\",\n  \"schema\": \"eira2_live_runtime_v5\",\n  \"self_evolution_enabled\": true,\n  \"shadow_mode\": false,\n  \"started_unix_ns\": 1788756986391684249,\n  \"stopped_unix_ns\": 1788765882201422478,\n  \"target_eira2_sha\": \"d45797f72f11723593e0d7f2b9cde971cf1208d6\",\n  \"voice_enabled\": true\n}\n",
+    "truncated": false
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788999223.9214742
+}
