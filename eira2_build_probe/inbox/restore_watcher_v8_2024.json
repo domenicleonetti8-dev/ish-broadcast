@@ -1,0 +1,1 @@
+{"id":"restore_watcher_v8_2024","op":"deploy","source":{"commit":"8df4c41b8f1c78d10a6ed6f637f47855ae69b10c","path":"EIRA2_REPAIR_WATCHER_V8_MINIMAL.py"},"target_path":"extensions/repair_watcher_ai/plugin.py"}
