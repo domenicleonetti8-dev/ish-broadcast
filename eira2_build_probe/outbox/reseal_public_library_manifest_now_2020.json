@@ -1,0 +1,18 @@
+{
+  "command_sha256": "7718ceb31b7c1020e4e89ee4eacacbfee534b7c9d1e76744edcdcdb37313310e",
+  "id": "reseal_public_library_manifest_now_2020",
+  "ok": true,
+  "op": "reseal_public_library_manifest",
+  "result": {
+    "library_sha256": "f4f87b00d1dcd15aff39c75295441cb100a48df5a11175dae61ccfe485069ca3",
+    "library_size": 17338,
+    "manifest_backup": "eira_probe/orin_build_probe_v3/backups/reseal_public_library_manifest_now_2020/eira2-package-manifest.json",
+    "manifest_sha256": "755c99d4ab15c9e4ea996579f3e8f9a51332d0883f919ae7698ae3f220a37519",
+    "path": "eira2/evidence/universe_public_library.py",
+    "tree_after": "4443280bebdfe2967996b681d3efa051e0c040eef0b91a458cc776d97498ea58",
+    "tree_before": "4561ee85a682570d7b499bc84cd905f53e56832765c58a3758a2a11c47a346da"
+  },
+  "root": "/media/domenicleonetti/easystore/EIRA/LIVE",
+  "schema": "eira2_orin_build_probe_v3",
+  "unix": 1788999756.2755015
+}
