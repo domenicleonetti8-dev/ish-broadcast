@@ -2,26 +2,78 @@ before_all do
     ensure_bundle_exec
 end
 
-lane :build do |options|
-    setup_ci
-    sync_code_signing
-    sync_code_signing(type: 'appstore')
+desc "Build and upload broadcast to TestFlight without a Git workflow"
+lane :broadcast_beta do
+    team = ENV["APPLE_TEAM_ID"]
+    UI.user_error!("APPLE_TEAM_ID is required") if team.to_s.empty?
 
-    # do this after committing the version bump but before building the app
-    if is_ci
-      update_code_signing_settings(
-        path: "iSH.xcodeproj",
-        targets: "iSH",
-        use_automatic_signing: false,
-        profile_uuid: ENV["sigh_app.ish.iSH_development"],
-      )
-      update_code_signing_settings(
-        path: "iSH.xcodeproj",
-        targets: "iSHFileProvider",
-        use_automatic_signing: false,
-        profile_uuid: ENV["sigh_app.ish.iSH.FileProvider_development"],
+    api_key = nil
+    if ENV["APP_STORE_CONNECT_API_KEY_PATH"]
+      if ENV["APP_STORE_CONNECT_KEY_ID"].to_s.empty?
+        UI.user_error!("APP_STORE_CONNECT_KEY_ID is required")
+      end
+      if ENV["APP_STORE_CONNECT_ISSUER_ID"].to_s.empty?
+        UI.user_error!("APP_STORE_CONNECT_ISSUER_ID is required")
+      end
+      api_key = app_store_connect_api_key(
+        key_id: ENV["APP_STORE_CONNECT_KEY_ID"],
+        issuer_id: ENV["APP_STORE_CONNECT_ISSUER_ID"],
+        key_filepath: ENV["APP_STORE_CONNECT_API_KEY_PATH"],
       )
     end
+
+    latest_options = { initial_build_number: 813 }
+    latest_options[:api_key] = api_key if api_key
+    latest = latest_testflight_build_number(**latest_options)
+    increment_build_number(
+      build_number: latest.to_i + 1,
+      xcodeproj: "iSH.xcodeproj",
+    )
+
+    update_code_signing_settings(
+      path: "iSH.xcodeproj",
+      targets: "iSH",
+      use_automatic_signing: true,
+      team_id: team,
+    )
+    update_code_signing_settings(
+      path: "iSH.xcodeproj",
+      targets: "iSHFileProvider",
+      use_automatic_signing: true,
+      team_id: team,
+    )
+    build_app(
+      project: "iSH.xcodeproj",
+      scheme: "iSH",
+      clean: true,
+      export_method: "app-store",
+      output_name: "broadcast.ipa",
+      xcargs: "DEVELOPMENT_TEAM=#{team} -allowProvisioningUpdates",
+    )
+
+    upload_to_testflight(
+      api_key: api_key,
+      ipa: "broadcast.ipa",
+      skip_waiting_for_build_processing: true,
+      changelog: "Native broadcast routing, live finger status, and connection test.",
+    )
+end
+
+lane :build do |options|
+    team = ENV["APPLE_TEAM_ID"]
+    UI.user_error!("APPLE_TEAM_ID is required") if team.to_s.empty?
+    update_code_signing_settings(
+      path: "iSH.xcodeproj",
+      targets: "iSH",
+      use_automatic_signing: true,
+      team_id: team,
+    )
+    update_code_signing_settings(
+      path: "iSH.xcodeproj",
+      targets: "iSHFileProvider",
+      use_automatic_signing: true,
+      team_id: team,
+    )
 
     config = options[:config]
     config = "app/#{config}.xcconfig" if config
@@ -29,7 +81,7 @@ lane :build do |options|
       project: "iSH.xcodeproj",
       scheme: "iSH",
       xcconfig: config,
-      xcargs: "DEVELOPMENT_TEAM=#{CredentialsManager::AppfileConfig.try_fetch_value(:team_id)}",
+      xcargs: "DEVELOPMENT_TEAM=#{team} -allowProvisioningUpdates",
       output_name: options[:output],
     )
 end

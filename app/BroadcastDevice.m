@@ -53,13 +53,46 @@ static ssize_t broadcast_write(
             return size;
         }
 
+        if ([cmd isEqualToString:@"start"]) {
+            [[BroadcastBridge shared] startBroadcast];
+            return size;
+        }
+
+        if ([cmd isEqualToString:@"scan"]) {
+            [[BroadcastBridge shared] startScan];
+            return size;
+        }
+
+        if ([cmd isEqualToString:@"scan stop"]) {
+            [[BroadcastBridge shared] stopScan];
+            return size;
+        }
+
+        if ([cmd isEqualToString:@"test"]) {
+            NSString *error = nil;
+            BOOL ok = [[BroadcastBridge shared]
+                playConnectionTest:&error];
+            return ok ? (ssize_t)size : _EAGAIN;
+        }
+
+        if ([cmd hasPrefix:@"attach "] || [cmd hasPrefix:@"detach "]) {
+            BOOL detach = [cmd hasPrefix:@"detach "];
+            NSString *identifier = [[cmd substringFromIndex:7]
+                stringByTrimmingCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
+            NSString *error = nil;
+            BOOL ok = detach
+                ? [[BroadcastBridge shared] detachString:identifier error:&error]
+                : [[BroadcastBridge shared] attachString:identifier error:&error];
+            return ok ? (ssize_t)size : _EINVAL;
+        }
+
         if ([cmd hasPrefix:@"advertise"]) {
             NSString *name = [[cmd substringFromIndex:9]
                 stringByTrimmingCharactersInSet:
                     NSCharacterSet.whitespaceCharacterSet];
 
             [[BroadcastBridge shared]
-                advertiseName:name.length ? name : @"Broadcast"];
+                advertiseName:name.length ? name : @"broadcast"];
 
             return size;
         }
@@ -72,4 +105,43 @@ struct dev_ops broadcast_dev = {
     .open = broadcast_open,
     .fd.read = broadcast_read,
     .fd.write = broadcast_write,
+};
+
+static int broadcast_audio_open(
+    int major, int minor, struct fd *fd
+) {
+    (void)major;
+    (void)minor;
+    fd->offset = 0;
+    [[BroadcastBridge shared] startBroadcast];
+    return 0;
+}
+
+static ssize_t broadcast_audio_read(
+    struct fd *fd, void *buf, size_t size
+) {
+    (void)fd;
+    (void)buf;
+    (void)size;
+    return 0;
+}
+
+static ssize_t broadcast_audio_write(
+    struct fd *fd, const void *buf, size_t size
+) {
+    (void)fd;
+    if (size == 0 || size % 4 != 0)
+        return _EINVAL;
+    @autoreleasepool {
+        NSString *error = nil;
+        BOOL ok = [[BroadcastBridge shared]
+            writePCM16Stereo:buf length:size error:&error];
+        return ok ? (ssize_t)size : _EAGAIN;
+    }
+}
+
+struct dev_ops broadcast_audio_dev = {
+    .open = broadcast_audio_open,
+    .fd.read = broadcast_audio_read,
+    .fd.write = broadcast_audio_write,
 };

@@ -6,6 +6,7 @@ cross-*.txt
 root.tar.gz
 
 node_modules
+__pycache__/
 app/xtermjs/xterm-dist
 app/xtermjs/.cache
 

@@ -1,0 +1,19 @@
+{
+  "device_name": "broadcast",
+  "input_controller": "",
+  "input_device_mac": "",
+  "input_node": "",
+  "max_outputs": 10,
+  "minimum_proof_outputs": 2,
+  "speaker_allowlist": [],
+  "speaker_priority": [],
+  "speaker_controllers": {},
+  "speaker_delays_ms": {},
+  "poll_interval_seconds": 1.0,
+  "reconnect_cooldown_seconds": 5.0,
+  "loopback_restart_seconds": 3.0,
+  "loopback_latency_ms": 80,
+  "status_freshness_seconds": 5.0,
+  "bluez_status_path": "/run/broadcast-probe/bluez-status.json",
+  "status_path": ""
+}

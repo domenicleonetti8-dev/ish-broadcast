@@ -1,4 +1,50 @@
-# [iSH](https://ish.app)
+# broadcast: one speaker probe, ten strings
+
+The product contract is one large classic-Bluetooth speaker probe named exactly
+**broadcast**, with up to ten smaller independent speaker strings attached:
+
+`audio source -> broadcast [A2DP Sink] -> strings 1..10 [A2DP Source] -> generic Bluetooth speakers`
+
+The large probe must be registered as an old-school A2DP speaker, findable and
+connectable as `broadcast`. Each small string discovers, attaches, streams,
+disconnects, and reconnects independently. One string failure must never stop
+another. The topology screen renders the large `broadcast` bubble and ten
+smaller connected string bubbles; a bubble becomes active only when its native
+transport supplies physical-route evidence.
+
+The radio endpoint is the portable probe itself—not the iPhone app and not
+Eira. An iPhone or any ordinary Bluetooth audio source discovers `broadcast`
+in its normal Bluetooth settings and completes the same pairing handshake it
+would use with a small speaker. The probe receives that real A2DP stream, then
+BlueZ, WirePlumber, and PipeWire bridge it into as many as ten independently
+connected generic Bluetooth speakers.
+
+The production runtime is under [`probe/`](probe/README.md). It requires a
+portable Linux Bluetooth host because the endpoint must own controllable
+Classic Bluetooth radios. The installer refuses Eira's hostname. For larger
+fan-out, the input endpoint uses one controller and the output strings can be
+bound to separate USB Bluetooth controllers so one failed or saturated radio
+cannot stop the others.
+
+No setter, process launch, BLE advertisement, app label, or generated status
+counts as a connection. Registration is published only after BlueZ reads back
+the exact alias, powered/pairable/discoverable state, and local A2DP Sink UUID.
+The big bubble becomes connected only after a paired inbound A2DP Source plus a
+real `bluez_input.*` PipeWire node exist. Each string requires a connected and
+service-resolved speaker, a `bluez_output.*` node, and a live isolated
+`pw-loopback`; streaming additionally requires both PipeWire nodes to report
+`running`. Audible room proof remains separate and is never fabricated.
+
+The iSH/iPhone target is not part of the production radio path. Its BLE service
+does not use the `broadcast` device name and cannot satisfy any Classic
+Bluetooth evidence gate. See [BROADCAST_TEST.md](BROADCAST_TEST.md),
+[BROADCAST_VERIFICATION.md](BROADCAST_VERIFICATION.md), and
+[NATIVE_TRANSPORT.md](NATIVE_TRANSPORT.md).
+
+The App Store and public TestFlight links in the upstream section below install
+the original iSH app. They do **not** install this Broadcast fork.
+
+# [iSH upstream](https://ish.app)
 
 [![Build Status](https://github.com/ish-app/ish/actions/workflows/ci.yml/badge.svg)](https://github.com/ish-app/ish/actions)
 [![goto counter](https://img.shields.io/github/search/ish-app/ish/goto.svg)](https://github.com/ish-app/ish/search?q=goto)
@@ -15,8 +61,8 @@ A project to get a Linux shell running on iOS, using usermode x86 emulation and 
 
 For the current status of the project, check the issues tab, and the commit logs.
 
-- [App Store page](https://apps.apple.com/us/app/ish-shell/id1436902243)
-- [TestFlight beta](https://testflight.apple.com/join/97i7KM8O)
+- [Upstream iSH App Store page](https://apps.apple.com/us/app/ish-shell/id1436902243)
+- [Upstream iSH TestFlight beta](https://testflight.apple.com/join/97i7KM8O)
 - [Discord server](https://discord.gg/HFAXj44)
 - [Wiki with help and tutorials](https://github.com/ish-app/ish/wiki)
 - [README中文](https://github.com/ish-app/ish/blob/master/README_ZH.md) (如若未能保持最新，请提交PR以更新)

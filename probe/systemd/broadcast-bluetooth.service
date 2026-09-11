@@ -1,0 +1,19 @@
+[Unit]
+Description=Broadcast Bluetooth endpoint and speaker reconnect service
+After=bluetooth.service
+Requires=bluetooth.service
+
+[Service]
+Type=simple
+RuntimeDirectory=broadcast-probe
+RuntimeDirectoryMode=0755
+ExecStartPre=/usr/local/lib/broadcast-probe/assert-portable-host.sh
+ExecStartPre=/usr/local/lib/broadcast-probe/prepare-controller-class.sh /etc/broadcast-probe/config.json
+ExecStart=/usr/bin/python3 /usr/local/lib/broadcast-probe/broadcast_bluez.py --config /etc/broadcast-probe/config.json
+Restart=always
+RestartSec=2
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

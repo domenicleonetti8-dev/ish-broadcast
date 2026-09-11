@@ -113,6 +113,11 @@ static NSString *const kSkipStartupMessage = @"Skip Startup Message";
         return err;
     generic_mknodat(AT_PWD, "/dev/broadcast", S_IFCHR|0666, dev_make(DYN_DEV_MAJOR, DEV_BROADCAST_MINOR));
 
+    err = dyn_dev_register(&broadcast_audio_dev, DEV_CHAR, DYN_DEV_MAJOR, DEV_BROADCAST_AUDIO_MINOR);
+    if (err != 0)
+        return err;
+    generic_mknodat(AT_PWD, "/dev/broadcast_audio", S_IFCHR|0666, dev_make(DYN_DEV_MAJOR, DEV_BROADCAST_AUDIO_MINOR));
+
     do_mount(&procfs, "proc", "/proc", "", 0);
     do_mount(&devptsfs, "devpts", "/dev/pts", "", 0);
 
