@@ -1,0 +1,80 @@
+name: Eira Two-Hemisphere Voice iPhone
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - eira-two-hemisphere-voice
+    paths-ignore:
+      - 'delivery/**'
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: write
+
+jobs:
+  build-iphone:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+
+      - name: Install iSH build dependencies
+        run: |
+          brew install llvm lld ninja libarchive meson
+
+      - name: Verify and apply native Eira voice bridge
+        run: |
+          python3 -m py_compile tools/eira_voice_patch.py
+          python3 tools/eira_voice_patch.py
+          grep -q 'EIRA-SPEAK' app/terminal/term.js
+          grep -q 'native.eiraReady' app/terminal/term.js
+          grep -q 'SFSpeechRecognizer' app/TerminalView.m
+          grep -q 'speakEiraText' app/TerminalView.m
+          grep -q 'EIRA_TYPED_INPUT_PAUSES_MIC' app/TerminalView.m
+          grep -q 'NSMicrophoneUsageDescription' app/Info.plist
+          grep -q 'NSSpeechRecognitionUsageDescription' app/Info.plist
+          plutil -lint app/Info.plist
+
+      - name: Build iPhone app
+        run: |
+          xcodebuild \
+            -project iSH.xcodeproj \
+            -scheme iSH \
+            -arch arm64 \
+            -sdk iphoneos \
+            -derivedDataPath build-eira-voice \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Publish unpacked GitHub delivery
+        run: |
+          set -euo pipefail
+          APP="$(find build-eira-voice/Build/Products -maxdepth 2 -type d -name iSH.app | head -n 1)"
+          test -n "$APP"
+
+          OUT="delivery/ish-eira-voice-or-type-two-hemisphere"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          cp -R "$APP" "$OUT/iSH.app"
+
+          tar -C "$OUT" -czf delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz iSH.app
+          shasum -a 256 delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz > delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz.sha256
+          find "$OUT/iSH.app" -type f -print | sort > "$OUT/FILES.txt"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -f delivery/ish-eira-voice-or-type-two-hemisphere delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz.sha256
+          if ! git diff --cached --quiet; then
+            git commit -m "delivery: unpack Eira voice iPhone build [skip ci]"
+            git push origin HEAD:eira-two-hemisphere-voice
+          fi
+
+      - name: Upload Eira voice iSH
+        uses: actions/upload-artifact@v7
+        with:
+          name: ish-eira-voice-or-type-two-hemisphere
+          path: build-eira-voice/Build/Products/*-iphoneos/iSH.app
+          if-no-files-found: error

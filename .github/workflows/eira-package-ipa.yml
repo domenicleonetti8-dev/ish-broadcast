@@ -1,0 +1,40 @@
+name: Package Eira Two-Hemisphere IPA
+
+on:
+  push:
+    branches:
+      - eira-two-hemisphere-voice
+    paths:
+      - '.github/workflows/eira-package-ipa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Build IPA container from verified app bundle
+        run: |
+          set -euo pipefail
+          APP="delivery/ish-eira-voice-or-type-two-hemisphere/iSH.app"
+          test -d "$APP"
+          rm -rf /tmp/eira-ipa
+          mkdir -p /tmp/eira-ipa/Payload
+          cp -a "$APP" /tmp/eira-ipa/Payload/iSH.app
+          cd /tmp/eira-ipa
+          zip -qry "$GITHUB_WORKSPACE/delivery/Eira-Two-Hemisphere-Voice.ipa" Payload
+          cd "$GITHUB_WORKSPACE"
+          sha256sum delivery/Eira-Two-Hemisphere-Voice.ipa > delivery/Eira-Two-Hemisphere-Voice.ipa.sha256
+
+      - name: Publish IPA
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f delivery/Eira-Two-Hemisphere-Voice.ipa delivery/Eira-Two-Hemisphere-Voice.ipa.sha256
+          git commit -m 'delivery: package Eira iOS IPA [skip ci]'
+          git push origin HEAD:eira-two-hemisphere-voice

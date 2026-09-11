@@ -1,0 +1,57 @@
+name: Publish Verified Eira iPhone Delivery
+
+on:
+  push:
+    branches:
+      - eira-two-hemisphere-voice
+    paths:
+      - '.github/workflows/eira-publish-delivery.yml'
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Download already-verified artifact
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/eira-artifact
+          gh api \
+            -H 'Accept: application/vnd.github+json' \
+            /repos/${{ github.repository }}/actions/artifacts/9352397549/zip \
+            > /tmp/eira-artifact.zip
+          unzip -q /tmp/eira-artifact.zip -d /tmp/eira-artifact
+
+      - name: Unpack into GitHub delivery
+        run: |
+          set -euo pipefail
+          APP="$(find /tmp/eira-artifact -type d -name iSH.app | head -n 1)"
+          test -n "$APP"
+
+          OUT="delivery/ish-eira-voice-or-type-two-hemisphere"
+          rm -rf "$OUT"
+          mkdir -p "$OUT"
+          cp -a "$APP" "$OUT/iSH.app"
+
+          tar -C "$OUT" -czf delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz iSH.app
+          sha256sum delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz > delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz.sha256
+          find "$OUT/iSH.app" -type f -print | sort > "$OUT/FILES.txt"
+
+      - name: Commit unpacked delivery
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -f delivery/ish-eira-voice-or-type-two-hemisphere \
+            delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz \
+            delivery/ish-eira-voice-or-type-two-hemisphere.tar.gz.sha256
+          git commit -m 'delivery: unpack verified Eira iPhone app [skip ci]'
+          git push origin HEAD:eira-two-hemisphere-voice
